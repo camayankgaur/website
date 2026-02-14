@@ -6,6 +6,133 @@
     <title>Experience | Mayank Gaur</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* --- INTERNAL STYLES TO FIX FORMATTING --- */
+        
+        /* Ensure variables have fallbacks if style.css fails */
+        :root {
+            --royal: #2c3e50; /* Fallback for your theme color */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container Spacing */
+        .container {
+            max-width: 900px; /* Constrain width for better readability */
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header/Resume Button Layout */
+        .bio-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            gap: 20px;
+        }
+
+        .bio-titles {
+            font-size: 1.1rem;
+            color: var(--royal);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            margin: 0;
+            max-width: 70%;
+        }
+
+        .btn-resume {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            padding: 10px 25px;
+            background-color: var(--royal);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-resume:hover {
+            opacity: 0.9;
+        }
+
+        /* --- THE TEXT FORMATTING FIXES --- */
+        .bio-content {
+            margin-bottom: 40px;
+        }
+
+        .bio-text {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 25px;
+            /* The key formatting you requested */
+            text-align: justify; 
+            line-height: 1.9;
+        }
+
+        /* Strong tag emphasis */
+        .bio-text strong {
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* --- COMPETENCIES SECTION --- */
+        .competencies-section {
+            background-color: #f8f9fa;
+            padding: 35px;
+            border-radius: 8px;
+            border-left: 5px solid var(--royal);
+            margin-top: 40px;
+        }
+
+        .competencies-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--royal);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .competencies-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .competencies-list li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            line-height: 1.6;
+        }
+
+        .competencies-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .bio-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .bio-titles {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -31,58 +158,53 @@
     </div>
 
     <div class="bio-wrapper">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;">
-            <p style="font-size:1.2rem; color:var(--royal); font-family:var(--font-heading); font-weight:700;">
+        <div class="bio-header-row">
+            <p class="bio-titles">
                 Chartered Accountant | Company Secretary | DIFC Authorized CFO | FMVA | FTIP
             </p>
-            <a href="assets/docs/Resume_Mayank.pdf" class="btn" download style="font-size:0.9rem; padding:8px 20px;">
+            <a href="assets/docs/Resume_Mayank.pdf" class="btn-resume" download>
                 Download PDF Resume
             </a>
         </div>
 
         <div class="bio-content">
-        <p class="bio-text">
-            Mayank Gaur is a seasoned finance executive and <strong>DIFC Authorized CFO</strong> with a career defined by the rigorous stewardship of regulated capital and the strategic transformation of global financial operations. Currently serving as the <strong>Head of Finance & Accounts</strong> for a regulated investment fund, Mayank oversees an Asset Under Management (AUM) exceeding <strong>AED 600 Million</strong>, specializing in high-growth Real Estate and Infrastructure assets.
-        </p>
+            <p class="bio-text">
+                Mayank Gaur is a seasoned finance executive and <strong>DIFC Authorized CFO</strong> with a career defined by the rigorous stewardship of regulated capital and the strategic transformation of global financial operations. Currently serving as the <strong>Head of Finance & Accounts</strong> for a regulated investment fund, Mayank oversees an Asset Under Management (AUM) exceeding <strong>AED 600 Million</strong>, specializing in high-growth Real Estate and Infrastructure assets.
+            </p>
 
-        <p class="bio-text">
-            At the core of Mayank’s leadership is a dual mandate: ensuring uncompromising governance under strict <strong>DFSA regulations</strong> while driving the financial agility required for aggressive market acquisition. He commands the end-to-end financial lifecycle of the fund, from the precision of <strong>Net Asset Value (NAV)</strong> validation and SPV management to the complexity of liquidity planning and treasury functions. Acting as a strategic partner to investment teams, Mayank evaluates acquisition targets and development budgets, ensuring that every capital deployment is backed by robust internal controls and deep financial foresight.
-        </p>
+            <p class="bio-text">
+                At the core of Mayank’s leadership is a dual mandate: ensuring uncompromising governance under strict <strong>DFSA regulations</strong> while driving the financial agility required for aggressive market acquisition. He commands the end-to-end financial lifecycle of the fund, from the precision of <strong>Net Asset Value (NAV)</strong> validation and SPV management to the complexity of liquidity planning and treasury functions. Acting as a strategic partner to investment teams, Mayank evaluates acquisition targets and development budgets, ensuring that every capital deployment is backed by robust internal controls and deep financial foresight.
+            </p>
 
-        <p class="bio-text">
-            Prior to his current role, Mayank demonstrated his capacity for global scale as a <strong>Group Financial Controller</strong> for a multinational consulting firm. Steering finance operations across the <strong>US, UK, France, and India</strong>, he led a team of 15 professionals through a period of significant modernization. He spearheaded the implementation of <strong>Microsoft Dynamics 365 ERP</strong>, a move that revolutionized the firm's reporting efficiency. His tenure was marked by tangible bottom-line impact: he improved <strong>EBITDA by 10%</strong> through disciplined cost controls, slashed Days Sales Outstanding (DSO) from <strong>90 to 45 days</strong>, and successfully executed corporate restructuring and ESOP frameworks. His vigilance in governance also led to the uncovering and resolution of critical financial irregularities through forensic-level fraud investigation.
-        </p>
+            <p class="bio-text">
+                Prior to his current role, Mayank demonstrated his capacity for global scale as a <strong>Group Financial Controller</strong> for a multinational consulting firm. Steering finance operations across the <strong>US, UK, France, and India</strong>, he led a team of 15 professionals through a period of significant modernization. He spearheaded the implementation of <strong>Microsoft Dynamics 365 ERP</strong>, a move that revolutionized the firm's reporting efficiency. His tenure was marked by tangible bottom-line impact: he improved <strong>EBITDA by 10%</strong> through disciplined cost controls, slashed Days Sales Outstanding (DSO) from <strong>90 to 45 days</strong>, and successfully executed corporate restructuring and ESOP frameworks. His vigilance in governance also led to the uncovering and resolution of critical financial irregularities through forensic-level fraud investigation.
+            </p>
 
-        <p class="bio-text">
-            Mayank’s expertise is deeply rooted in the heavy infrastructure and renewable energy sectors. He has managed financials for a renewable energy portfolio with a massive capacity of <strong>8GW</strong>, securing vital project financing from national and international lenders. His experience extends to managing the P&L for EPC companies and overseeing Transmission & Distribution projects valued at over <strong>INR 1,500 Crores</strong>. During this period, his negotiation skills secured additional claims worth <strong>INR 40 Crores</strong>, while his performance management systems boosted project profitability by <strong>8%</strong>.
-        </p>
+            <p class="bio-text">
+                Mayank’s expertise is deeply rooted in the heavy infrastructure and renewable energy sectors. He has managed financials for a renewable energy portfolio with a massive capacity of <strong>8GW</strong>, securing vital project financing from national and international lenders. His experience extends to managing the P&L for EPC companies and overseeing Transmission & Distribution projects valued at over <strong>INR 1,500 Crores</strong>. During this period, his negotiation skills secured additional claims worth <strong>INR 40 Crores</strong>, while his performance management systems boosted project profitability by <strong>8%</strong>.
+            </p>
 
-        <p class="bio-text">
-            Mayank began his career as a Partner in a CA firm, providing high-level advisory and tax planning to C-suite executives. This foundational experience in complex compliance and strategic advisory continues to inform his approach today. Whether navigating cross-border tax laws, structuring multi-million dollar funds, or optimizing working capital, Mayank Gaur combines the precision of a regulator with the vision of a growth strategist.
-        </p>
-    </div>
+            <p class="bio-text">
+                Mayank began his career as a Partner in a CA firm, providing high-level advisory and tax planning to C-suite executives. This foundational experience in complex compliance and strategic advisory continues to inform his approach today. Whether navigating cross-border tax laws, structuring multi-million dollar funds, or optimizing working capital, Mayank Gaur combines the precision of a regulator with the vision of a growth strategist.
+            </p>
+        </div>
 
-    <div class="competencies-section">
-        <h3 class="competencies-title">Core Competencies</h3>
-        <ul class="competencies-list">
-            <li><strong>Fund Management:</strong> DFSA Regulatory Compliance, NAV Calculation, SPV & Fund Accounting, Capital Calls & Distributions.</li>
-            <li><strong>Strategic Finance:</strong> Treasury & Liquidity Management, Financial Modeling, Mergers & Acquisitions (M&A), Project Financing.</li>
-            <li><strong>Operational Transformation:</strong> ERP Implementation (Dynamics 365), Process Re-engineering, Fraud Investigation, Internal Controls.</li>
-            <li><strong>Sector Expertise:</strong> Real Estate, Infrastructure (EPC/Utility Scale), Renewable Energy (8GW Portfolio).</li>
-        </ul>
+        <div class="competencies-section">
+            <h3 class="competencies-title">Core Competencies</h3>
+            <ul class="competencies-list">
+                <li><strong>Fund Management:</strong> DFSA Regulatory Compliance, NAV Calculation, SPV & Fund Accounting, Capital Calls & Distributions.</li>
+                <li><strong>Strategic Finance:</strong> Treasury & Liquidity Management, Financial Modeling, Mergers & Acquisitions (M&A), Project Financing.</li>
+                <li><strong>Operational Transformation:</strong> ERP Implementation (Dynamics 365), Process Re-engineering, Fraud Investigation, Internal Controls.</li>
+                <li><strong>Sector Expertise:</strong> Real Estate, Infrastructure (EPC/Utility Scale), Renewable Energy (8GW Portfolio).</li>
+            </ul>
+        </div>
     </div>
 </div>
-
-
 
 <footer>
     <p>&copy; 2025 Mayank Gaur. All Rights Reserved. | DFSA Authorized Finance Officer</p>
 </footer>
 
-
 <script src="js/main.js"></script>
 </body>
 </html>
-
-
-
