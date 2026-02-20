@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Mergers & Restructuring | Statutory Framework</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #334155 0%, #0f172a 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--secondary);
+        }
+
+        .section-header {
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+
+        /* Timeline / Process Flow */
+        .process-timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+        }
+
+        .timeline-title { font-weight: bold; margin-bottom: 0.25rem; }
+        .timeline-ref { font-size: 0.8rem; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        .timeline-desc { font-size: 0.9rem; margin-top: 0.5rem; color: #334155; }
+
+        /* Tables */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .compare-table th, .compare-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .compare-table th { background: #f8fafc; color: var(--primary); }
+
+        /* Info Box */
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0284c7;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link active">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Mergers & Restructuring</h1>
+            <p>Statutory mechanisms for corporate reorganisation under Companies Law (Part 12) and Schemes of Arrangement.</p>
+        </section>
+
+        <h2 class="section-header">Mergers (Companies Law Chapter 2)</h2>
+        <p style="margin-bottom:1.5rem;">Two or more companies may merge into one of them (the "Survivor Company") or into a new company (the "New Company").</p>
+
+        
+
+        <div class="process-timeline">
+            <div class="timeline-step">
+                <div class="timeline-title">1. Merger Agreement <span class="timeline-ref">Art 107</span></div>
+                <div class="timeline-desc">
+                    Must be approved by Directors. Must specify terms, conversion of shares, and Articles of the Survivor Company.
+                </div>
+            </div>
+            
+            <div class="timeline-step">
+                <div class="timeline-title">2. Shareholder Approval <span class="timeline-ref">Art 108</span></div>
+                <div class="timeline-desc">
+                    A <strong>Special Resolution</strong> (at least 75% of votes) is required from <em>each</em> merging company.
+                </div>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-title">3. Solvency Statements <span class="timeline-ref">Art 109</span></div>
+                <div class="timeline-desc">
+                    Directors of each company must state they have reasonable grounds to believe the Survivor Company will be able to pay its debts as they fall due.
+                </div>
+                <div class="info-box" style="margin-top:0.5rem; font-size:0.85rem;">
+                    <strong>Liability:</strong> A Director who makes this statement without reasonable grounds commits a contravention (Art 109(5)).
+                </div>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-title">4. Creditor Notice <span class="timeline-ref">Art 110</span></div>
+                <div class="timeline-desc">
+                    Written notice must be given to all creditors. A creditor may object to the Court within 28 days if the merger unfairly prejudices them.
+                </div>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-title">5. Registration <span class="timeline-ref">Art 112</span></div>
+                <div class="timeline-desc">
+                    If no creditor objection (or Court approves), the Registrar issues a Certificate of Merger. Assets/Liabilities transfer by operation of law.
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Schemes of Arrangement (Art 105)</h2>
+        <div style="background: white; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+            <p style="margin-bottom:1rem;">A "Compromise or Arrangement" between a Company and its creditors (or shareholders).</p>
+            <ul style="padding-left:1.5rem; line-height:1.6; color:#334155;">
+                <li><strong>Court Application:</strong> The Company, a creditor, or a shareholder applies to the Court.</li>
+                <li><strong>Meeting:</strong> The Court orders a meeting of the relevant class of creditors/shareholders.</li>
+                <li><strong>Approval Threshold:</strong> Must be approved by a majority in number representing <strong>75% in value</strong> of the creditors/shareholders present.</li>
+                <li><strong>Sanction:</strong> If approved, the Court may sanction the scheme, making it binding on all.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-header">Takeovers & "Squeeze-Out" (Part 13)</h2>
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Mechanism</th>
+                    <th>Article</th>
+                    <th>Trigger Threshold</th>
+                    <th>Outcome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Right to Buy Out (Squeeze-Out)</strong></td>
+                    <td>Art 117</td>
+                    <td>Bidder acquires <strong>90%</strong> of shares (or 90% of a specific class).</td>
+                    <td>Bidder can give notice to "squeeze out" the minority shareholders (compulsory purchase) on the same terms.</td>
+                </tr>
+                <tr>
+                    <td><strong>Right to be Bought Out (Sell-Out)</strong></td>
+                    <td>Art 119</td>
+                    <td>Bidder acquires <strong>90%</strong> of shares.</td>
+                    <td>Minority shareholder can <em>require</em> the bidder to purchase their shares.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Reduction of Capital (Art 44)</h2>
+        <p style="margin-bottom:1rem;">A Company may reduce its Share Capital by Special Resolution, supported by either:</p>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+            <div style="background:#fff; border:1px solid var(--border); padding:1rem; border-radius:6px;">
+                <h4 style="color:var(--secondary); margin-bottom:0.5rem;">Solvency Statement Route (Private Co)</h4>
+                <p style="font-size:0.9rem;">
+                    Supported by a Solvency Statement signed by all Directors (Art 45).
+                    <br><br>
+                    <em>Note: Public Companies cannot use this route.</em>
+                </p>
+            </div>
+            <div style="background:#fff; border:1px solid var(--border); padding:1rem; border-radius:6px;">
+                <h4 style="color:var(--secondary); margin-bottom:0.5rem;">Court Confirmation Route</h4>
+                <p style="font-size:0.9rem;">
+                    Confirmation by the DIFC Court (Art 46).
+                    <br><br>
+                    Required for Public Companies or if directors cannot sign solvency statement.
+                </p>
+            </div>
+        </div>
+
+        <h2 class="section-header">Cross-Border Mergers (Art 113)</h2>
+        <div style="background: #f8fafc; padding: 1.5rem; border-left: 4px solid var(--accent);">
+            <strong>Foreign Company + DIFC Company</strong>
+            <p style="margin-top:0.5rem; font-size:0.95rem;">
+                A DIFC Company may merge with a foreign company (Non-DIFC) provided:
+            </p>
+            <ul style="margin-top:0.5rem; padding-left:1.5rem; font-size:0.9rem;">
+                <li>The laws of the foreign jurisdiction permit the merger.</li>
+                <li>The foreign company complies with its local laws (approvals, etc.).</li>
+                <li>The DIFC company complies with Part 12 of the Companies Law.</li>
+            </ul>
+        </div>
+
+    </main>
+
+</body>
+</html>

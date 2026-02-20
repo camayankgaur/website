@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Companies Regulations | Operational Compliance</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--accent) 0%, #1e293b 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--secondary);
+        }
+
+        .section-header {
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--secondary);
+        }
+
+        .stat-value { font-size: 1.5rem; font-weight: 700; margin: 0.5rem 0; }
+        .stat-label { font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
+
+        /* Checklist Styles */
+        .checklist {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .checklist-item:last-child { border-bottom: none; }
+
+        .check-circle {
+            min-width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--secondary);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Deadlines Table */
+        .deadline-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .deadline-table th, .deadline-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .deadline-table th { background: #f1f5f9; color: var(--primary); font-size: 0.85rem; text-transform: uppercase; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .badge-mandatory { background: #fee2e2; color: #991b1b; }
+        .badge-event { background: #e0f2fe; color: #075985; }
+
+        /* Fines Matrix */
+        .fine-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1rem 1fr;
+            gap: 1rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .fine-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link active">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Companies Regulations</h1>
+            <p>Procedural requirements, filing obligations, and administrative fines supplementing the Companies Law.</p>
+        </section>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-label">Application Review</div>
+                <div class="stat-value">Reg 2.1</div>
+                <div style="font-size:0.85rem; color:#64748b;">Refusal if incomplete or non-compliant</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Standard Fines</div>
+                <div class="stat-value">$2,000 - $25k</div>
+                <div style="font-size:0.85rem; color:#64748b;">Admin penalties (Operating Law Sched 2)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Public Registry</div>
+                <div class="stat-value">Online</div>
+                <div style="font-size:0.85rem; color:#64748b;">Operating Law Art 18 (Public Access)</div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Incorporation Checklist (Reg 2.1 & 2.2)</h2>
+        <div class="checklist">
+            <div class="checklist-item">
+                <div class="check-circle">1</div>
+                <div>
+                    <strong>Proposed Name</strong>
+                    <p style="font-size:0.9rem; color:#64748b;">Must comply with Operating Law Art 10 (No sensitive words without approval). Must end in "Limited" or "PLC".</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="check-circle">2</div>
+                <div>
+                    <strong>Registered Office</strong>
+                    <p style="font-size:0.9rem; color:#64748b;">Physical address within the DIFC (Reg 2.1(j)).</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="check-circle">3</div>
+                <div>
+                    <strong>Shareholders & UBOs</strong>
+                    <p style="font-size:0.9rem; color:#64748b;">Full details of initial shareholders. UBO data must be filed separately under UBO Regulations.</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="check-circle">4</div>
+                <div>
+                    <strong>Directors & Secretary</strong>
+                    <p style="font-size:0.9rem; color:#64748b;">Consent to act required. Secretary optional for Private Companies (Law Art 87).</p>
+                </div>
+            </div>
+            <div class="checklist-item">
+                <div class="check-circle">5</div>
+                <div>
+                    <strong>Articles of Association</strong>
+                    <p style="font-size:0.9rem; color:#64748b;">Standard Articles (Reg 2.3) or Bespoke Articles (Must be uploaded).</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Filing Deadlines Dashboard</h2>
+        <table class="deadline-table">
+            <thead>
+                <tr>
+                    <th>Filing Type</th>
+                    <th>Regulation Ref</th>
+                    <th>Deadline / Trigger</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Confirmation Statement</strong></td>
+                    <td>Reg 7.1 / Law Art 26</td>
+                    <td>Upon renewal of license (Annually)</td>
+                    <td><span class="status-badge badge-mandatory">Mandatory</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Accounts (Public Co.)</strong></td>
+                    <td>Reg 9.1(2)</td>
+                    <td>Within 7 months of financial year end</td>
+                    <td><span class="status-badge badge-mandatory">Mandatory</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Accounts (Private Co.)</strong></td>
+                    <td>Reg 9.1(1)</td>
+                    <td>Not required to file (Must keep records) unless requested</td>
+                    <td><span class="status-badge badge-event">Internal</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Change of Director</strong></td>
+                    <td>Law Art 91</td>
+                    <td>Within 14 days of change</td>
+                    <td><span class="status-badge badge-event">Event-Driven</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Allotment of Shares</strong></td>
+                    <td>Law Art 47</td>
+                    <td>Within 30 days of allotment</td>
+                    <td><span class="status-badge badge-event">Event-Driven</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Special Resolutions</strong></td>
+                    <td>Law Art 62</td>
+                    <td>Within 14 days of passing</td>
+                    <td><span class="status-badge badge-event">Event-Driven</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Recognised Companies (Foreign Branches)</h2>
+        <div style="background: white; padding: 2rem; border-radius: 8px; border: 1px solid var(--border);">
+            <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--secondary);">Registration Process (Reg 4.1)</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">A Foreign Company may apply for registration as a Recognised Company. It does not create a separate legal entity but extends the foreign entity into the DIFC.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <strong>Required Documents:</strong>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; font-size: 0.9rem; color: #334155;">
+                        <li>Certificate of Incorporation (Home Jurisdiction)</li>
+                        <li>Constitution/Articles (Certified Copy)</li>
+                        <li>Annual Accounts (Last 2 years, if applicable)</li>
+                        <li>Appointment of "Document for Service" Person (Reg 4.1(k))</li>
+                    </ul>
+                </div>
+                <div style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+                    <strong>Ongoing Duties (Reg 6.2):</strong>
+                    <p style="font-size: 0.9rem; color: #334155; margin-top: 0.5rem;">
+                        Must file an annual return confirming home jurisdiction status remains active. Must notify Registrar of any changes to home constitution or directors within 30 days.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Penalty Exposure Matrix (Admin Fines)</h2>
+        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #64748b;">Derived from Operating Law, Schedule 2 (Contraventions & Fines).</p>
+        
+        <div class="fine-matrix">
+            <div style="font-weight: bold; color: var(--primary);">Contravention</div>
+            <div></div>
+            <div style="font-weight: bold; color: var(--danger);">Max Fine ($)</div>
+
+            <div class="fine-item">Failure to maintain Registered Office (Law Art 22)</div>
+            <div></div>
+            <div class="fine-item" style="color: var(--danger);">$2,000</div>
+
+            <div class="fine-item">Failure to use correct Company Name (Law Art 34)</div>
+            <div></div>
+            <div class="fine-item" style="color: var(--danger);">$2,000</div>
+
+            <div class="fine-item">Failure to keep Accounting Records (Law Art 103)</div>
+            <div></div>
+            <div class="fine-item" style="color: var(--danger);">$25,000</div>
+
+            <div class="fine-item">Providing false information to Registrar (Op Law Art 65)</div>
+            <div></div>
+            <div class="fine-item" style="color: var(--danger);">$20,000</div>
+
+            <div class="fine-item">Failure to file Annual Return/Conf. Statement</div>
+            <div></div>
+            <div class="fine-item" style="color: var(--danger);">$2,000</div>
+        </div>
+
+        <div style="margin-top: 2rem; background: #eef2ff; border: 1px solid #c7d2fe; padding: 1rem; border-radius: 6px;">
+            <h4 style="color: #3730a3; margin-bottom: 0.5rem;">🔗 Ultimate Beneficial Ownership (UBO)</h4>
+            <p style="font-size: 0.9rem; color: #4338ca;">
+                Strict compliance required under <strong>UBO Regulations</strong>. 
+                Separate filings required for the UBO Register and Nominee Directors. 
+                <strong>Note:</strong> UBO Register is <em>not</em> public; it is accessible only by the Registrar and relevant authorities.
+            </p>
+        </div>
+
+    </main>
+
+</body>
+</html>

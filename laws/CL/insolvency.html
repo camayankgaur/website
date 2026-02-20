@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Insolvency Law | Statutory Framework</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--danger);
+        }
+
+        .section-header {
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+
+        /* Flowchart / Lifecycle */
+        .lifecycle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .lifecycle-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .lifecycle-step::after {
+            content: '→';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        .lifecycle-step:last-child::after { content: ''; }
+
+        .step-icon {
+            width: 40px; height: 40px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem auto;
+            font-weight: bold;
+        }
+
+        /* Comparison Table */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .compare-table th, .compare-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .compare-table th { background: #f8fafc; color: var(--primary); }
+
+        /* Creditor Hierarchy */
+        .hierarchy-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .stack-item {
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: #fff1f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link active">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Insolvency Law</h1>
+            <p>Framework for rehabilitation, administration, and winding up (DIFC Law No. 1 of 2019).</p>
+        </section>
+
+        <h2 class="section-header">The Solvency Test (Art 3)</h2>
+        <div style="background: white; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem;">
+            <p>A Company satisfies the Solvency Test if:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem; line-height: 1.6;">
+                <li><strong>(a) Cash Flow Test:</strong> It is able to pay its debts as they become due in the ordinary course of business; AND</li>
+                <li><strong>(b) Balance Sheet Test:</strong> The value of its assets exceeds the value of its liabilities.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-header">Corporate Distress Lifecycle </h2>
+        <div class="lifecycle-container">
+            <div class="lifecycle-step">
+                <div class="step-icon">1</div>
+                <strong>Early Distress</strong>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.25rem;">Directors Duty Shift (Art 11)</p>
+            </div>
+            <div class="lifecycle-step">
+                <div class="step-icon">2</div>
+                <strong>CVA</strong>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.25rem;">Company Voluntary Arrangement (Part 2)</p>
+            </div>
+            <div class="lifecycle-step">
+                <div class="step-icon">3</div>
+                <strong>Rehabilitation</strong>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.25rem;">Administration (Part 3)</p>
+            </div>
+            <div class="lifecycle-step">
+                <div class="step-icon">4</div>
+                <strong>Liquidation</strong>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.25rem;">Winding Up (Part 5)</p>
+            </div>
+        </div>
+
+        <h2 class="section-header">Procedures Comparison</h2>
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Procedure</th>
+                    <th>Goal</th>
+                    <th>Initiator</th>
+                    <th>Moratorium?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Voluntary Arrangement (CVA)</strong></td>
+                    <td>Compromise with creditors to avoid liquidation.</td>
+                    <td>Directors</td>
+                    <td><span style="color:var(--warning);">Limited (Small Companies only)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Rehabilitation (Administration)</strong></td>
+                    <td>Rescue the company as a going concern.</td>
+                    <td>Company / Directors / Creditors</td>
+                    <td><span style="color:var(--success);">Yes (Automatic stay on actions)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Receivership</strong></td>
+                    <td>Realise charged assets for secured creditor.</td>
+                    <td>Secured Creditor</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><strong>Liquidation (Winding Up)</strong></td>
+                    <td>Realise assets and distribute to creditors (Terminal).</td>
+                    <td>Shareholders (Voluntary) or Court (Compulsory)</td>
+                    <td>Yes (upon order)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Priority of Distribution (Liquidation) </h2>
+        <div class="hierarchy-stack">
+            <div class="stack-item" style="background: #0f172a;">1. Secured Creditors (Fixed Charge)</div>
+            <div class="stack-item" style="background: #334155;">2. Preferential Creditors (Employees, etc.)</div>
+            <div class="stack-item" style="background: #475569;">3. Secured Creditors (Floating Charge)</div>
+            <div class="stack-item" style="background: #64748b;">4. Unsecured Creditors (Trade, etc.)</div>
+            <div class="stack-item" style="background: #94a3b8;">5. Shareholders (Residual)</div>
+        </div>
+
+        <h2 class="section-header">Director Liability & Wrongful Trading (Art 113)</h2>
+        <div class="alert-box">
+            <h3>⚠️ Wrongful Trading</h3>
+            <p style="margin-top:0.5rem;">
+                If a Director knew (or ought to have concluded) that there was no reasonable prospect that the Company would avoid going into insolvent liquidation, and failed to take every step to minimise potential loss to creditors, the Court may declare the Director <strong>personally liable</strong> to contribute to the Company's assets.
+            </p>
+        </div>
+
+        <div style="margin-top: 1.5rem; background: #fff; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+            <strong>Misfeasance (Art 112)</strong>
+            <p style="font-size:0.9rem; margin-top:0.5rem;">
+                Court may examine the conduct of any past or present officer/liquidator. If they have misapplied money or breached duty, they can be compelled to repay with interest.
+            </p>
+        </div>
+
+    </main>
+
+</body>
+</html>

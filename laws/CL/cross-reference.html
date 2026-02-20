@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Statutory Cross-Reference Matrix</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --tag-def: #e0f2fe; --tag-text-def: #0369a1;
+            --tag-ob: #fef3c7; --tag-text-ob: #b45309;
+            --tag-pen: #fee2e2; --tag-text-pen: #991b1b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #475569 0%, #1e293b 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--secondary);
+        }
+
+        /* Matrix Table Styling */
+        .matrix-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .matrix-table th, .matrix-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .matrix-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .matrix-table tr:hover { background-color: #f8fafc; }
+
+        .ref-cell { font-family: monospace; font-weight: bold; color: var(--accent); white-space: nowrap; }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .tag-def { background: var(--tag-def); color: var(--tag-text-def); }
+        .tag-ob { background: var(--tag-ob); color: var(--tag-text-ob); }
+        .tag-pen { background: var(--tag-pen); color: var(--tag-text-pen); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link active">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Cross-Reference Matrix</h1>
+            <p>Inter-statutory mapping of uploaded DIFC Laws and DFSA Rulebook Modules.</p>
+        </section>
+
+        
+
+[Image of legislation hierarchy]
+
+
+        <div class="matrix-container">
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th width="15%">Source Ref</th>
+                        <th width="15%">Target Ref</th>
+                        <th width="20%">Nature of Link</th>
+                        <th>Compliance Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 8</td>
+                        <td class="ref-cell">Op Law Art 10</td>
+                        <td><span class="tag tag-ob">Restriction</span></td>
+                        <td>Company name must comply with sensitive words restrictions in Operating Law.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 26</td>
+                        <td class="ref-cell">Comp Reg 7.1</td>
+                        <td><span class="tag tag-ob">Filing</span></td>
+                        <td>Requirement to file Confirmation Statement annually upon license renewal.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 53</td>
+                        <td class="ref-cell">DFSA GEN 5.3</td>
+                        <td><span class="tag tag-def">Definition</span></td>
+                        <td>Director definition aligns; however, DFSA "Key Individual" rules apply for Authorised Firms.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 66</td>
+                        <td class="ref-cell">Comp Reg 5.1</td>
+                        <td><span class="tag tag-ob">Procedure</span></td>
+                        <td>Notice of meetings must follow timeframes specified in Regulations (21 days for Public).</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 103</td>
+                        <td class="ref-cell">Op Law Sched 2</td>
+                        <td><span class="tag tag-pen">Penalty</span></td>
+                        <td>Failure to keep accounting records triggers $25,000 fine under Operating Law.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Comp Law Art 113</td>
+                        <td class="ref-cell">Comp Reg 8.1</td>
+                        <td><span class="tag tag-ob">Procedure</span></td>
+                        <td>Cross-border merger requires specific filings (Form 8) and Solvency Statement.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="ref-cell">Insolvency Art 11</td>
+                        <td class="ref-cell">Comp Law Art 73</td>
+                        <td><span class="tag tag-ob">Duty Shift</span></td>
+                        <td>Director duty shifts from shareholders to creditors upon doubtful solvency.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Insolvency Art 14</td>
+                        <td class="ref-cell">Insolvency Reg 4.2</td>
+                        <td><span class="tag tag-ob">Procedure</span></td>
+                        <td>Notice of CVA proposal must be filed with Registrar and DFSA (if Regulated).</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Insolvency Art 50</td>
+                        <td class="ref-cell">Comp Law Art 116</td>
+                        <td><span class="tag tag-def">Overlap</span></td>
+                        <td>Voluntary Winding Up procedure supersedes standard strike-off if solvent.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="ref-cell">Markets Law Art 12</td>
+                        <td class="ref-cell">DFSA MKT 2.3</td>
+                        <td><span class="tag tag-def">Exemption</span></td>
+                        <td>Public Offer definition modified by Exempt Offer categories in MKT Rulebook.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Markets Law Art 37</td>
+                        <td class="ref-cell">DFSA MKT 4.2</td>
+                        <td><span class="tag tag-ob">Disclosure</span></td>
+                        <td>Reporting Entity must disclose Inside Information via Regulatory Announcement Service.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Markets Law Art 52</td>
+                        <td class="ref-cell">Reg Law Art 90</td>
+                        <td><span class="tag tag-pen">Enforcement</span></td>
+                        <td>Insider Dealing triggers DFSA enforcement powers (fines, restitution).</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="ref-cell">Reg Law Art 41</td>
+                        <td class="ref-cell">DFSA AUT 3.2</td>
+                        <td><span class="tag tag-ob">Licensing</span></td>
+                        <td>Prohibition on Financial Services unless Authorised (matches AUT Rulebook criteria).</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Reg Law Art 72</td>
+                        <td class="ref-cell">DFSA AML 3.1</td>
+                        <td><span class="tag tag-ob">Compliance</span></td>
+                        <td>Systems and controls requirement specifically mapped to AML risk assessment.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="ref-cell">Op Law Art 18</td>
+                        <td class="ref-cell">UBO Regs 3.1</td>
+                        <td><span class="tag tag-ob">Restriction</span></td>
+                        <td>Public Register access does NOT include UBO details (Private Register).</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Op Law Art 32</td>
+                        <td class="ref-cell">Comp Law Art 109</td>
+                        <td><span class="tag tag-def">Process</span></td>
+                        <td>Strike off power (Op Law) vs Dissolution after liquidation (Comp Law).</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">Op Law Art 64</td>
+                        <td class="ref-cell">Reg Law Art 66</td>
+                        <td><span class="tag tag-def">Protection</span></td>
+                        <td>Whistleblower protection aligns across both ROC and DFSA reporting channels.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="ref-cell">DFSA GEN 8.6</td>
+                        <td class="ref-cell">Comp Law Art 97</td>
+                        <td><span class="tag tag-ob">Audit</span></td>
+                        <td>Authorised Firms must appoint auditor; overlaps with Company Law auditor reqs.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">DFSA AUT 2.3</td>
+                        <td class="ref-cell">Comp Law Art 8</td>
+                        <td><span class="tag tag-def">Structure</span></td>
+                        <td>Only certain Company forms (e.g., Ltd, PLC, Branch) can seek Authorisation.</td>
+                    </tr>
+                    <tr>
+                        <td class="ref-cell">DFSA AML 4.2</td>
+                        <td class="ref-cell">UBO Regs</td>
+                        <td><span class="tag tag-ob">KYC</span></td>
+                        <td>CDD measures in AML Module require verification of UBO (aligns with UBO Regs).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

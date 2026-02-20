@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Capital Markets | Markets Law & MKT</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--secondary);
+        }
+
+        .section-header {
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+
+        /* Matrix Tables */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .matrix-table th, .matrix-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .matrix-table th { background: #f1f5f9; color: var(--primary); }
+
+        /* Decision Tree Box */
+        .decision-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .decision-step {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #f8fafc;
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .arrow-down {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin: 0.5rem 0;
+        }
+
+        /* Disclosure Cards */
+        .disclosure-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .disclosure-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Market Abuse Section */
+        .abuse-container {
+            background: #fff1f2;
+            border: 1px solid #fecaca;
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: #881337;
+        }
+        .abuse-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #fecaca;
+        }
+        .abuse-item:last-child { border: none; padding: 0; margin: 0; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link active">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Capital Markets</h1>
+            <p>Governed by Markets Law (DIFC Law No. 1 of 2012) and DFSA Rulebook (MKT).</p>
+        </section>
+
+        <h2 class="section-header">Offer of Securities (Markets Law Part 2)</h2>
+        <p style="margin-bottom: 1.5rem;">A person shall not make an Offer of Securities to the Public in or from the DIFC unless a Prospectus has been published (Art 11).</p>
+        
+        
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Definition / Criteria</th>
+                    <th>Statutory Reference</th>
+                    <th>Prospectus Required?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Public Offer</strong></td>
+                    <td>Communication to any person which presents sufficient information to enable an investor to decide to buy/subscribe.</td>
+                    <td>Markets Law Art 12</td>
+                    <td><span style="color:var(--danger); font-weight:bold;">YES</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Exempt Offer (Institutional)</strong></td>
+                    <td>Offer made only to "Professional Clients" (as defined in COB).</td>
+                    <td>MKT Rule 2.3.1(a)</td>
+                    <td><span style="color:var(--success); font-weight:bold;">NO</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Exempt Offer (Private Placement)</strong></td>
+                    <td>Offer made to fewer than 50 persons (excluding Professional Clients).</td>
+                    <td>MKT Rule 2.3.1(b)</td>
+                    <td><span style="color:var(--success); font-weight:bold;">NO</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Exempt Offer (High Value)</strong></td>
+                    <td>Minimum subscription per investor is at least $100,000.</td>
+                    <td>MKT Rule 2.3.1(c)</td>
+                    <td><span style="color:var(--success); font-weight:bold;">NO</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Prospectus Framework (Markets Law Art 14)</h2>
+        <div class="decision-box">
+            <h3 style="margin-bottom:1.5rem;">Is a Prospectus Required?</h3>
+            
+            <div class="decision-step">Are you making an "Offer of Securities to the Public"?</div>
+            <div class="arrow-down">↓ Yes</div>
+            
+            <div class="decision-step">Does the offer fall under an "Exempt Offer" category (MKT 2.3)?</div>
+            
+            <div style="display:flex; justify-content:center; gap:4rem; margin-top:1rem;">
+                <div>
+                    <div class="arrow-down">Yes ↙</div>
+                    <div style="padding:1rem; border:1px solid var(--success); color:var(--success); border-radius:6px;">No Prospectus Required</div>
+                </div>
+                <div>
+                    <div class="arrow-down">↘ No</div>
+                    <div style="padding:1rem; border:1px solid var(--danger); color:var(--danger); border-radius:6px;">
+                        <strong>Prospectus Required</strong>
+                        <br><small>Must be approved by DFSA</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Reporting Entity Obligations (Markets Law Part 4)</h2>
+        <p style="margin-bottom:1rem;">A "Reporting Entity" is an entity that has securities listed on an Authorised Market Institution (AMI) or has made a public offer.</p>
+        
+        <div class="disclosure-grid">
+            <div class="disclosure-card">
+                <h3>Continuous Disclosure</h3>
+                <p style="font-size:0.9rem; margin-top:0.5rem;">
+                    <strong>Art 37:</strong> A Reporting Entity must, as soon as possible, disclose to the market any "Inside Information" which creates a false market or significantly affects price.
+                </p>
+            </div>
+            <div class="disclosure-card" style="border-left-color: var(--secondary);">
+                <h3>Financial Reporting</h3>
+                <p style="font-size:0.9rem; margin-top:0.5rem;">
+                    <strong>MKT Chapter 8:</strong> Must file Annual Financial Reports (within 4 months of year-end) and Half-Yearly Reports (within 2 months).
+                </p>
+            </div>
+            <div class="disclosure-card" style="border-left-color: var(--primary);">
+                <h3>Director Transactions</h3>
+                <p style="font-size:0.9rem; margin-top:0.5rem;">
+                    <strong>Art 39:</strong> Directors and PDMRs (Persons Discharging Managerial Responsibilities) must notify the entity of transactions in its shares.
+                </p>
+            </div>
+            <div class="disclosure-card" style="border-left-color: var(--success);">
+                <h3>Connected Persons</h3>
+                <p style="font-size:0.9rem; margin-top:0.5rem;">
+                    <strong>MKT 3.3:</strong> Specific disclosures required for transactions with related parties (to prevent value leakage).
+                </p>
+            </div>
+        </div>
+
+        <h2 class="section-header">Market Abuse & Prohibited Conduct (Part 6)</h2>
+        <div class="abuse-container">
+            <div class="abuse-item">
+                <strong style="font-size:1.1rem;">1. Insider Dealing (Art 52)</strong>
+                <p style="margin-top:0.5rem;">It is an offense to deal in securities on the basis of Inside Information, or to encourage another person to deal.</p>
+            </div>
+            <div class="abuse-item">
+                <strong style="font-size:1.1rem;">2. Market Manipulation (Art 54)</strong>
+                <p style="margin-top:0.5rem;">Conduct that gives a false or misleading impression as to the supply of, demand for, or price of a security.</p>
+            </div>
+            <div class="abuse-item">
+                <strong style="font-size:1.1rem;">3. Misleading Statements (Art 55)</strong>
+                <p style="margin-top:0.5rem;">Making a statement which is false or misleading to induce a person to deal in securities.</p>
+            </div>
+        </div>
+
+        <h2 class="section-header">Official List of Securities</h2>
+        <div style="background:white; padding:1.5rem; border:1px solid var(--border); border-radius:8px;">
+            <p>The DFSA maintains the <strong>Official List of Securities</strong>.</p>
+            <ul style="margin-top:1rem; margin-left:1.5rem; line-height:1.6;">
+                <li><strong>Admission to List:</strong> Application must be made to DFSA (Markets Law Art 32).</li>
+                <li><strong>Admission to Trading:</strong> Separate application to the Authorised Market Institution (e.g., Nasdaq Dubai).</li>
+                <li><strong>Suspension/Delisting:</strong> DFSA has power to suspend or delist securities to protect investors (Art 34).</li>
+            </ul>
+        </div>
+
+    </main>
+
+</body>
+</html>

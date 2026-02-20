@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Definitions | Official Glossary</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--secondary);
+        }
+
+        /* Definitions Table */
+        .def-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .def-table th, .def-table td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .def-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .term-cell {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .source-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: #e2e8f0;
+            color: #475569;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .impact-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-style: italic;
+            border-left: 2px solid var(--border);
+            padding-left: 0.75rem;
+        }
+
+        /* Search Bar (Visual Only) */
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="definitions.html" class="nav-link active">Definitions</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Official Definitions</h1>
+            <p>Consolidated Glossary from DIFC Statutory Text and DFSA Rulebook.</p>
+        </section>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search for a legal term (e.g., 'Director', 'Prospectus', 'UBO')...">
+        </div>
+
+        <table class="def-table">
+            <thead>
+                <tr>
+                    <th width="20%">Term</th>
+                    <th width="50%">Statutory Definition</th>
+                    <th width="30%">Source & Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="term-cell">Accounting Records</td>
+                    <td>Records which are sufficient to show and explain the Company's transactions and disclose with reasonable accuracy the financial position of the Company at any time.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 103</span>
+                        <div class="impact-text">Must be kept for 6 years. Failure triggers fine.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="term-cell">Authorised Person</td>
+                    <td>A person who holds a License from the DFSA to carry on one or more Financial Services.</td>
+                    <td>
+                        <span class="source-tag">Reg Law Art 41</span>
+                        <div class="impact-text">Key trigger for DFSA supervision.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Beneficial Owner</td>
+                    <td>A natural person who ultimately owns or controls a Company, or on whose behalf a transaction is conducted.</td>
+                    <td>
+                        <span class="source-tag">UBO Regs 3.1</span>
+                        <div class="impact-text">Must be identified in UBO Register.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Director</td>
+                    <td>Includes any person occupying the position of director, by whatever name called.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Sched 1</span>
+                        <div class="impact-text">Includes "De Facto" directors. Subject to fiduciary duties.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="term-cell">Distribution</td>
+                    <td>Any distribution of a Company's assets to its Shareholders, whether in cash or otherwise (e.g., Dividend).</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 50</span>
+                        <div class="impact-text">Must not be made unless Net Assets > Share Capital + Non-Distributable Reserves.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Exempt Offer</td>
+                    <td>An Offer of Securities which falls within one of the exemptions specified in the Markets Rules (e.g., to Professional Clients).</td>
+                    <td>
+                        <span class="source-tag">Markets Law Art 12</span>
+                        <div class="impact-text">No Prospectus required.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Insolvency</td>
+                    <td>The inability of a Company to pay its debts as they fall due (Cash Flow) or Liabilities exceeding Assets (Balance Sheet).</td>
+                    <td>
+                        <span class="source-tag">Insolvency Law Art 3</span>
+                        <div class="impact-text">Trigger for Wrongful Trading liability.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Market Abuse</td>
+                    <td>Conduct that amounts to Insider Dealing, Market Manipulation, or Misleading Statements.</td>
+                    <td>
+                        <span class="source-tag">Markets Law Part 6</span>
+                        <div class="impact-text">Criminal and Civil liability.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Ordinary Resolution</td>
+                    <td>A resolution passed by a simple majority (more than 50%) of the votes cast by Shareholders entitled to vote.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 60</span>
+                        <div class="impact-text">Standard threshold for routine business.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Prospectus</td>
+                    <td>A document containing information necessary to enable an investor to make an informed assessment of the assets, liabilities, financial position, and prospects of the Issuer.</td>
+                    <td>
+                        <span class="source-tag">Markets Law Art 14</span>
+                        <div class="impact-text">Mandatory for Public Offers.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="term-cell">Public Company</td>
+                    <td>A Company incorporated as such, permitted to offer securities to the public.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 8</span>
+                        <div class="impact-text">Stricter governance and capital ($100k) requirements.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Recognised Company</td>
+                    <td>A branch of a foreign company registered in the DIFC.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 114</span>
+                        <div class="impact-text">Not a separate legal entity.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="term-cell">Registered Office</td>
+                    <td>The official address of the Company in the DIFC to which all communications and notices may be addressed.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 22</span>
+                        <div class="impact-text">Must be physical office (no P.O. Box).</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Special Resolution</td>
+                    <td>A resolution passed by at least 75% of the votes cast by Shareholders entitled to vote.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 61</span>
+                        <div class="impact-text">Required for Constitutional changes, Mergers, Reduction of Capital.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="term-cell">Solvency Statement</td>
+                    <td>A statement by Directors that they have formed the opinion that the Company is able to pay its debts as they fall due.</td>
+                    <td>
+                        <span class="source-tag">Comp Law Art 45</span>
+                        <div class="impact-text">Personal liability if made without reasonable grounds.</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="term-cell">Ultimate Beneficial Owner (UBO)</td>
+                    <td>A natural person who owns or controls 25% or more of the shares or voting rights of a Company.</td>
+                    <td>
+                        <span class="source-tag">UBO Regs</span>
+                        <div class="impact-text">Must be registered with ROC.</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Compliance & Enforcement | Statutory Powers</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--secondary);
+        }
+
+        .section-header {
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+
+        /* Comparison Cards */
+        .power-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .power-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .power-header {
+            padding: 1rem;
+            background: #f1f5f9;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .power-body { padding: 1.5rem; }
+
+        .power-list {
+            list-style: none;
+            padding: 0;
+        }
+        .power-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.95rem;
+        }
+        .power-list li:last-child { border: none; }
+
+        /* Strike Off Flow */
+        .strike-container {
+            background: white;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #9a3412;
+        }
+
+        /* Sanctions Table */
+        .sanction-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .sanction-table th, .sanction-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .sanction-table th { background: #f8fafc; color: var(--primary); }
+
+        .tag-enforced { background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+            <a href="compliance-enforcement.html" class="nav-link active">Compliance & Enforcement</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Compliance & Enforcement</h1>
+            <p>Investigation, sanctions, and administrative powers under the Regulatory Law (Part 5) and Operating Law.</p>
+        </section>
+
+        <h2 class="section-header">Dual Enforcement Regime</h2>
+        <div class="power-grid">
+            <div class="power-card">
+                <div class="power-header" style="color: #b45309;">
+                    <span>🛡️ DFSA Powers (Regulatory Law)</span>
+                </div>
+                <div class="power-body">
+                    <p style="font-size:0.9rem; margin-bottom:1rem; color:#64748b;">Applied to Authorised Persons, DNFBPs, and Reporting Entities.</p>
+                    <ul class="power-list">
+                        <li><strong>Art 78:</strong> Conduct investigations into suspected contraventions.</li>
+                        <li><strong>Art 80:</strong> Power to obtain information and documents under oath.</li>
+                        <li><strong>Art 90:</strong> Imposition of fines, censures, and restrictions.</li>
+                        <li><strong>Art 89:</strong> Enforceable Undertakings.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="power-card">
+                <div class="power-header" style="color: #0f172a;">
+                    <span>🏢 Registrar Powers (Operating Law)</span>
+                </div>
+                <div class="power-body">
+                    <p style="font-size:0.9rem; margin-bottom:1rem; color:#64748b;">Applied to all DIFC Companies and Partnerships.</p>
+                    <ul class="power-list">
+                        <li><strong>Op Law Art 29:</strong> Power to strike off defunct companies.</li>
+                        <li><strong>Op Law Art 64:</strong> Administrative fines for late filings/breaches.</li>
+                        <li><strong>Op Law Art 61:</strong> Inspection powers to verify compliance.</li>
+                        <li><strong>Op Law Art 63:</strong> Direction to comply with legislation.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Strike Off & Dissolution (Operating Law Art 32) </h2>
+        <div class="strike-container">
+            <h3 style="margin-bottom:1rem;">Involuntary Strike Off</h3>
+            <p>The Registrar may strike a Company off the Register if he has reason to believe that:</p>
+            <ul style="margin-top:0.5rem; padding-left:1.5rem; line-height:1.6;">
+                <li>The Company is not carrying on business or is not in operation; or</li>
+                <li>The Company is acting in contravention of the Law or Regulations.</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Procedure (Art 32(2)):</strong>
+                <ol style="margin-top:0.5rem; padding-left:1.2rem;">
+                    <li>Registrar sends inquiry letter.</li>
+                    <li>If no reply within 1 month, Registrar sends warning notice (3 months to respond).</li>
+                    <li>If still no reply, Registrar publishes notice in Gazette and strikes off Company.</li>
+                </ol>
+            </div>
+            
+            <p style="font-size:0.9rem; color:#ef4444;"><strong>Consequence:</strong> The liability of every Director and Shareholder continues and may be enforced as if the Company had not been dissolved.</p>
+        </div>
+
+        <h2 class="section-header">DFSA Sanctions (Regulatory Law Art 90)</h2>
+        <p style="margin-bottom:1.5rem;">If the DFSA considers that a person has contravened the Law or Rules, it may:</p>
+        
+        <table class="sanction-table">
+            <thead>
+                <tr>
+                    <th>Sanction Type</th>
+                    <th>Description</th>
+                    <th>Reference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Fine</strong></td>
+                    <td>Impose a financial penalty of such amount as it considers appropriate.</td>
+                    <td>Art 90(2)(a)</td>
+                </tr>
+                <tr>
+                    <td><strong>Censure</strong></td>
+                    <td>Publish a statement censuring the person (Public shaming).</td>
+                    <td>Art 90(2)(b)</td>
+                </tr>
+                <tr>
+                    <td><strong>Prohibition</strong></td>
+                    <td>Prohibit the person from holding office in the DIFC.</td>
+                    <td>Art 90(2)(e)</td>
+                </tr>
+                <tr>
+                    <td><strong>Restitution</strong></td>
+                    <td>Order the person to pay compensation to any person who suffered loss.</td>
+                    <td>Art 90(2)(f)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Whistleblower Protection (Operating Law Art 64)</h2>
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1.5rem; border-radius: 8px;">
+            <strong style="color: #065f46;">Statutory Immunity</strong>
+            <p style="margin-top:0.5rem; font-size:0.95rem; color: #064e3b;">
+                A person who makes a disclosure to the Registrar, DFSA, or Police regarding a suspicion of a contravention of the Law:
+            </p>
+            <ul style="margin-top:0.5rem; padding-left:1.5rem; font-size:0.9rem; color: #064e3b;">
+                <li>Does not incur liability for breach of confidentiality.</li>
+                <li>Is protected from dismissal or detriment by their employer (Art 64(2)).</li>
+            </ul>
+        </div>
+
+        <h2 class="section-header">Standard Fine Scale (Op Law Sched 2)</h2>
+        <p style="margin-bottom:1rem;">Selected examples of automatic administrative fines for non-compliance:</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="flex:1; background:white; border:1px solid var(--border); padding:1rem; border-radius:6px; min-width:200px;">
+                <span class="tag-enforced">$2,000</span>
+                <p style="margin-top:0.5rem; font-size:0.9rem;">Failure to file Annual Return / Confirmation Statement.</p>
+            </div>
+            <div style="flex:1; background:white; border:1px solid var(--border); padding:1rem; border-radius:6px; min-width:200px;">
+                <span class="tag-enforced">$5,000</span>
+                <p style="margin-top:0.5rem; font-size:0.9rem;">Failure to notify change of Director or Registered Office.</p>
+            </div>
+            <div style="flex:1; background:white; border:1px solid var(--border); padding:1rem; border-radius:6px; min-width:200px;">
+                <span class="tag-enforced">$25,000</span>
+                <p style="margin-top:0.5rem; font-size:0.9rem;">Failure to keep Accounting Records available for inspection.</p>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Statutory Framework | Master Index</title>
+    <style>
+        :root {
+            --primary: #0f172a; /* Navy */
+            --secondary: #b4975a; /* Gold/Bronze */
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        /* Components */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--secondary);
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        .section-header {
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+
+        .card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Diagrams & Flowcharts (CSS-only) */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .hierarchy-box {
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            background: white;
+            font-weight: bold;
+            margin: 0 auto;
+            width: fit-content;
+            min-width: 200px;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 20px;
+            background: var(--primary);
+            margin: 0 auto;
+        }
+
+        /* Tables */
+        .statute-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .statute-table th, .statute-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .statute-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        .statute-table tr:hover { background: #f8fafc; }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tag-law { background: #e0f2fe; color: #0369a1; }
+        .tag-reg { background: #fef3c7; color: #b45309; }
+        .tag-rule { background: #dcfce7; color: #15803d; }
+
+        /* Infographic Grid */
+        .eco-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .eco-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link active">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+            <a href="compliance-enforcement.html" class="nav-link">Compliance & Enforcement</a>
+        </div>
+
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="definitions.html" class="nav-link">Definitions</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>DIFC Statutory Framework</h1>
+            <p>Unified digital interface for DIFC Laws and DFSA Rulebook Modules. Strictly derived from official legislative texts.</p>
+        </section>
+
+        <h2 class="section-header">Legislative Hierarchy 
+
+[Image of legislation hierarchy]
+</h2>
+        <div class="flow-container" style="align-items: center; background: #f8fafc; border: none;">
+            <div class="hierarchy-box">UAE Constitution & Federal Law<br><small>(Civil/Commercial Exemptions apply per Art 121)</small></div>
+            <div class="connector-line"></div>
+            <div class="hierarchy-box" style="background: var(--primary); color: white;">Dubai Law No. 9 of 2004<br><small>Founding Law of the DIFC</small></div>
+            <div class="connector-line"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <div class="hierarchy-box" style="border-color: var(--secondary);">DIFC Laws<br><small>Enacted by Ruler of Dubai</small></div>
+                    <div class="connector-line"></div>
+                    <div class="hierarchy-box" style="border-style: dashed;">DIFC Regulations<br><small>Enacted by DIFC Authority / Board</small></div>
+                </div>
+                <div>
+                    <div class="hierarchy-box" style="border-color: var(--success);">Regulatory Law (DIFC Law No. 1 of 2004)</div>
+                    <div class="connector-line"></div>
+                    <div class="hierarchy-box" style="border-style: dashed;">DFSA Rulebook<br><small>Enacted by DFSA</small></div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Regulatory Ecosystem </h2>
+        <div class="eco-grid">
+            <div class="eco-box">
+                <h3 style="color:var(--primary)">DIFCA</h3>
+                <p style="font-size:0.85rem; color:#64748b;">DIFC Authority</p>
+                <hr style="margin:0.5rem 0; border:0; border-top:1px solid #eee;">
+                <p style="font-size:0.8rem;">Strategic Development<br>Administration of Non-Regulated Laws</p>
+            </div>
+            <div class="eco-box">
+                <h3 style="color:var(--primary)">Registrar of Companies</h3>
+                <p style="font-size:0.85rem; color:#64748b;">ROC</p>
+                <hr style="margin:0.5rem 0; border:0; border-top:1px solid #eee;">
+                <p style="font-size:0.8rem;">Incorporation<br>Filings & Returns<br>Companies Law Admin</p>
+            </div>
+            <div class="eco-box">
+                <h3 style="color:var(--primary)">DFSA</h3>
+                <p style="font-size:0.85rem; color:#64748b;">Dubai Financial Services Authority</p>
+                <hr style="margin:0.5rem 0; border:0; border-top:1px solid #eee;">
+                <p style="font-size:0.8rem;">Financial Regulation<br>Licensing (AUT)<br>Supervision & Enforcement</p>
+            </div>
+            <div class="eco-box">
+                <h3 style="color:var(--primary)">DIFC Courts</h3>
+                <p style="font-size:0.85rem; color:#64748b;">Judiciary</p>
+                <hr style="margin:0.5rem 0; border:0; border-top:1px solid #eee;">
+                <p style="font-size:0.8rem;">Dispute Resolution<br>Insolvency Oversight<br>Common Law Jurisdiction</p>
+            </div>
+        </div>
+
+        <h2 class="section-header">Corporate Lifecycle Flowchart 
+
+[Image of corporate lifecycle]
+</h2>
+        <div class="flow-container">
+            <div class="flow-step">
+                <strong>1. Formation</strong>
+                <span style="margin-left:auto" class="tag tag-law">Companies Law Art. 8-12</span>
+                <span style="margin-left:0.5rem" class="tag tag-reg">Reg 2.1</span>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <strong>2. Authorisation (If Financial Service)</strong>
+                <span style="margin-left:auto" class="tag tag-law">Regulatory Law Art. 41-42</span>
+                <span style="margin-left:0.5rem" class="tag tag-rule">DFSA AUT</span>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <strong>3. Operation & Governance</strong>
+                <span style="margin-left:auto" class="tag tag-law">Companies Law Pt. 7-10</span>
+                <span style="margin-left:0.5rem" class="tag tag-reg">Operating Law</span>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <strong>4. Reporting & Disclosure</strong>
+                <span style="margin-left:auto" class="tag tag-law">Reporting Entity (Mkts Law)</span>
+                <span style="margin-left:0.5rem" class="tag tag-rule">DFSA GEN/MKT</span>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+                <strong>5. Restructuring or Winding Up</strong>
+                <span style="margin-left:auto" class="tag tag-law">Insolvency Law Art. 50+</span>
+            </div>
+        </div>
+
+        <h2 class="section-header">Master Legislation Index (Uploaded Sources)</h2>
+        <table class="statute-table">
+            <thead>
+                <tr>
+                    <th>Statute / Rulebook</th>
+                    <th>Ref No.</th>
+                    <th>Primary Function</th>
+                    <th>Key Module/Part</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Companies Law</td>
+                    <td>DIFC Law No. 5 of 2018</td>
+                    <td>Incorporation, Governance, Duties</td>
+                    <td>Parts 1-14</td>
+                </tr>
+                <tr>
+                    <td>Companies Regulations</td>
+                    <td>2018</td>
+                    <td>Administrative procedures for Co. Law</td>
+                    <td>Returns, Filing, Fines</td>
+                </tr>
+                <tr>
+                    <td>Regulatory Law</td>
+                    <td>DIFC Law No. 1 of 2004</td>
+                    <td>Establishes DFSA powers</td>
+                    <td>Part 2 (Objectives), Part 3 (Powers)</td>
+                </tr>
+                <tr>
+                    <td>Insolvency Law</td>
+                    <td>DIFC Law No. 1 of 2019</td>
+                    <td>Rehabilitation & Liquidation</td>
+                    <td>Voluntary Arrangement, Administration</td>
+                </tr>
+                <tr>
+                    <td>Markets Law</td>
+                    <td>DIFC Law No. 1 of 2012</td>
+                    <td>Securities, Offers, Listing</td>
+                    <td>Offer of Securities, Disclosure</td>
+                </tr>
+                <tr>
+                    <td>DFSA Rulebook: GEN</td>
+                    <td>General Module</td>
+                    <td>Core rules for Authorised Persons</td>
+                    <td>Management, Systems, Controls</td>
+                </tr>
+                <tr>
+                    <td>DFSA Rulebook: AUT</td>
+                    <td>Authorisation</td>
+                    <td>Licensing criteria</td>
+                    <td>Financial Services definitions</td>
+                </tr>
+                <tr>
+                    <td>DFSA Rulebook: AML</td>
+                    <td>Anti-Money Laundering</td>
+                    <td>Financial Crime Compliance</td>
+                    <td>Risk Based Approach, KYC</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-header">Cross-Law Interaction Preview</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Director Duties</h3>
+                <p><strong>Primary:</strong> Companies Law (Art. 73-85)</p>
+                <p><strong>Impact:</strong> General duties of care, loyalty, and diligence.</p>
+                <hr style="margin:1rem 0; opacity:0.2">
+                <p><strong>Insolvency Link:</strong> Shift of duty to creditors upon doubtful solvency (Insolvency Law).</p>
+            </div>
+            <div class="card">
+                <h3>Accounts & Audit</h3>
+                <p><strong>Primary:</strong> Companies Law (Part 11)</p>
+                <p><strong>Impact:</strong> Duty to keep records and file accounts.</p>
+                <hr style="margin:1rem 0; opacity:0.2">
+                <p><strong>Regulatory Link:</strong> Specific audit requirements for Authorised Firms (DFSA GEN/AUD).</p>
+            </div>
+            <div class="card">
+                <h3>Ultimate Beneficial Ownership</h3>
+                <p><strong>Primary:</strong> UBO Regulations</p>
+                <p><strong>Impact:</strong> Maintain Register of UBOs.</p>
+                <hr style="margin:1rem 0; opacity:0.2">
+                <p><strong>Operating Law Link:</strong> Requirement to maintain Registrar updated.</p>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

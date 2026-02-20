@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Companies Law | Statutory Breakdown</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Duplicate of Index) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--secondary);
+        }
+
+        .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero-meta { display: flex; gap: 1rem; font-size: 0.9rem; opacity: 0.8; }
+
+        /* Article Block Styling */
+        .article-block {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .article-header {
+            background: #f1f5f9;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .article-title {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .article-ref {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+
+        .article-content { padding: 1.5rem; }
+
+        .provision-text {
+            font-family: 'Georgia', serif;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--secondary);
+            padding-left: 1rem;
+            font-style: italic;
+        }
+
+        .plain-explanation {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        .plain-explanation h4 { color: var(--accent); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; }
+
+        /* Tables & Lists */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .data-table th, .data-table td {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .data-table th { background: #e2e8f0; color: var(--primary); }
+
+        /* Practical Example Box */
+        .example-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 1rem;
+            border-radius: 6px;
+            color: #166534;
+            margin-top: 1rem;
+        }
+        .example-box strong { display: block; margin-bottom: 0.5rem; }
+
+        /* Liability Box */
+        .liability-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 1rem;
+            border-radius: 6px;
+            color: #991b1b;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Flowchart CSS */
+        .flow-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #fff;
+        }
+        .flow-node {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            background: white;
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+        }
+        .flow-line { height: 15px; width: 2px; background: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link active">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="risk-dashboard.html" class="nav-link">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Companies Law</h1>
+            <div class="hero-meta">
+                <span>DIFC Law No. 5 of 2018</span>
+                <span>•</span>
+                <span>Enacted: 12 Nov 2018</span>
+                <span>•</span>
+                <span>Status: Consolidated/Active</span>
+            </div>
+            <p style="margin-top: 1rem;">The primary statute governing the incorporation, registration, and management of companies within the DIFC.</p>
+        </section>
+
+        <h2 style="color:var(--primary); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--secondary);">Part 3: Incorporation & Registration</h2>
+        
+        <div class="article-block">
+            <div class="article-header">
+                <span class="article-title">Types of Companies</span>
+                <span class="article-ref">Article 8</span>
+            </div>
+            <div class="article-content">
+                <div class="provision-text">
+                    "The following types of Companies may be incorporated under this Law: (a) a Private Company; (b) a Public Company; or (c) a Recognised Company."
+                </div>
+                <div class="plain-explanation">
+                    <h4>Plain Explanation</h4>
+                    <p>This article restricts legal structures to three specific types. A <strong>Private Company</strong> (Ltd) is standard for most businesses (max 50 shareholders). A <strong>Public Company</strong> (PLC) is required if the entity intends to list on an exchange or offer securities to the public. A <strong>Recognised Company</strong> is a branch of a foreign existing company.</p>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Suffix (Art 34)</th>
+                            <th>Minimum Share Capital (Art 31)</th>
+                            <th>Shareholder Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Private Company</td>
+                            <td>"Limited" or "Ltd"</td>
+                            <td>None prescribed (per Regs)</td>
+                            <td>Max 50 (Art 27)</td>
+                        </tr>
+                        <tr>
+                            <td>Public Company</td>
+                            <td>"Public Limited Company" or "PLC"</td>
+                            <td>$100,000 (Art 31(2))</td>
+                            <td>No Limit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="article-block">
+            <div class="article-header">
+                <span class="article-title">Articles of Association</span>
+                <span class="article-ref">Article 11-12</span>
+            </div>
+            <div class="article-content">
+                <div class="provision-text">
+                    "A Company may: (a) adopt the Standard Articles; or (b) adopt Articles ... which modify or exclude the Standard Articles." (Art 12)
+                </div>
+                <div class="plain-explanation">
+                    <h4>Plain Explanation</h4>
+                    <p>Every company must have a constitution (Articles). You can either use the default template provided by DIFC (Standard Articles) or draft your own (Bespoke Articles). If you provide no Articles, the Standard Articles apply by default.</p>
+                </div>
+                <div class="flow-vertical">
+                    <div class="flow-node">Incorporator Decision</div>
+                    <div class="flow-line"></div>
+                    <div style="display:flex; gap:2rem;">
+                        <div class="flow-node" style="border-color:var(--secondary)">Standard Articles<br><small>(Default)</small></div>
+                        <div class="flow-node" style="border-color:var(--primary)">Bespoke Articles<br><small>(Must comply with Law)</small></div>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node">File with Registrar</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="color:var(--primary); margin:3rem 0 1rem 0; padding-bottom:0.5rem; border-bottom:2px solid var(--secondary);">Part 7: Directors & Management</h2>
+
+        <div class="article-block">
+            <div class="article-header">
+                <span class="article-title">Duties of Directors</span>
+                <span class="article-ref">Articles 73-85</span>
+            </div>
+            <div class="article-content">
+                <div class="provision-text">
+                    "A Director of a Company shall act in the way he considers, in good faith, would be most likely to promote the success of the Company for the benefit of its Shareholders as a whole." (Art 74)
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Duty</th>
+                            <th>Article</th>
+                            <th>Requirement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Act within powers</td>
+                            <td>Art 73</td>
+                            <td>Follow the Articles of Association; use powers only for proper purpose.</td>
+                        </tr>
+                        <tr>
+                            <td>Promote Success</td>
+                            <td>Art 74</td>
+                            <td>Act in good faith for shareholder benefit.</td>
+                        </tr>
+                        <tr>
+                            <td>Independent Judgment</td>
+                            <td>Art 75</td>
+                            <td>Do not subordinate discretion to others.</td>
+                        </tr>
+                        <tr>
+                            <td>Reasonable Care</td>
+                            <td>Art 76</td>
+                            <td>Exercise care, skill, and diligence reasonably expected of a person in that role.</td>
+                        </tr>
+                        <tr>
+                            <td>Avoid Conflicts</td>
+                            <td>Art 77</td>
+                            <td>Avoid situations with direct/indirect interest conflicting with Company.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="liability-box">
+                    <strong>⚠️ Civil Liability (Art 85):</strong>
+                    Consequences of breach include:
+                    <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                        <li>Restoring the Company's property/money.</li>
+                        <li>Compensating the Company for damages/loss.</li>
+                        <li>Accounting for profits made from the breach.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="color:var(--primary); margin:3rem 0 1rem 0; padding-bottom:0.5rem; border-bottom:2px solid var(--secondary);">Part 11: Accounts & Reports</h2>
+
+        <div class="article-block">
+            <div class="article-header">
+                <span class="article-title">Accounting Records</span>
+                <span class="article-ref">Article 103</span>
+            </div>
+            <div class="article-content">
+                <div class="provision-text">
+                    "Every Company shall keep Accounting Records which are sufficient to show and explain its transactions... and disclose with reasonable accuracy... the financial position of the Company."
+                </div>
+                <div class="plain-explanation">
+                    <h4>Plain Explanation</h4>
+                    <p>Companies must maintain books that allow financial statements to be prepared effectively. These records must be kept at the Registered Office (or other approved place) and preserved for at least 6 years (Art 104).</p>
+                </div>
+                <div class="example-box">
+                    <strong>Practical Example:</strong>
+                    <p>A DIFC holding company must keep invoices, receipts, and bank statements. If the records are kept outside the DIFC, returns must be sent to the DIFC office every 6 months to ensure the financial position can be determined at any time.</p>
+                </div>
+                <div class="liability-box">
+                    <strong>⚠️ Penalty (Art 103(5)):</strong>
+                    Fine for contravention (Standard Fine Scale as per Operating Law).
+                </div>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: 8px; border: 1px solid var(--border); margin-top: 3rem;">
+            <h3 style="text-align:center; margin-bottom: 2rem; color: var(--secondary);">Companies Law Architecture Mindmap </h3>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;">
+                <div style="flex: 1; min-width: 200px; text-align: center; border: 1px solid #ddd; padding: 1rem; border-radius: 8px;">
+                    <strong style="color: var(--primary);">Formation</strong>
+                    <br><small>Art 8-32</small>
+                    <hr style="margin: 0.5rem 0; opacity: 0.3;">
+                    <ul style="text-align: left; font-size: 0.85rem; padding-left: 1.5rem;">
+                        <li>Incorporation</li>
+                        <li>Articles</li>
+                        <li>Names</li>
+                        <li>Registered Office</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 200px; text-align: center; border: 1px solid #ddd; padding: 1rem; border-radius: 8px;">
+                    <strong style="color: var(--primary);">Finance</strong>
+                    <br><small>Art 33-52</small>
+                    <hr style="margin: 0.5rem 0; opacity: 0.3;">
+                    <ul style="text-align: left; font-size: 0.85rem; padding-left: 1.5rem;">
+                        <li>Shares</li>
+                        <li>Capital Reduction</li>
+                        <li>Distributions</li>
+                        <li>Dividends</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 200px; text-align: center; border: 1px solid #ddd; padding: 1rem; border-radius: 8px;">
+                    <strong style="color: var(--primary);">Governance</strong>
+                    <br><small>Art 53-102</small>
+                    <hr style="margin: 0.5rem 0; opacity: 0.3;">
+                    <ul style="text-align: left; font-size: 0.85rem; padding-left: 1.5rem;">
+                        <li>Directors' Duties</li>
+                        <li>Meetings</li>
+                        <li>Resolutions</li>
+                        <li>Protection of Minorities</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 200px; text-align: center; border: 1px solid #ddd; padding: 1rem; border-radius: 8px;">
+                    <strong style="color: var(--primary);">Transparency</strong>
+                    <br><small>Art 103-130</small>
+                    <hr style="margin: 0.5rem 0; opacity: 0.3;">
+                    <ul style="text-align: left; font-size: 0.85rem; padding-left: 1.5rem;">
+                        <li>Accounts</li>
+                        <li>Audits</li>
+                        <li>Annual Returns</li>
+                        <li>UBO (Regs)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

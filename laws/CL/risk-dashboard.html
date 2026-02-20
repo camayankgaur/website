@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIFC Risk Dashboard | Liability Exposure</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #b4975a;
+            --accent: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            
+            /* Risk Levels */
+            --risk-low: #10b981;
+            --risk-med: #f59e0b;
+            --risk-high: #ef4444;
+            --risk-crit: #7f1d1d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Standard) */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .nav-group { margin-bottom: 1.5rem; }
+        .nav-group h3 {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(180, 151, 90, 0.2);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            flex: 1;
+            width: calc(100% - 280px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--risk-high);
+        }
+
+        /* Risk Grid */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .risk-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .risk-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+
+        .risk-header {
+            padding: 1rem;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .risk-crit { background: var(--risk-crit); }
+        .risk-high { background: var(--risk-high); }
+        .risk-med { background: var(--risk-med); }
+
+        .risk-body { padding: 1.5rem; }
+
+        .risk-statute {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .risk-penalty {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+            color: var(--risk-crit);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Compliance Calendar Widget */
+        .calendar-widget {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .cal-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .cal-date {
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent);
+            background: #f1f5f9;
+            padding: 0.25rem;
+            border-radius: 4px;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>DIFC Legislation</h2>
+        <div class="nav-group">
+            <h3>Framework Overview</h3>
+            <a href="index.html" class="nav-link">Master Index</a>
+            <a href="dfsa-regulatory-framework.html" class="nav-link">Regulatory Framework (DFSA)</a>
+        </div>
+        <div class="nav-group">
+            <h3>Corporate & Commercial</h3>
+            <a href="companies-law.html" class="nav-link">Companies Law</a>
+            <a href="companies-regulations.html" class="nav-link">Companies Regulations</a>
+            <a href="mergers-restructuring.html" class="nav-link">Mergers & Restructuring</a>
+            <a href="insolvency.html" class="nav-link">Insolvency & Winding Up</a>
+        </div>
+        <div class="nav-group">
+            <h3>Financial Services</h3>
+            <a href="capital-markets.html" class="nav-link">Capital Markets</a>
+        </div>
+        <div class="nav-group">
+            <h3>Tools</h3>
+            <a href="cross-reference.html" class="nav-link">Cross-Reference Matrix</a>
+            <a href="definitions.html" class="nav-link">Definitions</a>
+            <a href="risk-dashboard.html" class="nav-link active">Risk Dashboard</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <h1>Statutory Risk Dashboard</h1>
+            <p> Liability exposure zones derived strictly from DIFC statutory penalties and enforcement provisions.</p>
+        </section>
+
+        <h2 style="margin-bottom:1rem; color:var(--risk-crit);">Refcon 1: Critical Exposure Zones</h2>
+        <div class="risk-grid">
+            
+            <div class="risk-card">
+                <div class="risk-header risk-crit">
+                    Wrongful Trading
+                    <span>⚠️</span>
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Insolvency Law Art 113</span>
+                    <p>Director knew/ought to have known there was no reasonable prospect of avoiding insolvent liquidation and failed to minimise loss to creditors.</p>
+                    <div class="risk-penalty">
+                        Liability: Personal Contribution to Company Assets (Unlimited)
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header risk-crit">
+                    Insider Dealing
+                    <span>⚠️</span>
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Markets Law Art 52</span>
+                    <p>Dealing in securities on basis of Inside Information. Includes tipping off or encouraging others to deal.</p>
+                    <div class="risk-penalty">
+                        Liability: Unlimited Fine + Restitution + Public Censure
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header risk-crit">
+                    AML System Failure
+                    <span>⚠️</span>
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">DFSA AML Rule 4.1</span>
+                    <p>Failure to implement effective AML systems and controls (KYC, CDD, SAR reporting).</p>
+                    <div class="risk-penalty">
+                        Liability: Severe Financial Penalty + License Revocation
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 style="margin-bottom:1rem; color:var(--risk-high);">Refcon 2: High Operational Risk</h2>
+        <div class="risk-grid">
+            
+            <div class="risk-card">
+                <div class="risk-header risk-high">
+                    False Solvency Statement
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Companies Law Art 45(5)</span>
+                    <p>Director making a solvency statement without reasonable grounds for the opinion.</p>
+                    <div class="risk-penalty">
+                        Liability: Contravention of Law (Fine) + Personal Liability for Debt
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header risk-high">
+                    Accounting Records Failure
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Companies Law Art 103</span>
+                    <p>Failure to keep records sufficient to show and explain transactions and financial position.</p>
+                    <div class="risk-penalty">
+                        Liability: $25,000 Administrative Fine
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header risk-high">
+                    UBO Non-Compliance
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">UBO Regulations</span>
+                    <p>Failure to maintain accurate and up-to-date Register of Ultimate Beneficial Owners.</p>
+                    <div class="risk-penalty">
+                        Liability: Strike Off + Administrative Fine
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 style="margin-bottom:1rem; color:var(--risk-med);">Refcon 3: Administrative Compliance</h2>
+        <div class="risk-grid">
+            
+            <div class="risk-card">
+                <div class="risk-header risk-med">
+                    Late Filing (Annual Return)
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Companies Law Art 26</span>
+                    <p>Failure to file Confirmation Statement upon license renewal.</p>
+                    <div class="risk-penalty">
+                        Liability: $2,000 Fine
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header risk-med">
+                    Improper Name Use
+                </div>
+                <div class="risk-body">
+                    <span class="risk-statute">Operating Law Art 10</span>
+                    <p>Trading under a name other than the registered name (or without "Limited"/"PLC" suffix).</p>
+                    <div class="risk-penalty">
+                        Liability: $2,000 Fine
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 style="margin:2rem 0 1rem 0;">Compliance Monitoring Calendar</h2>
+        <div class="calendar-widget">
+            <div class="cal-item">
+                <div class="cal-date">DAILY</div>
+                <div><strong>Solvency Check:</strong> Directors must constantly monitor cash flow solvency (Insolvency Law Art 3).</div>
+            </div>
+            <div class="cal-item">
+                <div class="cal-date">EVENT</div>
+                <div><strong>14 Days:</strong> File notice of change of Director or Registered Office (Companies Law).</div>
+            </div>
+            <div class="cal-item">
+                <div class="cal-date">EVENT</div>
+                <div><strong>30 Days:</strong> File Return of Allotment of Shares (Companies Law Art 47).</div>
+            </div>
+            <div class="cal-item">
+                <div class="cal-date">ANNUAL</div>
+                <div><strong>License Renewal:</strong> File Confirmation Statement / UBO Confirmation (Companies Regs).</div>
+            </div>
+            <div class="cal-item">
+                <div class="cal-date">ANNUAL</div>
+                <div><strong>Audited Accounts:</strong> Reporting Entities must file within 4 months of YE (Markets Law).</div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
