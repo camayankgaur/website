@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appendices (App 1–9) | CIR Learning Hub</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ob:#c0392b;--ob-bg:#fdf0ef;--gd:#2471a3;--gd-bg:#eaf3fb;
+      --rp:#1e8449;--rp-bg:#eafaf1;--sp:#7d3c98;--sp-bg:#f5eef8;
+      --sw:270px;--r:12px;--sh:0 2px 12px rgba(0,0,0,.08);
+      --shh:0 6px 24px rgba(0,0,0,.14);--bg:#f4f6f9;--card:#fff;
+      --text:#1a202c;--mu:#6b7280;--bo:#e5e7eb;--ac:#1a3a5c
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #sidebar{width:var(--sw);background:var(--ac);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+    .sbl{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sbl .rl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.5);font-weight:600}
+    .sbl h1{font-size:17px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+    .sbl .vt{font-size:11px;color:rgba(255,255,255,.5);margin-top:6px}
+    .sl{padding:14px 20px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);font-weight:600}
+    .nav a{display:flex;align-items:center;gap:10px;padding:8px 20px;color:rgba(255,255,255,.82);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:all .2s}
+    .nav a:hover,.nav a.active{background:rgba(255,255,255,.1);border-left-color:#fff;color:#fff}
+    .nav a .pn{background:rgba(255,255,255,.15);border-radius:4px;font-size:10px;padding:2px 6px;font-weight:700;min-width:36px;text-align:center}
+    .nav a.active .pn{background:rgba(255,255,255,.3)}
+    #main{margin-left:var(--sw);flex:1;min-height:100vh}
+    .hdr{background:var(--card);border-bottom:1px solid var(--bo);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .hdr h2{font-size:16px;font-weight:600;color:var(--ac)}
+    .bc{font-size:13px;color:var(--mu)}.bc a{color:var(--gd);text-decoration:none}
+    .pg{padding:32px;max-width:1200px}
+    .hero{background:linear-gradient(135deg,#1a3a5c 0%,#2c5282 60%,#3182ce 100%);border-radius:var(--r);padding:36px 40px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+    .hero::after{content:'APP';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:80px;font-weight:900;opacity:.07}
+    .pt{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:8px}
+    .hero h1{font-size:26px;font-weight:800;margin-bottom:10px}
+    .hero p{font-size:13.5px;opacity:.85;max-width:680px;line-height:1.6}
+    .pm{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+    .pm .l{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:1px}
+    .pm .v{font-size:14px;font-weight:700;margin-top:2px}
+    .sh2{font-size:18px;font-weight:700;color:var(--ac);margin-bottom:16px;display:flex;align-items:center;gap:10px;margin-top:36px}
+    .sh2::after{content:'';flex:1;height:1px;background:var(--bo)}
+    .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);padding:24px 28px;margin-bottom:20px}
+    .pe{background:var(--gd-bg);border-left:4px solid var(--gd);border-radius:0 var(--r) var(--r) 0;padding:18px 22px;margin-bottom:20px}
+    .pe h4{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+    .pe p{font-size:14px;line-height:1.65}.pe p+p{margin-top:8px}
+    details{border:1px solid var(--bo);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+    details[open]{box-shadow:var(--sh)}
+    summary{padding:16px 20px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card);display:flex;align-items:center;gap:10px;user-select:none;list-style:none;color:var(--ac)}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:11px;transition:transform .2s;color:var(--mu)}
+    details[open] summary::before{transform:rotate(90deg)}
+    .db{padding:20px 24px;background:var(--card);border-top:1px solid var(--bo)}
+    .rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .rt th{background:var(--ac);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .rt th:first-child{border-radius:8px 0 0 0}.rt th:last-child{border-radius:0 8px 0 0}
+    .rt td{padding:11px 14px;border-bottom:1px solid var(--bo);vertical-align:top;line-height:1.55}
+    .rt tr:hover td{background:#f9fafb}.rt tr:last-child td{border-bottom:none}
+    .rn{font-family:monospace;font-size:12px;color:var(--gd);font-weight:700;white-space:nowrap}
+    .ob{background:var(--ob-bg);border:1px solid #f5c6c0;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .ob h5{font-size:12px;font-weight:700;color:var(--ob);text-transform:uppercase;margin-bottom:8px}
+    .ob ul,.rb ul,.ib2 ul{padding-left:16px}.ob ul li,.rb ul li,.ib2 ul li{font-size:13px;line-height:1.7;padding:2px 0}
+    .rb{background:var(--rp-bg);border:1px solid #a9dfbf;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .rb h5{font-size:12px;font-weight:700;color:var(--rp);text-transform:uppercase;margin-bottom:8px}
+    .ib2{background:var(--gd-bg);border:1px solid #aed6f1;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .ib2 h5{font-size:12px;font-weight:700;color:var(--gd);text-transform:uppercase;margin-bottom:8px}
+    .ex{background:#fffde7;border:1px solid #f9e04b;border-radius:var(--r);padding:18px 22px;margin-top:16px}
+    .ex h5{font-size:12px;font-weight:700;text-transform:uppercase;color:#7d6608;margin-bottom:8px}
+    .ex p{font-size:13.5px;line-height:1.6;color:#4a3c08}
+    .sp-box{background:var(--sp-bg);border:1px solid #d2b4de;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .sp-box h5{font-size:12px;font-weight:700;color:var(--sp);text-transform:uppercase;margin-bottom:8px}
+    .sp-box ul{padding-left:16px}.sp-box ul li{font-size:13px;line-height:1.65;padding:2px 0}
+    /* App overview grid */
+    .app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:16px 0 28px}
+    .app-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);overflow:hidden;transition:box-shadow .2s;text-decoration:none;display:block}
+    .app-card:hover{box-shadow:var(--shh)}
+    .app-card-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px}
+    .app-card-hdr .icon{font-size:22px}
+    .app-card-hdr h3{font-size:14px;font-weight:700;color:#fff}
+    .app-card-hdr small{font-size:11px;opacity:.75;display:block;margin-top:2px}
+    .app-card-body{padding:14px 18px}
+    .app-card-body p{font-size:12.5px;color:var(--mu);line-height:1.6}
+    .app-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-top:8px;margin-right:4px}
+    /* Constitution table */
+    .const-grid{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:0;border:1px solid var(--bo);border-radius:var(--r);overflow:hidden;font-size:13px;margin:14px 0}
+    .cg-hdr{background:var(--ac);color:#fff;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+    .cg-cell{padding:10px 14px;border-bottom:1px solid var(--bo);border-right:1px solid var(--bo);display:flex;align-items:center}
+    .cg-cell:nth-child(4n){border-right:none}
+    .cg-cell.sect{font-weight:700;background:#f8fafc;color:var(--ac)}
+    .cg-yes{color:var(--rp);font-weight:700}.cg-no{color:var(--mu)}
+    /* Pricing threshold */
+    .thresh-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+    .thresh-card{border-radius:10px;padding:18px;text-align:center;border:1px solid var(--bo)}
+    .thresh-card .tn{font-size:32px;font-weight:900}
+    .thresh-card p{font-size:12.5px;color:var(--mu);margin-top:6px;line-height:1.5}
+    /* Nav */
+    .nav-btns{display:flex;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--bo)}
+    .nb{background:var(--card);border:1px solid var(--bo);border-radius:10px;padding:14px 22px;text-decoration:none;color:var(--ac);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);transition:box-shadow .2s}
+    .nb:hover{box-shadow:var(--shh)}.nb.next{background:var(--ac);color:#fff}
+    .pf{text-align:center;padding:32px;color:var(--mu);font-size:12px;border-top:1px solid var(--bo);margin-top:20px}
+    @media(max-width:900px){#sidebar{display:none}#main{margin-left:0}.pg{padding:16px}.thresh-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sbl"><div class="rl">The DFSA Rulebook</div><h1>Collective Investment Rules</h1><div class="vt">CIR/VER40/01-26 · Jan 2026</div></div>
+  <div class="sl">Navigation</div>
+  <div class="nav"><a href="index.html"><span class="pn">🏠</span> Dashboard</a></div>
+  <div class="sl">Parts</div>
+  <div class="nav">
+    <a href="part1.html"><span class="pn">P1</span> Introduction</a>
+    <a href="part2.html"><span class="pn">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="pn">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="pn">P4</span> Establishment &amp; Management</a>
+    <a href="part5.html"><span class="pn">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="pn">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="pn">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="pn">P8</span> Transfer &amp; Winding Up</a>
+  </div>
+  <div class="sl">Appendices</div>
+  <div class="nav">
+    <a href="appendices.html" class="active"><span class="pn">APP</span> All Appendices (1–9)</a>
+  </div>
+  <div class="sl" style="margin-top:12px;">Jump to Appendix</div>
+  <div class="nav" style="font-size:12px;">
+    <a href="#app1" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A1</span> Delegation &amp; Outsourcing</a>
+    <a href="#app2" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A2</span> Meeting Procedures</a>
+    <a href="#app3" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A3</span> Approvals &amp; Notifications</a>
+    <a href="#app4" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A4</span> Asset Valuation &amp; Pricing</a>
+    <a href="#app5" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A5</span> Fund Constitution</a>
+    <a href="#app6" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A6</span> Fitness &amp; Propriety</a>
+    <a href="#app7" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A7</span> Public Fund Prospectus</a>
+    <a href="#app8" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A8</span> Hedge Fund Guidance</a>
+    <a href="#app9" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">A9</span> Price Info Providers</a>
+  </div>
+</nav>
+
+<div id="main">
+  <header class="hdr">
+    <div><div class="bc"><a href="index.html">CIR Hub</a> › <strong>Appendices (App 1–9)</strong></div></div>
+    <h2>App 1 – App 9 · Supporting Rules &amp; Guidance</h2>
+  </header>
+  <div class="pg">
+
+    <div class="hero">
+      <div class="pt">CIR Appendices</div>
+      <h1>Appendices 1–9: Supporting Rules, Guidance &amp; Content Tables</h1>
+      <p>The CIR Appendices contain binding rules, mandatory content tables, and detailed guidance that supplement the main chapters. They range from prescribed Delegation Agreement requirements (App 1) and Meeting Procedures (App 2), to the complete Public Fund Prospectus content table (App 7) and the Price Information Provider standards for ETFs and Crypto Token Funds (App 9).</p>
+      <div class="pm">
+        <div><div class="l">Total Appendices</div><div class="v">9</div></div>
+        <div><div class="l">Binding Rules</div><div class="v">App 1, 2, 3, 5, 9</div></div>
+        <div><div class="l">Guidance Only</div><div class="v">App 4, 6, 8</div></div>
+        <div><div class="l">Content Tables</div><div class="v">App 5, 7</div></div>
+        <div><div class="l">Pricing Error Threshold</div><div class="v">0.5% NAV</div></div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW GRID -->
+    <div class="app-grid">
+      <a href="#app1" class="app-card">
+        <div class="app-card-hdr" style="background:#1a3a5c;"><span class="icon">🔗</span><div><h3>App 1 — Delegation &amp; Outsourcing</h3><small>Mandatory Agreement Provisions</small></div></div>
+        <div class="app-card-body"><p>Mandatory terms for Delegation and Outsourcing Agreements. Custody, fund administration and record-keeping standards. Does NOT apply to QIFs.</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+      <a href="#app2" class="app-card">
+        <div class="app-card-hdr" style="background:#1e8449;"><span class="icon">🗳️</span><div><h3>App 2 — Meeting Procedures</h3><small>Unitholder Meetings</small></div></div>
+        <div class="app-card-body"><p>Chair nomination, 14-day notice requirements, quorum rules, voting restrictions for FM and Related Parties, adjourned meeting procedures.</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+      <a href="#app3" class="app-card">
+        <div class="app-card-hdr" style="background:#7d3c98;"><span class="icon">📢</span><div><h3>App 3 — Approvals &amp; Notifications</h3><small>Fund Changes Framework</small></div></div>
+        <div class="app-card-body"><p>Three-tier change framework: Fundamental changes (Special Resolution), Significant changes (30-day prior notice), Notifiable changes (post-event notice).</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+      <a href="#app4" class="app-card">
+        <div class="app-card-hdr" style="background:#b7770d;"><span class="icon">📊</span><div><h3>App 4 — Asset Valuation &amp; Pricing</h3><small>Pricing Controls Guidance</small></div></div>
+        <div class="app-card-body"><p>Guidance on NAV calculation, pricing controls, outsourced pricing, oversight review standards, and incorrect pricing thresholds (0.5% de minimis).</p><span class="app-tag" style="background:var(--gd-bg);color:var(--gd);">Guidance</span></div>
+      </a>
+      <a href="#app5" class="app-card">
+        <div class="app-card-hdr" style="background:#117a65;"><span class="icon">📋</span><div><h3>App 5 — Fund Constitution</h3><small>Mandatory Content Table</small></div></div>
+        <div class="app-card-body"><p>14 prescribed categories (A–N) of information that every Fund Constitution must contain. Exempt Funds need only categories A, C, D, F, G, H, K, M. QIFs exempt entirely.</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+      <a href="#app6" class="app-card">
+        <div class="app-card-hdr" style="background:#5d4e37;"><span class="icon">🏛️</span><div><h3>App 6 — Fitness &amp; Propriety for Oversight</h3><small>Oversight Person Suitability</small></div></div>
+        <div class="app-card-body"><p>15 integrity factors and 2 financial soundness factors Fund Managers must consider when appointing oversight persons under Rule 10.3.2.</p><span class="app-tag" style="background:var(--gd-bg);color:var(--gd);">Guidance</span></div>
+      </a>
+      <a href="#app7" class="app-card">
+        <div class="app-card-hdr" style="background:#1a3a5c;"><span class="icon">📄</span><div><h3>App 7 — Public Fund Prospectus Content</h3><small>Mandatory Disclosure Table</small></div></div>
+        <div class="app-card-body"><p>Comprehensive prescribed disclosure table for all Public Fund Prospectuses — 20+ categories covering persons responsible, Fund details, investment info, fees, and specialist class sections.</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+      <a href="#app8" class="app-card">
+        <div class="app-card-hdr" style="background:#7b241c;"><span class="icon">📈</span><div><h3>App 8 — Hedge Fund Managers</h3><small>Code of Practice Reference</small></div></div>
+        <div class="app-card-body"><p>References the DFSA's Hedge Fund Code of Practice — a separate document covering best practice for risk management, leverage, valuation independence, and prime broker relationships.</p><span class="app-tag" style="background:var(--gd-bg);color:var(--gd);">Guidance</span></div>
+      </a>
+      <a href="#app9" class="app-card">
+        <div class="app-card-hdr" style="background:#0e6655;"><span class="icon">🔍</span><div><h3>App 9 — Price Information Providers</h3><small>ETF &amp; Crypto Token PIP Standards</small></div></div>
+        <div class="app-card-body"><p>7 binding requirements for Price Information Providers used by ETFs (for index tracking) and any Fund holding Crypto Tokens (for valuations). Ongoing due diligence required.</p><span class="app-tag" style="background:var(--ob-bg);color:var(--ob);">Binding Rules</span></div>
+      </a>
+    </div>
+
+    <!-- APP 1 -->
+    <div id="app1" class="sh2">🔗 App 1 — Delegation &amp; Outsourcing</div>
+    <details open>
+      <summary>📋 A1.2 — Mandatory Agreement Provisions (applies to all Delegation &amp; Outsourcing Agreements)</summary>
+      <div class="db">
+        <div class="ob"><h5>⚠️ QIF Exemption — App 1 Does NOT Apply to QIFs (A1.1.1(2))</h5><ul>
+          <li>App 1 applies only to Public Funds and Exempt Funds — not Qualified Investor Funds</li>
+        </ul></div>
+        <div class="ib2"><h5>Every Delegation &amp; Outsourcing Agreement Must Include (A1.2.1(1))</h5><ul>
+          <li>Description of functions/activities and service standards to be applied</li>
+          <li>Prohibition on Service Provider sub-delegating or sub-outsourcing without the FM/Trustee's prior approval</li>
+          <li>Record-keeping obligation for Service Provider: maintain records of all transactions for each activity; retain records for at least <strong>6 years</strong>; keep open to DFSA, Fund's Auditor, and oversight function persons at all reasonable times; reproduce in hard copy in English within <strong>3 days</strong> if requested by DFSA</li>
+        </ul></div>
+        <div class="ib2" style="margin-top:8px;"><h5>Delegation Agreements Must Also Include (A1.2.1(2))</h5><ul>
+          <li>Service Provider undertaking to comply with all applicable DFSA Rules</li>
+          <li>Service Provider undertaking to disclose material information to DFSA and FM/Trustee that it would disclose to its own Financial Services Regulator</li>
+        </ul></div>
+        <div class="rb"><h5>FM/Trustee Record Keeping (A1.2.1(3))</h5><ul>
+          <li>FM or Trustee must maintain records of all agreements and any instructions given to Service Providers under those agreements — for at least <strong>6 years</strong></li>
+        </ul></div>
+        <div class="ib2" style="margin-top:8px;"><h5>DFSA Minimum Expectations for Agreement Content (Guidance)</h5><ul>
+          <li>Unambiguous descriptions and definitions of activities/functions and duties of both parties</li>
+          <li>Agreed performance standards with measures in accordance with applicable Rules</li>
+          <li>Requirement for regular detailed reporting from the Service Provider at a specified frequency</li>
+          <li>Provisions for reporting of relevant events (technological changes, error reporting, events undermining Service Provider's ability to fulfil duties)</li>
+          <li>Requirement for an <strong>annual review (minimum)</strong> of the Service Provider's performance</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 A1.3 — Eligible Custodian Agreement Requirements</summary>
+      <div class="db">
+        <div class="ib2"><h5>Mandatory Terms for Custody Delegation Agreements (A1.3.1)</h5><ul>
+          <li>(a) Account title must sufficiently distinguish the Fund account from any account containing the Eligible Custodian's own Investments — in the form requested by FM/Trustee</li>
+          <li>(b) Fund's Investments may only be credited and withdrawn per the FM's/Trustee's instructions</li>
+          <li>(c) Eligible Custodian must hold Fund Investments separately from its own assets (subject to prime broker exception)</li>
+          <li>(d) Arrangements for recording, registration, claiming dividends/entitlements, interest, and giving/receiving instructions</li>
+          <li>(e) Eligible Custodian must deliver regular statements to FM/Trustee detailing Fund Investments in the account</li>
+          <li>(f) All Investments in the account are held by the Eligible Custodian as agent for the FM/Trustee; Eligible Custodian is NOT entitled to combine the account with any other account or exercise any charge, mortgage, lien, right of set-off or counterclaim against Fund Investments in respect of any sum owed to the Eligible Custodian on any other account (subject to prime broker exception)</li>
+          <li>(g) Extent of Eligible Custodian liability in the event of default</li>
+        </ul></div>
+        <div class="ob"><h5>Prime Broker Exception (A1.3.1(2))</h5><ul>
+          <li>Requirements (c) and (f) above (segregation and no-set-off) do NOT have to be met if the Eligible Custodian or prime broker does so in compliance with Rule 13.6.3 (the Hedge Fund prime broker collateral pooling rule)</li>
+          <li>This means the prime broker must still be an Eligible Custodian and the 140% cap must apply</li>
+        </ul></div>
+        <div class="ib2" style="margin-top:8px;"><h5>Fund Administration Agreement — Cash/Asset Restriction (A1.4.1)</h5><ul>
+          <li>Fund Administration Delegation Agreement must require the Service Provider NOT to hold or control monies or assets belonging to third parties in connection with the administration, EXCEPT:
+            <ul style="margin-top:6px;">
+              <li>Cheques to the order of the Fund's bank account (held securely for maximum 3 business days before depositing or returning to drawer)</li>
+              <li>Where the Service Provider controls bank accounts for the Fund — accounts must be conducted strictly per FM's instructions and any agreed mandate with the bank</li>
+            </ul>
+          </li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- APP 2 -->
+    <div id="app2" class="sh2">🗳️ App 2 — Meeting Procedures</div>
+    <details>
+      <summary>📋 A2.1 — Chair, Notice, Quorum &amp; Voting Rules for Unitholder Meetings</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Rule</th><th>Requirement</th><th>Key Detail</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rn">A2.1.1</span></td>
+              <td><strong>Chair Nomination</strong></td>
+              <td>FM of a Public Fund (or Trustee for Investment Trust) must nominate in writing a Unitholder (other than the FM) as chairman. If no nominee present within 15 minutes of start time, Unitholders present must choose another chairman. Chairman has a casting vote in the event of an equality of votes.</td>
+            </tr>
+            <tr>
+              <td><span class="rn">A2.1.2</span></td>
+              <td><strong>Notice Period</strong></td>
+              <td>Unitholders must be given at least <strong>14 days written notice</strong> (or longer if specified in the Constitution), inclusive of the date notice is first served and the day of the meeting. Notice must specify: place, day, hour, and the terms of all resolutions to be proposed. If Investment Trust and Trustee has not convened the meeting, a copy must be sent to the Trustee no later than the time it is sent to Unitholders. Accidental failure to give notice does NOT invalidate the meeting proceedings.</td>
+            </tr>
+            <tr>
+              <td><span class="rn">A2.1.3</span></td>
+              <td><strong>Quorum Requirements</strong></td>
+              <td>Investment Trust: Unitholders in person/proxy representing <strong>1/10 in value</strong> of all Units in issue (or any higher proportion specified in Trust Deed). Investment Company: <strong>2 Unitholders</strong> present in person or by proxy. Business must not be transacted unless quorum is present at commencement. If no quorum within 30 minutes: Unitholder-requisitioned meetings must dissolve; all other meetings must adjourn (7+ days, place to be appointed by chairman). At the adjourned meeting, if no quorum within 15 minutes, 1 person constitutes a quorum.</td>
+            </tr>
+            <tr>
+              <td><span class="rn">A2.1.4</span></td>
+              <td><strong>FM Voting Exclusion</strong></td>
+              <td>No FM (or other Governing Body member) is entitled to be counted in the quorum or to vote at any Unitholder meeting — unless they hold Units on behalf of, or jointly with, a non-excluded person who has given voting instructions. Units held or treated as held by the FM or Governing Body member do not count as being in issue (for quorum/voting purposes), except where voting instructions have been received.</td>
+            </tr>
+            <tr>
+              <td><span class="rn">A2.1.5</span></td>
+              <td><strong>Related Party Voting Exclusion</strong></td>
+              <td>If a resolution is required for approval of a Related Party Transaction, neither the Related Party proposing the transaction nor any Associate of that Related Party is entitled to vote on the resolution.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- APP 3 -->
+    <div id="app3" class="sh2">📢 App 3 — Approvals &amp; Notifications for Fund Changes (Public Funds)</div>
+    <details>
+      <summary>📋 A3.1 — Three-Tier Change Framework</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Tier</th><th>Rule</th><th>Trigger</th><th>Required Action</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong style="color:var(--ob);">Fundamental Change</strong></td>
+              <td><span class="rn">A3.1.1</span></td>
+              <td>Change that: (a) changes the purpose or nature of the Fund; (b) may materially prejudice a Unitholder; (c) alters the risk profile of the Fund; or (d) introduces any new type of payment out of Fund Property. Also includes specific changes in Rules 8.3.2, 8.13.3, 13.4.4(2), 16.1.3(2).</td>
+              <td><strong>Prior Special Resolution</strong> of Unitholders required before implementation</td>
+              <td>Scheme of arrangement; change from equity to fixed-income investment policy; change from one-country to another country focus; introduction of derivatives as investment strategy; change from monthly to annual income distribution; introduction of limited redemption; change of custodian/trustee/oversight</td>
+            </tr>
+            <tr>
+              <td><strong style="color:#b7770d;">Significant Change</strong></td>
+              <td><span class="rn">A3.1.2</span></td>
+              <td>Not a fundamental change, but: (a) affects a Unitholder's ability to exercise rights; (b) would cause a Unitholder to reasonably reconsider participation; (c) results in increased payments to FM, Trustee, director or associate out of Fund Property; or (d) materially increases other types of payment out of Fund Property.</td>
+              <td><strong>Prior written notice</strong> to Unitholders before implementation. Notice period should be at least <strong>30 days</strong>.</td>
+              <td>Change in method of price publication; change in dilution or payment allocation policy; increase in preliminary charge for group savings plan</td>
+            </tr>
+            <tr>
+              <td><strong style="color:var(--rp);">Notifiable Change</strong></td>
+              <td><span class="rn">A3.1.3</span></td>
+              <td>Any change or event (other than fundamental or significant) that a Unitholder must be made aware of — unless the FM concludes it is insignificant.</td>
+              <td>Inform Unitholders in an <strong>appropriate manner and timescale</strong> (post-event)</td>
+              <td>Change of named investment manager (if marketed on that basis); significant political event impacting the Fund; change to the valuation time; introduction of limited issue arrangements; change of Fund name</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ex"><h5>📌 Note on Materiality</h5><p>Both the fundamental and significant change categories are subject to a materiality analysis — the FM must determine whether any particular change reaches the threshold, and for Investment Trusts, must obtain the Trustee's agreement on the determination. The DFSA's examples in the Guidance are illustrative, not exhaustive. A change that appears minor could still be fundamental depending on its degree of impact on the Fund and its Unitholders.</p></div>
+      </div>
+    </details>
+
+    <!-- APP 4 -->
+    <div id="app4" class="sh2">📊 App 4 — Guidance on Asset Valuation &amp; Pricing</div>
+    <details>
+      <summary>📋 Pricing Controls, Oversight Standards &amp; Incorrect Pricing Thresholds</summary>
+      <div class="db">
+        <div class="ib2"><h5>Key Valuation Principles</h5><ul>
+          <li>Unit price = Fund Property attributable to that class ÷ number of Units of that class in issue</li>
+          <li>All Fund Property must be valued at each valuation point; non-Investment Fund Property must be valued at fair value</li>
+          <li>For Securities quoted on an Exchange: Constitution must set out whether to use the official mid-market price or last trade price — must be documented and applied consistently</li>
+          <li>For unquoted/illiquid/recently untraded Securities: use a fair and reasonable price (e.g. average of valuations from 3 experienced brokers); document the basis and assumptions</li>
+          <li>FM must agree on pricing methodology with the Trustee/Eligible Custodian/oversight persons and apply it consistently</li>
+        </ul></div>
+        <div class="ib2" style="margin-top:8px;"><h5>Pricing Controls — FM Obligations</h5><ul>
+          <li>Prices and currency rates must be up to date from a reputable source; source reliability must be kept under regular review</li>
+          <li>Use of a third-party pricing agent = outsourcing — FM retains full responsibility and liability</li>
+          <li>Pricing agent's system must be reviewed at least annually and on any significant system change</li>
+          <li>All transactions should be confirmed in writing/electronically as quickly as possible; deals notified ≤1 hour before a valuation should be included in that valuation (at estimated prices if needed)</li>
+          <li>Cash must be reconciled to bank accounts regularly; full reconciliation sent to Trustee/depositary monthly</li>
+          <li>Investment and borrowing power limits must be monitored at every valuation — breaches identified and rectified</li>
+          <li>Dividends must be accrued as soon as stocks go ex-dividend; fixed interest and interest should be accrued at each valuation point (unless materiality makes a longer interval appropriate)</li>
+          <li>Weekly copy of valuation sent to FM/investment manager for review of correct securities being recorded</li>
+        </ul></div>
+        <div class="ob"><h5>Oversight Function — Pricing Check Obligations</h5><ul>
+          <li>Conduct a thorough review of the FM's overall pricing system at the start of appointment AND when major changes are made</li>
+          <li>Annual review to confirm FM's systems and controls are satisfactory (more frequent if systems are known to be weak)</li>
+          <li>Annual verification (on sample basis if needed) of assets, liabilities, accruals, Units in issue, and other relevant factors for each Fund</li>
+          <li>Report in the annual oversight report the number of incorrect pricing instances: how many exceeded 0.5% and how many were below 0.5% with inadequate FM controls</li>
+        </ul></div>
+        <div class="thresh-grid">
+          <div class="thresh-card" style="background:var(--rp-bg);border-color:#a9dfbf;">
+            <div class="tn" style="color:var(--rp);">&lt;0.5%</div>
+            <p>Pricing error below 0.5% of Unit price. Compensation to Unitholders or Fund not normally required — unless Custodian/oversight function decides otherwise. FM must still record the error and report to oversight.</p>
+          </div>
+          <div class="thresh-card" style="background:var(--ob-bg);border-color:#f5c6c0;">
+            <div class="tn" style="color:var(--ob);">≥0.5%</div>
+            <p>Pricing error of 0.5% or more. Compensation to Unitholders will normally be required. If Trustee/oversight function considers compensation inappropriate, they must report to DFSA with recommendation and justification. FM must also immediately notify DFSA of such errors.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- APP 5 -->
+    <div id="app5" class="sh2">📋 App 5 — Constitution of a Domestic Fund (Mandatory Content)</div>
+    <details open>
+      <summary>📋 A5.1 — Prescribed Constitution Categories by Fund Type</summary>
+      <div class="db">
+        <div class="ob"><h5>Application (A5.1.1)</h5><ul>
+          <li><strong>Public Funds:</strong> Constitution must contain ALL categories A through N</li>
+          <li><strong>Exempt Funds:</strong> Constitution must contain only categories <strong>A, C, D, F, G, H, K and M</strong></li>
+          <li><strong>QIFs:</strong> App 5 requirements do NOT apply</li>
+        </ul></div>
+        <div class="const-grid">
+          <div class="cg-hdr">Category</div><div class="cg-hdr">Content Required</div><div class="cg-hdr">Public Fund</div><div class="cg-hdr">Exempt Fund</div>
+          <div class="cg-cell sect">A</div><div class="cg-cell">General Information: Fund name; FM and Trustee details; that it is a Domestic Fund governed by DIFC law; Public/Exempt status; legal form and open/closed-ended; specialist class if applicable; External Fund Manager details if applicable; domicile if External Fund</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">B</div><div class="cg-cell">General Statements: FM responsibility and delegation; Fund Property custody arrangements; duration if limited; fees from Fund Property; maximum/minimum capital; Unitholder non-liability for Fund debts; no further payment liability on Units; authorisation for remuneration out of Fund Property</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+          <div class="cg-cell sect">C</div><div class="cg-cell">Where Fund is a Trust: Trust Deed statement; Fund Property held on trust for Unitholders per Units held; distribution account sums held on trust for distribution</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">D</div><div class="cg-cell">Investment Objectives: aim of the Fund; whether risk is spread; investment in single property (if Property Fund); types of Investments per Sub-Fund; specialist class designation; investment, borrowing and stock lending restrictions (or statement that there are none)</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">E</div><div class="cg-cell">Units in the Fund: classes of Units that may be issued; rights attaching to each class (including two-denomination expressions if applicable)</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+          <div class="cg-cell sect">F</div><div class="cg-cell">Limitations: restrictions on right to redeem Units in any class; circumstances in which issue of any class may be limited</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">G</div><div class="cg-cell">Income and Distribution: who performs calculation, transfer, allocation and distribution of income; provision for payment of income and distribution dates</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">H</div><div class="cg-cell">Base Currency: statement specifying the base currency of the Fund</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">I</div><div class="cg-cell">Meetings: procedures for convening meetings; procedures for resolutions; voting and Unitholder voting rights</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+          <div class="cg-cell sect">J</div><div class="cg-cell">Oversight Arrangements: details of oversight arrangements; if Islamic Fund, details of Shari'a Supervisory Board</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+          <div class="cg-cell sect">K</div><div class="cg-cell">Termination and Suspension: grounds for FM-initiated suspension and associated procedures; methodology for determining Unitholder rights to Fund Property on winding up</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">L</div><div class="cg-cell">Modification of Constitution: details of how the Constitution may be altered</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+          <div class="cg-cell sect">M</div><div class="cg-cell">Responsibility Statement: statement that nothing in the Constitution exempts the FM (and Trustee for Investment Trust) from any liability to Unitholders imposed under DIFC law and Rules</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-yes">✔ Required</div>
+          <div class="cg-cell sect">N</div><div class="cg-cell">Other Relevant Matters: details of matters enabling the Fund, FM or oversight person to obtain any privilege or power conferred by the Rules that is not otherwise provided for in the Constitution</div><div class="cg-cell cg-yes">✔ Required</div><div class="cg-cell cg-no">✘ Not required</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- APP 6 -->
+    <div id="app6" class="sh2">🏛️ App 6 — Fitness &amp; Propriety for Oversight Functions</div>
+    <details>
+      <summary>📋 A6 — Integrity Factors and Financial Soundness Criteria (Guidance for Rule 10.3.2)</summary>
+      <div class="db">
+        <p style="font-size:13.5px;margin-bottom:16px;color:var(--mu);">This guidance applies to Fund Managers making appointments to the oversight function under Rule 10.3.2. When assessing integrity and financial soundness, the FM <em>may have regard to</em> (but is not limited to) the following factors:</p>
+        <div class="ib2"><h5>15 Integrity Factors to Consider</h5><ul>
+          <li>(a) Propriety of conduct — whether or not it resulted in a criminal offence or legal/disciplinary proceedings</li>
+          <li>(b) Conviction or finding of guilt for any offence (other than minor road traffic offence) by any court</li>
+          <li>(c) Whether subject to disciplinary proceedings by a government body, regulatory, or professional body</li>
+          <li>(d) Contravention of financial services legislation or rules/regulations/codes by a recognised body, AMI, or FSR</li>
+          <li>(e) Refusal or restriction of licence, registration or other authority to carry on trade, business or profession</li>
+          <li>(f) Dismissal or request to resign from any office or employment</li>
+          <li>(g) Involvement in management of a Body Corporate subject to a misconduct or malpractice investigation</li>
+          <li>(h) Adverse finding in a civil action for fraud, misfeasance or other misconduct (whether connected with company formation/management or otherwise)</li>
+          <li>(i) Adverse finding or agreed settlement in civil action resulting in an award exceeding <strong>US$10,000</strong> (or total awards exceeding US$10,000)</li>
+          <li>(j) Disqualification order as a director or from company management by a court or regulator</li>
+          <li>(k) Director of, or concerned in management of, a Body Corporate that went into liquidation/administration while connected (or within 1 year of connection)</li>
+          <li>(l) Partner or concerned in management of a partnership where partners became bankrupt while connected (or within 1 year)</li>
+          <li>(m) Subject of a complaint in connection with a financial service relating to integrity, competence or financial soundness</li>
+          <li>(n) Censured, disciplined, publicly criticised, or subject to a court order at the instigation of the DFSA, officially appointed inquiry, or any Financial Services Regulator</li>
+          <li>(o) Whether the individual has been candid and truthful in all dealings with the Fund Manager</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>2 Financial Soundness Factors to Consider</h5><ul>
+          <li>(a) Whether the individual is able to meet debts as they fall due</li>
+          <li>(b) Whether the individual has been adjudged bankrupt; subject to a receiving or administration order; had a bankruptcy petition served; had their estate sequestrated; entered into a deed of arrangement in favour of creditors; or within the last <strong>10 years</strong> has failed to satisfy a judgment debt under a court order (UAE or elsewhere)</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- APP 7 -->
+    <div id="app7" class="sh2">📄 App 7 — Content of a Public Fund Prospectus</div>
+    <details>
+      <summary>📋 A7 — Mandatory Disclosure Categories for All Public Fund Prospectuses</summary>
+      <div class="db">
+        <div class="ob"><h5>Application (A7.1.1–A7.1.4)</h5><ul>
+          <li>Applies to the Persons referred to in Rule 14.1.1(1) — FM, Directors, Governing Body members</li>
+          <li>If the Public Fund is a Listed Fund: additional requirements under MKT section 6.3 apply</li>
+          <li>If an Islamic Fund: refer to IFR section 6.5</li>
+          <li>A Prospectus must contain all information a reasonable investor would need to make an informed investment decision — App 7 sets out the key mandatory disclosures</li>
+        </ul></div>
+        <table class="rt">
+          <thead><tr><th>#</th><th>Category</th><th>Key Content Required</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rn">1</span></td><td><strong>Persons Responsible</strong></td><td>Names and details of all responsible persons; parts for which they are responsible; statement that information is accurate to the best of their knowledge and contains no material omissions; mandatory DFSA front-page disclaimer statement</td></tr>
+            <tr><td><span class="rn">2</span></td><td><strong>Document Status</strong></td><td>Prominent statement that it is the Prospectus; information is valid as at the signing date; no Units will be issued after the expiry date; location where a free copy is available</td></tr>
+            <tr><td><span class="rn">3</span></td><td><strong>Fund Details</strong></td><td>Full name; type and legal form; DIFC registration details; Sub-Fund information (if Umbrella Fund); Fund Manager details; Trustee details (if Investment Trust); Governing Body details</td></tr>
+            <tr><td><span class="rn">4</span></td><td><strong>Investment Information</strong></td><td>Investment objectives and policy; investment restrictions; asset types; borrowing policy and limits; derivatives use; stock lending; liquidity risk management powers, procedures, and triggers (if open-ended)</td></tr>
+            <tr><td><span class="rn">5</span></td><td><strong>Risk Information</strong></td><td>Risk factors and warnings appropriate to the Fund's investment strategy and asset class; risk/reward profile; capital risk warnings</td></tr>
+            <tr><td><span class="rn">6</span></td><td><strong>Fund Operation</strong></td><td>How Units are valued; valuation frequency; issue and redemption procedures; dealing days and cut-off times; publication of prices; suspension provisions; dilution policy</td></tr>
+            <tr><td><span class="rn">7</span></td><td><strong>Fees, Charges &amp; Expenses</strong></td><td>All fees payable to FM, Trustee, custodian, and other service providers (with rates, calculation method and payment frequency); performance fees if applicable; set-up cost amortisation if applicable</td></tr>
+            <tr><td><span class="rn">8</span></td><td><strong>Taxation</strong></td><td>Taxation of the Fund; tax on distributions to Unitholders</td></tr>
+            <tr><td><span class="rn">9</span></td><td><strong>Rights of Unitholders</strong></td><td>Rights attaching to Units of each class; meetings and voting rights; income distribution policy; redemption and transfer restrictions</td></tr>
+            <tr><td><span class="rn">10</span></td><td><strong>Past Performance / Performance Scenarios</strong></td><td>Past performance data (if available) or performance scenarios for new Funds — with appropriate caveats</td></tr>
+            <tr><td><span class="rn">11</span></td><td><strong>Service Providers</strong></td><td>Details of all material service providers: Eligible Custodian, Registered Auditor, Fund Administrator, legal advisers, and any sub-custodians</td></tr>
+            <tr><td><span class="rn">12</span></td><td><strong>Summary Document</strong></td><td>Fund identity/classification; brief description of investment objectives/policy; past performance or scenarios; costs and charges; risk/reward profile with appropriate guidance and warnings</td></tr>
+            <tr><td><span class="rn">Specialist</span></td><td><strong>Specialist Class Additional Disclosures</strong></td><td>Feeder Fund: layered fee warning and fee breakdown. Property Fund: valuer details, redemption risk, RPT details, single-property disclosure if applicable. Hedge Fund: mandatory disclosure statement. MMF: capital guarantee warning. ETF: tracking methodology, iNAV, cost structure, AP details. VC Fund: illiquidity warning and disapplied requirements. Credit Fund: risk warning, lending strategy, diversification strategy. (See App 7 sections 2–7 for full specialist content)</td></tr>
+            <tr><td><span class="rn">Digital</span></td><td><strong>Digital Asset Disclosures</strong></td><td>If Units are Security Tokens: MKT App 7 equivalent information. If ≥10% GAV in Investment Tokens: MKT App 7 equivalent. If Crypto Tokens in Fund Property: MKT Rule A7.1.2 information (sub-paragraphs (a), (c), (e), (h), (i), (j))</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- APP 8 -->
+    <div id="app8" class="sh2">📈 App 8 — Guidance for Hedge Fund Managers</div>
+    <div class="card">
+      <div class="sp-box"><h5>External Reference Document</h5><ul>
+        <li>App 8 consists entirely of a reference to the <strong>DFSA's Hedge Fund Code of Practice</strong> — a separate document published on the DFSA website</li>
+        <li>The Code of Practice sets out best practice guidance for Hedge Fund Managers covering: risk management frameworks, leverage management, valuation independence, use of prime brokers, investor transparency, and operational controls</li>
+        <li>Under Rule 13.6.1 and 13.6.2, the DFSA expects Fund Managers of Hedge Funds to have proper regard to this Code of Practice as well as international developments in Hedge Fund regulation (such as IOSCO and FSB standards)</li>
+        <li>The Hedge Fund Code of Practice is referenced by Rule 13.6.2 (valuation/investment management separation) and Rule 13.6.3 (prime broker arrangements)</li>
+        <li>The Code is non-binding guidance — but failure to follow it without good reason may be taken into account by the DFSA in supervisory assessments</li>
+      </ul></div>
+    </div>
+
+    <!-- APP 9 -->
+    <div id="app9" class="sh2">🔍 App 9 — Use of Price Information Providers (PIPs)</div>
+    <details open>
+      <summary>📋 A9.1 — PIP Standards for ETFs and Funds Holding Crypto Tokens</summary>
+      <div class="db">
+        <div class="ib2"><h5>Application (A9.1.1)</h5><ul>
+          <li>Applies to Fund Managers of: (a) Exchange Traded Funds (for index/benchmark tracking); and (b) any Fund that has any Fund Property consisting of Crypto Tokens (for valuation purposes)</li>
+          <li>Due diligence must be undertaken before using a PIP and maintained on an <strong>ongoing basis</strong></li>
+        </ul></div>
+        <div class="ob"><h5>7 Mandatory PIP Requirements (A9.1.2(3))</h5><ul>
+          <li>(a) <strong>Fair and non-discriminatory pricing procedures</strong> — procedures for establishing prices must be made public</li>
+          <li>(b) <strong>Adequate methodology transparency:</strong> (i) all rules governing the methodology, composition, components, value and relative weighting of securities must be made publicly available within a reasonable timeframe; and (ii) no changes to index compilation rules may be made without giving advance public notice before any changes</li>
+          <li>(c) <strong>Priority to concluded transactions</strong> — where appropriate, assessment should prioritise concluded transactions and adopt measures to minimise selective reporting</li>
+          <li>(d) <strong>Good standing and repute</strong> — PIP must be of good standing and repute as an independent and objective price reporting agency or index provider</li>
+          <li>(e) <strong>Sound corporate governance framework</strong></li>
+          <li>(f) <strong>Adequate conflict of interest arrangements</strong> — staff must not have material conflicts; in particular, the PIP must not employ ETF staff for the creation, development or modification of index compilation rules or their review</li>
+          <li>(g) <strong>Adequate complaint resolution mechanisms</strong> — to resolve complaints about the PIP's assessment process and methodology</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>DFSA Due Diligence Assessment Factors (Guidance)</h5><ul>
+          <li>PIP's standing and reliability in relevant physical or derivatives markets as a credible price reporting agency</li>
+          <li>Quality of corporate governance: independent board members; independent internal audit and risk management; for Shari'a-compliant indices, Shari'a governance arrangements</li>
+          <li>Whether methodologies and processes (including material changes) are made publicly available</li>
+          <li>Whether adequate conflict of interest procedures are in place, including codes of ethics</li>
+          <li>Clear conveyance to users of the economic realities of the underlying interest being measured</li>
+          <li>Characteristics of the underlying interest: size and liquidity (smaller markets = higher manipulation risk); relative market size (if referencing market is much larger than underlying, manipulation incentive increases); transparency of trading volumes and positions</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Related Party PIP — Additional Obligation</h5><ul>
+          <li>If the PIP used by an ETF Fund Manager for index/benchmark tracking is a Related Party, the FM must treat that arrangement as a Related Party Transaction subject to Rule 8.3.2 (Rule 13.9.5)</li>
+          <li>Note: the circular/pre-approval requirements in Rule 8.3.2(3) are exempted for the initial appointment of a Related Party PIP at establishment — but the arm's length requirement always applies</li>
+        </ul></div>
+        <div class="ex"><h5>📌 Practical Compliance Note</h5><p>An ETF Fund Manager using an index provider should conduct formal documented due diligence against all 7 A9.1.2(3) criteria before using the PIP, and then repeat or update this diligence periodically (at least annually). The due diligence records must be maintained and available for DFSA inspection. If the index provider makes changes to its methodology or governance, the FM should promptly review whether the PIP continues to meet all requirements — the ongoing nature of the obligation means a one-time review at appointment is not sufficient.</p></div>
+      </div>
+    </details>
+
+    <div class="nav-btns">
+      <a href="part8.html" class="nb">← Part 8: Transfer Schemes &amp; Winding Up</a>
+      <a href="index.html" class="nb next">🏠 Back to Dashboard</a>
+    </div>
+
+  </div><!-- /pg -->
+  <div class="pf">DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.</div>
+</div>
+</body>
+</html>

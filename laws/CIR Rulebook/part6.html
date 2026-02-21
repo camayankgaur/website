@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 6 — Specialist Fund Classes | CIR Learning Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ob:#c0392b;--ob-bg:#fdf0ef;--gd:#2471a3;--gd-bg:#eaf3fb;
+      --rp:#1e8449;--rp-bg:#eafaf1;--sp:#7d3c98;--sp-bg:#f5eef8;
+      --sw:270px;--r:12px;--sh:0 2px 12px rgba(0,0,0,.08);
+      --shh:0 6px 24px rgba(0,0,0,.14);--bg:#f4f6f9;--card:#fff;
+      --text:#1a202c;--mu:#6b7280;--bo:#e5e7eb;--ac:#1a3a5c
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #sidebar{width:var(--sw);background:var(--ac);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+    .sbl{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sbl .rl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.5);font-weight:600}
+    .sbl h1{font-size:17px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+    .sbl .vt{font-size:11px;color:rgba(255,255,255,.5);margin-top:6px}
+    .sl{padding:14px 20px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);font-weight:600}
+    .nav a{display:flex;align-items:center;gap:10px;padding:8px 20px;color:rgba(255,255,255,.82);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:all .2s}
+    .nav a:hover,.nav a.active{background:rgba(255,255,255,.1);border-left-color:#fff;color:#fff}
+    .nav a .pn{background:rgba(255,255,255,.15);border-radius:4px;font-size:10px;padding:2px 6px;font-weight:700;min-width:36px;text-align:center}
+    .nav a.active .pn{background:rgba(255,255,255,.3)}
+    #main{margin-left:var(--sw);flex:1;min-height:100vh}
+    .hdr{background:var(--card);border-bottom:1px solid var(--bo);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .hdr h2{font-size:16px;font-weight:600;color:var(--ac)}
+    .bc{font-size:13px;color:var(--mu)}
+    .bc a{color:var(--gd);text-decoration:none}
+    .pg{padding:32px;max-width:1200px}
+    .hero{background:linear-gradient(135deg,#4a235a 0%,#6c3483 60%,#7d3c98 100%);border-radius:var(--r);padding:36px 40px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+    .hero::after{content:'P6';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:110px;font-weight:900;opacity:.07}
+    .pt{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:8px}
+    .hero h1{font-size:26px;font-weight:800;margin-bottom:10px}
+    .hero p{font-size:13.5px;opacity:.85;max-width:680px;line-height:1.6}
+    .pm{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+    .pm .l{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:1px}
+    .pm .v{font-size:14px;font-weight:700;margin-top:2px}
+    .ib{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+    .ip{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:24px;font-size:13px;font-weight:500}
+    .ipo{background:var(--ob-bg);color:var(--ob)}.ipg{background:var(--gd-bg);color:var(--gd)}
+    .ipr{background:var(--rp-bg);color:var(--rp)}.ips{background:var(--sp-bg);color:var(--sp)}
+    .sh2{font-size:18px;font-weight:700;color:var(--ac);margin-bottom:16px;display:flex;align-items:center;gap:10px;margin-top:36px}
+    .sh2::after{content:'';flex:1;height:1px;background:var(--bo)}
+    .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);padding:24px 28px;margin-bottom:20px}
+    .pe{background:var(--gd-bg);border-left:4px solid var(--gd);border-radius:0 var(--r) var(--r) 0;padding:18px 22px;margin-bottom:20px}
+    .pe h4{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+    .pe p{font-size:14px;line-height:1.65}.pe p+p{margin-top:8px}
+    details{border:1px solid var(--bo);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+    details[open]{box-shadow:var(--sh)}
+    summary{padding:16px 20px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card);display:flex;align-items:center;gap:10px;user-select:none;list-style:none;color:var(--ac)}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:11px;transition:transform .2s;color:var(--mu)}
+    details[open] summary::before{transform:rotate(90deg)}
+    .db{padding:20px 24px;background:var(--card);border-top:1px solid var(--bo)}
+    .rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .rt th{background:var(--ac);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .rt th:first-child{border-radius:8px 0 0 0}.rt th:last-child{border-radius:0 8px 0 0}
+    .rt td{padding:11px 14px;border-bottom:1px solid var(--bo);vertical-align:top;line-height:1.55}
+    .rt tr:hover td{background:#f9fafb}.rt tr:last-child td{border-bottom:none}
+    .rn{font-family:monospace;font-size:12px;color:var(--gd);font-weight:700;white-space:nowrap}
+    .rph{background:var(--ob-bg);color:var(--ob);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpm{background:#fef9e7;color:#b7770d;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpl{background:var(--rp-bg);color:var(--rp);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpi{background:var(--gd-bg);color:var(--gd);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .to{color:var(--ob);font-weight:700}.tg{color:var(--gd);font-weight:600}.tr2{color:var(--rp);font-weight:600}
+    .cl{list-style:none;padding:0}
+    .cl li{padding:8px 0;border-bottom:1px solid var(--bo);font-size:13.5px;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+    .cl li:last-child{border-bottom:none}
+    .cl li::before{content:'☐';font-size:16px;color:var(--gd);flex-shrink:0;margin-top:1px}
+    .ex{background:#fffde7;border:1px solid #f9e04b;border-radius:var(--r);padding:18px 22px;margin-top:16px}
+    .ex h5{font-size:12px;font-weight:700;text-transform:uppercase;color:#7d6608;margin-bottom:8px}
+    .ex p{font-size:13.5px;line-height:1.6;color:#4a3c08}
+    .ob{background:var(--ob-bg);border:1px solid #f5c6c0;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .ob h5{font-size:12px;font-weight:700;color:var(--ob);text-transform:uppercase;margin-bottom:8px}
+    .ob ul,.rb ul{padding-left:16px}.ob ul li,.rb ul li{font-size:13px;line-height:1.65;padding:2px 0}
+    .rb{background:var(--rp-bg);border:1px solid #a9dfbf;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .rb h5{font-size:12px;font-weight:700;color:var(--rp);text-transform:uppercase;margin-bottom:8px}
+    .pb{background:#fff5f5;border:2px solid var(--ob);border-radius:10px;padding:16px 20px;margin:12px 0;display:flex;gap:14px;align-items:flex-start}
+    .pbi{font-size:26px;flex-shrink:0}.pb h5{font-size:13px;font-weight:700;color:var(--ob);margin-bottom:6px}.pb p{font-size:13px;line-height:1.55;color:#7b241c}
+    .mw{background:var(--card);border:1px solid var(--bo);border-radius:var(--r);padding:24px;margin-top:16px;overflow-x:auto}
+    /* SPECIALIST CLASS GRID */
+    .sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:16px 0 28px}
+    .sc-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);overflow:hidden;transition:box-shadow .2s}
+    .sc-card:hover{box-shadow:var(--shh)}
+    .sc-hdr{padding:14px 18px;display:flex;align-items:center;gap:12px}
+    .sc-icon{font-size:24px}
+    .sc-hdr h3{font-size:14px;font-weight:700;color:#fff}
+    .sc-hdr small{font-size:11px;opacity:.75;display:block;margin-top:2px}
+    .sc-body{padding:14px 18px}
+    .sc-body p{font-size:12.5px;color:var(--mu);line-height:1.6;margin-bottom:10px}
+    .sc-tag{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:600;display:inline-block;margin-right:4px;margin-bottom:4px}
+    .num-highlights{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+    .nh{background:var(--card);border:1px solid var(--bo);border-radius:10px;padding:12px 16px;flex:1;min-width:160px;text-align:center}
+    .nh .n{font-size:26px;font-weight:900;color:var(--ac)}
+    .nh p{font-size:12px;color:var(--mu);margin-top:3px}
+    /* DASHBOARD */
+    .dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
+    .dc{border-radius:var(--r);padding:18px 20px;border-left:4px solid}
+    .dt{background:var(--gd-bg);border-color:var(--gd)}.dtr{background:var(--ob-bg);border-color:var(--ob)}
+    .df{background:#fef9e7;border-color:#d4ac0d}.dgo{background:var(--sp-bg);border-color:var(--sp)}
+    .dc h4{font-size:13px;font-weight:700;margin-bottom:10px}
+    .dc ul{list-style:none;padding:0}.dc ul li{font-size:12.5px;padding:3px 0;line-height:1.55}
+    .dc ul li::before{content:'• ';font-weight:700}
+    .nav-btns{display:flex;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--bo)}
+    .nb{background:var(--card);border:1px solid var(--bo);border-radius:10px;padding:14px 22px;text-decoration:none;color:var(--ac);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);transition:box-shadow .2s}
+    .nb:hover{box-shadow:var(--shh)}.nb.next{background:var(--ac);color:#fff}
+    .pf{text-align:center;padding:32px;color:var(--mu);font-size:12px;border-top:1px solid var(--bo);margin-top:20px}
+    @media(max-width:900px){#sidebar{display:none}#main{margin-left:0}.pg{padding:16px}}
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sbl"><div class="rl">The DFSA Rulebook</div><h1>Collective Investment Rules</h1><div class="vt">CIR/VER40/01-26 · Jan 2026</div></div>
+  <div class="sl">Navigation</div>
+  <div class="nav"><a href="index.html"><span class="pn">🏠</span> Dashboard</a></div>
+  <div class="sl">Parts</div>
+  <div class="nav">
+    <a href="part1.html"><span class="pn">P1</span> Introduction</a>
+    <a href="part2.html"><span class="pn">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="pn">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="pn">P4</span> Establishment &amp; Management</a>
+    <a href="part5.html"><span class="pn">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html" class="active"><span class="pn">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="pn">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="pn">P8</span> Transfer &amp; Winding Up</a>
+  </div>
+  <div class="sl">Appendices</div>
+  <div class="nav"><a href="appendices.html"><span class="pn">APP</span> All Appendices (1–9)</a></div>
+  <div class="sl" style="margin-top:12px;">Chapter 13 Sections</div>
+  <div class="nav" style="font-size:12px;">
+    <a href="#fof" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.1A</span> Fund of Funds</a>
+    <a href="#feeder" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.2</span> Feeder Funds</a>
+    <a href="#pe" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.3</span> Private Equity</a>
+    <a href="#prop" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.4</span> Property Funds</a>
+    <a href="#reit" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.5</span> REITs</a>
+    <a href="#hedge" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.6</span> Hedge Funds</a>
+    <a href="#umbrella" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.7</span> Umbrella Funds</a>
+    <a href="#mmf" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.8</span> Money Market</a>
+    <a href="#etf" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.9</span> ETFs</a>
+    <a href="#vc" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.10</span> Venture Capital</a>
+    <a href="#tok" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.11</span> Investment Tokens</a>
+    <a href="#credit" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.12</span> Credit Funds</a>
+    <a href="#crypto" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">13.13</span> Crypto Tokens</a>
+    <a href="#dashboard" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+<div id="main">
+  <header class="hdr">
+    <div><div class="bc"><a href="index.html">CIR Hub</a> › <strong>Part 6: Specialist Fund Classes</strong></div></div>
+    <h2>Chapter 13 · §13.1A – 13.13</h2>
+  </header>
+  <div class="pg">
+
+    <div class="hero">
+      <div class="pt">Part 6 · Chapter 13</div>
+      <h1>Rules Specific to Specialist Classes of Domestic Funds</h1>
+      <p>Part 6 sets out the additional requirements that apply to Domestic Funds by virtue of being classified as a specialist class. These requirements are generally in addition to the core requirements in Part 4 and the fund-type requirements in Part 5. The chapter covers all 13 specialist classes from Fund of Funds to Crypto Token Funds, each with specific investment restrictions, structural requirements, custody rules, and operational obligations.</p>
+      <div class="pm">
+        <div><div class="l">Chapter</div><div class="v">13</div></div>
+        <div><div class="l">Specialist Classes</div><div class="v">13</div></div>
+        <div><div class="l">QIF Rules Apply</div><div class="v">4 Sections Only</div></div>
+        <div><div class="l">REIT Distribution</div><div class="v">≥80% Net Income</div></div>
+        <div><div class="l">Property Fund Borrowing</div><div class="v">≤65% GAV</div></div>
+      </div>
+    </div>
+
+    <div class="ib">
+      <span class="ip ipo">🔴 Property Fund: 65% GAV borrowing cap; 3-year listing obligation</span>
+      <span class="ip ipo">🔴 REIT: ≥80% annual net income distribution mandatory</span>
+      <span class="ip ipr">🟢 Credit Fund: closed-ended, max 10-year life, 25% diversification limit</span>
+      <span class="ip ipg">🔵 QIF only: §13.6.3, §13.7, §13.11, §13.12, §13.13 apply</span>
+    </div>
+
+    <div class="pe">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Part 6 is entirely housed in Chapter 13, which operates as a specialist overlay on top of Parts 4 and 5. Most of Chapter 13 applies only to Public Funds and Exempt Funds — QIFs face a much lighter touch and are only subject to Rules 13.4.1, 13.5.1, 13.6.3, and sections 13.7, 13.10, 13.11, 13.12 and 13.13.</p>
+      <p>The chapter is structured section-by-section for each specialist class: 13.1A (Fund of Funds), 13.2 (Feeder Funds), 13.3 (Private Equity), 13.4 (Property Funds — the longest and most detailed section), 13.5 (REITs), 13.6 (Hedge Funds), 13.7 (Umbrella Funds), 13.8 (Money Market Funds), 13.9 (ETFs), 13.10 (Venture Capital), 13.11 (Investment Token Funds), 13.12 (Credit Funds), and 13.13 (Crypto Token Funds).</p>
+    </div>
+
+    <!-- QUICK-REF SPECIALIST CLASS GRID -->
+    <div class="sh2">🗂️ Specialist Class Quick-Reference Overview</div>
+    <div class="sc-grid">
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#1a5276;">
+          <div class="sc-icon">🔗</div>
+          <div><h3>Fund of Funds</h3><small>§13.1A · Rule 3.1.3</small></div>
+        </div>
+        <div class="sc-body"><p>Max 25% in any single investee Fund. Cannot invest in another Fund of Funds, Feeder Fund, or Fund dedicated to single-fund investment.</p>
+          <span class="sc-tag" style="background:#eaf3fb;color:#2471a3;">25% per fund cap</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">No FoF-in-FoF</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#117a65;">
+          <div class="sc-icon">🪃</div>
+          <div><h3>Feeder Fund</h3><small>§13.2 · Rule 3.1.4</small></div>
+        </div>
+        <div class="sc-body"><p>Property must consist only of Units/Debentures of a single Master Fund. Public Feeder Fund must only invest in an eligible Master Fund (borrowing ≤200% NAV, 3+ market makers, ≤20% ownership).</p>
+          <span class="sc-tag" style="background:#eafaf1;color:#1e8449;">Single Master Fund only</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">200% borrowing cap</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#784212;">
+          <div class="sc-icon">🏭</div>
+          <div><h3>Private Equity Fund</h3><small>§13.3 · Rule 3.1.6</small></div>
+        </div>
+        <div class="sc-body"><p>Investment committee of ≥3 independent experts required (unless Investment Trust). Max 25% in any single venture. No Eligible Custodian required if investment committee in place.</p>
+          <span class="sc-tag" style="background:#fef9e7;color:#7d6608;">Investment committee</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">25% per venture</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#1a3a5c;">
+          <div class="sc-icon">🏢</div>
+          <div><h3>Property Fund</h3><small>§13.4 · Rule 3.1.7</small></div>
+        </div>
+        <div class="sc-body"><p>Closed-ended required for Public Funds. Listed on AMI/Recognised Jurisdiction exchange within 3 years. 65% GAV borrowing cap. Annual independent valuation required. Investment committee mandatory (not Investment Trust).</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">65% GAV borrowing</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">3-year listing deadline</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#1e8449;">
+          <div class="sc-icon">🏗️</div>
+          <div><h3>REIT</h3><small>§13.5 · Rule 3.1.8</small></div>
+        </div>
+        <div class="sc-body"><p>Must distribute ≥80% of audited annual net income. Property development cap: ≤30% of NAV. Must be Investment Company or Investment Trust. Primarily income-generating Real Property.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">80% distribution</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">30% dev. cap</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#7b241c;">
+          <div class="sc-icon">📊</div>
+          <div><h3>Hedge Fund</h3><small>§13.6 · Rule 3.1.9</small></div>
+        </div>
+        <div class="sc-body"><p>Valuation function must be independent from investment management. Prime broker collateral usage requires: Exempt/QIF status, 140% cap on Fund assets used as collateral, irrevocable right of set-off.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">Val/investment separation</span>
+          <span class="sc-tag" style="background:#fef9e7;color:#7d6608;">Prime broker: Exempt/QIF only</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#4a235a;">
+          <div class="sc-icon">☂️</div>
+          <div><h3>Umbrella Fund</h3><small>§13.7 · Rule 3.1.10</small></div>
+        </div>
+        <div class="sc-body"><p>May be formed as a PCC (must be open-ended if so). No Sub-Fund may invest in another Sub-Fund of the same Umbrella Fund. Separate reporting per Sub-Fund.</p>
+          <span class="sc-tag" style="background:#f5eef8;color:#7d3c98;">PCC = open-ended</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">No cross-subfund investment</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#0e6655;">
+          <div class="sc-icon">💵</div>
+          <div><h3>Money Market Fund</h3><small>§13.8 · Rule 3.1.11</small></div>
+        </div>
+        <div class="sc-body"><p>90% in high-quality Deposits/Debentures. 10% instantly withdrawable cash. 10% single-entity cap. WAM ≤6 months. WAL ≤12 months. Borrowing ≤10% NAV. Residual maturity ≤2 years.</p>
+          <span class="sc-tag" style="background:#eafaf1;color:#1e8449;">90% quality deposits</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">WAM ≤6 months</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#b7770d;">
+          <div class="sc-icon">📈</div>
+          <div><h3>Exchange Traded Fund</h3><small>§13.9 · Rule 3.1.12</small></div>
+        </div>
+        <div class="sc-body"><p>Must track an index/benchmark. No actively managed ETFs permitted. Price Information Provider must meet App 9. Related Party PIP = RPT. Authorised Participants must ensure on-market price tracks NAV/iNAV.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">Passive only</span>
+          <span class="sc-tag" style="background:#fef9e7;color:#7d6608;">App 9 PIP requirements</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#2471a3;">
+          <div class="sc-icon">🌱</div>
+          <div><h3>Venture Capital Fund</h3><small>§13.10 · Rule 3.1.13</small></div>
+        </div>
+        <div class="sc-body"><p>Must be Closed-ended Investment Company or Investment Partnership. No Eligible Custodian required for Exempt VC Funds if FM has effective arrangements ensuring Fund Property is not available to FM creditors.</p>
+          <span class="sc-tag" style="background:#eaf3fb;color:#2471a3;">Closed-ended only</span>
+          <span class="sc-tag" style="background:#eafaf1;color:#1e8449;">Custodian exemption available</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#1a5276;">
+          <div class="sc-icon">🪙</div>
+          <div><h3>Investment Token Fund</h3><small>§13.11 · Rule 3.1.14</small></div>
+        </div>
+        <div class="sc-body"><p>Cannot use "investment token fund," "security token fund," etc. unless Fund's main purpose is investing in Investment Tokens. Must not hold out Fund Property as Investment Tokens unless it actually consists of Investment Tokens.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">Name restrictions</span>
+          <span class="sc-tag" style="background:#eaf3fb;color:#2471a3;">No false property claims</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#6c3483;">
+          <div class="sc-icon">💳</div>
+          <div><h3>Credit Fund</h3><small>§13.12 · Rule 3.1.15</small></div>
+        </div>
+        <div class="sc-body"><p>Exempt or QIF only. Closed-ended Investment Company or Partnership. Max 10-year life. 25% diversification limit per obligor (within 3 years). Borrowing ≤10% NAV. Cannot provide credit to natural persons, FMs, Related Parties, other funds, Financial Institutions, or for investment/credit purposes.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">10% borrowing cap</span>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">25% diversification</span>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-hdr" style="background:#1a3a5c;">
+          <div class="sc-icon">🔐</div>
+          <div><h3>Crypto Token Fund</h3><small>§13.13 · Rule 3.1.16</small></div>
+        </div>
+        <div class="sc-body"><p>Cannot use "Crypto Token Fund" or "Crypto Fund" unless fund's main purpose is investing in DFSA-Recognised Crypto Tokens. Any Fund holding Crypto Tokens must use a Price Information Provider meeting App 9 for valuations.</p>
+          <span class="sc-tag" style="background:#fdf0ef;color:#c0392b;">Name restrictions</span>
+          <span class="sc-tag" style="background:#eaf3fb;color:#2471a3;">App 9 PIP for valuation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEY NUMBERS STRIP -->
+    <div class="num-highlights">
+      <div class="nh"><div class="n">25%</div><p>Max per fund — Fund of Funds (§13.1A.2)</p></div>
+      <div class="nh"><div class="n">65%</div><p>Max borrowing as % of GAV — Public Property Fund (§13.4.5)</p></div>
+      <div class="nh"><div class="n">80%</div><p>Min annual net income distribution — REIT (§13.5.2)</p></div>
+      <div class="nh"><div class="n">140%</div><p>Max collateral usage cap — Hedge Fund prime broker (§13.6.3)</p></div>
+      <div class="nh"><div class="n">30%</div><p>Max property development — Public REIT (§13.5.4)</p></div>
+      <div class="nh"><div class="n">10Y</div><p>Max life of Credit Fund (§13.12.10)</p></div>
+    </div>
+
+    <!-- FUND OF FUNDS -->
+    <div id="fof" class="sh2">🔗 §13.1A — Fund of Funds</div>
+    <details open>
+      <summary>📋 Fund of Funds Rules — §13.1A</summary>
+      <div class="db">
+        <div class="ob"><h5>Investment Restrictions (Rule 13.1.1A)</h5><ul>
+          <li>A Fund Manager of a Fund of Funds may NOT invest in: (a) another Fund of Funds; (b) a Feeder Fund; (c) any Fund dedicated to investment in a number of Funds; (d) any Fund dedicated to investment in a single Fund or single investment trust; (e) any Sub-Fund of an Umbrella Fund equivalent to any of (a)–(d)</li>
+          <li><strong>25% cap:</strong> Not more than 25% in value of the Fund Property may consist of Units in any one Fund</li>
+          <li>For the 25% cap, each Sub-Fund of an Umbrella Fund is treated as a separate Fund</li>
+        </ul></div>
+        <div class="ex"><h5>📌 Practical Example — 25% Cap Application</h5><p>A Fund of Funds has $100M in Fund Property. It wants to invest $30M in the "MENA Equity Master Fund." This would represent 30% — exceeding the 25% cap in Rule 13.1.1A(2). The investment can only be made up to $25M. Note: if the MENA Equity Master Fund has multiple Sub-Funds (as an Umbrella Fund), each Sub-Fund counts as a separate Fund, so the FM could invest $25M in Sub-Fund A and $25M in Sub-Fund B of the same Umbrella Fund.</p></div>
+      </div>
+    </details>
+
+    <!-- FEEDER FUNDS -->
+    <div id="feeder" class="sh2">🪃 §13.2 — Feeder Funds</div>
+    <details>
+      <summary>📋 Feeder Fund Rules — §13.2.1–13.2.3</summary>
+      <div class="db">
+        <div class="ob"><h5>Property Restriction (Rule 13.2.1(1))</h5><ul>
+          <li>Feeder Fund property must consist only of: (a) Units or Debentures of a single Master Fund; OR (b) for a Public Feeder Fund — Units or Debentures of an eligible Master Fund (see criteria below)</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Eligible Master Fund Criteria — Public Feeder Fund Only (Rule 13.2.1(2))</h5><ul>
+          <li>Borrowings of the Master Fund ≤200% of NAV or market value of Units at mid-value share price</li>
+          <li>Units/Debentures are regularly offered for purchase and sale by at least 3 market makers recognised/registered as exchange members</li>
+          <li>The Feeder Fund owns ≤20% of the Units (or any class of Units) or Debentures of the Master Fund</li>
+          <li>The Master Fund has no limit on its duration</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Additional Requirements — Any Feeder Fund (Rule 13.2.2)</h5><ul>
+          <li>Master Fund's FM is regulated by a Financial Services Regulator</li>
+          <li>Master Fund is registered/authorised by a Financial Services Regulator and subject to independent oversight</li>
+          <li>Master Fund's investment objectives are disclosed in detail in the Feeder Fund's Prospectus</li>
+          <li>Copies of the Master Fund's Prospectus and last audited annual reports made available to prospective Unitholders of the Feeder Fund</li>
+          <li>Master Fund Manager has waived any initial charges on acquisition of Units by the Feeder Fund</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Same FM — Anti-Double-Fee Rule (Rule 13.2.3)</h5><ul>
+          <li>Where the Feeder Fund invests in a Master Fund managed by the same FM or an associated/related company, the Master Fund must NOT charge subscription or redemption fees on the investment</li>
+          <li>Any commissions or rebates received by the Feeder Fund Manager by virtue of the investment into the Master Fund must be paid into the property of the Feeder Fund</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- PRIVATE EQUITY -->
+    <div id="pe" class="sh2">🏭 §13.3 — Private Equity Funds</div>
+    <details>
+      <summary>📋 Private Equity Fund Rules — §13.3.1–13.3.4</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rn">13.3.1</span></td><td><span class="to">Investment Committee (Replaces Custodian)</span></td><td>FM of PE Fund need NOT appoint Eligible Custodian (Rule 8.2.2) IF: (1) FM calls a Unitholder meeting to elect ≥3 independent experts as investment committee members; AND (2) Committee members review investment opportunities but do NOT involve themselves in day-to-day Fund management. Annual report must include investment committee report (Rule 9.4.7(1)).</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.3.2</span></td><td><span class="to">Investment Diversification</span></td><td>(a) Unless purpose is to invest in a single venture, not more than 25% of the Fund may be invested in any one venture or undertaking. (b) Must not invest in companies that are Related Parties of the Fund or FM, except in compliance with Rule 8.3.2 (RPT rules).</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.3.3</span></td><td><span class="to">Due Diligence</span></td><td>FM must make adequate arrangements for due diligence before each investment, including investigating corporate governance standards of the venture.</td><td><span class="rpm">Medium</span></td></tr>
+            <tr><td><span class="rn">13.3.4</span></td><td><span class="to">Board Representation — Conflicts</span></td><td>If FM places a Person on the board of an investee company, it must take reasonable steps to manage conflicts and follow good corporate governance.</td><td><span class="rpm">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- PROPERTY FUNDS -->
+    <div id="prop" class="sh2">🏢 §13.4 — Property Funds</div>
+    <details open>
+      <summary>📋 Property Fund Core Rules — Structure, Listing &amp; Custody</summary>
+      <div class="db">
+        <div class="ob"><h5>Structure Requirements (Rule 13.4.1)</h5><ul>
+          <li>Public Property Funds must use a <strong>Closed-ended</strong> legal structure</li>
+          <li>Public Property Funds can only be an Investment Company or Investment Trust</li>
+          <li>Must be listed on an Authorised Market Institution (AMI) or Recognised Jurisdiction exchange within <strong>3 years</strong> from the date Units are first offered to the public (or shorter period per the Prospectus)</li>
+          <li>Exempt Funds and QIFs: may be open-ended or closed-ended</li>
+          <li>If Exempt/QIF intends to list, it must register as a Public Company, list within 3 years, and comply with all Public Fund requirements (except oversight function and Public Fund Prospectus) during the pre-listing period</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Permitted Investments (Rule 13.4.4)</h5><ul>
+          <li>Assets must consist only of: Real Property; Property Related Assets; Units in another Property Fund; and cash/government securities (maximum 40% of Fund Property)</li>
+          <li>Exception: the 40% cap and composition restriction do not apply during the initial 6-month period of the Fund's operation (or any period in the Prospectus or approved by Special Resolution)</li>
+          <li>Public Property Fund — Property Related Assets must be: listed/traded on an Exchange per the Prospectus; OR if not listed, approved and regularly reviewed by the investment committee for liquidity and accurate valuation</li>
+          <li>No person may be granted an option to acquire any property in the Fund</li>
+          <li>Fund must hold good marketable legal and beneficial title to all Real Property (directly or via majority-controlled SPVs); Fund must hold majority interest and control with freedom to dispose</li>
+          <li>Islamic finance exception: where a financial institution holds legal title to property for Islamic finance structures (e.g. ijara), this is acceptable if disclosed in the Prospectus or approved by Special Resolution</li>
+          <li>FM must arrange adequate property insurance and public liability insurance coverage</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Self-Custody of Real Property (Rules 13.4.2 &amp; 13.4.2A)</h5><ul>
+          <li><strong>Public Property Fund:</strong> FM may self-custody Real Property (without Eligible Custodian) if: (a) FM acts as custodian; (b) has adequate systems and controls for segregation/protection including legal title in Fund name and clearly designated custody employees; (c) effective arrangements ensure property is not available to FM creditors on insolvency. If using Fund Platform, the ICC may act as custodian.</li>
+          <li><strong>Exempt Property Fund:</strong> FM may self-custody Real Property if: (a) FM or ICC acts as custodian; (b) effective arrangements ensure property not available to FM/ICC creditors on insolvency</li>
+          <li><strong>Alternative custody (Rule 13.4.2B):</strong> Available where local legal/regulatory requirements prevent standard title arrangements — requires satisfying DFSA that arrangements are effective in both DIFC and the property's jurisdiction</li>
+          <li>Note: self-custody/alternative custody applies ONLY to Real Property — NOT to Property Related Assets such as shares in property-holding companies</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Property Fund — Borrowing, Valuation &amp; Investment Committee</summary>
+      <div class="db">
+        <div class="ob"><h5>Borrowing — Public Property Fund (Rule 13.4.5)</h5><ul>
+          <li>Maximum aggregate borrowings: <strong>65% of gross asset value (GAV)</strong> at any time (including SPV borrowings aggregated)</li>
+          <li>Borrowings may be direct or through SPVs; FM may pledge Fund assets to secure borrowings</li>
+          <li>If 65% cap is breached: FM must immediately inform Trustee (if appointed), Unitholders, and DFSA of: magnitude of breach, cause, and proposed rectification method; and must use best endeavours to reduce excess as soon as reasonably possible</li>
+          <li>All borrowings must be at arm's length</li>
+          <li>GAV = total value of Fund Property at most recent valuation (before deductions)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Investment Committee — Property Fund (Rule 13.4.3)</h5><ul>
+          <li>FM of Property Fund must call a Unitholder meeting to vote on the election of ≥3 independent experts for an investment committee</li>
+          <li>Exception: FM of an Investment Trust-structured Property Fund need NOT appoint an investment committee</li>
+          <li>Committee members review investment opportunities but must NOT involve themselves in day-to-day Fund management</li>
+          <li>Annual report must include a report by the investment committee (Rule 9.4.7(1))</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Independent Valuation Requirements (Rules 13.4.18–13.4.24)</h5><ul>
+          <li>FM must appoint an independent Person to provide professional valuation services (approved by Trustee if applicable)</li>
+          <li>Valuer must value each Real Property BEFORE acquisition and disposal; annual valuation report required — NAV following this valuation must appear in the annual report</li>
+          <li>Valuer must: carry on the business of valuing Real Property; not be Related to the FM; be capable of providing objective valuations</li>
+          <li>Acquisition must occur within a reasonable time and no later than 6 months from the valuation date, at a price no more than 5% above the valuation price</li>
+          <li>Valuer rotation: after 5 consecutive years of valuations, the appointment must be put out to tender before re-appointment; if re-appointed, reasons must be disclosed in the next interim/annual report</li>
+          <li>Valuation report must be dated on: the Fund valuation date; or not more than 6 months before the date of an offering document, circular requiring Unitholder approval, or sale/purchase agreement</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Property Fund — Joint Ownership, SPVs &amp; RPTs</summary>
+      <div class="db">
+        <div class="rb"><h5>Joint Ownership Arrangements (Rules 13.4.6–13.4.9)</h5><ul>
+          <li>Fund must hold <strong>majority stake</strong> (more than 50% ownership and control) in any joint ownership arrangement at all times</li>
+          <li>FM must: demonstrate the arrangement is in Unitholders' interests; obtain a legal opinion covering good and marketable title, equity/profit sharing, enforceability, licences, divestment restrictions, and foreign law implications</li>
+          <li>Disclosure to Unitholders required: ownership structure, material terms, identity of co-owners, financial arrangements, legal opinion summary, nature of foreign ownership restrictions</li>
+          <li>Fund's liability in any joint ownership arrangement must not exceed its percentage interest — no unlimited liability assumption</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Special Purpose Vehicles (Rules 13.4.10–13.4.11)</h5><ul>
+          <li>FM may hold Real Property through majority-owned/controlled SPVs</li>
+          <li>An SPV may itself use one second-tier SPV to directly hold Real Property or arrange financing — but a second-tier SPV may NOT hold property through another SPV</li>
+          <li>For acquisition of Real Property via an SPV acquisition: Fund's Auditor must prepare a report on the SPV's P&amp;L (3 years or shorter) and assets/liabilities (≤6 months old); a valuation report must be prepared per Rules 13.4.18–13.4.22</li>
+          <li>SPV board appointed by FM in agreement with Trustee/oversight persons and, where elected, the investment committee</li>
+          <li>Fund and SPVs must appoint the same Auditor and adopt the same accounting principles and policies</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Property Fund RPT Regime (Rules 13.4.11A–13.4.16)</h5><ul>
+          <li>Standard RPT rules (Rule 8.3.2) apply with modifications for Property Funds</li>
+          <li><strong>Public Property Fund — real property RPT shortcut (Rule 13.4.11A):</strong> Prior Unitholder approval not required per transaction if: (a) transaction is for acquisition or sale of Real Property in the UAE; (b) FM has general Unitholder approval (passed at previous AGM, valid until next AGM); (c) oversight provider confirms in writing the transaction meets arm's length requirement; (d) investment committee confirms in writing the transaction meets arm's length and it has no objection</li>
+          <li>Post-transaction notification to Unitholders required as soon as practicable</li>
+          <li>RPT for estate management services/property agent services ≥5% of NAV requires prior approval of the oversight provider</li>
+          <li>Deposits with and borrowings from Related Parties must be at prevailing commercial rates</li>
+          <li>Competing Related Party interests must be disclosed to Unitholders and Trustee</li>
+          <li>Related Party property sellers — valuation report and price must be disclosed in the Prospectus</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- REITS -->
+    <div id="reit" class="sh2">🏗️ §13.5 — Real Estate Investment Trusts (REITs)</div>
+    <details open>
+      <summary>📋 REIT Rules — §13.5.1–13.5.4</summary>
+      <div class="db">
+        <div class="ob"><h5>REIT Definition Criteria (Rule 13.5.1(2))</h5><ul>
+          <li>A REIT is a Property Fund that: (a) is constituted as an Investment Company or Investment Trust; (b) is primarily aimed at investments in income-generating Real Property; AND (c) distributes to Unitholders at least <strong>80% of its audited annual net income</strong></li>
+          <li>No fund may use "Real Estate Investment Trust" or "REIT" or be held out as a REIT unless it meets these three criteria</li>
+          <li>REITs may be Public, Exempt, or QIF — all types are permitted to be REITs (see Rule 13.5.1 and Part 6 Guidance §3)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Distribution Obligation (Rule 13.5.2)</h5><ul>
+          <li>FM of a REIT must distribute ≥80% of its audited annual net income as dividends each year</li>
+          <li>Oversight persons of a Public REIT must determine whether: (a) revaluation surplus credited to income; or (b) gains on disposal of Real Property shall form part of net income for distribution</li>
+          <li>SPV-held Real Property: FM must ensure each SPV distributes all of its income to the Fund (as permitted by the laws of its jurisdiction of establishment)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Property Development Restriction (Rule 13.5.4)</h5><ul>
+          <li>Public REIT may only invest in property under development (whether alone or in a joint venture) where the REIT intends to hold the developed property upon completion</li>
+          <li>Total contract value of property under development must NOT exceed <strong>30% of NAV of Fund Property</strong> of the Public REIT</li>
+          <li>Refurbishment, retrofitting, and renovation are NOT considered "property development" for this rule</li>
+        </ul></div>
+        <div class="pb" style="margin-top:12px;"><div class="pbi">⚠️</div><div><h5>Immediate DFSA Notification — REIT Criteria Breach (Rule 13.5.1(3))</h5><p>If at any time the REIT fails to meet any of the three criteria in Rule 13.5.1(2) — the FM and Trustee must immediately notify the DFSA and the exchange of: the failure to meet the requirements, and what measures have been or will be taken to remedy the breach. There is no grace period.</p></div></div>
+      </div>
+    </details>
+
+    <!-- HEDGE FUNDS -->
+    <div id="hedge" class="sh2">📊 §13.6 — Hedge Funds</div>
+    <details>
+      <summary>📋 Hedge Fund Rules — §13.6.1–13.6.3</summary>
+      <div class="db">
+        <div class="ob"><h5>Valuation / Investment Management Separation (Rule 13.6.2)</h5><ul>
+          <li>FM must ensure functional separation and independence between: (a) Fund valuation and asset pricing functions; AND (b) the investment management process</li>
+          <li>If adequate separation cannot be demonstrated, DFSA may require FM to appoint an independent, suitably competent and experienced Fund Administrator to perform valuation/pricing</li>
+          <li>Best practice: personnel involved in NAV determination should not be involved in investment management; effective method is to delegate NAV calculation to a third-party Fund Administrator</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Prime Broker — Collateral Pooling Rules (Rule 13.6.3)</h5><ul>
+          <li>FM of a Hedge Fund may only grant a prime broker authority to combine Fund assets with other assets as collateral for financing activities IF ALL of the following are met:</li>
+          <li>(a) The Fund is an <strong>Exempt Fund or Qualified Investor Fund</strong> (not a Public Fund)</li>
+          <li>(b) The Fund's Prospectus includes mandatory disclosures: identity/profile of prime broker; nature/extent of collateral pooling authority; AND a prominent health warning that Unitholders may lose all Fund assets in the event of prime broker insolvency</li>
+          <li>(c) The prime broker qualifies as an Eligible Custodian</li>
+          <li>(d) The prime broker agreement contains: prohibition on using Fund assets as collateral exceeding <strong>140% of the Fund's indebtedness to the prime broker</strong>; AND an irrevocable right of set-off in favour of the Fund (including on insolvency)</li>
+          <li>(e) FM has adequate valuation procedures to mark positions to market daily to meet the 140% restriction on an ongoing basis</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- UMBRELLA FUNDS -->
+    <div id="umbrella" class="sh2">☂️ §13.7 — Umbrella Funds</div>
+    <details>
+      <summary>📋 Umbrella Fund Rules — §13.7.1–13.7.3</summary>
+      <div class="db">
+        <div class="rb"><h5>Structure Rules (Rule 13.7.1)</h5><ul>
+          <li>An Umbrella Fund may be formed as a Protected Cell Company (PCC)</li>
+          <li>If formed as a PCC, it must be an <strong>Open-ended Fund</strong></li>
+          <li>It is not mandatory to use a PCC — an Umbrella Fund may also be a conventional Investment Company or Investment Trust (but without the legal segregation that a PCC provides)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Investment Restriction (Rule 13.7.2)</h5><ul>
+          <li>No Sub-Fund of an Umbrella Fund may invest in another Sub-Fund of the same Umbrella Fund</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Umbrella Fund-Specific Rules (Rule 13.7.3 Reference Table)</h5><ul>
+          <li>Rule 3.1.10 — Definition of Umbrella Fund</li>
+          <li>Rules 9.4.2 and 9.4.6 — Annual and interim reports (per Sub-Fund basis required)</li>
+          <li>Rule 9.4.9 — Fund Manager's report (per Sub-Fund if information differs from Umbrella level)</li>
+          <li>Rule 13.7.2 — No cross-Sub-Fund investment restriction</li>
+          <li>App A7.1.1(2)(h) and 17 — Content of Public Fund Prospectus</li>
+          <li>Rules 14.3.5 — Content of Short Form Prospectus</li>
+          <li>Rules 16.1.1, 16.1.3 — Transfer schemes</li>
+          <li>Rules 17.1.1 and 17.1.6 — Winding up</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- MONEY MARKET FUNDS -->
+    <div id="mmf" class="sh2">💵 §13.8 — Money Market Funds</div>
+    <details>
+      <summary>📋 Money Market Fund Rules — §13.8.1–13.8.2</summary>
+      <div class="db">
+        <div class="ob"><h5>Investment Conditions (Rule 13.8.1(2))</h5><ul>
+          <li>At least <strong>90% of NAV</strong> invested in Deposits or Debentures of high quality (per Rule 13.8.2 due diligence)</li>
+          <li>At least <strong>10% of NAV</strong> must consist of cash in accounts permitting immediate withdrawal on demand</li>
+          <li>Deposits with / Debentures of a single entity: maximum <strong>10% of NAV</strong></li>
+          <li>Residual maturity until legal redemption date: maximum <strong>2 years</strong></li>
+          <li>Time remaining until next interest rate reset date: maximum <strong>397 days</strong></li>
+          <li><strong>Weighted Average Maturity (WAM):</strong> not more than <strong>6 months</strong></li>
+          <li><strong>Weighted Average Life (WAL):</strong> not more than <strong>12 months</strong></li>
+          <li>May only invest in Derivatives for the sole purpose of hedging against <strong>foreign exchange rate risk</strong></li>
+          <li>May invest in Units of other Money Market Funds with consistent investment objectives</li>
+          <li>Borrowings: maximum <strong>10% of NAV</strong></li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Due Diligence on Investment Quality (Rule 13.8.2)</h5><ul>
+          <li>To assess if a Deposit/Debenture is of "high quality," FM must conduct due diligence considering: (a) credit quality of Issuer and any guarantor; (b) nature and quality of the asset class; (c) liquidity of the Investment; (d) other risks associated with the Investment or its market</li>
+          <li>Sole reliance on credit rating agency ratings is NOT sufficient to meet the due diligence requirement</li>
+          <li>FM must keep records of due diligence conducted</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- ETFs -->
+    <div id="etf" class="sh2">📈 §13.9 — Exchange Traded Funds (ETFs)</div>
+    <details open>
+      <summary>📋 ETF Rules — §13.9.1–13.9.6</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rn">13.9.1</span></td><td><span class="to">Name/Holding Out Restriction</span></td><td>No fund may be described as an "Exchange Traded Fund" or "ETF" or held out as an ETF unless it meets the criteria in Rule 3.1.12 (listed on qualifying exchange, Authorised Participant arrangement, tracks index/benchmark).</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.9.2</span></td><td><span class="to">Authorised Participant — Price Tracking</span></td><td>FM must take reasonable steps to ensure any Authorised Participant it appoints has adequate systems and controls to ensure ETF Units are traded on-market at a price that does not significantly vary from the most recent NAV or iNAV (indicative NAV) of the ETF.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.9.3</span></td><td><span class="to">Passive Tracking Obligation</span></td><td>An ETF MUST have an investment objective and strategy to track the performance of an index or benchmark specified in its Prospectus. Actively managed ETFs are NOT permitted in the DFSA regime.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.9.4</span></td><td><span class="to">Price Information Provider (PIP) Standards</span></td><td>An ETF may only use an index or benchmark provided by a Price Information Provider (PIP) that meets the requirements in Appendix 9. A PIP is a price reporting agency or index/benchmark provider that constructs, compiles, assesses or reports prices on a regular and systematic basis.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">13.9.5</span></td><td><span class="to">Related Party PIP = RPT</span></td><td>If the ETF's index or benchmark is provided by a Related Party PIP, the FM must treat this arrangement as a Related Party Transaction subject to Rule 8.3.2. Note: the circular/prior approval requirements in Rule 8.3.2(3) are exempted for the initial appointment of a Related Party PIP at establishment (Rule 8.3.2(7)), but arm's length requirement still applies.</td><td><span class="rpm">Medium</span></td></tr>
+            <tr><td><span class="rn">13.9.6</span></td><td><span class="to">ETF Type Disclosure</span></td><td>FM must take reasonable steps to ensure the Fund's Prospectus and marketing material describe the ETF type clearly and not misleadingly — enabling investors to understand the ETF type and its characteristics (physical, synthetic unfunded, synthetic funded, leveraged, etc.).</td><td><span class="rpm">Medium</span></td></tr>
+          </tbody>
+        </table>
+        <div class="ex" style="margin-top:14px;"><h5>📌 ETF Types Overview (Rule 13.9.6 Guidance)</h5><p>Physical ETF: holds actual securities to replicate/sample the index. Synthetic ETF (unfunded): holds a substitute basket plus a total return swap with a counterparty. Synthetic ETF (funded): enters a swap in exchange for cash/portfolio without creating a substitute basket. Leveraged ETF: can have leveraged exposure to an index. ETPs (exchange-traded products) including ETCs, ETNs, ETIs and ETVs are distinct from ETFs — most are debt instruments, not equity participation rights.</p></div>
+      </div>
+    </details>
+
+    <!-- VENTURE CAPITAL -->
+    <div id="vc" class="sh2">🌱 §13.10 — Venture Capital Funds</div>
+    <details>
+      <summary>📋 Venture Capital Fund Rules — §13.10.1–13.10.2</summary>
+      <div class="db">
+        <div class="ob"><h5>Structure Requirements (Rule 13.10.1)</h5><ul>
+          <li>VC Fund investment vehicle must be: (a) a Closed-ended legal structure; AND (b) either an Investment Company or an Investment Partnership</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Custodian Exemption — Exempt VC Fund (Rule 13.10.2)</h5><ul>
+          <li>The Eligible Custodian appointment requirement (Article 27(1)(e) of the Law) does NOT apply to an Exempt VC Fund</li>
+          <li>If the FM itself holds Fund Property, it must have effective arrangements ensuring the Fund Property is not available to creditors of the FM or any other Fund it manages, in the event of the FM's insolvency</li>
+          <li>All Fund Property (investments, cash, liquid assets) must be clearly identifiable as Fund Property and properly segregated from all other assets belonging to or managed by the FM</li>
+          <li>Same exemption applies to QIF VC Funds (under Rule 12A.3.1(2)(c))</li>
+        </ul></div>
+        <div class="ex"><h5>📌 Practical Note — VC vs PE Investment Committee</h5><p>Unlike Private Equity Funds (Rule 13.3.1), Venture Capital Funds have no mandatory investment committee requirement. While a VC FM may engage special advisers to select investments or monitor performance, these advisers should NOT be described as an "investment committee" of the type under Rule 13.3.1 — that would be misleading unless the VC FM voluntarily chooses to follow those requirements.</p></div>
+      </div>
+    </details>
+
+    <!-- INVESTMENT TOKEN FUNDS -->
+    <div id="tok" class="sh2">🪙 §13.11 — Investment Token Funds</div>
+    <details>
+      <summary>📋 Investment Token Fund Rules — §13.11.1–13.11.2</summary>
+      <div class="db">
+        <div class="ob"><h5>Name/Holding Out Restrictions (Rule 13.11.1)</h5><ul>
+          <li>A Fund Manager must NOT describe its fund as an "investment token fund," "security token fund," "derivative token fund," "share token fund," "bond token fund," or otherwise hold it out as a Fund with investing in Investment Tokens as its main purpose — UNLESS the Fund meets the criterion in Rule 3.1.14 (i.e. its main purpose IS investing in Investment Tokens)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>No False Property Claims (Rule 13.11.2)</h5><ul>
+          <li>FM must not hold out that any part of the Fund Property consists or will consist of Investment Tokens — unless the relevant property actually consists or will consist of Investment Tokens as defined in GEN Rule A2.1.1(3)</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- CREDIT FUNDS -->
+    <div id="credit" class="sh2">💳 §13.12 — Credit Funds</div>
+    <details open>
+      <summary>📋 Credit Fund Core Rules — Structure &amp; Eligible Obligors</summary>
+      <div class="db">
+        <div class="ob"><h5>Structure Requirements (Rules 13.12.1–13.12.3)</h5><ul>
+          <li>A Credit Fund must be: (a) an Investment Company or Investment Partnership; (b) a Closed-ended Fund; AND (c) either an Exempt Fund or a Qualified Investor Fund (Credit Funds CANNOT be Public Funds)</li>
+          <li>No Eligible Custodian required for Exempt Credit Funds — but FM must have effective arrangements ensuring Fund Property is not available to FM/other fund creditors in the event of FM insolvency</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Prohibited Credit Facilities (Rule 13.12.4)</h5><ul>
+          <li>A Credit Fund may NOT provide: (a) a letter of credit; (b) a financial guarantee; OR (c) trade finance — unless the finance is for the trade of goods or services taking place wholly within the UAE or another country (i.e. no cross-border trade finance)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Prohibited Borrowers (Rule 13.12.5)</h5><ul>
+          <li>Credit Fund may NOT provide credit to: (a) a natural person; (b) the FM, a Related Party of the FM, or any person acting for/on behalf of the FM; (c) another fund or fund manager; (d) a Financial Institution or a Related person of a Financial Institution; (e) a person intending to use the credit for trading in Investments, commodities, or crypto assets; (f) a person intending to use the credit to provide credit to others</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Credit Fund — Risk Management, Diversification &amp; Lifecycle</summary>
+      <div class="db">
+        <div class="ob"><h5>Mandatory Policies &amp; Procedures (Rules 13.12.6–13.12.7)</h5><ul>
+          <li>FM must have written, up-to-date policies and procedures covering: credit assessment/pricing/granting/managing/acquiring; credit monitoring, renewal, financing; governance and decision-making structures; collateral management; concentration risk; valuation and impairment; problem debt identification and management; forbearance; delegated authority; documentation and security</li>
+          <li>Credit granting must be based on sound, well-defined criteria; internal credit risk methodologies must not rely solely on external credit ratings; ongoing monitoring of all credit risk-bearing positions required; measures for adequate diversification required; credit risk mitigation and concentration risk measures required</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Stress Testing (Rule 13.12.8)</h5><ul>
+          <li>FM must ensure the Credit Fund has a comprehensive stress-testing programme</li>
+          <li>Stress testing must be carried out at least annually (or more frequently at DFSA request)</li>
+          <li>Results of stress testing must be reported to the Fund's Governing Body at least annually</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Risk Diversification Strategy (Rule 13.12.9)</h5><ul>
+          <li>FM must have a clear strategy to achieve, within a period not exceeding <strong>3 years</strong> from fund establishment, a diversified loan portfolio limiting exposure to any one person or Group to a maximum of <strong>25% of net assets</strong></li>
+          <li>If the 25% diversification limit is not achieved within 3 years, FM must within 30 days seek Unitholder approval to amend its strategy or extend the period</li>
+          <li>If Unitholder approval is obtained, the extended period must not exceed <strong>4 years</strong> from establishment</li>
+          <li>Once achieved, FM must take reasonable steps to ensure the limit is not breached</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Redemptions, Distributions &amp; Fund Life (Rule 13.12.10)</h5><ul>
+          <li>Credit Fund must be established for a finite period not exceeding <strong>10 years</strong></li>
+          <li>Any redemption or distribution before end of the 10-year period may only occur if: (i) there is unencumbered cash or liquid assets available; (ii) the redemption/distribution will not breach any DFSA liquidity or other requirement; AND (iii) the redemption/distribution has been approved by an <strong>ordinary resolution</strong> of Unitholders</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Borrowing Limit (Rule 13.12.11)</h5><ul>
+          <li>FM must not borrow money for use by the Credit Fund on terms repayable from Fund Property unless: (a) in accordance with Fund's Constitution; (b) borrowing ≤ <strong>10% of NAV</strong> of Fund Property; (c) reasonable arrangements in place to ensure repayment within the 10% limit</li>
+          <li>If 10% limit is breached, FM must take immediate action to rectify</li>
+          <li>"Borrowing" includes use of Derivatives to achieve a temporary injection of money into Fund Property in the expectation of repayment</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Periodic Report Additional Content (Rule 13.12.12)</h5><ul>
+          <li>Annual and interim reports must include: (a) breakdown between senior secured, junior and mezzanine debt; (b) breakdown between amortising repayment schedule and bullet repayment loans; (c) breakdown of loan-to-value ratios; (d) information on non-performing exposures and exposures subject to forbearance; (e) material changes to credit assessment and monitoring process</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Marketing Risk Warnings (Rule 13.12.13)</h5><ul>
+          <li>Marketing material for Credit Funds must include a prominent risk warning setting out: (a) specific risks arising from Providing Credit or acquiring loans; (b) return of capital is not guaranteed; (c) investors may suffer investment losses or Units may become illiquid</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- CRYPTO TOKEN FUNDS -->
+    <div id="crypto" class="sh2">🔐 §13.13 — Funds Investing in Crypto Tokens</div>
+    <details>
+      <summary>📋 Crypto Token Fund Rules — §13.13.1–13.13.2</summary>
+      <div class="db">
+        <div class="ob"><h5>Name/Holding Out Restrictions (Rule 13.13.1)</h5><ul>
+          <li>FM must NOT describe a Fund as a "Crypto Token Fund," "Crypto Fund," or otherwise hold it out as a Fund with investing in Crypto Tokens as its main purpose — UNLESS the Fund meets the criterion in Rule 3.1.16 (main purpose is investing in DFSA-Recognised Crypto Tokens)</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Benchmark/Valuation — App 9 PIP Required (Rule 13.13.2)</h5><ul>
+          <li>Any Fund that has Fund Property consisting of Crypto Tokens must NOT use an index or benchmark provided by a Price Information Provider for Crypto Token valuations UNLESS the PIP meets the requirements in Appendix 9</li>
+          <li>This rule applies to ALL Funds holding any Crypto Token Fund Property — not just designated Crypto Token Funds</li>
+          <li>Under GEN Rule 3A.2.1, a DIFC Fund may only invest in a "Suitable Crypto Token" (i.e. DFSA-Recognised Crypto Tokens)</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="sh2">📊 Part 6 Summary Dashboard</div>
+    <div class="dg">
+      <div class="dc dt">
+        <h4 style="color:var(--gd);">💡 Key Takeaways</h4>
+        <ul>
+          <li>QIFs only face 4 specialist class sections: §13.6.3, §13.7, §13.11, §13.12, §13.13 (plus §13.4.1 and §13.5.1)</li>
+          <li>Property Fund borrowing cap: 65% of gross asset value (not NAV)</li>
+          <li>REIT must distribute ≥80% of audited annual net income every year</li>
+          <li>ETFs must passively track — actively managed ETFs are not permitted in DIFC</li>
+          <li>Credit Funds: 10-year maximum life; closed-ended; Exempt or QIF only</li>
+          <li>Any Fund holding Crypto Tokens must use App 9-compliant PIP for valuations</li>
+        </ul>
+      </div>
+      <div class="dc dtr">
+        <h4 style="color:var(--ob);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Fund of Funds investing >25% in a single Fund — immediate breach of Rule 13.1.1A(2)</li>
+          <li>Public Property Fund failing to list on AMI/Recognised exchange within 3 years — Rule 13.4.1(2)(b)</li>
+          <li>REIT failing to distribute ≥80% — must immediately notify DFSA and exchange (Rule 13.5.1(3))</li>
+          <li>Using "REIT" or "ETF" in fund name without meeting the qualification criteria</li>
+          <li>Hedge Fund prime broker collateral pooling allowed for Public Funds — only Exempt/QIF permitted</li>
+          <li>Credit Fund providing credit to a natural person or Financial Institution</li>
+          <li>Public REIT development exposure exceeding 30% of NAV</li>
+        </ul>
+      </div>
+      <div class="dc df">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Property Fund valuer not rotated to tender after 5 consecutive years</li>
+          <li>Credit Fund not achieving 25% diversification limit within 3 years without seeking Unitholder approval</li>
+          <li>ETF PIP that is a Related Party but not treated as a Related Party Transaction under Rule 8.3.2</li>
+          <li>Money Market Fund with WAM exceeding 6 months or WAL exceeding 12 months</li>
+          <li>Fund described as an "Investment Token Fund" without investing in Investment Tokens as main purpose</li>
+          <li>Property Fund paying more than 5% above the valuation price for Real Property</li>
+        </ul>
+      </div>
+      <div class="dc dgo">
+        <h4 style="color:var(--sp);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Property Fund Managers: implement a 3-year listing tracker and alert system from Unit offer date</li>
+          <li>REITs: establish a distribution policy board resolution at start of each financial year</li>
+          <li>Hedge Fund Managers: annual review of valuation/investment management independence; document the review</li>
+          <li>Credit Fund boards: annual stress test results must be formally received and minuted</li>
+          <li>Any Fund holding Crypto Tokens: confirm App 9 PIP compliance annually before each valuation cycle</li>
+          <li>ETF Fund Managers: document AP appointment due diligence and monitoring of on-market price vs iNAV quarterly</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <a href="part5.html" class="nb">← Part 5: Types of Domestic Funds</a>
+      <a href="part7.html" class="nb next">Part 7: Marketing of Funds →</a>
+    </div>
+  </div>
+  <div class="pf">DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.</div>
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{primaryColor:'#1a3a5c',primaryTextColor:'#fff',lineColor:'#6b7280'}});</script>
+</body>
+</html>

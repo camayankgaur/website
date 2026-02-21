@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CIR — DFSA Collective Investment Rules | Learning Hub</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --obligation: #c0392b;
+      --obligation-bg: #fdf0ef;
+      --guidance: #2471a3;
+      --guidance-bg: #eaf3fb;
+      --exclusion: #5d6d7e;
+      --exclusion-bg: #f2f3f4;
+      --specialist: #7d3c98;
+      --specialist-bg: #f5eef8;
+      --reporting: #1e8449;
+      --reporting-bg: #eafaf1;
+      --sidebar-w: 270px;
+      --header-h: 64px;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #1a3a5c;
+      --accent2: #e8f0fe;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-logo {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar-logo .rulebook-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 600;
+    }
+    .sidebar-logo h1 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-top: 4px;
+      color: #fff;
+    }
+    .sidebar-logo .version-tag {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 6px;
+    }
+    .sidebar-dfsa {
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.07);
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar-section-label {
+      padding: 16px 20px 6px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.4);
+      font-weight: 600;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      background: rgba(255,255,255,0.1);
+      border-left-color: #fff;
+      color: #fff;
+    }
+    .sidebar-nav a .part-num {
+      background: rgba(255,255,255,0.15);
+      border-radius: 4px;
+      font-size: 10px;
+      padding: 2px 6px;
+      font-weight: 700;
+      min-width: 36px;
+      text-align: center;
+    }
+    .sidebar-nav a.active .part-num {
+      background: rgba(255,255,255,0.3);
+    }
+    .sidebar-appendix a {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ===== TOP HEADER ===== */
+    .top-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .top-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .top-header .badges {
+      display: flex;
+      gap: 8px;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .badge-obligation { background: var(--obligation-bg); color: var(--obligation); }
+    .badge-guidance { background: var(--guidance-bg); color: var(--guidance); }
+    .badge-specialist { background: var(--specialist-bg); color: var(--specialist); }
+    .badge-reporting { background: var(--reporting-bg); color: var(--reporting); }
+    .badge-exclusion { background: var(--exclusion-bg); color: var(--exclusion); }
+
+    /* ===== PAGE SECTIONS ===== */
+    .page-content { padding: 32px; max-width: 1300px; }
+
+    /* ===== HERO BANNER ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--accent) 0%, #2c5f8a 60%, #1a7a6e 100%);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+      color: #fff;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: 'CIR';
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 120px;
+      font-weight: 900;
+      opacity: 0.07;
+      letter-spacing: -4px;
+    }
+    .hero .hero-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 14px;
+      opacity: 0.85;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-meta-item .label {
+      font-size: 11px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero-meta-item .value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .hero-meta-item .value.sm { font-size: 14px; }
+
+    /* ===== DASHBOARD STATS ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      border-top: 4px solid var(--guidance);
+    }
+    .stat-card.red { border-top-color: var(--obligation); }
+    .stat-card.green { border-top-color: var(--reporting); }
+    .stat-card.purple { border-top-color: var(--specialist); }
+    .stat-card.grey { border-top-color: var(--exclusion); }
+    .stat-card .num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-card .lbl {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== PART CARDS ===== */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .part-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.25s, transform 0.2s;
+      border: 1px solid var(--border);
+    }
+    .part-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+    }
+    .part-card-header {
+      padding: 18px 20px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .part-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .part-card-header .part-info { flex: 1; }
+    .part-card-header .part-number {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .part-card-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .part-card-body {
+      padding: 0 20px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .part-card-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .part-card-footer .chapters {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .part-card-footer .go-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--guidance);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .risk-pill {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .risk-high { background: var(--obligation-bg); color: var(--obligation); }
+    .risk-med { background: #fef9e7; color: #b7770d; }
+    .risk-low { background: var(--reporting-bg); color: var(--reporting); }
+
+    /* ===== ECOSYSTEM DIAGRAM ===== */
+    .ecosystem-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+    .ecosystem-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-top: 24px;
+    }
+    .eco-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+    }
+    .eco-node {
+      border-radius: 10px;
+      padding: 12px 18px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 130px;
+    }
+    .eco-connector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      color: var(--muted);
+      font-size: 22px;
+    }
+    .eco-connector-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+    }
+    .eco-connector-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 130px;
+    }
+    .eco-connector-arrow {
+      width: 2px;
+      height: 24px;
+      background: var(--border);
+      position: relative;
+    }
+    .eco-connector-arrow::after {
+      content: '▼';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .eco-reg { background: #1a3a5c; color: #fff; }
+    .eco-law { background: var(--guidance-bg); color: var(--guidance); border: 1px solid #bee3f8; }
+    .eco-fund { background: var(--specialist-bg); color: var(--specialist); border: 1px solid #e1bee7; }
+    .eco-dom { background: var(--obligation-bg); color: var(--obligation); border: 1px solid #ffcdd2; }
+    .eco-for { background: var(--reporting-bg); color: var(--reporting); border: 1px solid #c8e6c9; }
+
+    /* ===== FUND LIFECYCLE ===== */
+    .lifecycle-wrap {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+    .lifecycle-steps {
+      display: flex;
+      gap: 0;
+      margin-top: 24px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .lc-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 130px;
+      position: relative;
+    }
+    .lc-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -14px;
+      top: 28px;
+      font-size: 20px;
+      color: var(--muted);
+      z-index: 2;
+    }
+    .lc-step + .lc-step { margin-left: 12px; }
+    .lc-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .lc-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text);
+    }
+    .lc-sublabel {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 3px;
+    }
+
+    /* ===== COMPARISON TABLE ===== */
+    .comp-wrap {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    table.comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+    .comp-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .comp-table th:first-child { border-radius: 8px 0 0 0; }
+    .comp-table th:last-child { border-radius: 0 8px 0 0; }
+    .comp-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .comp-table tr:hover td { background: #f9fafb; }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .check { color: var(--reporting); font-weight: 700; }
+    .cross { color: var(--obligation); font-weight: 700; }
+    .na { color: var(--muted); }
+
+    /* ===== COLOR LEGEND ===== */
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      padding: 8px 14px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    /* ===== APPENDIX CARDS ===== */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .app-card {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s;
+    }
+    .app-card:hover { box-shadow: var(--shadow-hover); }
+    .app-card .app-num {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--specialist);
+    }
+    .app-card h4 {
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-top: 6px;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+
+    /* ===== QUICK TIPS ===== */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .tip-card {
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      border-left: 4px solid;
+    }
+    .tip-obligation { background: var(--obligation-bg); border-color: var(--obligation); }
+    .tip-guidance { background: var(--guidance-bg); border-color: var(--guidance); }
+    .tip-specialist { background: var(--specialist-bg); border-color: var(--specialist); }
+    .tip-reporting { background: var(--reporting-bg); border-color: var(--reporting); }
+    .tip-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .tip-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .tip-card ul li {
+      font-size: 12.5px;
+      line-height: 1.55;
+      padding: 3px 0;
+    }
+    .tip-card ul li::before {
+      content: '• ';
+      font-weight: 700;
+    }
+
+    /* ===== FOOTER ===== */
+    .page-footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #main { margin-left: 0; }
+      .hero { padding: 28px 24px; }
+      .hero h1 { font-size: 22px; }
+      .parts-grid { grid-template-columns: 1fr; }
+      .page-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="rulebook-label">The DFSA Rulebook</div>
+    <h1>Collective Investment Rules</h1>
+    <div class="version-tag">CIR/VER40/01-26 · Jan 2026</div>
+  </div>
+  <div class="sidebar-dfsa">Dubai Financial Services Authority · DIFC</div>
+
+  <div class="sidebar-section-label">Navigation</div>
+  <div class="sidebar-nav">
+    <a href="index.html" class="active">
+      <span class="part-num">🏠</span> Dashboard
+    </a>
+  </div>
+
+  <div class="sidebar-section-label">Parts</div>
+  <div class="sidebar-nav">
+    <a href="part1.html">
+      <span class="part-num">P1</span> Introduction
+    </a>
+    <a href="part2.html">
+      <span class="part-num">P2</span> Definitional Provisions
+    </a>
+    <a href="part3.html">
+      <span class="part-num">P3</span> Fund Functionaries
+    </a>
+    <a href="part4.html">
+      <span class="part-num">P4</span> Establishment & Management
+    </a>
+    <a href="part5.html">
+      <span class="part-num">P5</span> Types of Domestic Funds
+    </a>
+    <a href="part6.html">
+      <span class="part-num">P6</span> Specialist Fund Classes
+    </a>
+    <a href="part7.html">
+      <span class="part-num">P7</span> Marketing of Funds
+    </a>
+    <a href="part8.html">
+      <span class="part-num">P8</span> Transfer & Winding Up
+    </a>
+  </div>
+
+  <div class="sidebar-section-label">Appendices</div>
+  <div class="sidebar-nav sidebar-appendix">
+    <a href="appendices.html">
+      <span class="part-num">APP</span> All Appendices (1–9)
+    </a>
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main">
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <h2>CIR — Regulatory Learning Hub</h2>
+    <div class="badges">
+      <span class="badge badge-obligation">⬤ Obligation</span>
+      <span class="badge badge-guidance">⬤ Guidance</span>
+      <span class="badge badge-specialist">⬤ Specialist</span>
+      <span class="badge badge-reporting">⬤ Reporting</span>
+      <span class="badge badge-exclusion">⬤ Exclusion</span>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-label">DFSA Rulebook Module</div>
+      <h1>Collective Investment Rules (CIR)</h1>
+      <p>The comprehensive regulatory framework governing the establishment, management, marketing, and winding up of Collective Investment Funds in and from the Dubai International Financial Centre (DIFC).</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label">Version</span>
+          <span class="value sm">VER40 / Jan 2026</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Parts</span>
+          <span class="value">8</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Chapters</span>
+          <span class="value">17+</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Appendices</span>
+          <span class="value">9</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Authority</span>
+          <span class="value sm">DFSA · DIFC</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="num">8</div>
+        <div class="lbl">Regulatory Parts</div>
+      </div>
+      <div class="stat-card red">
+        <div class="num">3</div>
+        <div class="lbl">Fund Types<br><small>(Public, Exempt, QIF)</small></div>
+      </div>
+      <div class="stat-card purple">
+        <div class="num">13</div>
+        <div class="lbl">Specialist Fund Classes</div>
+      </div>
+      <div class="stat-card green">
+        <div class="num">9</div>
+        <div class="lbl">Appendices</div>
+      </div>
+      <div class="stat-card grey">
+        <div class="num">2</div>
+        <div class="lbl">Governing Laws<br><small>(CIL 2010 + ITL 2006)</small></div>
+      </div>
+      <div class="stat-card red">
+        <div class="num">500+</div>
+        <div class="lbl">Pages of Regulation</div>
+      </div>
+    </div>
+
+    <!-- COLOR LEGEND -->
+    <div class="legend-row">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--obligation)"></div>
+        <span><strong>Red</strong> — Obligations (must comply)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--guidance)"></div>
+        <span><strong>Blue</strong> — Guidance (best practice)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--exclusion)"></div>
+        <span><strong>Grey</strong> — Exclusions (out of scope)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--specialist)"></div>
+        <span><strong>Purple</strong> — Specialist provisions</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--reporting)"></div>
+        <span><strong>Green</strong> — Reporting requirements</span>
+      </div>
+    </div>
+
+    <!-- PART CARDS -->
+    <div class="section-heading">📂 Regulatory Parts</div>
+    <div class="parts-grid">
+
+      <a href="part1.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#e8f0fe; font-size:22px;">📖</div>
+          <div class="part-info">
+            <div class="part-number">Part 1</div>
+            <h3>Introduction</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Application and interpretation of CIR rules, client classification, types of domestic funds, UAE Fund Protocol and crypto token provisions.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapter 1 · §1.1–1.6</span>
+          <span class="risk-pill risk-low">Foundational</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part2.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#f5eef8; font-size:22px;">📋</div>
+          <div class="part-info">
+            <div class="part-number">Part 2</div>
+            <h3>Definitional Provisions</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Exclusions from Collective Investment Fund definitions, specialist classes of funds, and excluded offers — determines who is in or out of scope.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 2–4 · §2.1, 3.1, 4.1</span>
+          <span class="risk-pill risk-high">Critical</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part3.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#eafaf1; font-size:22px;">👥</div>
+          <div class="part-info">
+            <div class="part-number">Part 3</div>
+            <h3>Fund Functionaries</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Rules for Fund Administrators, External Fund Managers, External Funds, and the use of Fund Platforms. Covers authorisation and operational requirements.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 5, 6, 6A · §5.1–6A</span>
+          <span class="risk-pill risk-high">High Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part4.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#fdf0ef; font-size:22px;">⚙️</div>
+          <div class="part-info">
+            <div class="part-number">Part 4</div>
+            <h3>Establishment & Management</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Core rules for fund constitution, management duties, conflicts of interest, valuation, unit pricing, liquidity, delegation, fees, accounting and reporting.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 7–9 · §7.1–9.6</span>
+          <span class="risk-pill risk-high">High Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part5.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#fff8e1; font-size:22px;">🏛️</div>
+          <div class="part-info">
+            <div class="part-number">Part 5</div>
+            <h3>Types of Domestic Funds</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Specific rules for Public Funds, Exempt Funds, and Qualified Investor Funds — including registration, oversight, prospectus, and investment requirements.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 10, 12, 12A</span>
+          <span class="risk-pill risk-high">High Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part6.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#f5eef8; font-size:22px;">🔮</div>
+          <div class="part-info">
+            <div class="part-number">Part 6</div>
+            <h3>Specialist Fund Classes</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Additional requirements for 13 specialist fund types: Private Equity, Property, REITs, Hedge Funds, ETFs, Money Market, Crypto Token Funds, Credit Funds and more.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapter 13 · §13.1–13.13</span>
+          <span class="risk-pill risk-high">High Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part7.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#e8f5e9; font-size:22px;">📢</div>
+          <div class="part-info">
+            <div class="part-number">Part 7</div>
+            <h3>Marketing of Funds</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Prospectus disclosure obligations, general and specialist prospectus content, access to Foreign Funds, and responsibility for prospectus accuracy.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 14–15 · §14.1–15.1</span>
+          <span class="risk-pill risk-med">Medium Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+      <a href="part8.html" class="part-card">
+        <div class="part-card-header">
+          <div class="part-icon" style="background:#fce4ec; font-size:22px;">🔚</div>
+          <div class="part-info">
+            <div class="part-number">Part 8</div>
+            <h3>Transfer & Winding Up</h3>
+          </div>
+        </div>
+        <div class="part-card-body">
+          Transfer schemes for domestic funds under the Regulatory Law, and the structured process for winding up domestic funds, including application procedures.
+        </div>
+        <div class="part-card-footer">
+          <span class="chapters">Chapters 16–17 · §16.1–17.1</span>
+          <span class="risk-pill risk-high">High Risk</span>
+          <span class="go-btn">View →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- REGULATORY ECOSYSTEM -->
+    <div class="section-heading">🌐 Regulatory Ecosystem</div>
+    <div class="ecosystem-card">
+      <p style="color:var(--muted); font-size:13px;">How the CIR fits within the DIFC regulatory framework — from governing legislation down to individual fund types.</p>
+      <div class="ecosystem-diagram">
+
+        <div class="eco-row">
+          <div class="eco-node eco-reg">DFSA<br><small style="font-weight:400;font-size:11px;">Regulator</small></div>
+        </div>
+
+        <div class="eco-connector">↓</div>
+
+        <div class="eco-row" style="gap:24px;">
+          <div class="eco-node eco-law">Collective Investment<br>Law 2010</div>
+          <div class="eco-node eco-law">Investment Trust<br>Law 2006</div>
+        </div>
+
+        <div class="eco-connector">↓</div>
+
+        <div class="eco-row">
+          <div class="eco-node" style="background:#1a3a5c22; color:var(--accent); border: 1px solid #1a3a5c44; font-weight:700;">
+            CIR — Collective Investment Rules (VER40)
+          </div>
+        </div>
+
+        <div class="eco-connector">↓</div>
+
+        <div class="eco-row" style="gap:12px; flex-wrap:wrap;">
+          <div class="eco-node eco-dom" style="font-size:12px;">Public Funds</div>
+          <div class="eco-node eco-dom" style="font-size:12px;">Exempt Funds</div>
+          <div class="eco-node eco-dom" style="font-size:12px;">Qualified Investor Funds</div>
+          <div class="eco-node eco-for" style="font-size:12px;">Foreign Funds</div>
+        </div>
+
+        <div class="eco-connector">↓</div>
+
+        <div class="eco-row" style="gap:10px; flex-wrap:wrap;">
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">Private Equity</div>
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">Property / REIT</div>
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">Hedge Fund</div>
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">ETF</div>
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">Crypto / Token</div>
+          <div class="eco-node eco-fund" style="font-size:11px; min-width:100px; padding:8px 12px;">Credit Fund</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FUND LIFECYCLE -->
+    <div class="section-heading">🔄 Fund Lifecycle</div>
+    <div class="lifecycle-wrap">
+      <p style="color:var(--muted); font-size:13px;">Key stages in a DIFC Collective Investment Fund's lifecycle and the relevant CIR Parts.</p>
+      <div class="lifecycle-steps">
+        <div class="lc-step">
+          <div class="lc-circle" style="background:var(--guidance-bg);">📐</div>
+          <div class="lc-label">Structuring</div>
+          <div class="lc-sublabel">Parts 1 & 2<br>Classification</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:#fff8e1;">🏗️</div>
+          <div class="lc-label">Constitution</div>
+          <div class="lc-sublabel">Part 4<br>Ch. 7 / App 5</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:var(--obligation-bg);">📝</div>
+          <div class="lc-label">Registration</div>
+          <div class="lc-sublabel">Part 5<br>§10.2 / §12.1</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:var(--reporting-bg);">⚙️</div>
+          <div class="lc-label">Operation</div>
+          <div class="lc-sublabel">Part 4<br>Ch. 8 & 9</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:var(--specialist-bg);">📢</div>
+          <div class="lc-label">Marketing</div>
+          <div class="lc-sublabel">Part 7<br>Ch. 14 & 15</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:#f3e5f5;">🔄</div>
+          <div class="lc-label">Transfer</div>
+          <div class="lc-sublabel">Part 8<br>Ch. 16</div>
+        </div>
+        <div class="lc-step">
+          <div class="lc-circle" style="background:var(--obligation-bg);">🔚</div>
+          <div class="lc-label">Wind-up</div>
+          <div class="lc-sublabel">Part 8<br>Ch. 17</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUND TYPE COMPARISON -->
+    <div class="section-heading">⚖️ Quick Comparison: Domestic Fund Types</div>
+    <div class="comp-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Criterion</th>
+            <th>Public Fund</th>
+            <th>Exempt Fund</th>
+            <th>Qualified Investor Fund (QIF)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Investor Base</strong></td>
+            <td>Retail / General public</td>
+            <td>Professional Clients (min. 50)</td>
+            <td>Qualified Investors only</td>
+          </tr>
+          <tr>
+            <td><strong>Registration with DFSA</strong></td>
+            <td><span class="check">✔ Required</span></td>
+            <td><span class="check">✔ Required (lighter)</span></td>
+            <td><span class="na">◎ Notification only</span></td>
+          </tr>
+          <tr>
+            <td><strong>Prospectus Required</strong></td>
+            <td><span class="check">✔ Yes</span></td>
+            <td><span class="check">✔ Yes (simplified)</span></td>
+            <td><span class="na">◎ Offering Document</span></td>
+          </tr>
+          <tr>
+            <td><strong>Oversight Committee</strong></td>
+            <td><span class="check">✔ Required</span></td>
+            <td><span class="na">◎ Optional</span></td>
+            <td><span class="cross">✘ Not required</span></td>
+          </tr>
+          <tr>
+            <td><strong>Investment Restrictions</strong></td>
+            <td>Strict (§10.5)</td>
+            <td>Moderate</td>
+            <td>Flexible</td>
+          </tr>
+          <tr>
+            <td><strong>Borrowing Limits</strong></td>
+            <td><span class="check">✔ Yes — capped</span></td>
+            <td>Moderate</td>
+            <td>More flexible</td>
+          </tr>
+          <tr>
+            <td><strong>Specialist Fund Classes</strong></td>
+            <td>Limited</td>
+            <td><span class="check">✔ Yes</span></td>
+            <td><span class="check">✔ Yes (all 13 types)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Applicable Chapter</strong></td>
+            <td>Chapter 10</td>
+            <td>Chapter 12</td>
+            <td>Chapter 12A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COMPLIANCE QUICK TIPS -->
+    <div class="section-heading">⚠️ Key Compliance Considerations</div>
+    <div class="tips-grid">
+      <div class="tip-card tip-obligation">
+        <h4 style="color:var(--obligation);">🔴 Key Obligations</h4>
+        <ul>
+          <li>Fund Managers must be DFSA-authorised</li>
+          <li>Public Funds require DFSA registration before operation</li>
+          <li>Prospectus must be filed before marketing</li>
+          <li>Annual reports due within 4 months of financial year end</li>
+          <li>Material changes require prior DFSA approval</li>
+        </ul>
+      </div>
+      <div class="tip-card tip-guidance">
+        <h4 style="color:var(--guidance);">🔵 Practical Guidance</h4>
+        <ul>
+          <li>Use Fund Platform rules (Ch. 6A) to understand tech intermediaries</li>
+          <li>Valuation must follow App 4 guidance for pricing</li>
+          <li>Delegation to third parties doesn't remove Fund Manager liability</li>
+          <li>Constitution must contain all elements per App 5</li>
+        </ul>
+      </div>
+      <div class="tip-card tip-specialist">
+        <h4 style="color:var(--specialist);">🟣 Specialist Watch Points</h4>
+        <ul>
+          <li>Crypto Token Funds subject to additional CIR rules (§1.6, §13.13)</li>
+          <li>REITs have specific distribution and leverage rules (§13.5)</li>
+          <li>Hedge Funds face leverage disclosure obligations (§13.6)</li>
+          <li>Credit Funds carry enhanced due diligence requirements (§13.12)</li>
+        </ul>
+      </div>
+      <div class="tip-card tip-reporting">
+        <h4 style="color:var(--reporting);">🟢 Reporting Triggers</h4>
+        <ul>
+          <li>Periodic Fund Return to DFSA (§9.6)</li>
+          <li>Immediate notification of material breaches</li>
+          <li>Auditor appointed within 3 months of launch</li>
+          <li>Unitholder meeting minutes filed with DFSA</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- APPENDICES -->
+    <div class="section-heading">📎 Appendices</div>
+    <div class="app-grid">
+      <a href="appendices.html#app1" class="app-card">
+        <div class="app-num">Appendix 1</div>
+        <h4>Delegation and Outsourcing</h4>
+      </a>
+      <a href="appendices.html#app2" class="app-card">
+        <div class="app-num">Appendix 2</div>
+        <h4>Meeting Procedures</h4>
+      </a>
+      <a href="appendices.html#app3" class="app-card">
+        <div class="app-num">Appendix 3</div>
+        <h4>Approvals and Notifications</h4>
+      </a>
+      <a href="appendices.html#app4" class="app-card">
+        <div class="app-num">Appendix 4</div>
+        <h4>Guidance on Asset Valuation and Pricing</h4>
+      </a>
+      <a href="appendices.html#app5" class="app-card">
+        <div class="app-num">Appendix 5</div>
+        <h4>Constitution of a Domestic Fund</h4>
+      </a>
+      <a href="appendices.html#app6" class="app-card">
+        <div class="app-num">Appendix 6</div>
+        <h4>Fitness and Propriety — Oversight Functions</h4>
+      </a>
+      <a href="appendices.html#app7" class="app-card">
+        <div class="app-num">Appendix 7</div>
+        <h4>Content of a Public Fund Prospectus</h4>
+      </a>
+      <a href="appendices.html#app8" class="app-card">
+        <div class="app-num">Appendix 8</div>
+        <h4>Guidance for Hedge Fund Managers</h4>
+      </a>
+      <a href="appendices.html#app9" class="app-card">
+        <div class="app-num">Appendix 9</div>
+        <h4>Use of Price Information Providers</h4>
+      </a>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <div class="page-footer">
+    DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>
+    This learning system is for educational reference purposes. Always refer to the official DFSA Rulebook for authoritative regulatory text.
+  </div>
+</div><!-- /main -->
+
+</body>
+</html>

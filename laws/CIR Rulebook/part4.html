@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 4 — Establishment & Management | CIR Learning Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --obligation: #c0392b; --obligation-bg: #fdf0ef;
+      --guidance: #2471a3; --guidance-bg: #eaf3fb;
+      --exclusion: #5d6d7e; --exclusion-bg: #f2f3f4;
+      --specialist: #7d3c98; --specialist-bg: #f5eef8;
+      --reporting: #1e8449; --reporting-bg: #eafaf1;
+      --sidebar-w: 270px; --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+      --bg: #f4f6f9; --card: #ffffff; --text: #1a202c;
+      --muted: #6b7280; --border: #e5e7eb; --accent: #1a3a5c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    #sidebar { width: var(--sidebar-w); background: var(--accent); color: #fff; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo .rulebook-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .sidebar-logo h1 { font-size: 17px; font-weight: 700; color: #fff; margin-top: 4px; line-height: 1.3; }
+    .sidebar-logo .version-tag { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+    .sidebar-section-label { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); font-weight: 600; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 13.5px; border-left: 3px solid transparent; transition: all 0.2s; }
+    .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.1); border-left-color: #fff; color: #fff; }
+    .sidebar-nav a .part-num { background: rgba(255,255,255,0.15); border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 700; min-width: 36px; text-align: center; }
+    .sidebar-nav a.active .part-num { background: rgba(255,255,255,0.3); }
+
+    /* MAIN */
+    #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .top-header h2 { font-size: 16px; font-weight: 600; color: var(--accent); }
+    .breadcrumb { font-size: 13px; color: var(--muted); }
+    .breadcrumb a { color: var(--guidance); text-decoration: none; }
+    .page-content { padding: 32px; max-width: 1200px; }
+
+    /* HERO */
+    .part-hero { background: linear-gradient(135deg, #7d2d00 0%, #c0392b 60%, #e74c3c 100%); border-radius: var(--radius); padding: 36px 40px; color: #fff; margin-bottom: 28px; position: relative; overflow: hidden; }
+    .part-hero::after { content: 'P4'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 110px; font-weight: 900; opacity: 0.07; }
+    .part-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.65; margin-bottom: 8px; }
+    .part-hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+    .part-hero p { font-size: 13.5px; opacity: 0.85; max-width: 640px; line-height: 1.6; }
+    .part-meta { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+    .part-meta-item .lbl { font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 1px; }
+    .part-meta-item .val { font-size: 14px; font-weight: 700; margin-top: 2px; }
+
+    /* INFO BAR */
+    .info-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .info-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; }
+    .pill-ob { background: var(--obligation-bg); color: var(--obligation); }
+    .pill-gd { background: var(--guidance-bg); color: var(--guidance); }
+    .pill-rp { background: var(--reporting-bg); color: var(--reporting); }
+
+    /* SECTION HEADING */
+    .section-heading { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; margin-top: 36px; }
+    .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .sub-heading { font-size: 15px; font-weight: 700; color: var(--accent); margin: 24px 0 12px; padding-left: 12px; border-left: 3px solid var(--guidance); }
+
+    /* CARD */
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 20px; }
+
+    /* PLAIN ENGLISH */
+    .plain-english { background: var(--guidance-bg); border-left: 4px solid var(--guidance); border-radius: 0 var(--radius) var(--radius) 0; padding: 18px 22px; margin-bottom: 20px; }
+    .plain-english h4 { font-size: 13px; font-weight: 700; color: var(--guidance); margin-bottom: 8px; text-transform: uppercase; }
+    .plain-english p { font-size: 14px; line-height: 1.65; }
+
+    /* ACCORDION */
+    details { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+    details[open] { box-shadow: var(--shadow); }
+    summary { padding: 16px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--card); display: flex; align-items: center; gap: 10px; user-select: none; list-style: none; color: var(--accent); }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '▶'; font-size: 11px; transition: transform 0.2s; color: var(--muted); }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body { padding: 20px 24px; background: var(--card); border-top: 1px solid var(--border); }
+
+    /* TABLES */
+    .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .rule-table th { background: var(--accent); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; text-transform: uppercase; }
+    .rule-table th:first-child { border-radius: 8px 0 0 0; }
+    .rule-table th:last-child { border-radius: 0 8px 0 0; }
+    .rule-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .rule-table tr:hover td { background: #f9fafb; }
+    .rule-table tr:last-child td { border-bottom: none; }
+    .rule-num { font-family: monospace; font-size: 12px; color: var(--guidance); font-weight: 700; white-space: nowrap; }
+    .risk-pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+    .risk-high { background: var(--obligation-bg); color: var(--obligation); }
+    .risk-med { background: #fef9e7; color: #b7770d; }
+    .risk-low { background: var(--reporting-bg); color: var(--reporting); }
+    .risk-info { background: var(--guidance-bg); color: var(--guidance); }
+    .tag-ob { color: var(--obligation); font-weight: 700; }
+    .tag-gd { color: var(--guidance); font-weight: 600; }
+    .tag-rp { color: var(--reporting); font-weight: 600; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '☐'; font-size: 16px; color: var(--guidance); flex-shrink: 0; margin-top: 1px; }
+
+    /* EXAMPLE & CASE STUDY */
+    .example-box { background: #fffde7; border: 1px solid #f9e04b; border-radius: var(--radius); padding: 18px 22px; margin-top: 16px; }
+    .example-box h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #7d6608; margin-bottom: 8px; }
+    .example-box p { font-size: 13.5px; line-height: 1.6; color: #4a3c08; }
+    .case-study { background: var(--specialist-bg); border: 1px solid #d7bde2; border-radius: var(--radius); padding: 20px 24px; margin-top: 16px; }
+    .case-study h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--specialist); margin-bottom: 10px; }
+    .case-study p { font-size: 13.5px; line-height: 1.6; }
+    .case-study .verdict { margin-top: 12px; background: var(--card); border-radius: 8px; padding: 12px 16px; font-size: 13px; border-left: 3px solid var(--specialist); }
+
+    /* MERMAID */
+    .mermaid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; overflow-x: auto; }
+
+    /* RISK MATRIX */
+    .risk-matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .risk-matrix th { background: var(--obligation); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; }
+    .risk-matrix th:first-child { border-radius: 8px 0 0 0; }
+    .risk-matrix th:last-child { border-radius: 0 8px 0 0; }
+    .risk-matrix td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .risk-matrix tr:hover td { background: #fdf0ef; }
+    .risk-matrix tr:last-child td { border-bottom: none; }
+
+    /* CHAPTER OVERVIEW CARDS */
+    .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 28px; }
+    .chapter-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 20px 22px; border-top: 4px solid; }
+    .chapter-card h3 { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .chapter-card .ch-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .chapter-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .chapter-card ul { list-style: none; padding: 0; margin-top: 10px; }
+    .chapter-card ul li { font-size: 12.5px; color: var(--muted); padding: 3px 0; }
+    .chapter-card ul li::before { content: '› '; color: var(--guidance); font-weight: 700; }
+
+    /* KEY DEADLINES GRID */
+    .deadline-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 16px; }
+    .deadline-card { background: var(--obligation-bg); border: 1px solid #f5c6c0; border-radius: 10px; padding: 14px 16px; text-align: center; }
+    .deadline-card .deadline-val { font-size: 28px; font-weight: 900; color: var(--obligation); }
+    .deadline-card .deadline-unit { font-size: 13px; font-weight: 700; color: var(--obligation); }
+    .deadline-card .deadline-label { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+    /* APPLICABILITY PILLS */
+    .app-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+    .app-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .tag-pub { background: var(--obligation-bg); color: var(--obligation); }
+    .tag-exempt { background: #fff8e1; color: #b7770d; }
+    .tag-qif { background: var(--reporting-bg); color: var(--reporting); }
+    .tag-all { background: var(--guidance-bg); color: var(--guidance); }
+
+    /* OBLIGATION BOX */
+    .ob-box { background: var(--obligation-bg); border: 1px solid #f5c6c0; border-radius: 10px; padding: 16px 20px; margin: 12px 0; }
+    .ob-box h5 { font-size: 12px; font-weight: 700; color: var(--obligation); text-transform: uppercase; margin-bottom: 8px; }
+    .ob-box ul { padding-left: 16px; }
+    .ob-box ul li { font-size: 13px; line-height: 1.65; padding: 2px 0; }
+
+    /* CUSTODY TYPES */
+    .custody-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 14px; }
+    .custody-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-left: 4px solid var(--guidance); }
+    .custody-item h5 { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .custody-item p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    /* REPORTING TABLE */
+    .report-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+    .report-table th { background: var(--reporting); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; }
+    .report-table th:first-child { border-radius: 8px 0 0 0; }
+    .report-table th:last-child { border-radius: 0 8px 0 0; }
+    .report-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .report-table tr:last-child td { border-bottom: none; }
+    .report-table tr:hover td { background: #f0faf3; }
+    .check { color: var(--reporting); font-weight: 700; }
+    .cross { color: var(--muted); }
+    .partial { color: #b7770d; font-weight: 600; }
+
+    /* FEES STRUCTURE */
+    .fees-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+    .fee-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-top: 3px solid var(--specialist); }
+    .fee-item h5 { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .fee-item p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .fee-item .fee-rule { font-family: monospace; font-size: 11px; color: var(--specialist); font-weight: 700; margin-bottom: 4px; }
+
+    /* SUMMARY DASHBOARD */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+    .dash-card { border-radius: var(--radius); padding: 18px 20px; border-left: 4px solid; }
+    .dash-takeaway { background: var(--guidance-bg); border-color: var(--guidance); }
+    .dash-trap { background: var(--obligation-bg); border-color: var(--obligation); }
+    .dash-flag { background: #fef9e7; border-color: #d4ac0d; }
+    .dash-gov { background: var(--specialist-bg); border-color: var(--specialist); }
+    .dash-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .dash-card ul { list-style: none; padding: 0; }
+    .dash-card ul li { font-size: 12.5px; padding: 3px 0; line-height: 1.55; }
+    .dash-card ul li::before { content: '• '; font-weight: 700; }
+
+    /* NAV BUTTONS */
+    .nav-btns { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 22px; text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+    .nav-btn:hover { box-shadow: var(--shadow-hover); }
+    .nav-btn.next { background: var(--accent); color: #fff; }
+    .page-footer { text-align: center; padding: 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+
+    @media (max-width: 900px) { #sidebar { display: none; } #main { margin-left: 0; } .page-content { padding: 16px; } }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="rulebook-label">The DFSA Rulebook</div>
+    <h1>Collective Investment Rules</h1>
+    <div class="version-tag">CIR/VER40/01-26 · Jan 2026</div>
+  </div>
+  <div class="sidebar-section-label">Navigation</div>
+  <div class="sidebar-nav">
+    <a href="index.html"><span class="part-num">🏠</span> Dashboard</a>
+  </div>
+  <div class="sidebar-section-label">Parts</div>
+  <div class="sidebar-nav">
+    <a href="part1.html"><span class="part-num">P1</span> Introduction</a>
+    <a href="part2.html"><span class="part-num">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="part-num">P3</span> Fund Functionaries</a>
+    <a href="part4.html" class="active"><span class="part-num">P4</span> Establishment & Management</a>
+    <a href="part5.html"><span class="part-num">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="part-num">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="part-num">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="part-num">P8</span> Transfer & Winding Up</a>
+  </div>
+  <div class="sidebar-section-label">Appendices</div>
+  <div class="sidebar-nav">
+    <a href="appendices.html"><span class="part-num">APP</span> All Appendices (1–9)</a>
+  </div>
+  <div class="sidebar-section-label" style="margin-top:12px;">Part 4 Chapters</div>
+  <div class="sidebar-nav" style="font-size:12.5px;">
+    <a href="#ch7" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.7</span> Constitution</a>
+    <a href="#ch8" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.8</span> Management & Operation</a>
+    <a href="#s8-conflicts" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">§8.3</span> Conflicts of Interest</a>
+    <a href="#s8-valuation" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">§8.4</span> Valuation</a>
+    <a href="#s8-liquidity" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">§8.6A</span> Liquidity Risk</a>
+    <a href="#s8-delegation" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">§8.12</span> Delegation</a>
+    <a href="#s8-fees" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">§8.13</span> Fees</a>
+    <a href="#ch9" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.9</span> Accounting & Reporting</a>
+    <a href="#dashboard" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <header class="top-header">
+    <div><div class="breadcrumb"><a href="index.html">CIR Hub</a> › <strong>Part 4: Establishment & Management</strong></div></div>
+    <h2>Chapters 7–9 · §7.1 – 9.6</h2>
+  </header>
+
+  <div class="page-content">
+
+    <!-- HERO -->
+    <div class="part-hero">
+      <div class="part-tag">Part 4 · Chapters 7, 8 & 9</div>
+      <h1>Core Rules — Establishment & Management of Domestic Funds</h1>
+      <p>The largest and most operationally intensive part of CIR. Covers the full lifecycle of a domestic fund from constitution through management duties, conflicts of interest, valuation, unit issuance, liquidity, delegation, fees, accounting standards, audit requirements, and periodic reporting obligations to the DFSA.</p>
+      <div class="part-meta">
+        <div class="part-meta-item"><div class="lbl">Chapters</div><div class="val">3</div></div>
+        <div class="part-meta-item"><div class="lbl">Sections</div><div class="val">§7.1 – 9.6</div></div>
+        <div class="part-meta-item"><div class="lbl">Risk Level</div><div class="val">🔴 High</div></div>
+        <div class="part-meta-item"><div class="lbl">Records Retention</div><div class="val">6 Years</div></div>
+        <div class="part-meta-item"><div class="lbl">Annual Report Due</div><div class="val">4 Months</div></div>
+      </div>
+    </div>
+
+    <!-- INFO BAR -->
+    <div class="info-bar">
+      <span class="info-pill pill-ob">🔴 Most rules apply to Public & Exempt Funds; limited rules for QIFs</span>
+      <span class="info-pill pill-ob">🔴 Valuation errors must be corrected and DFSA notified</span>
+      <span class="info-pill pill-rp">🟢 6-year record retention + 3-day DFSA reproduction standard throughout</span>
+      <span class="info-pill pill-gd">🔵 App 1 (Delegation), App 2 (Meetings), App 3 (Approvals), App 4 (Valuation) cross-referenced</span>
+    </div>
+
+    <!-- CHAPTER OVERVIEW -->
+    <div class="chapter-grid">
+      <div class="chapter-card" style="border-top-color: var(--guidance);">
+        <div class="ch-num" style="color:var(--guidance);">Chapter 7 · §7.1</div>
+        <h3>Constitution</h3>
+        <p>Rules governing the written Constitution every Fund must have — contents, maintenance, unit classes, and naming restrictions.</p>
+        <ul>
+          <li>Constitution contents (App 5 reference)</li>
+          <li>Classes of Units</li>
+          <li>Fund naming requirements</li>
+          <li>"Guaranteed"/"Protected" name rules</li>
+        </ul>
+      </div>
+      <div class="chapter-card" style="border-top-color: var(--obligation);">
+        <div class="ch-num" style="color:var(--obligation);">Chapter 8 · §8.1–8.13</div>
+        <h3>Management & Operation</h3>
+        <p>The core operating rulebook — 13 sections covering every aspect of day-to-day fund management obligations.</p>
+        <ul>
+          <li>General duties + Corporate Director</li>
+          <li>Fund Property duties + Custody</li>
+          <li>Conflicts of interest + RPTs</li>
+          <li>Valuation, pricing, issue & redemption</li>
+          <li>Liquidity risk management</li>
+          <li>Delegation, outsourcing, fees</li>
+        </ul>
+      </div>
+      <div class="chapter-card" style="border-top-color: var(--reporting);">
+        <div class="ch-num" style="color:var(--reporting);">Chapter 9 · §9.1–9.6</div>
+        <h3>Accounting, Audit & Reporting</h3>
+        <p>Financial reporting standards, auditor appointment and independence, annual/interim report content, and periodic fund returns.</p>
+        <ul>
+          <li>IFRS / US GAAP + SORP standards</li>
+          <li>Registered Auditor obligations</li>
+          <li>Annual report (4 months) + interim (2 months)</li>
+          <li>Periodic Fund Return (biannual)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== CHAPTER 7 ===================== -->
+    <div id="ch7" class="section-heading">📜 Chapter 7 — Constitution (§7.1)</div>
+
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Every Domestic Fund must have a written <strong>Constitution</strong> — the foundational legal document that governs the fund's existence, operation and investor rights. Chapter 7 sets requirements for its contents (cross-referencing App 5), its maintenance, the classes of Units it may authorise, and strict rules on fund naming — including a special pre-clearance requirement before using "guaranteed" or "protected" in a fund name.</p>
+    </div>
+
+    <details open>
+      <summary>📋 Rule Summary Table — Chapter 7</summary>
+      <div class="details-body">
+        <div class="app-row"><span class="app-tag tag-pub">Public Funds</span><span class="app-tag tag-exempt">Exempt Funds</span><span class="app-tag tag-qif">QIF (limited rules only)</span></div>
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">7.1.1</span></td>
+              <td>Application</td>
+              <td>Applies to Fund Manager (and Trustee where appointed). For QIFs: only Rules 7.1.1, 7.1.2(1)(b), 7.1.2(2), and 7.1.4 apply.</td>
+              <td><span class="risk-pill risk-info">Scope</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">7.1.2</span></td>
+              <td><span class="tag-ob">Constitution Contents & Maintenance</span></td>
+              <td>(1) Constitution must contain statements and disclosures in App 5 applicable to the Fund. (2) Must not contain any provision prejudicial to Unitholders generally or any class. Fund Manager (and Trustee for Investment Trusts) responsible for maintaining the Constitution and making necessary alterations.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">7.1.3</span></td>
+              <td><span class="tag-ob">Classes of Units</span></td>
+              <td>Fund Manager may issue classes of Units as set out in the Constitution, provided: rights of one class are not unfairly prejudicial to other classes. Limited-issue Units may be issued if permitted by Constitution and Prospectus, and if not materially prejudicial to existing Unitholders.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">7.1.4</span></td>
+              <td><span class="tag-ob">Fund Naming — General</span></td>
+              <td>Fund/Sub-Fund/Unit class name must NOT be: undesirable, misleading, or in conflict with name of another Fund, Sub-Fund or class. Applies to QIFs.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">7.1.5</span></td>
+              <td><span class="tag-ob">Fund Naming — "Guaranteed"/"Protected"</span></td>
+              <td>Before using "guaranteed", "protected" or similar words implying capital/income security, Fund Manager must demonstrate to DFSA satisfaction: (a) guarantor has authority and resources to honour guarantee; and (b) all guarantee terms and guarantor credentials are clearly set out in the Prospectus with exclusions highlighted.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 DFSA Naming Criteria — When May It Direct a Name Change?</h5>
+          <p>The DFSA may direct a Fund to change its name if it: (a) implies merits not justified; (b) is inconsistent with investment objectives; (c) misleads investors about who manages the Fund; (d) is substantially similar to another CIF name; (e) implies specialist class status without meeting the requirements; or (f) is in the DFSA's opinion likely to offend the public.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Compliance Checklist — Chapter 7</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Ensure the Constitution is in writing before any Fund launch or registration with the DFSA</li>
+          <li>Cross-check Constitution against App 5 checklist — confirm all applicable statements and disclosures are included</li>
+          <li>Review all Constitution provisions for any terms that could be prejudicial to Unitholders or a class of Unitholders</li>
+          <li>Confirm all Unit classes authorised in the Constitution are described with rights that do not unfairly prejudice other classes</li>
+          <li>Conduct name conflict search against existing DIFC-registered funds before finalising any Fund name</li>
+          <li>If using "guaranteed" or "protected" in the fund name: obtain DFSA pre-approval, confirm guarantor capacity, and ensure full guarantee disclosure in Prospectus</li>
+          <li>Maintain the Constitution — update it whenever the fund structure, investment objectives or material terms change (following Articles 35 and 36 of the Law)</li>
+          <li>For Investment Trust Funds: ensure both Fund Manager and Trustee are jointly responsible for Constitution maintenance</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 8 ===================== -->
+    <div id="ch8" class="section-heading">⚙️ Chapter 8 — Management & Operation of a Fund (§8.1–8.13)</div>
+
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Chapter 8 is the operational heartbeat of CIR. It sets out detailed duties for Fund Managers (and Trustees where applicable) across 13 sections. For <strong>Public and Exempt Funds</strong>, most provisions apply in full. For <strong>Qualified Investor Funds</strong>, only a limited subset of rules apply (Rule 8.1.1, 8.1A.1, 8.1A.2, 8.3.1(2) for VC Funds, section 8.3 for Credit Funds, Rule 8.4.1(1)(a), Rule 8.6A.1 for open-ended QIFs, and Rule 8.10.1). Additional carve-outs apply for Venture Capital Funds and Credit Funds within Exempt Fund structures.</p>
+    </div>
+
+    <!-- Section 8.2 - Fund Property & Custody -->
+    <div id="s8-custody" class="sub-heading">§8.2 — Duties in Relation to Fund Property & Eligible Custodians</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.2 Fund Property Duties</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">8.2.1</span></td>
+              <td><span class="tag-ob">Investment Decisions</span></td>
+              <td>Fund Manager must make investment decisions in accordance with the Constitution and Prospectus. Must ensure all Fund Property transactions are properly executed for the account of the Fund or Sub-Fund.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.2.2</span></td>
+              <td><span class="tag-ob">Custody Obligation (Investment Co. / Partnership)</span></td>
+              <td>Fund Manager is responsible for safekeeping of Fund Property. For Investment Companies and Investment Partnerships: must delegate custody to an Eligible Custodian and comply with delegation procedures in §8.12. Exceptions exist for Property Funds (Rule 13.4.2), Private Equity Funds (Rule 13.3.1), and certain Exempt Funds with infrastructure interests. Crypto Tokens MUST be held by Eligible Custodian — no exception.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.2.3</span></td>
+              <td><span class="tag-ob">Trustee Custody (Investment Trust)</span></td>
+              <td>Trustee must hold Fund Property in trust for Unitholders and is responsible for its safekeeping. Legal title must be registered with the Trustee (except Property Fund alternative arrangements). Trustee must refuse Fund Manager instructions that conflict with the trust agreement, Constitution, or Prospectus.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.2.4–8.2.6</span></td>
+              <td><span class="tag-gd">Eligible Custodian Definition</span></td>
+              <td>Must be a separate legal entity from the Fund Manager. Qualifies as: DFSA-licensed custodian, DFSA-licensed Bank, AMI, UAE-regulated custodian, Zone 1 or Recognised Jurisdiction custodian, GCC government-owned custodian, or exchange/clearing house. Special enhanced criteria for Crypto Token custody (due diligence on key management, segregation, tech governance).</td>
+              <td><span class="risk-pill risk-info">Definition</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="custody-grid" style="margin-top:14px;">
+          <div class="custody-item">
+            <h5>Standard Fund Property — Eligible Custodian required</h5>
+            <p>Investment Companies and Investment Partnerships must delegate custody to a qualifying Eligible Custodian (Rule 8.2.4). Must be legally separate from Fund Manager.</p>
+          </div>
+          <div class="custody-item" style="border-left-color: #d4ac0d;">
+            <h5>Property Funds — Alternative arrangements permitted</h5>
+            <p>Real Property may be held by Fund Manager or ICC under Rules 13.4.2 / 13.4.2A, or via alternative arrangements under Rule 13.4.2B.</p>
+          </div>
+          <div class="custody-item" style="border-left-color: var(--obligation);">
+            <h5>Crypto Tokens — Eligible Custodian MANDATORY</h5>
+            <p>No alternative arrangement is permitted for Crypto Token custody. Rule 8.2.2(4) makes this an absolute requirement — any exception in (3) does NOT apply to Crypto Tokens.</p>
+          </div>
+          <div class="custody-item" style="border-left-color: var(--specialist);">
+            <h5>Crypto Token Custodian — Enhanced Due Diligence</h5>
+            <p>Rule 8.2.6: Fund Manager must assess: FSR authorisation, segregation systems, private key storage policies, tech governance, conflict management, client disclosures.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 8.3 - Conflicts -->
+    <div id="s8-conflicts" class="sub-heading">§8.3 — Conflicts of Interest & Related Party Transactions</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.3 Conflicts & RPTs</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">8.3.1(1)</span></td>
+              <td><span class="tag-ob">Conflict Avoidance</span></td>
+              <td>Fund Manager (and Trustee for Investment Trusts) must take reasonable steps to ensure dealings in Fund Property do not give rise to a conflict of interest.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.3.1(2)</span></td>
+              <td><span class="tag-ob">Conflict Disclosure (applies to QIFs)</span></td>
+              <td>Where a conflict arises (with Related Parties or otherwise), Fund Manager and Trustee must disclose to Unitholders: the nature of the conflict and how it will be managed. Applies to all fund types including QIFs.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.3.1(3)</span></td>
+              <td><span class="tag-ob">Remuneration Policies</span></td>
+              <td>Fund Manager must establish and implement remuneration policies that: (a) are consistent with sound and effective risk management; and (b) do not, to the extent practicable, encourage risk-taking inconsistent with the Fund's investment objectives and risk profile.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.3.2</span></td>
+              <td><span class="tag-ob">Related Party Transactions (RPTs)</span></td>
+              <td>RPTs must be on arm's length terms. If RPT value ≥ 5% of most recent audited NAV: must issue circular to Unitholders AND obtain prior Special Resolution (ordinary resolution for Property Funds). Must disclose RPT details in next interim/annual report. Annual report must include total RPT value, nature, and identities of Related Parties (or negative statement if none).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.3.3</span></td>
+              <td><span class="tag-ob">Best Execution & Fair Allocation</span></td>
+              <td>Systems and controls must ensure: trades executed as soon as reasonably practicable at best available terms; fair and timely trade allocation across Funds and clients; no excessive trading; underwriting in best interest of Fund.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 RPT Threshold — The 5% Rule</h5>
+          <p>If a Fund Manager of an Exempt Fund wants to sell a property it owns to the Fund for AED 50M, and the Fund's most recent audited NAV is AED 800M, the transaction is 6.25% of NAV — exceeding the 5% threshold. The Fund Manager must: (1) issue a circular to all Unitholders with transaction details; (2) obtain approval by Special Resolution (or ordinary resolution since it's a property transaction for a Property Fund) before proceeding. After completion, the RPT details must appear in the next interim/annual report.</p>
+          <p style="margin-top:8px;"><strong>Note exceptions:</strong> Rule 8.3.2(5): Exempt Property Funds — Rules 8.3.2(3) and (4)(a) (circular and voting) do NOT apply. Rule 8.3.2(7): ETF Fund Manager appointing Related Party Price Information Provider at fund establishment — Rules 8.3.2(3) and (4) do NOT apply.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Section 8.4 - Valuation -->
+    <div id="s8-valuation" class="sub-heading">§8.4–8.5 — Valuation & Unit Pricing</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.4 Valuation of Fund Property</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">8.4.1(1)(a)</span></td>
+              <td><span class="tag-ob">Regular Valuation (applies to QIFs)</span></td>
+              <td>Fund Property must be valued at regular intervals appropriate to the nature of the Fund — except where valuation is suspended per circumstances set out in the Constitution or Prospectus.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.4.1(1)(b)&(c)</span></td>
+              <td><span class="tag-ob">Valuation at Each Point + Publication</span></td>
+              <td>Valuation prepared for each Unit class at each valuation point. Unit prices must be published and made available to Unitholders and prospective Unitholders as soon as practicable after each valuation point.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.4.1(2)–(4)</span></td>
+              <td><span class="tag-gd">Valuation Method</span></td>
+              <td>Fund Property value = net value after deducting expenses, outstanding borrowings, and any capital outstanding on mortgage of Real Property. Determined per Constitution and Prospectus. Acquisition/disposal charges excluded from asset value.</td>
+              <td><span class="risk-pill risk-info">Methodology</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.4.1(5)</span></td>
+              <td><span class="tag-ob">Dilution Levy</span></td>
+              <td>Dilution levy or adjustment must not be made unless permitted in the Fund's Prospectus. Must be applied fairly and solely for the purpose of reducing dilution.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.4.2</span></td>
+              <td><span class="tag-ob">Unit Count Integrity + Error Correction</span></td>
+              <td>At each valuation point: Units in issue of any class must be at least as many as Units registered to Unitholders of that class. Any valuation error must be corrected as soon as possible and the Fund reimbursed for correction costs.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.5.1–8.5.2</span></td>
+              <td><span class="tag-ob">Single Price Determination + Error Reporting</span></td>
+              <td>All reasonable steps and due diligence to ensure accurate single price per Unit based on the valuation. Any pricing breach must be immediately rectified. DFSA must be informed of material mis-pricing rectifications (unless of minimal significance).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Section 8.6 - Issue & Redemption / Liquidity -->
+    <div id="s8-liquidity" class="sub-heading">§8.6 & §8.6A — Issue, Redemption & Liquidity Risk Management</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.6 Issue & Redemption + §8.6A Liquidity</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">8.6.1</span></td>
+              <td><span class="tag-ob">Issue Obligation (Open-ended Funds)</span></td>
+              <td>Fund Manager of Open-ended Fund must: (a) at all times during dealing day be willing to issue or sell Units to any eligible Client; (b) do so fairly and reasonably as between all Unitholders and prospective Unitholders (unless reasonable grounds to refuse).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.6.2</span></td>
+              <td><span class="tag-ob">Redemption Obligation (Open-ended Funds)</span></td>
+              <td>Fund Manager must: (a) at all times during dealing day be willing to redeem Units on Unitholder request; (b) do so fairly as between redeeming and continuing Unitholders. Full proceeds must be paid within any reasonable period specified in the constitution/offer documents (unless reasonable grounds to withhold).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.6A.1</span></td>
+              <td><span class="tag-ob">Liquidity Risk Management (Open-ended Domestic Funds — incl. QIFs)</span></td>
+              <td>Fund Manager must ensure Fund has sufficient liquidity to meet redemption requests. Systems and controls must include: (a) liquidity buffers, limits on illiquid assets, lines of credit; (b) analysis of underlying asset classes, on-exchange liquidity, investor redemption patterns, other liquidity factors; (c) stress testing mechanisms; (d) liquidity stress powers (anti-dilution levies, side pockets, redemption gates, suspension) with clear triggers and procedures.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.6B.1</span></td>
+              <td><span class="tag-ob">Confirmation Notes (Public Funds)</span></td>
+              <td>When a Public Fund executes a Transaction relating to a Unit, must send confirmation note to Unitholder within 2 business days of execution. Note must include: FM name/address, Unitholder name, Fund description, transaction date/time/method, nature, number of Units, price, valuation date, gross value, and commissions breakdown.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mermaid-wrap" style="margin-top:14px;">
+          <div class="mermaid">
+flowchart TD
+    A([Liquidity Stress Event — Fund cannot meet redemptions]) --> B{Fund Manager activates liquidity stress protocols}
+    B --> C[Measure severity against pre-set triggers in §8.6A policies]
+    C --> D{Which liquidity tools apply?}
+    D --> D1[Anti-dilution levy — charge redeeming investors for liquidity costs]
+    D --> D2[Side pocket — ring-fence illiquid assets separately]
+    D --> D3[Redemption gate — limit % redeemable in any period]
+    D --> D4[Suspend redemptions — per Article 37 of the Law]
+    D1 & D2 & D3 & D4 --> E[Notify DFSA + Unitholders as required]
+    E --> F[Document trigger event, tool applied, and resolution plan]
+    F --> G[Review and update liquidity risk management policy]
+    style A fill:#c0392b,color:#fff
+    style E fill:#2471a3,color:#fff
+    style G fill:#1e8449,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Sections 8.7-8.11 -->
+    <details>
+      <summary>📋 §8.7–8.11 — Register, Meetings, Approvals, Records & Capital</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Section</th><th>Topic</th><th>Key Rules</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">§8.7</span></td>
+              <td><strong>Unitholder Register</strong></td>
+              <td>Fund Manager must maintain register of Unitholders (name, address, Units by class, registration date). Must be kept complete and up to date. Must be available for inspection in DIFC during normal business hours (electronic or hard copy). For Investment Trusts: Trustee maintains the register.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">§8.8</span></td>
+              <td><strong>Unitholder Meetings</strong></td>
+              <td>Public Funds: ≥2 Governing Body meetings per 12-month period; ≥1 annual general meeting per 12 months (annual report must be presented). QIFs: exempt from AGM requirement. Exempt Funds: meetings per Constitution and Prospectus. Unitholders holding ≥1/10th in value may demand extraordinary general meeting. Meeting procedures must comply with App 2.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">§8.9</span></td>
+              <td><strong>Approvals & Notifications</strong> (Public Funds)</td>
+              <td>Fund Manager of Public Fund must comply with App 3 regarding: (a) fundamental changes requiring prior Unitholder approval; (b) significant changes requiring pre-event notification; (c) notifiable changes requiring post-notification. Full procedures in Appendix 3.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">§8.10</span></td>
+              <td><strong>Record Maintenance (applies to QIFs)</strong></td>
+              <td>Fund Manager must make and retain accounting and other records to demonstrate compliance. Records of Units held/acquired/disposed must be retained for 6 years. Dilution levy calculations and policy must be retained for 6 years. Records must be open to DFSA and Trustee/Custodian during ordinary office hours.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">§8.11</span></td>
+              <td><strong>Capital (Public Funds)</strong></td>
+              <td>If Fund capital falls below minimum size specified in Constitution after previously reaching that minimum: Fund Manager must immediately notify DFSA, state grounds for commercial viability, provide Unitholder resolution supporting viability, or state wind-up steps being taken.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Section 8.12 - Delegation -->
+    <div id="s8-delegation" class="sub-heading">§8.12 — Delegation & Outsourcing</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.12 Delegation & Outsourcing</summary>
+      <div class="details-body">
+        <div class="ob-box">
+          <h5>⚠️ Core Principle — Delegation Does NOT Remove Liability</h5>
+          <ul>
+            <li>Fund Manager or Trustee <strong>remains liable to Unitholders</strong> for any acts or omissions of a Service Provider as if they were their own acts (Rule 8.12 Guidance Note 5)</li>
+            <li>Delegation does not relieve Fund Manager or Trustee from obligations including restrictions in the Constitution or Prospectus</li>
+            <li>DFSA may condition a Fund Manager's Licence to require delegation of specified activities to a Service Provider</li>
+          </ul>
+        </div>
+        <table class="rule-table" style="margin-top:12px;">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">8.12.1</span></td>
+              <td><span class="tag-ob">Custody Registration</span></td>
+              <td>Per Delegation Agreement: Fund Manager must register legal title of Fund Property with the Eligible Custodian and may instruct Eligible Custodian to deal with the property.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.12.2</span></td>
+              <td><span class="tag-ob">Fund Manager Delegation (Fund Admin / Asset Management)</span></td>
+              <td>Fund Manager may delegate Fund Administration and/or Managing Assets to a Service Provider. For Public Funds — Fund Administration Service Provider must be: DFSA-authorised for Fund Administration; OR Zone 1/Recognised Jurisdiction entity authorised for asset pricing, unit issuance/redemption, and record-keeping. Asset management Service Provider must be DFSA-authorised or Zone 1/Recognised Jurisdiction FSR-authorised.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.12.3</span></td>
+              <td><span class="tag-ob">Trustee Delegation</span></td>
+              <td>Trustee may delegate Fund Administration and Custody with prior written consent of Fund Manager. Same Service Provider standards as Rule 8.12.2 apply for Fund Administration. Custody Service Provider must be an Eligible Custodian.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.12.4</span></td>
+              <td><span class="tag-ob">Delegation Process</span></td>
+              <td>Must: (a) carry out due diligence on proposed Service Provider before delegation; (b) comply with GEN chapter 5 and App 1; (c) execute written Delegation Agreement per App 1. Delegation to Service Provider does not relieve accountability for proper conduct of the activity.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.12.5</span></td>
+              <td><span class="tag-ob">Outsourcing Process</span></td>
+              <td>Must: (a) comply with GEN chapter 5; (b) execute Outsourcing Agreement per App 1; (c) carry out due diligence before agreement. Outsourcing does not relieve accountability.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">8.12.6–8.12.7</span></td>
+              <td><span class="tag-ob">Monitoring & Review</span></td>
+              <td>Must implement and maintain systems and controls to monitor Service Providers. Public Fund: must conduct review of Service Provider performance and present findings to Governing Body every 6 months (or to Trustee for Investment Trusts). Any non-compliance with Delegation/Outsourcing Agreement: take immediate action, notify DFSA if material.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Section 8.13 - Fees -->
+    <div id="s8-fees" class="sub-heading">§8.13 — Fees, Charges & Other Levies</div>
+
+    <details>
+      <summary>📋 Key Rules — §8.13 Fees & Charges</summary>
+      <div class="details-body">
+        <div class="fees-grid">
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.1</div>
+            <h5>Issue / Sale Charges</h5>
+            <p>No charge or levy on Unit issue/sale except per Constitution and Prospectus. Preliminary/redemption charges must be in the Constitution and expressed as fixed amount or % of Unit price. Preliminary charge must not exceed current Prospectus rate.</p>
+          </div>
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.2</div>
+            <h5>Fund Manager Remuneration</h5>
+            <p>No payment or benefit from Fund Property to Fund Manager unless: permitted by Constitution; and Prospectus specifies how calculated, accrued, when paid, and maximum/current rates. Minimum 90 days' written notice required for any increase.</p>
+          </div>
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.3</div>
+            <h5>New Remuneration Categories</h5>
+            <p>Fund Manager cannot introduce a new remuneration category without: (a) 90 days' written notice to Unitholders; AND (b) Unitholders approving by Special Resolution.</p>
+          </div>
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.4</div>
+            <h5>Trustee / Custodian / Oversight Payments</h5>
+            <p>Payments to Trustee, Eligible Custodian, or oversight function providers from Fund Property must be: (a) remuneration specified in Prospectus (rate, periods, accrual basis, payment timing); (b) reimbursement of properly incurred expenses. Payment only if permitted by Constitution.</p>
+          </div>
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.5</div>
+            <h5>Performance Fees & Promotional Payments</h5>
+            <p>No promotional payment, performance fee, or benefit from Fund Property to Fund Manager unless: (a) permitted by Constitution; AND (b) specified in the Prospectus.</p>
+          </div>
+          <div class="fee-item">
+            <div class="fee-rule">Rule 8.13.6</div>
+            <h5>Set-Up Cost Amortisation</h5>
+            <p>Costs of registration, exemption, incorporation of a Fund and initial offer/issue of Units may be amortised over a period not exceeding 5 years.</p>
+          </div>
+        </div>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 90-Day Notice Trap — Fee Increases</h5>
+          <p>A Fund Manager decides mid-year to increase its annual management fee from 1.5% to 2.0% of NAV. Even though both rates are within the Constitution's maximum of 2.5%, the Fund Manager still needs to give Unitholders at least <strong>90 days' written notice</strong> of the increase and its effective date — before the higher rate can be charged. Failing to give this notice means the increased fee charge would be a breach of Rule 8.13.2.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 9 ===================== -->
+    <div id="ch9" class="section-heading">📊 Chapter 9 — Accounting, Audit & Periodic Reporting (§9.1–9.6)</div>
+
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Chapter 9 governs the <strong>financial transparency obligations</strong> of Domestic Funds. It covers: the financial reporting standards to be used (IFRS or US GAAP + SORP); accounting record requirements; the appointment, independence and cooperation requirements for Registered Auditors; the timing and content of annual and interim reports; and the biannual Periodic Fund Return that must be submitted to the DFSA.</p>
+    </div>
+
+    <!-- Key Deadlines -->
+    <div class="card">
+      <h4 style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:4px;">⏰ Critical Chapter 9 Deadlines</h4>
+      <div class="deadline-grid">
+        <div class="deadline-card">
+          <div class="deadline-val">4</div>
+          <div class="deadline-unit">Months</div>
+          <div class="deadline-label">Annual Report — after end of annual accounting period (Rule 9.4.2(1)(a))</div>
+        </div>
+        <div class="deadline-card">
+          <div class="deadline-val">2</div>
+          <div class="deadline-unit">Months</div>
+          <div class="deadline-label">Interim Report — after end of interim accounting period (Rule 9.4.2(1)(b))</div>
+        </div>
+        <div class="deadline-card">
+          <div class="deadline-val">6</div>
+          <div class="deadline-unit">Years</div>
+          <div class="deadline-label">Accounting Records retention (Rule 9.2.4(a))</div>
+        </div>
+        <div class="deadline-card">
+          <div class="deadline-val">3</div>
+          <div class="deadline-unit">Days</div>
+          <div class="deadline-label">Record reproduction to DFSA (Rule 9.2.4(c))</div>
+        </div>
+        <div class="deadline-card">
+          <div class="deadline-val">31 Jul</div>
+          <div class="deadline-unit">Annual</div>
+          <div class="deadline-label">Periodic Fund Return (Jan–Jun period) (Rule 9.6.2(a))</div>
+        </div>
+        <div class="deadline-card">
+          <div class="deadline-val">31 Jan</div>
+          <div class="deadline-unit">Annual</div>
+          <div class="deadline-label">Periodic Fund Return (Jul–Dec period) (Rule 9.6.2(b))</div>
+        </div>
+      </div>
+    </div>
+
+    <details open>
+      <summary>📋 Rule Summary Table — Chapter 9 Financial Reporting</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">9.2.1</span></td>
+              <td><span class="tag-ob">Financial Statements</span></td>
+              <td>Fund Manager must prepare financial statements for each financial year. Must be prepared in accordance with IFRS or US GAAP supplemented by the Statement of Recommended Practice (SORP).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.2.2–9.2.4</span></td>
+              <td><span class="tag-ob">Accounting Records</span></td>
+              <td>Records must: disclose financial position on an ongoing basis; record financial position at financial year end; enable Governing Body compliance verification; be retained for 6 years; be open to DFSA and Registered Auditor at all reasonable times; be reproducible within 3 business days in hard copy and English.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.3.1–9.3.3</span></td>
+              <td><span class="tag-ob">Auditor Appointment</span></td>
+              <td>Must notify DFSA of Registered Auditor appointment (via AFN form). Must verify auditor's skills, resources and experience for the fund type before appointment. Must ensure auditor is DFSA-registered throughout. Must notify DFSA immediately on termination, resignation, or vacancy. Must fill any auditor vacancy as soon as practicable.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.3.4</span></td>
+              <td><span class="tag-ob">Auditor Independence</span></td>
+              <td>Fund Manager must ensure Registered Auditor and audit staff are independent and free from conflicts of interest with the Fund Manager, Trustee and Fund. Must notify DFSA if auditor independence is compromised or if conflicts arise.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.3.5–9.3.7</span></td>
+              <td><span class="tag-ob">Auditor Co-operation</span></td>
+              <td>Fund Manager (and Trustee) must: provide all reasonably required information; give access to records; allow copies; not interfere with auditor's duties; report matters significantly affecting Fund financial position; provide all reasonable assistance. Must require Service Providers to co-operate with auditors in writing.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.3.8</span></td>
+              <td><span class="tag-ob">Auditor's Function</span></td>
+              <td>Fund Manager must require Registered Auditor to: (a) conduct audit per IAASB standards; (b) produce Fund Auditor's Report per AUD App 6.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">9.6.1–9.6.3</span></td>
+              <td><span class="tag-rp">Periodic Fund Return</span></td>
+              <td>Fund Manager must submit Periodic Fund Return for each Domestic Fund it manages biannually: Jan–Jun period by 31 July; Jul–Dec period by 31 January. DFSA may direct different period — must submit within 1 month of DFSA-specified period end. Includes External Funds.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Report Content Requirements by Fund Type (§9.5 Table)</summary>
+      <div class="details-body">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Report Component</th>
+              <th>CIR Ref</th>
+              <th>Public Fund</th>
+              <th>Exempt Fund</th>
+              <th>QIF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Annual and Interim Reports</td>
+              <td class="rule-num">9.4.2</td>
+              <td class="check">✔ Both required</td>
+              <td class="check">✔ Both required</td>
+              <td class="partial">Annual only; Interim only if material change</td>
+            </tr>
+            <tr>
+              <td>Fund Manager's Report</td>
+              <td class="rule-num">9.4.9</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>Fund Auditor's Report</td>
+              <td class="rule-num">9.3.8(b)</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>Oversight Report</td>
+              <td class="rule-num">10.3.13</td>
+              <td class="check">✔</td>
+              <td class="cross">✘ Not applicable</td>
+              <td class="cross">✘ Not applicable</td>
+            </tr>
+            <tr>
+              <td>Comparative Table (5-year performance)</td>
+              <td class="rule-num">9.4.10</td>
+              <td class="check">✔</td>
+              <td class="cross">✘ Not applicable</td>
+              <td class="cross">✘ Not applicable</td>
+            </tr>
+            <tr>
+              <td>Eligible Custodian Report</td>
+              <td class="rule-num">9.4.7(2)</td>
+              <td class="partial">Hedge Funds only</td>
+              <td class="partial">Hedge Funds only</td>
+              <td class="partial">Hedge Funds only</td>
+            </tr>
+            <tr>
+              <td>Investment Committee Report</td>
+              <td class="rule-num">13.3.1 / 13.4.3</td>
+              <td class="partial">PE Funds + Property Funds</td>
+              <td class="partial">PE Funds + Property Funds</td>
+              <td class="cross">✘ Not applicable</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px; color:var(--muted); margin-top:10px;">All reports must be: supplied free to Unitholders · available in English · sent to DFSA · available for inspection (Public Funds) during ordinary office hours at specified location.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Combined Chapter 9 Compliance Checklist</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Confirm all financial statements are prepared in accordance with IFRS or US GAAP + SORP</li>
+          <li>Maintain accounting records that can disclose the Fund's financial position on an ongoing basis and as at financial year end</li>
+          <li>Retain accounting records for a minimum of 6 years from the date to which they relate</li>
+          <li>Ensure records can be reproduced in hard copy, in English, within 3 business days of any DFSA request</li>
+          <li>Appoint a DFSA-Registered Auditor and notify DFSA via AFN before any auditor commences work</li>
+          <li>Verify auditor's skills, resources and experience for the specific fund type at appointment</li>
+          <li>Notify DFSA immediately on any auditor resignation, termination or vacancy — fill any vacancy promptly</li>
+          <li>Ensure auditor and audit staff independence from Fund Manager, Trustee and Fund throughout engagement</li>
+          <li>Implement cooperation procedures: full information access for auditor, no interference, report significant financial matters</li>
+          <li>Produce annual report within 4 months of annual accounting period end</li>
+          <li>Produce interim report within 2 months of interim accounting period end (not required for QIFs unless material change)</li>
+          <li>Ensure annual reports include all required components per fund type (see table above)</li>
+          <li>For Public Funds — include Oversight Report and 5-year comparative table in annual report</li>
+          <li>Submit Periodic Fund Return by 31 July (Jan–Jun) and 31 January (Jul–Dec)</li>
+          <li>Distribute annual and interim reports free of charge to Unitholders; in English; send copy to DFSA</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- RISK MATRIX -->
+    <details>
+      <summary>⚠️ Part 4 — Consolidated Risk Matrix</summary>
+      <div class="details-body">
+        <table class="risk-matrix">
+          <thead><tr><th>Risk Area</th><th>Risk Level</th><th>Consequence</th><th>Mitigation</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Constitution without all App 5 contents or prejudicial provisions</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>DFSA direction to amend; potential investor claims for breach of fund terms</td>
+              <td>Pre-launch Constitution audit against App 5 checklist; legal review of all Unitholder provisions</td>
+            </tr>
+            <tr>
+              <td>RPT exceeding 5% of NAV without Unitholder circular and approval</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 8.3.2; transaction may be voidable; DFSA enforcement</td>
+              <td>RPT monitoring register; automatic flag when transactions approach 4% of NAV</td>
+            </tr>
+            <tr>
+              <td>Crypto Tokens held by non-Eligible Custodian (or no Eligible Custodian)</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Absolute breach of Rule 8.2.2(4); regulatory action; investor loss without insurance</td>
+              <td>Crypto Token custodian due diligence per Rule 8.2.6 before any crypto asset acquisition</td>
+            </tr>
+            <tr>
+              <td>Pricing error not reported to DFSA when material</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 8.5.2; potential investor compensation; DFSA censure</td>
+              <td>Automated valuation reconciliation; pricing error reporting protocol with 24-hour escalation</td>
+            </tr>
+            <tr>
+              <td>Open-ended fund without liquidity risk management policies per Rule 8.6A</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 8.6A.1; DFSA intervention; fund suspension risk</td>
+              <td>Documented LRM policy covering buffers, stress tests, and liquidity tools before fund launch</td>
+            </tr>
+            <tr>
+              <td>Fund Manager fee increase without 90-day notice</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Breach of Rule 8.13.2; Unitholders may claim repayment of excess fees</td>
+              <td>Fee change calendar; automated 90-day countdown trigger in compliance system</td>
+            </tr>
+            <tr>
+              <td>Annual report published late (beyond 4 months)</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 9.4.2; DFSA regulatory action; investor confidence harm</td>
+              <td>Internal deadline at 3 months; monthly progress tracking against audit milestones</td>
+            </tr>
+            <tr>
+              <td>Periodic Fund Return filed late</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Breach of Rule 9.6.2; DFSA may impose conditions or take action</td>
+              <td>Automated DFSA reporting calendar with 2-week advance reminder</td>
+            </tr>
+            <tr>
+              <td>Auditor conflict of interest not disclosed to DFSA</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 9.3.4; audit reliability questioned; DFSA investigation</td>
+              <td>Annual auditor independence declaration; ongoing conflict monitoring checklist</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="section-heading">📊 Part 4 Summary Dashboard</div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card dash-takeaway">
+        <h4 style="color:var(--guidance);">💡 Key Takeaways</h4>
+        <ul>
+          <li>Constitution must contain all App 5 items and be free of prejudicial provisions</li>
+          <li>RPTs ≥5% of NAV require Unitholder circular and Special Resolution</li>
+          <li>Crypto Token custody requires Eligible Custodian — no exceptions whatsoever</li>
+          <li>Delegation never removes Fund Manager liability — always accountable for Service Provider acts</li>
+          <li>Annual report: 4 months. Interim: 2 months. Periodic Fund Return: biannual (Jul 31 / Jan 31)</li>
+          <li>IFRS or US GAAP + SORP is mandatory for all fund financial statements</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-trap">
+        <h4 style="color:var(--obligation);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Forgetting that QIFs only have limited Ch. 8 obligations — but Rule 8.6A.1 (liquidity) and Rule 8.10.1 (records) DO apply to open-ended QIFs</li>
+          <li>Fee increases (even within Constitution maximum) still require 90-day advance notice</li>
+          <li>New performance fee categories require both notice AND Special Resolution</li>
+          <li>Using "guaranteed" or "protected" in fund name without DFSA pre-approval</li>
+          <li>Missing the Periodic Fund Return biannual deadlines (31 July and 31 January)</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-flag">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Fund Manager substituting itself as custodian for Crypto Token assets</li>
+          <li>Valuation errors repeated across multiple pricing points — indicates systemic failure</li>
+          <li>Open-ended fund without documented liquidity buffers and stress testing procedures</li>
+          <li>Related Party providing services to the Fund without arm's-length benchmarking</li>
+          <li>Auditor's engagement partner also providing consulting services to the Fund Manager</li>
+          <li>Fund operating without a Registered Auditor appointed and notified to DFSA</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-gov">
+        <h4 style="color:var(--specialist);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Governing Body must receive 6-monthly Service Provider performance reviews (Rule 8.12.7)</li>
+          <li>Board must approve all RPTs before execution — documented in minutes</li>
+          <li>Remuneration committee should formally review fund manager pay policies against Rule 8.3.1(3)</li>
+          <li>Liquidity risk policy should be a standing Board agenda item — reviewed against IOSCO 2018 Open-Ended Fund guidance</li>
+          <li>Annual auditor independence assessment should be a formal Board resolution</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-btns">
+      <a href="part3.html" class="nav-btn">← Part 3: Fund Functionaries</a>
+      <a href="part5.html" class="nav-btn next">Part 5: Types of Domestic Funds →</a>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <div class="page-footer">
+    DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>
+    For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.
+  </div>
+</div><!-- /main -->
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#1a3a5c', primaryTextColor: '#fff', lineColor: '#6b7280' } });
+</script>
+</body>
+</html>

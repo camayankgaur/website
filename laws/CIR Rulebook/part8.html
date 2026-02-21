@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 8 — Transfer Schemes &amp; Winding Up | CIR Learning Hub</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ob:#c0392b;--ob-bg:#fdf0ef;--gd:#2471a3;--gd-bg:#eaf3fb;
+      --rp:#1e8449;--rp-bg:#eafaf1;--sp:#7d3c98;--sp-bg:#f5eef8;
+      --sw:270px;--r:12px;--sh:0 2px 12px rgba(0,0,0,.08);
+      --shh:0 6px 24px rgba(0,0,0,.14);--bg:#f4f6f9;--card:#fff;
+      --text:#1a202c;--mu:#6b7280;--bo:#e5e7eb;--ac:#1a3a5c
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #sidebar{width:var(--sw);background:var(--ac);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+    .sbl{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sbl .rl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.5);font-weight:600}
+    .sbl h1{font-size:17px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+    .sbl .vt{font-size:11px;color:rgba(255,255,255,.5);margin-top:6px}
+    .sl{padding:14px 20px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);font-weight:600}
+    .nav a{display:flex;align-items:center;gap:10px;padding:8px 20px;color:rgba(255,255,255,.82);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:all .2s}
+    .nav a:hover,.nav a.active{background:rgba(255,255,255,.1);border-left-color:#fff;color:#fff}
+    .nav a .pn{background:rgba(255,255,255,.15);border-radius:4px;font-size:10px;padding:2px 6px;font-weight:700;min-width:36px;text-align:center}
+    .nav a.active .pn{background:rgba(255,255,255,.3)}
+    #main{margin-left:var(--sw);flex:1;min-height:100vh}
+    .hdr{background:var(--card);border-bottom:1px solid var(--bo);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .hdr h2{font-size:16px;font-weight:600;color:var(--ac)}
+    .bc{font-size:13px;color:var(--mu)}.bc a{color:var(--gd);text-decoration:none}
+    .pg{padding:32px;max-width:1200px}
+    .hero{background:linear-gradient(135deg,#212f3d 0%,#2e4057 60%,#3d566e 100%);border-radius:var(--r);padding:36px 40px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+    .hero::after{content:'P8';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:110px;font-weight:900;opacity:.07}
+    .pt{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:8px}
+    .hero h1{font-size:26px;font-weight:800;margin-bottom:10px}
+    .hero p{font-size:13.5px;opacity:.85;max-width:680px;line-height:1.6}
+    .pm{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+    .pm .l{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:1px}
+    .pm .v{font-size:14px;font-weight:700;margin-top:2px}
+    .ib{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+    .ip{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:24px;font-size:13px;font-weight:500}
+    .ipo{background:var(--ob-bg);color:var(--ob)}.ipg{background:var(--gd-bg);color:var(--gd)}
+    .ipr{background:var(--rp-bg);color:var(--rp)}.ips{background:var(--sp-bg);color:var(--sp)}
+    .sh2{font-size:18px;font-weight:700;color:var(--ac);margin-bottom:16px;display:flex;align-items:center;gap:10px;margin-top:36px}
+    .sh2::after{content:'';flex:1;height:1px;background:var(--bo)}
+    .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);padding:24px 28px;margin-bottom:20px}
+    .pe{background:var(--gd-bg);border-left:4px solid var(--gd);border-radius:0 var(--r) var(--r) 0;padding:18px 22px;margin-bottom:20px}
+    .pe h4{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+    .pe p{font-size:14px;line-height:1.65}.pe p+p{margin-top:8px}
+    details{border:1px solid var(--bo);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+    details[open]{box-shadow:var(--sh)}
+    summary{padding:16px 20px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card);display:flex;align-items:center;gap:10px;user-select:none;list-style:none;color:var(--ac)}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:11px;transition:transform .2s;color:var(--mu)}
+    details[open] summary::before{transform:rotate(90deg)}
+    .db{padding:20px 24px;background:var(--card);border-top:1px solid var(--bo)}
+    .rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .rt th{background:var(--ac);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .rt th:first-child{border-radius:8px 0 0 0}.rt th:last-child{border-radius:0 8px 0 0}
+    .rt td{padding:11px 14px;border-bottom:1px solid var(--bo);vertical-align:top;line-height:1.55}
+    .rt tr:hover td{background:#f9fafb}.rt tr:last-child td{border-bottom:none}
+    .rn{font-family:monospace;font-size:12px;color:var(--gd);font-weight:700;white-space:nowrap}
+    .rph{background:var(--ob-bg);color:var(--ob);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600}
+    .rpm{background:#fef9e7;color:#b7770d;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600}
+    .rpl{background:var(--rp-bg);color:var(--rp);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600}
+    .to{color:var(--ob);font-weight:700}
+    .ob{background:var(--ob-bg);border:1px solid #f5c6c0;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .ob h5{font-size:12px;font-weight:700;color:var(--ob);text-transform:uppercase;margin-bottom:8px}
+    .ob ul,.rb ul{padding-left:16px}.ob ul li,.rb ul li{font-size:13px;line-height:1.65;padding:2px 0}
+    .rb{background:var(--rp-bg);border:1px solid #a9dfbf;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .rb h5{font-size:12px;font-weight:700;color:var(--rp);text-transform:uppercase;margin-bottom:8px}
+    .ex{background:#fffde7;border:1px solid #f9e04b;border-radius:var(--r);padding:18px 22px;margin-top:16px}
+    .ex h5{font-size:12px;font-weight:700;text-transform:uppercase;color:#7d6608;margin-bottom:8px}
+    .ex p{font-size:13.5px;line-height:1.6;color:#4a3c08}
+    .pb{background:#fff5f5;border:2px solid var(--ob);border-radius:10px;padding:16px 20px;margin:12px 0;display:flex;gap:14px;align-items:flex-start}
+    .pbi{font-size:26px;flex-shrink:0}.pb h5{font-size:13px;font-weight:700;color:var(--ob);margin-bottom:6px}.pb p{font-size:13px;line-height:1.55;color:#7b241c}
+    /* Timeline / process flow */
+    .timeline{position:relative;padding-left:28px;margin:16px 0}
+    .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--bo)}
+    .tl-step{position:relative;margin-bottom:20px}
+    .tl-step::before{content:'';position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--ac);border:2px solid #fff;box-shadow:0 0 0 2px var(--ac)}
+    .tl-step.warn::before{background:var(--ob)}
+    .tl-step.ok::before{background:var(--rp)}
+    .tl-step h5{font-size:13px;font-weight:700;color:var(--ac);margin-bottom:4px}
+    .tl-step.warn h5{color:var(--ob)}.tl-step.ok h5{color:var(--rp)}
+    .tl-step p{font-size:13px;color:var(--mu);line-height:1.6}
+    /* Resolution matrix */
+    .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+    .res-card{background:var(--card);border-radius:10px;border:1px solid var(--bo);padding:16px 18px;box-shadow:var(--sh)}
+    .res-card .rt-tag{font-size:11px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:8px}
+    .res-card h4{font-size:13px;font-weight:700;margin-bottom:8px}
+    .res-card p{font-size:12.5px;color:var(--mu);line-height:1.6}
+    /* Wind-up info content */
+    .wf-info{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:16px 0}
+    .wf-card{background:var(--card);border-radius:10px;border:1px solid var(--bo);padding:14px 16px;box-shadow:var(--sh);text-align:center}
+    .wf-card .wfn{font-size:28px;font-weight:900;color:var(--ac)}
+    .wf-card p{font-size:12px;color:var(--mu);margin-top:4px;line-height:1.5}
+    /* Dashboard */
+    .dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
+    .dc{border-radius:var(--r);padding:18px 20px;border-left:4px solid}
+    .dt{background:var(--gd-bg);border-color:var(--gd)}.dtr{background:var(--ob-bg);border-color:var(--ob)}
+    .df{background:#fef9e7;border-color:#d4ac0d}.dgo{background:var(--sp-bg);border-color:var(--sp)}
+    .dc h4{font-size:13px;font-weight:700;margin-bottom:10px}
+    .dc ul{list-style:none;padding:0}.dc ul li{font-size:12.5px;padding:3px 0;line-height:1.55}
+    .dc ul li::before{content:'• ';font-weight:700}
+    .cl{list-style:none;padding:0}
+    .cl li{padding:8px 0;border-bottom:1px solid var(--bo);font-size:13.5px;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+    .cl li:last-child{border-bottom:none}
+    .cl li::before{content:'☐';font-size:16px;color:var(--rp);flex-shrink:0;margin-top:1px}
+    .nav-btns{display:flex;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--bo)}
+    .nb{background:var(--card);border:1px solid var(--bo);border-radius:10px;padding:14px 22px;text-decoration:none;color:var(--ac);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);transition:box-shadow .2s}
+    .nb:hover{box-shadow:var(--shh)}.nb.next{background:var(--ac);color:#fff}
+    .pf{text-align:center;padding:32px;color:var(--mu);font-size:12px;border-top:1px solid var(--bo);margin-top:20px}
+    @media(max-width:900px){#sidebar{display:none}#main{margin-left:0}.pg{padding:16px}.res-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sbl"><div class="rl">The DFSA Rulebook</div><h1>Collective Investment Rules</h1><div class="vt">CIR/VER40/01-26 · Jan 2026</div></div>
+  <div class="sl">Navigation</div>
+  <div class="nav"><a href="index.html"><span class="pn">🏠</span> Dashboard</a></div>
+  <div class="sl">Parts</div>
+  <div class="nav">
+    <a href="part1.html"><span class="pn">P1</span> Introduction</a>
+    <a href="part2.html"><span class="pn">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="pn">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="pn">P4</span> Establishment &amp; Management</a>
+    <a href="part5.html"><span class="pn">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="pn">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="pn">P7</span> Marketing of Funds</a>
+    <a href="part8.html" class="active"><span class="pn">P8</span> Transfer &amp; Winding Up</a>
+  </div>
+  <div class="sl">Appendices</div>
+  <div class="nav"><a href="appendices.html"><span class="pn">APP</span> All Appendices (1–9)</a></div>
+  <div class="sl" style="margin-top:12px;">Chapter Sections</div>
+  <div class="nav" style="font-size:12px;">
+    <a href="#overview" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">P8</span> Overview</a>
+    <a href="#ch16" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.16</span> Transfer Schemes</a>
+    <a href="#ch16-res" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">16.1.3</span> Resolution Requirements</a>
+    <a href="#ch17" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.17</span> Winding Up</a>
+    <a href="#ch17-trigger" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">17.1.3</span> Winding-Up Triggers</a>
+    <a href="#ch17-process" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">17.1.4</span> Winding-Up Process</a>
+    <a href="#ch17-viable" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">17.1.6</span> Not Commercially Viable</a>
+    <a href="#checklist" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">✅</span> Compliance Checklist</a>
+    <a href="#dashboard" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary Dashboard</a>
+  </div>
+</nav>
+
+<div id="main">
+  <header class="hdr">
+    <div><div class="bc"><a href="index.html">CIR Hub</a> › <strong>Part 8: Transfer Schemes &amp; Winding Up</strong></div></div>
+    <h2>Chapters 16 &amp; 17 · §16.1 – 17.1.6</h2>
+  </header>
+  <div class="pg">
+
+    <div class="hero">
+      <div class="pt">Part 8 · Chapters 16 &amp; 17</div>
+      <h1>Transfer Schemes and Winding Up of Domestic Funds</h1>
+      <p>Part 8 governs the end-of-life processes for Domestic Funds — either a restructuring via a Transfer Scheme (Chapter 16) or an orderly Winding Up (Chapter 17). These provisions operate alongside Part 8 and Part 9 of the Law and the Regulatory Law 2004. The Rules prescribe the Unitholder resolutions required before any property transfer takes place, the steps the FM and Trustee must follow when winding up, the accounting obligations during winding up, and the notification requirements when a Fund is no longer commercially viable.</p>
+      <div class="pm">
+        <div><div class="l">Chapters</div><div class="v">16 &amp; 17</div></div>
+        <div><div class="l">Transfer — Default Vote</div><div class="v">Special Resolution</div></div>
+        <div><div class="l">Final Report Deadline</div><div class="v">2 Months After Close</div></div>
+        <div><div class="l">Unclaimed Proceeds</div><div class="v">Paid to Court After 12M</div></div>
+        <div><div class="l">Winding-Up Notice</div><div class="v">English + Arabic Press</div></div>
+      </div>
+    </div>
+
+    <div class="ib">
+      <span class="ip ipo">🔴 Transfer Scheme — Special Resolution required in almost all cases</span>
+      <span class="ip ipg">🔵 Winding up immediately stops all Unit issuance, redemption, investment &amp; borrowing</span>
+      <span class="ip ipr">🟢 Accounting &amp; reporting obligations continue during winding up</span>
+      <span class="ip ips">🟣 Unclaimed proceeds: FM must pay into court after 12 months</span>
+    </div>
+
+    <div id="overview" class="pe">
+      <h4>📖 Plain-English Overview</h4>
+      <p><strong>Chapter 16 — Transfer Schemes:</strong> When Fund Property (or a Sub-Fund's property) is to be transferred to another Fund, the proposal almost always requires a Special Resolution of the affected Unitholders before it can be implemented. The only exception is where the FM and Trustee jointly certify that the receipt of property is unlikely to prejudice Unitholders, is consistent with the Fund's objectives, and would not breach any investment/borrowing restrictions — in which case the transfer can proceed without a Unitholder vote.</p>
+      <p><strong>Chapter 17 — Winding Up:</strong> Three specific events trigger mandatory winding up under the CIR Rules — DFSA agreement to de-register, constitutional term expiry, or a transfer scheme that leaves the Fund with no property. Once triggered, the FM must immediately cease all Fund activity and begin realisation and distribution. The FM must notify Unitholders and publish a press notice. All accounting and reporting obligations continue until the final accounting period closes, after which a final annual report must be issued within 2 months.</p>
+    </div>
+
+    <!-- CHAPTER 16 — TRANSFER SCHEMES -->
+    <div id="ch16" class="sh2">🔄 Chapter 16 — Transfer Schemes Relating to Domestic Funds</div>
+
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:16px;">Chapter 16 modifies Part 9 of the Regulatory Law 2004 for the specific purpose of transferring Fund property between Funds. The Rules are prescribed pursuant to Article 113 of the Regulatory Law 2004 and apply to the FM and Trustee of every Domestic Fund — and where an Umbrella Fund uses a Protected Cell Company structure, to each cell as though it were a separate Fund.</p>
+      <div class="ob"><h5>Scope — Who Chapter 16 Applies To (Rule 16.1.1)</h5><ul>
+        <li>Fund Manager and (where appointed) the Trustee of every Domestic Fund</li>
+        <li>Umbrella Fund using PCC form: applies to each cell as if it were a separate Fund</li>
+        <li>Fund Managers of Incorporated Cells of an ICC: must also comply with the ICC Regulations requirements on IC transfers (in addition to Chapter 16)</li>
+      </ul></div>
+    </div>
+
+    <div id="ch16-res" class="sh2">🗳️ §16.1.3 — Resolution Requirements for Transfer Schemes</div>
+    <details open>
+      <summary>📋 Transfer Scheme — Unitholder Approval Requirements</summary>
+      <div class="db">
+        <div class="res-grid">
+          <div class="res-card">
+            <span class="rt-tag" style="background:var(--ob-bg);color:var(--ob);">Rule 16.1.3(2)</span>
+            <h4>Standard Transfer — Fund Property to Another Fund</h4>
+            <p>Where a Fund's property is proposed to become the property of another Fund or the property of a Sub-Fund of an Umbrella Fund, the proposal must not be implemented without a <strong>Special Resolution of the Unitholders in the Fund</strong> being transferred — unless the Rule 16.1.3(5) exception applies.</p>
+          </div>
+          <div class="res-card">
+            <span class="rt-tag" style="background:var(--ob-bg);color:var(--ob);">Rule 16.1.3(3)</span>
+            <h4>Sub-Fund Transfer Out of an Umbrella Fund</h4>
+            <p>Where a Sub-Fund's property is proposed to become the property of another Fund, two Special Resolutions are required: (a) a Special Resolution of the Unitholders in the <strong>transferring Sub-Fund</strong>; AND (b) for a non-PCC Umbrella Fund, a Special Resolution of the Unitholders of <strong>any other Sub-Fund</strong> of the Umbrella Fund — unless the transfer is not likely to result in any material prejudice to the other Sub-Funds.</p>
+          </div>
+          <div class="res-card">
+            <span class="rt-tag" style="background:var(--ob-bg);color:var(--ob);">Rule 16.1.3(4)</span>
+            <h4>Receiving Property — Fund Receiving Under Transfer Scheme</h4>
+            <p>Where a Fund or Sub-Fund is proposed to <strong>receive</strong> property (other than its first property) pursuant to a transfer scheme or an equivalent scheme of arrangement from another Fund, Sub-Fund, or Body Corporate, a <strong>Special Resolution of the Unitholders in the receiving Fund or Sub-Fund</strong> is required — and for a non-PCC Umbrella Fund, also for the relevant class(es) — unless the Rule 16.1.3(5) exception applies.</p>
+          </div>
+          <div class="res-card">
+            <span class="rt-tag" style="background:var(--rp-bg);color:var(--rp);">Rule 16.1.3(5)</span>
+            <h4>Exception — FM + Trustee Certification (No Vote Required)</h4>
+            <p>For transfers under Rule 16.1.3(4), where the FM and (if appointed) the Trustee <em>jointly agree</em> that receipt of the property: (a) is not likely to result in <strong>material prejudice</strong> to the interests of Unitholders; (b) is <strong>consistent with the objectives</strong> of the Fund or Sub-Fund; AND (c) could be effected without breaching <strong>investment/borrowing restrictions</strong> (Chapter 10.5) — then the transfer may proceed and Units may be issued in exchange for assets without a Unitholder vote.</p>
+          </div>
+        </div>
+        <div class="ex"><h5>📌 Transfer Scheme Practical Example</h5>
+          <p>The FM of "Gulf Growth Fund" (a Public Exempt Fund, $80M NAV) proposes to merge it into the "MENA Diversified Fund" (a larger $400M Public Fund managed by the same FM). The merger is structured as a transfer scheme under which Gulf Growth Fund's property becomes property of MENA Diversified Fund, and Gulf Growth Fund Unitholders receive MENA Diversified Fund Units in exchange.</p>
+          <p style="margin-top:8px;">This requires: (1) a Special Resolution of Gulf Growth Fund Unitholders (Rule 16.1.3(2) — transferring Fund); AND (2) the FM and Trustee of MENA Diversified Fund must assess whether the Rule 16.1.3(5) exception applies (is receipt consistent with objectives? no material prejudice? no investment restriction breach?). If not all three conditions are met for MENA Diversified, a Special Resolution of MENA Diversified Unitholders is also needed under Rule 16.1.3(4).</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- CHAPTER 17 — WINDING UP -->
+    <div id="ch17" class="sh2">⚰️ Chapter 17 — Winding Up of Domestic Funds</div>
+
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:16px;">Chapter 17 prescribes the additional circumstances in which a Domestic Fund may be wound up (supplementing the grounds in Article 64(1) of the Law), and the process the FM and Trustee must follow once winding up is triggered. The chapter applies to the FM and Trustee of every Domestic Fund — and for PCC Umbrella Funds, to each cell as though it is a separate Fund.</p>
+
+      <div class="ob"><h5>All Grounds for Winding Up — Statutory + CIR-Prescribed</h5><ul>
+        <li><strong>Law Article 64(1)(a):</strong> Fund is no longer commercially viable</li>
+        <li><strong>Law Article 64(1)(b):</strong> The purpose of the Fund is already accomplished or cannot be accomplished</li>
+        <li><strong>Law Article 34(3):</strong> Exempt Fund or QIF can no longer meet its fund-type conditions — FM must register it as a Public Fund / reconstitute as Exempt Fund, or wind it up</li>
+        <li><strong>Rule 17.1.3(2)(a):</strong> DFSA has agreed (in response to a request by the Trustee, FM or Governing Body member) to remove the Fund from the registered Funds list on conclusion of winding up</li>
+        <li><strong>Rule 17.1.3(2)(b):</strong> Expiration of any period specified in the Constitution as the Fund's termination date</li>
+        <li><strong>Rule 17.1.3(2)(c):</strong> The effective date of a duly approved transfer scheme that results in the Fund being left with no property</li>
+      </ul></div>
+    </div>
+
+    <div id="ch17-trigger" class="sh2">🚨 §17.1.3 — Winding-Up Trigger: Immediate Effect</div>
+    <details open>
+      <summary>📋 What Must Happen Immediately When a Winding-Up Event Occurs</summary>
+      <div class="db">
+        <div class="pb"><div class="pbi">🛑</div><div><h5>Immediate Cessation of All Fund Activity — Rule 17.1.3(1)</h5><p>Upon the happening of any of the winding-up events, the FM and (if appointed) the Trustee must immediately and simultaneously CEASE ALL of the following: issuing Units; selling Units; cancelling Units; redeeming Units; making any new investments; and making any new borrowings for the Fund. There is no grace period — cessation is required upon the event happening, not after any notice period.</p></div></div>
+        <div class="ob" style="margin-top:10px;"><h5>Transfer Scheme Special Rule (Rule 17.1.4(1))</h5><ul>
+          <li>In the case of winding up triggered by a transfer scheme (Rule 17.1.3(2)(c)), the FM and Trustee must wind up the Fund <strong>in accordance with the approved transfer scheme</strong> — not by the general realisation/distribution process below</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <div id="ch17-process" class="sh2">📋 §17.1.4 — The Winding-Up Process (Non-Transfer Scheme Cases)</div>
+    <details open>
+      <summary>📋 Step-by-Step Winding-Up Process — Rule 17.1.4</summary>
+      <div class="db">
+        <div class="timeline">
+          <div class="tl-step warn">
+            <h5>Step 1 — Trigger Event Occurs</h5>
+            <p>One of the Rule 17.1.3(2) events or an Article 64(1) ground is satisfied. All Fund activity must <strong>immediately cease</strong> — no more Unit transactions, investments, or borrowings.</p>
+          </div>
+          <div class="tl-step">
+            <h5>Step 2 — Notify Unitholders (if not self-initiated)</h5>
+            <p>If Unitholders have not initiated the winding up under Article 63 of the Law, the FM or Trustee must <strong>inform Unitholders of the winding up or termination</strong> as soon as practicable after the commencement (Rule 17.1.4(4)(a)).</p>
+          </div>
+          <div class="tl-step">
+            <h5>Step 3 — Publish Press Notice</h5>
+            <p>FM or Trustee must publish a notice of the winding up or termination in: (a) <strong>one English-language national newspaper</strong>; AND (b) <strong>one Arabic-language national newspaper</strong>. If the Fund has a website, it must also be published on the <strong>Fund's website</strong> (Rule 17.1.4(4)(b)).</p>
+          </div>
+          <div class="tl-step">
+            <h5>Step 4 — Realise Fund Property</h5>
+            <p>The FM or Trustee must, <strong>as soon as practicable</strong> after the Fund falls to be wound up, realise (convert to cash) the Fund Property (Rule 17.1.4(2)(a)). Exception: where the FM/Trustee and one or more Unitholders agree, the realisation obligation does not apply to the part of property proportionate to those Unitholders' entitlement — the FM/Trustee may distribute that part in the form of property (an in-specie distribution), after making appropriate adjustments to ensure those Unitholders bear a proportional share of liabilities and costs (Rule 17.1.4(3)).</p>
+          </div>
+          <div class="tl-step">
+            <h5>Step 5 — Pay Liabilities and Costs</h5>
+            <p>After realisation, the FM must pay or retain adequate provision for: all liabilities properly payable; and the costs of the winding up (Rule 17.1.4(2)(b)).</p>
+          </div>
+          <div class="tl-step ok">
+            <h5>Step 6 — Distribute Net Proceeds to Unitholders</h5>
+            <p>FM must distribute the net proceeds to Unitholders proportionately to their respective interests in the Fund <strong>as at the date of the winding-up event</strong>. FM may require Unitholders to produce such evidence as it reasonably requires to establish entitlement (Rule 17.1.4(2)(b)).</p>
+          </div>
+          <div class="tl-step warn">
+            <h5>Step 7 — Unclaimed Proceeds → Court (12-Month Rule)</h5>
+            <p>Any unclaimed net proceeds or other cash (including unclaimed distribution payments) held by the FM or Trustee after <strong>12 months from the date they became payable</strong> must be paid into court. FM or Trustee has the right to retain any expenses incurred in relation to that payment (Rule 17.1.4(2)(c)).</p>
+          </div>
+          <div class="tl-step ok">
+            <h5>Step 8 — Notify DFSA and Request De-registration</h5>
+            <p>On completion of winding up (in cases under Rule 17.1.3(2)(b) or (c), or Article 64(1)), the FM or Trustee must: (a) notify the DFSA in writing of that fact; AND (b) at the same time require the DFSA to <strong>revoke the relevant registration</strong> (Rule 17.1.4(5)). This notification obligation does NOT apply to winding up pursuant to Rule 17.1.3(2)(a) — in that case the DFSA has already agreed to de-register.</p>
+          </div>
+        </div>
+
+        <div class="wf-info">
+          <div class="wf-card"><div class="wfn">AS SOON</div><p>as practicable — required timing for realisation of Fund Property</p></div>
+          <div class="wf-card"><div class="wfn">12M</div><p>after which unclaimed proceeds must be paid into court</p></div>
+          <div class="wf-card"><div class="wfn">2</div><p>newspapers required for winding-up notice (English + Arabic)</p></div>
+          <div class="wf-card"><div class="wfn">0</div><p>grace period after winding-up trigger — all activity must cease immediately</p></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ACCOUNTING DURING WINDING UP -->
+    <div class="sh2" style="margin-top:28px;">📊 §17.1.5 — Accounting &amp; Reporting During Winding Up</div>
+    <details open>
+      <summary>📋 Accounting Obligations Continue During Winding Up — Rule 17.1.5</summary>
+      <div class="db">
+        <div class="rb"><h5>Reporting Continues — Key Principle (Rule 17.1.5(1))</h5><ul>
+          <li>Subject to any court order, while a Fund is being wound up: (a) annual and half-yearly accounting periods <strong>continue to run</strong>; (b) provisions concerning annual and interim allocation of income <strong>continue to apply</strong>; and (c) annual and half-yearly reports <strong>continue to be required</strong></li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Limited Exception — Dispensing with Timely Production (Rule 17.1.5(2))</h5><ul>
+          <li>Where, for any accounting period, the FM (after consulting the Auditor and the DFSA) has taken reasonable care to determine that <strong>timely production is not required</strong> in the interests of Unitholders or the DFSA — the FM or Trustee may direct that immediate production of the report by the Auditor may be dispensed with</li>
+          <li>If production is dispensed with, that period must be <strong>reported on together with the following period</strong> in the next report prepared (Rule 17.1.5(3))</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Final Accounting Period &amp; Final Annual Report (Rules 17.1.5(4)–(5))</h5><ul>
+          <li>At the conclusion of winding up, the accounting period then running is treated as the <strong>final annual accounting period</strong></li>
+          <li>Within <strong>2 calendar months</strong> after the end of the final accounting period, the annual reports of the FM must be: (a) <strong>published</strong>; AND (b) <strong>sent to each Person who was a Unitholder</strong> immediately before the end of the final accounting period</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- NOT COMMERCIALLY VIABLE -->
+    <div id="ch17-viable" class="sh2">📉 §17.1.6 — Funds Not Commercially Viable</div>
+    <details open>
+      <summary>📋 Notification to DFSA — Fund Not Commercially Viable or Purpose Unachievable</summary>
+      <div class="db">
+        <p style="font-size:14px;margin-bottom:16px;">Where the FM believes on reasonable grounds that the Fund is not commercially viable or that the purpose of the Fund cannot be accomplished, the FM must notify the DFSA of this and include comprehensive information to support the notification.</p>
+        <div class="ob"><h5>13 Mandatory Items for the DFSA Notification (Rule 17.1.6(2))</h5><ul>
+          <li>(a) Name of the Fund</li>
+          <li>(b) Size and type of Fund</li>
+          <li>(c) Number of Unitholders</li>
+          <li>(d) Whether dealing in the Fund's Units has been suspended</li>
+          <li>(e) Why the request is being made (grounds for believing Fund is not commercially viable / purpose unachievable)</li>
+          <li>(f) What consideration has been given to a Transfer Scheme with another Fund, and the reasons why a transfer scheme is not possible</li>
+          <li>(g)(i) Whether Unitholders have been informed of the intention to seek winding up or revocation; and (ii) if not, when they will be informed</li>
+          <li>(h) Details of any proposed preferential switching rights offered or to be offered to Unitholders (if an Umbrella Fund)</li>
+          <li>(i) Details of any proposed rebate of charges to Unitholders who recently purchased Units</li>
+          <li>(j) Where the costs of winding up will fall</li>
+          <li>(k) A statement from the Trustee / Eligible Custodian / oversight function persons (if a Public Fund) <em>or</em> from the Auditor (if an Exempt Fund or QIF) confirming: (i) the FM has taken reasonable care and is certain a transfer scheme is not practical; (ii) an explanation of what steps were considered that would result in the Fund not needing to wind up; (iii) confirmation that the FM has carried out its functions and duties in accordance with the Law and Rules; and (iv) whether the Fund's investment and borrowing powers have been exceeded</li>
+          <li>(l) The preferred date for commencement of winding up</li>
+          <li>(m) Any additional information considered relevant to the DFSA's consideration</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>DFSA Follow-Up (Rule 17.1.6(3))</h5><ul>
+          <li>The DFSA may request further information after receipt of the notification — the FM must cooperate with any such requests</li>
+        </ul></div>
+        <div class="ex"><h5>📌 Practical Example — Not Commercially Viable Notification</h5><p>A Public Fund (an Equity Fund, NAV $4.5M, 12 Unitholders) has seen its NAV decline from $25M due to investor redemptions. The FM concludes the Fund is no longer commercially viable given its inability to achieve investment objectives at this size and the ongoing management cost burden. Before proceeding to wind up, the FM must first consider whether a transfer scheme into a compatible Fund is feasible. If no such scheme is possible, the FM files the Rule 17.1.6 notification with the DFSA, attaching the Oversight Committee's statement confirming the FM's assessment and confirming that no investment/borrowing power breaches have occurred. The DFSA may then request further information before agreeing to de-register.</p></div>
+      </div>
+    </details>
+
+    <!-- COMPLIANCE CHECKLIST -->
+    <div id="checklist" class="sh2">✅ Part 8 Compliance Checklist</div>
+    <div class="card">
+      <ul class="cl">
+        <li>Before any Transfer Scheme is implemented — confirm whether a Special Resolution of Unitholders (transferring Fund) is required under Rule 16.1.3(2) or (3)</li>
+        <li>For a Fund receiving property under a Transfer Scheme — check whether Rule 16.1.3(5) exception applies (FM + Trustee joint certification of no prejudice, consistency with objectives, no restriction breach); if not, obtain Special Resolution of receiving Fund Unitholders</li>
+        <li>For non-PCC Umbrella Fund Sub-Fund transfers — confirm whether material prejudice to other Sub-Funds is possible; if yes, obtain Special Resolution of other Sub-Fund Unitholders</li>
+        <li>Incorporated Cell / ICC transfers: comply with both Chapter 16 and the ICC Regulations</li>
+        <li>Once a winding-up event occurs — immediately cease ALL Fund activity: no Unit issuance, sale, cancellation, redemption, new investments, or new borrowings</li>
+        <li>Notify Unitholders of winding up as soon as practicable (if not Unitholder-initiated)</li>
+        <li>Publish winding-up notice in one English and one Arabic national newspaper; publish on Fund website if one exists</li>
+        <li>Realise Fund Property as soon as practicable; consider in-specie distribution options only where agreed with relevant Unitholders</li>
+        <li>Pay or make adequate provision for all liabilities and winding-up costs before distributing net proceeds</li>
+        <li>Distribute net proceeds to Unitholders proportionately to their interests as at the date of the winding-up event</li>
+        <li>After 12 months — pay any unclaimed proceeds or cash into court (retain expenses from the amount)</li>
+        <li>Continue producing annual and half-yearly reports and accounting during the winding-up period; consult Auditor and DFSA before dispensing with any timely report production</li>
+        <li>Issue final annual report within 2 calendar months of the end of the final accounting period; send to all persons who were Unitholders immediately before the close of the final period</li>
+        <li>On completion of winding up — notify DFSA in writing and request revocation of Fund registration (not required if DFSA has already agreed under Rule 17.1.3(2)(a))</li>
+        <li>If Fund is no longer commercially viable — before winding up, assess whether a Transfer Scheme is feasible; if not, file Rule 17.1.6 notification to DFSA with all 13 required items, including the Trustee/Oversight/Auditor certification</li>
+        <li>For an Exempt Fund or QIF that no longer meets its fund-type conditions — FM must either register as a Public Fund (or reconstitute as Exempt if it is a QIF) or wind up; DFSA must be notified</li>
+      </ul>
+    </div>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="sh2">📊 Part 8 Summary Dashboard</div>
+    <div class="dg">
+      <div class="dc dt">
+        <h4 style="color:var(--gd);">💡 Key Takeaways</h4>
+        <ul>
+          <li>Transfer Schemes almost always require a Special Resolution — exceptions are narrow and require joint FM/Trustee certification</li>
+          <li>Winding up ceases ALL Fund activity instantly — there is no transition period or grace period</li>
+          <li>Unclaimed proceeds must be paid to court after 12 months — not held by the FM indefinitely</li>
+          <li>Final annual report is due within 2 months of the close of the final accounting period</li>
+          <li>DFSA must be notified — and registration formally revoked — once winding up is complete</li>
+          <li>Accounting and reporting continue throughout the winding-up period (with limited DFSA-consulted exceptions)</li>
+        </ul>
+      </div>
+      <div class="dc dtr">
+        <h4 style="color:var(--ob);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Implementing a Transfer Scheme before obtaining the required Special Resolution(s)</li>
+          <li>Continuing to issue or redeem Units, make investments, or borrow after a winding-up trigger event</li>
+          <li>Holding unclaimed proceeds beyond 12 months without paying them into court</li>
+          <li>Missing the 2-month deadline for the final annual report after winding up concludes</li>
+          <li>Failing to check the ICC Regulations in addition to Chapter 16 for Incorporated Cell transfers</li>
+          <li>Not considering a Transfer Scheme as an alternative before filing a "not commercially viable" notification — the notification requires confirmation that a transfer scheme was considered and deemed impractical</li>
+        </ul>
+      </div>
+      <div class="dc df">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>A non-PCC Umbrella Fund Sub-Fund transfer proceeding without checking for material prejudice to other Sub-Funds</li>
+          <li>FM unilaterally deciding a transfer scheme receipt is non-prejudicial — Rule 16.1.3(5) requires <em>both</em> FM and Trustee to agree</li>
+          <li>Winding-up notice published only in English — Arabic-language publication is mandatory</li>
+          <li>Fund still accepting subscriptions or making investments after the winding-up event date</li>
+          <li>Final annual report not sent to all former Unitholders — only publishing it is insufficient</li>
+          <li>"Not commercially viable" notification to DFSA missing the Trustee/Oversight/Auditor certification (item (k))</li>
+        </ul>
+      </div>
+      <div class="dc dgo">
+        <h4 style="color:var(--sp);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Build a Transfer Scheme readiness protocol: pre-assess whether the Rule 16.1.3(5) exception could apply; if not, plan Unitholder circular and meeting well in advance</li>
+          <li>Maintain a Fund Viability Monitor: periodic review of NAV size, Unitholder count, cost ratios — flag early warning signs so the FM can consider transfer scheme options before commercial viability is lost</li>
+          <li>Establish a Winding-Up Playbook with assigned responsibilities, pre-drafted newspaper notice templates (English + Arabic), and a step-by-step checklist aligned to Rules 17.1.3–17.1.5</li>
+          <li>Track unclaimed distributions from the first day of non-payment — set a 12-month diary reminder to initiate court payment procedures</li>
+          <li>Maintain a constitutional term tracker for all Funds with fixed lives — calendar reminders 12 and 6 months before scheduled termination dates</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <a href="part7.html" class="nb">← Part 7: Marketing of Funds</a>
+      <a href="appendices.html" class="nb next">Appendices (App 1–9) →</a>
+    </div>
+
+  </div><!-- /pg -->
+  <div class="pf">DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.</div>
+</div>
+</body>
+</html>

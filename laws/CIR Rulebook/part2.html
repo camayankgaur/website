@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 2 — Definitional Provisions | CIR Learning Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --obligation: #c0392b; --obligation-bg: #fdf0ef;
+      --guidance: #2471a3; --guidance-bg: #eaf3fb;
+      --exclusion: #5d6d7e; --exclusion-bg: #f2f3f4;
+      --specialist: #7d3c98; --specialist-bg: #f5eef8;
+      --reporting: #1e8449; --reporting-bg: #eafaf1;
+      --sidebar-w: 270px; --header-h: 64px;
+      --radius: 12px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+      --bg: #f4f6f9; --card: #ffffff; --text: #1a202c;
+      --muted: #6b7280; --border: #e5e7eb; --accent: #1a3a5c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    #sidebar { width: var(--sidebar-w); background: var(--accent); color: #fff; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo .rulebook-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .sidebar-logo h1 { font-size: 17px; font-weight: 700; color: #fff; margin-top: 4px; line-height: 1.3; }
+    .sidebar-logo .version-tag { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+    .sidebar-section-label { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); font-weight: 600; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 13.5px; border-left: 3px solid transparent; transition: all 0.2s; }
+    .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.1); border-left-color: #fff; color: #fff; }
+    .sidebar-nav a .part-num { background: rgba(255,255,255,0.15); border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 700; min-width: 36px; text-align: center; }
+    .sidebar-nav a.active .part-num { background: rgba(255,255,255,0.3); }
+
+    /* MAIN */
+    #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 32px; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .top-header h2 { font-size: 16px; font-weight: 600; color: var(--accent); }
+    .breadcrumb { font-size: 13px; color: var(--muted); }
+    .breadcrumb a { color: var(--guidance); text-decoration: none; }
+    .page-content { padding: 32px; max-width: 1200px; }
+
+    /* HERO */
+    .part-hero { background: linear-gradient(135deg, #3d1a6e 0%, #6a1e9e 60%, #9b40c1 100%); border-radius: var(--radius); padding: 36px 40px; color: #fff; margin-bottom: 28px; position: relative; overflow: hidden; }
+    .part-hero::after { content: 'P2'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 110px; font-weight: 900; opacity: 0.07; }
+    .part-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.65; margin-bottom: 8px; }
+    .part-hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+    .part-hero p { font-size: 13.5px; opacity: 0.85; max-width: 640px; line-height: 1.6; }
+    .part-meta { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+    .part-meta-item .lbl { font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 1px; }
+    .part-meta-item .val { font-size: 14px; font-weight: 700; margin-top: 2px; }
+
+    /* INFO BAR */
+    .info-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .info-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; }
+    .pill-ob { background: var(--obligation-bg); color: var(--obligation); }
+    .pill-gd { background: var(--guidance-bg); color: var(--guidance); }
+    .pill-sp { background: var(--specialist-bg); color: var(--specialist); }
+    .pill-ex { background: var(--exclusion-bg); color: var(--exclusion); }
+
+    /* SECTION HEADING */
+    .section-heading { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; margin-top: 36px; }
+    .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* CARD */
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 20px; }
+
+    /* PLAIN ENGLISH */
+    .plain-english { background: var(--guidance-bg); border-left: 4px solid var(--guidance); border-radius: 0 var(--radius) var(--radius) 0; padding: 18px 22px; margin-bottom: 20px; }
+    .plain-english h4 { font-size: 13px; font-weight: 700; color: var(--guidance); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .plain-english p { font-size: 14px; line-height: 1.65; }
+
+    /* ACCORDION */
+    details { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+    details[open] { box-shadow: var(--shadow); }
+    summary { padding: 16px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--card); display: flex; align-items: center; gap: 10px; user-select: none; list-style: none; color: var(--accent); }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '▶'; font-size: 11px; transition: transform 0.2s; color: var(--muted); }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body { padding: 20px 24px; background: var(--card); border-top: 1px solid var(--border); }
+
+    /* TABLES */
+    .rule-table, .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .rule-table th, .comp-table th { background: var(--accent); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rule-table th:first-child, .comp-table th:first-child { border-radius: 8px 0 0 0; }
+    .rule-table th:last-child, .comp-table th:last-child { border-radius: 0 8px 0 0; }
+    .rule-table td, .comp-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .rule-table tr:hover td, .comp-table tr:hover td { background: #f9fafb; }
+    .rule-table tr:last-child td, .comp-table tr:last-child td { border-bottom: none; }
+    .rule-num { font-family: monospace; font-size: 12px; color: var(--guidance); font-weight: 700; white-space: nowrap; }
+    .risk-pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+    .risk-high { background: var(--obligation-bg); color: var(--obligation); }
+    .risk-med { background: #fef9e7; color: #b7770d; }
+    .risk-low { background: var(--reporting-bg); color: var(--reporting); }
+    .risk-info { background: var(--guidance-bg); color: var(--guidance); }
+    .tag-ex { color: var(--exclusion); font-weight: 700; }
+    .tag-sp { color: var(--specialist); font-weight: 700; }
+    .tag-ob { color: var(--obligation); font-weight: 700; }
+    .tag-gd { color: var(--guidance); font-weight: 600; }
+
+    /* EXCLUSION GRID */
+    .exclusion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+    .excl-card { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--exclusion); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); }
+    .excl-card .excl-rule { font-family: monospace; font-size: 11px; color: var(--exclusion); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .excl-card h4 { font-size: 13.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .excl-card p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .excl-card .excl-tag { font-size: 11px; margin-top: 8px; padding: 2px 8px; border-radius: 12px; display: inline-block; background: var(--exclusion-bg); color: var(--exclusion); font-weight: 600; }
+
+    /* SPECIALIST GRID */
+    .specialist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+    .spec-card { background: var(--card); border: 1px solid var(--border); border-top: 4px solid var(--specialist); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+    .spec-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .spec-card .spec-rule { font-family: monospace; font-size: 11px; color: var(--specialist); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .spec-card h4 { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .spec-card p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .spec-card .spec-tag { font-size: 11px; margin-top: 8px; padding: 2px 8px; border-radius: 12px; display: inline-block; font-weight: 600; }
+    .tag-qif-only { background: var(--reporting-bg); color: var(--reporting); }
+    .tag-pub-only { background: var(--obligation-bg); color: var(--obligation); }
+    .tag-all-types { background: var(--guidance-bg); color: var(--guidance); }
+    .tag-exempt-qif { background: #fff8e1; color: #b7770d; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '☐'; font-size: 16px; color: var(--guidance); flex-shrink: 0; margin-top: 1px; }
+
+    /* EXAMPLE & CASE STUDY */
+    .example-box { background: #fffde7; border: 1px solid #f9e04b; border-radius: var(--radius); padding: 18px 22px; margin-top: 16px; }
+    .example-box h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7d6608; margin-bottom: 8px; }
+    .example-box p { font-size: 13.5px; line-height: 1.6; color: #4a3c08; }
+    .case-study { background: var(--specialist-bg); border: 1px solid #d7bde2; border-radius: var(--radius); padding: 20px 24px; margin-top: 16px; }
+    .case-study h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--specialist); margin-bottom: 10px; }
+    .case-study p { font-size: 13.5px; line-height: 1.6; }
+    .case-study .verdict { margin-top: 12px; background: var(--card); border-radius: 8px; padding: 12px 16px; font-size: 13px; border-left: 3px solid var(--specialist); }
+
+    /* MERMAID */
+    .mermaid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; overflow-x: auto; }
+
+    /* RISK MATRIX */
+    .risk-matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .risk-matrix th { background: var(--obligation); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; }
+    .risk-matrix th:first-child { border-radius: 8px 0 0 0; }
+    .risk-matrix th:last-child { border-radius: 0 8px 0 0; }
+    .risk-matrix td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .risk-matrix tr:hover td { background: #fdf0ef; }
+    .risk-matrix tr:last-child td { border-bottom: none; }
+
+    /* SUMMARY DASHBOARD */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+    .dash-card { border-radius: var(--radius); padding: 18px 20px; border-left: 4px solid; }
+    .dash-takeaway { background: var(--guidance-bg); border-color: var(--guidance); }
+    .dash-trap { background: var(--obligation-bg); border-color: var(--obligation); }
+    .dash-flag { background: #fef9e7; border-color: #d4ac0d; }
+    .dash-gov { background: var(--specialist-bg); border-color: var(--specialist); }
+    .dash-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .dash-card ul { list-style: none; padding: 0; }
+    .dash-card ul li { font-size: 12.5px; padding: 3px 0; line-height: 1.55; }
+    .dash-card ul li::before { content: '• '; font-weight: 700; }
+
+    /* NAV BUTTONS */
+    .nav-btns { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 22px; text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+    .nav-btn:hover { box-shadow: var(--shadow-hover); }
+    .nav-btn.next { background: var(--accent); color: #fff; }
+
+    /* CROWDFUNDING HIGHLIGHT */
+    .cfund-box { background: #e8f5e9; border-left: 4px solid var(--reporting); border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin-top: 12px; }
+    .cfund-box h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--reporting); margin-bottom: 8px; }
+    .cfund-box p { font-size: 13px; line-height: 1.55; }
+
+    /* EXCLUSION DECISION BOX */
+    .decision-header { background: var(--exclusion); color: #fff; border-radius: var(--radius) var(--radius) 0 0; padding: 14px 20px; font-size: 14px; font-weight: 700; }
+    .decision-body { background: var(--exclusion-bg); border: 1px solid #ccc; border-top: none; border-radius: 0 0 var(--radius) var(--radius); padding: 18px 20px; }
+
+    .page-footer { text-align: center; padding: 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .page-content { padding: 16px; }
+      .part-hero { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="rulebook-label">The DFSA Rulebook</div>
+    <h1>Collective Investment Rules</h1>
+    <div class="version-tag">CIR/VER40/01-26 · Jan 2026</div>
+  </div>
+  <div class="sidebar-section-label">Navigation</div>
+  <div class="sidebar-nav">
+    <a href="index.html"><span class="part-num">🏠</span> Dashboard</a>
+  </div>
+  <div class="sidebar-section-label">Parts</div>
+  <div class="sidebar-nav">
+    <a href="part1.html"><span class="part-num">P1</span> Introduction</a>
+    <a href="part2.html" class="active"><span class="part-num">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="part-num">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="part-num">P4</span> Establishment & Management</a>
+    <a href="part5.html"><span class="part-num">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="part-num">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="part-num">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="part-num">P8</span> Transfer & Winding Up</a>
+  </div>
+  <div class="sidebar-section-label">Appendices</div>
+  <div class="sidebar-nav">
+    <a href="appendices.html"><span class="part-num">APP</span> All Appendices (1–9)</a>
+  </div>
+  <div class="sidebar-section-label" style="margin-top:12px;">Part 2 Chapters</div>
+  <div class="sidebar-nav" style="font-size:12.5px;">
+    <a href="#ch2" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.2</span> Non-CIF Exclusions</a>
+    <a href="#ch3" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.3</span> Specialist Classes</a>
+    <a href="#ch4" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.4</span> Excluded Offers</a>
+    <a href="#dashboard" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <header class="top-header">
+    <div>
+      <div class="breadcrumb"><a href="index.html">CIR Hub</a> › <strong>Part 2: Definitional Provisions</strong></div>
+    </div>
+    <h2>Chapters 2–4 · §2.1 – 4.1</h2>
+  </header>
+
+  <div class="page-content">
+
+    <!-- HERO -->
+    <div class="part-hero">
+      <div class="part-tag">Part 2 · Chapters 2, 3 & 4</div>
+      <h1>Definitional Provisions</h1>
+      <p>Defines the boundary of the CIR regulatory perimeter — what arrangements are excluded from being a Collective Investment Fund, which funds fall into specialist classes with enhanced obligations, and which offering activities are excluded from Offer requirements under the Law.</p>
+      <div class="part-meta">
+        <div class="part-meta-item"><div class="lbl">Chapters</div><div class="val">2, 3 & 4</div></div>
+        <div class="part-meta-item"><div class="lbl">Exclusions from CIF</div><div class="val">19</div></div>
+        <div class="part-meta-item"><div class="lbl">Specialist Classes</div><div class="val">15</div></div>
+        <div class="part-meta-item"><div class="lbl">Excluded Offers</div><div class="val">4</div></div>
+        <div class="part-meta-item"><div class="lbl">Risk Level</div><div class="val">🔴 Critical</div></div>
+      </div>
+    </div>
+
+    <!-- INFO PILLS -->
+    <div class="info-bar">
+      <span class="info-pill pill-ex">⬛ Grey — 19 exclusions from CIF definition</span>
+      <span class="info-pill pill-sp">🟣 Purple — 15 specialist fund classes</span>
+      <span class="info-pill pill-ob">🔴 Red — Scope errors attract enforcement</span>
+      <span class="info-pill pill-gd">🔵 Blue — Guidance clarifies grey-area arrangements</span>
+    </div>
+
+    <!-- PLAIN ENGLISH OVERVIEW -->
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Part 2 answers three gateway questions that every DIFC fund professional must ask: <strong>(1) Is this arrangement actually a Collective Investment Fund at all?</strong> (Chapter 2 — 19 exclusions that remove arrangements from the regulatory perimeter); <strong>(2) If it is a fund, does it fall into a specialist category requiring additional rules?</strong> (Chapter 3 — 15 specialist classes from Islamic Funds to Crypto Token Funds); and <strong>(3) When selling or transferring fund units, is that activity an "Offer" subject to prospectus rules?</strong> (Chapter 4 — 4 excluded transaction types). Getting these boundary questions wrong has serious consequences — either over-regulating commercial arrangements or failing to regulate genuine investment pooling activity.</p>
+    </div>
+
+    <!-- ===================== CHAPTER 2 ===================== -->
+    <div id="ch2" class="section-heading">⬛ Chapter 2 — Arrangements NOT Constituting a Collective Investment Fund (§2.1)</div>
+
+    <div class="plain-english">
+      <h4>📖 How Chapter 2 Works</h4>
+      <p>Article 11 of the Collective Investment Law 2010 defines a Collective Investment Fund (CIF) very broadly. Article 12 empowers the DFSA to carve out specific arrangements via Rules. Chapter 2 contains those carve-outs — if an arrangement falls within any one of Rules 2.1.2 to 2.1.20, it does <strong>not</strong> constitute a CIF and is therefore outside the CIR regulatory regime. Note: multiple exclusions may apply simultaneously.</p>
+    </div>
+
+    <details open>
+      <summary>📋 All 19 Exclusions — Overview Grid</summary>
+      <div class="details-body">
+        <div class="exclusion-grid">
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.2</div>
+            <h4>Deposits</h4>
+            <p>Entire contribution is a Deposit accepted by an authorised deposit-taking firm</p>
+            <span class="excl-tag">Deposit-takers</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.3</div>
+            <h4>Common Accounts</h4>
+            <p>Money in a common account where each participant's share is applied to their own payments, property, or services</p>
+            <span class="excl-tag">Pooled accounts</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.4</div>
+            <h4>Commercial Activities (Non-FS)</h4>
+            <p>All participants carry on non-financial services businesses and enter the arrangement for commercial purposes related to that business</p>
+            <span class="excl-tag">Commercial JVs</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.5</div>
+            <h4>Group Arrangements</h4>
+            <p>All participants are Body Corporates in the same Group as the fund management entity</p>
+            <span class="excl-tag">Intragroup</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.6</div>
+            <h4>Franchise Arrangements</h4>
+            <p>The arrangement is a franchise arrangement</p>
+            <span class="excl-tag">Franchises</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.7</div>
+            <h4>Clearing Services</h4>
+            <p>Purpose is provision of clearing services operated by an Authorised Market Institution</p>
+            <span class="excl-tag">AMI Clearing</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.8</div>
+            <h4>Certificates or Options</h4>
+            <p>Participants' rights are Investments of the kind in GEN Rule A2.2.1(d) or A2.3.1(a) (certificates representing investments or options)</p>
+            <span class="excl-tag">Structured products</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.9</div>
+            <h4>Time-share / Property Enjoyment</h4>
+            <p>Rights are time-share rights, or the predominant purpose is sharing use/enjoyment of non-investment property</p>
+            <span class="excl-tag">Property enjoyment</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.10</div>
+            <h4>Commercial Arrangements</h4>
+            <p>Company, partnership or trust whose main purpose and effect is carrying on a commercial business unrelated to financial/investment activities</p>
+            <span class="excl-tag">Commercial corps</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.11</div>
+            <h4>Debentures & Warrants (Single Issuer)</h4>
+            <p>Participants' rights are Debentures or Warrants of a single issuer that is not an open-ended or investment-purpose closed-ended company</p>
+            <span class="excl-tag">Debt instruments</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.12</div>
+            <h4>Insurance</h4>
+            <p>Arrangement is a Contract of Insurance</p>
+            <span class="excl-tag">Insurance</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.13</div>
+            <h4>Profit Sharing Investment Accounts (PSIAs)</h4>
+            <p>The account or portfolio is a Profit Sharing Investment Account</p>
+            <span class="excl-tag">Islamic banking</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.14</div>
+            <h4>Discretionary Portfolio Accounts</h4>
+            <p>Portfolio managed under a Discretionary Portfolio Management Agreement</p>
+            <span class="excl-tag">DPM mandates</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.15</div>
+            <h4>Close Relative Accounts</h4>
+            <p>Every participant is a Close Relative (including grandchildren)</p>
+            <span class="excl-tag">Family pools</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.16</div>
+            <h4>Sukuks</h4>
+            <p>Rights are evidenced by sukuk certificates where holders rely on issuer/guarantor creditworthiness</p>
+            <span class="excl-tag">Islamic finance</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.17</div>
+            <h4>Employee Reward Schemes</h4>
+            <p>Securities available only to employees/former employees or their close relatives, operated by the issuer or group trustee</p>
+            <span class="excl-tag">Employee schemes</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.18</div>
+            <h4>Property Crowdfunding</h4>
+            <p>Property Investment Crowdfunding Platform; single discrete property; all investors are clients of Crowdfunding Operator; total ≤ $10M</p>
+            <span class="excl-tag">Crowdfunding</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.19</div>
+            <h4>Loan Crowdfunding</h4>
+            <p>Loan Crowdfunding Platform; fixed amount, rate, and period; multiple lenders to one borrower; total ≤ $10M</p>
+            <span class="excl-tag">Lending platforms</span>
+          </div>
+          <div class="excl-card">
+            <div class="excl-rule">Rule 2.1.20</div>
+            <h4>Employee Money Purchase Schemes</h4>
+            <p>DFSA-approved Employee Money Purchase Scheme, operated and administered by authorised firms</p>
+            <span class="excl-tag">Pension-type schemes</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔍 Key Exclusion Deep-Dives — Commercial Arrangements (Rule 2.1.10)</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65; margin-bottom:14px;">Rule 2.1.10 is the most frequently litigated exclusion — the line between a commercial company and a Collective Investment Fund is often unclear. The DFSA provides Guidance indicators to help draw this distinction.</p>
+        <table class="rule-table">
+          <thead>
+            <tr><th>Indicator</th><th>Points Toward: Commercial Company (Excluded)</th><th>Points Toward: Investment Fund (Regulated)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Structure</strong></td>
+              <td>Closed-ended with defined business operations</td>
+              <td>Open-ended — investors expect redemption rights</td>
+            </tr>
+            <tr>
+              <td><strong>Wind-up mechanism</strong></td>
+              <td>Business continues indefinitely or wound down commercially</td>
+              <td>Specified period, then assets realised and distributed</td>
+            </tr>
+            <tr>
+              <td><strong>Employees</strong></td>
+              <td>Large workforce actively engaged in business activities</td>
+              <td>Few or no employees — delegates/outsources management</td>
+            </tr>
+            <tr>
+              <td><strong>Property activity</strong></td>
+              <td>Constructs or develops property (creates assets)</td>
+              <td>Holds property passively to benefit from price appreciation or income</td>
+            </tr>
+            <tr>
+              <td><strong>Business expansion</strong></td>
+              <td>Designed to expand investors' own existing businesses</td>
+              <td>Aims to realise gains through exit/disposal of assets</td>
+            </tr>
+            <tr>
+              <td><strong>Marketing approach</strong></td>
+              <td>Promotes business capabilities, services, products</td>
+              <td>Promotes investment mandate, manager skills, return targets</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 Property Company Examples (Guidance under Rule 2.1.10)</h5>
+          <p><strong>NOT a Fund (commercial companies):</strong> property developers/constructors, real estate agencies (selling/leasing for clients), property management companies (fee-based), property valuation firms.<br><br>
+          <strong>IS a Fund (investment companies):</strong> a company that raises capital from investors to buy/sell real estate based on specified investment criteria and distributes profits; a company that invests in shares or units of real estate companies to generate returns.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏗️ Crowdfunding Exclusions Deep-Dive (Rules 2.1.18 & 2.1.19)</summary>
+      <div class="details-body">
+        <p style="font-size:13.5px; line-height:1.65; margin-bottom:14px;">Rules 2.1.18 and 2.1.19 are modern exclusions reflecting the rise of fintech lending and property crowdfunding platforms.</p>
+        <div class="cfund-box">
+          <h5>Rule 2.1.18 — Property Investment Crowdfunding (Four Conditions)</h5>
+          <p><strong>(a)</strong> Arrangement uses a <strong>Property Investment Crowdfunding Platform</strong> operated by a Crowdfunding Operator<br>
+          <strong>(b)</strong> Involves multiple investors in an <strong>individual apartment, house or building with a single discrete title deed</strong><br>
+          <strong>(c)</strong> All investors are <strong>Clients of the Crowdfunding Operator</strong><br>
+          <strong>(d)</strong> Total consideration from all investors is <strong>≤ $10 million</strong> (or equivalent)</p>
+        </div>
+        <div class="cfund-box" style="margin-top:12px; background:#e3f2fd; border-color:var(--guidance);">
+          <h5 style="color:var(--guidance);">Rule 2.1.19 — Loan Crowdfunding (Five Conditions)</h5>
+          <p><strong>(a)</strong> Uses a <strong>Loan Crowdfunding Platform</strong> operated by a Crowdfunding Operator<br>
+          <strong>(b)</strong> Multiple <strong>lenders</strong> providing a loan to one borrower for a business or project<br>
+          <strong>(c)</strong> All lenders are <strong>Clients of the Crowdfunding Operator</strong><br>
+          <strong>(d)</strong> Loan amount, rate of return, and repayment period are <strong>fixed at outset</strong><br>
+          <strong>(e)</strong> Total funding to the borrower is <strong>≤ $10 million</strong></p>
+        </div>
+        <div class="example-box" style="margin-top:12px;">
+          <h5>📌 Note: Investment Crowdfunding Platforms</h5>
+          <p>An <em>Investment</em> Crowdfunding Platform (facilitating investment in a business or project rather than property) is likely covered by the Rule 2.1.10 commercial arrangement exclusion — not the property crowdfunding exclusion.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Decision Tree — Is This Arrangement a Collective Investment Fund?</summary>
+      <div class="details-body">
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+flowchart TD
+    A([Start: Does the arrangement pool contributions from multiple participants to invest for their benefit?]) --> B{Does Article 11 CIL 2010 definition apply?}
+    B -->|No| Z1[Not a CIF — outside CIR scope]
+    B -->|Unclear/Yes| C{Does a Chapter 2 exclusion apply?}
+    C --> C1[Rule 2.1.2: All contributions are Deposits?]
+    C --> C2[Rule 2.1.5: All participants in same Group?]
+    C --> C3[Rule 2.1.10: Main purpose is commercial business?]
+    C --> C4[Rule 2.1.13: Profit Sharing Investment Account?]
+    C --> C5[Rule 2.1.14: Discretionary Portfolio Management?]
+    C --> C6[Rule 2.1.18/19: Crowdfunding ≤ $10M?]
+    C1 & C2 & C3 & C4 & C5 & C6 -->|Yes to any| Z2[Excluded — NOT a CIF]
+    C -->|None apply| D{Is the arrangement a Domestic Fund?}
+    D -->|Yes| E{Does it fall into a Specialist Class? Ch. 3}
+    E -->|Yes| F[CIF + Specialist Rules apply — Parts 4, 5, 6]
+    E -->|No| G[Standard CIF Rules apply — Parts 4 & 5]
+    D -->|No — Foreign Fund| H[Chapter 15 marketing rules apply]
+    style Z1 fill:#1e8449,color:#fff
+    style Z2 fill:#5d6d7e,color:#fff
+    style F fill:#7d3c98,color:#fff
+    style G fill:#c0392b,color:#fff
+    style H fill:#2471a3,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Compliance Checklist — Chapter 2</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Before classifying any arrangement as a CIF, check all 19 Chapter 2 exclusions systematically</li>
+          <li>For commercial companies investing in real estate — apply the Rule 2.1.10 indicators table (structure, employees, marketing, etc.) to determine if it is a Fund or a commercial company</li>
+          <li>For group treasury arrangements — confirm all participants are Body Corporates in the same Group before relying on Rule 2.1.5</li>
+          <li>For crowdfunding platforms — confirm the $10M cap, single discrete title deed (property), and that all investors are clients of the platform operator</li>
+          <li>For employee schemes — confirm securities are available only to employees, former employees, or their Close Relatives under Rule 2.1.17</li>
+          <li>Maintain documented analysis of which exclusion applies to each non-fund arrangement your firm is involved with</li>
+          <li>Review exclusion status periodically — e.g. if a "commercial company" starts marketing itself as an investment vehicle, the Rule 2.1.10 exclusion may no longer apply</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 3 ===================== -->
+    <div id="ch3" class="section-heading">🟣 Chapter 3 — Specialist Classes of Funds (§3.1)</div>
+
+    <div class="plain-english">
+      <h4>📖 How Chapter 3 Works</h4>
+      <p>Once an arrangement is confirmed to be a Collective Investment Fund, Chapter 3 prescribes whether it also falls into one or more <strong>specialist classes</strong>. Specialist classification triggers additional requirements in Chapter 13 of Part 6. A fund can simultaneously hold multiple specialist classifications (e.g. an Islamic Hedge Fund), except that a fund cannot be both a Private Equity Fund and a Venture Capital Fund.</p>
+    </div>
+
+    <details open>
+      <summary>🟣 All 15 Specialist Classes — Overview</summary>
+      <div class="details-body">
+        <div class="specialist-grid">
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.2</div>
+            <h4>Islamic Fund</h4>
+            <p>Entire operations conducted, or held out as being conducted, in accordance with Shari'a. Additional requirements in IFR module.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.3</div>
+            <h4>Fund of Funds</h4>
+            <p>Restricts investment to Units or Debentures of two or more other Funds only. Cash holdings for ongoing obligations do not break classification.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.4</div>
+            <h4>Feeder Fund</h4>
+            <p>Dedicated to investing in Units or Debentures of a single other Fund (the "Master Fund"). May have a Foreign Fund as Master Fund. Sub-Funds of Umbrella Funds are NOT Feeder Funds.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.5</div>
+            <h4>Master Fund</h4>
+            <p>Issues its Units or Debentures only to other Funds that are dedicated to investing in it. May have Foreign Funds as Feeder Funds.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.6</div>
+            <h4>Private Equity Fund</h4>
+            <p>Invests in unlisted companies via Shares, convertible debt, or equity participation instruments; or participates in management buy-outs/buy-ins. Cannot simultaneously be a Venture Capital Fund.</p>
+            <span class="spec-tag tag-exempt-qif">Typically Exempt / QIF</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.7</div>
+            <h4>Property Fund</h4>
+            <p>Main purpose is investment in Real Property and Securities of entities whose main activities are investing in, dealing in, developing, or redeveloping Real Property. REITs are a subset.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.8</div>
+            <h4>Real Estate Investment Trust (REIT)</h4>
+            <p>A subset of Property Funds. Must also meet the criteria in Rule 13.5.1(2). Subject to both Property Fund rules (§13.4) and REIT rules (§13.5).</p>
+            <span class="spec-tag tag-all-types">Public / Exempt / QIF</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.9</div>
+            <h4>Hedge Fund</h4>
+            <p>Broad mandate; absolute return focus; uses short selling, Derivatives, leverage, distressed debt, or high-yield debt. Can also be a Fund of Hedge Funds.</p>
+            <span class="spec-tag tag-exempt-qif">Typically Exempt / QIF</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.10</div>
+            <h4>Umbrella Fund</h4>
+            <p>Contributions pooled separately in Sub-Funds constituting separate parts of Fund Property. May be structured as a Protected Cell Company. Unitholders may exchange between Sub-Funds.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.11</div>
+            <h4>Money Market Fund</h4>
+            <p>Investment objective: preserve capital, provide daily liquidity, achieve returns in line with money market rates. DIFC prohibits SNAV (stable NAV) structures — only VNAV (variable NAV) permitted.</p>
+            <span class="spec-tag tag-all-types">All fund types</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.12</div>
+            <h4>Exchange Traded Fund (ETF)</h4>
+            <p>Open-ended Public Fund; Units tradable throughout the day on a qualifying exchange; at least one Authorised Participant (market maker) who creates/redeems creation Units. Name protection rule applies.</p>
+            <span class="spec-tag tag-pub-only">Public Funds only</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.13</div>
+            <h4>Venture Capital Fund</h4>
+            <p>Exempt or QIF only. ≥90% of committed capital in unlisted businesses ≤10 years old at initial investment; via equity participation instruments only. Cannot also be a Private Equity Fund.</p>
+            <span class="spec-tag tag-qif-only">Exempt / QIF only</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.14</div>
+            <h4>Investment Token Fund</h4>
+            <p>Main purpose is investing in Investment Tokens (as defined). Distinct from Crypto Token Funds (which focus on Crypto Tokens).</p>
+            <span class="spec-tag tag-exempt-qif">Typically Exempt / QIF</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.15</div>
+            <h4>Credit Fund</h4>
+            <p>Domestic Fund: ≥90% of Fund Property used to Provide Credit (including acquiring loans). Foreign Fund: investment objective includes Providing Credit. "Acquire" a loan is broadly defined to include purchasing, taking transfer, or taking credit risk.</p>
+            <span class="spec-tag tag-exempt-qif">Typically Exempt / QIF</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-rule">Rule 3.1.16</div>
+            <h4>Crypto Token Fund</h4>
+            <p>Main purpose is investing in Crypto Tokens. Only Recognised Crypto Tokens (as approved by DFSA under GEN 3A) are permitted. Linked to §1.6 and Chapter 13.13.</p>
+            <span class="spec-tag tag-exempt-qif">Typically Exempt / QIF</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Specialist Class Quick-Reference Table</summary>
+      <div class="details-body">
+        <div style="overflow-x:auto;">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Specialist Class</th>
+                <th>Rule</th>
+                <th>Eligible Fund Types</th>
+                <th>Key Trigger</th>
+                <th>Additional Rules Chapter</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Islamic Fund</td><td class="rule-num">3.1.2</td><td>All types</td><td>Entire operations Shari'a-compliant or held out as such</td><td>IFR module</td></tr>
+              <tr><td>Fund of Funds</td><td class="rule-num">3.1.3</td><td>All types</td><td>Restricted to investing in ≥2 other Funds</td><td>§13.1A</td></tr>
+              <tr><td>Feeder Fund</td><td class="rule-num">3.1.4</td><td>All types</td><td>Dedicated to one Master Fund only</td><td>§13.2</td></tr>
+              <tr><td>Master Fund</td><td class="rule-num">3.1.5</td><td>All types</td><td>Issues Units only to dedicated Feeder Funds</td><td>—</td></tr>
+              <tr><td>Private Equity Fund</td><td class="rule-num">3.1.6</td><td>All types (typically Exempt/QIF)</td><td>Invests in unlisted companies or participates in MBOs</td><td>§13.3</td></tr>
+              <tr><td>Property Fund</td><td class="rule-num">3.1.7</td><td>All types</td><td>Main purpose: Real Property investment</td><td>§13.4</td></tr>
+              <tr><td>REIT</td><td class="rule-num">3.1.8</td><td>All types</td><td>Meets Rule 13.5.1(2) REIT criteria</td><td>§13.4 + §13.5</td></tr>
+              <tr><td>Hedge Fund</td><td class="rule-num">3.1.9</td><td>All types (typically Exempt/QIF)</td><td>Absolute return; uses short-selling, derivatives, leverage</td><td>§13.6 + APP 8</td></tr>
+              <tr><td>Umbrella Fund</td><td class="rule-num">3.1.10</td><td>All types</td><td>Separate Sub-Funds within one fund structure</td><td>§13.7</td></tr>
+              <tr><td>Money Market Fund</td><td class="rule-num">3.1.11</td><td>All types</td><td>Capital preservation + daily liquidity + money market returns</td><td>§13.8</td></tr>
+              <tr><td>ETF</td><td class="rule-num">3.1.12</td><td>Public Funds only</td><td>Open-ended; exchange-listed; Authorised Participant required</td><td>§13.9</td></tr>
+              <tr><td>Venture Capital Fund</td><td class="rule-num">3.1.13</td><td>Exempt / QIF only</td><td>≥90% in unlisted businesses ≤10 years old</td><td>§13.10</td></tr>
+              <tr><td>Investment Token Fund</td><td class="rule-num">3.1.14</td><td>All types</td><td>Main purpose: Investment Tokens</td><td>§13.11</td></tr>
+              <tr><td>Credit Fund</td><td class="rule-num">3.1.15</td><td>All types</td><td>≥90% Fund Property used to Provide Credit</td><td>§13.12</td></tr>
+              <tr><td>Crypto Token Fund</td><td class="rule-num">3.1.16</td><td>All types</td><td>Main purpose: Crypto Tokens (DFSA Recognised only)</td><td>§13.13</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔍 Key Distinctions — Commonly Confused Specialist Classes</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Pair</th><th>Key Distinction</th><th>Rule Reference</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Private Equity Fund vs. Venture Capital Fund</strong></td>
+              <td>PE Funds invest broadly in unlisted companies (any age/size, including MBOs). VCFs must invest ≥90% in businesses ≤10 years old at initial investment, and cannot simultaneously be a PE Fund. VCFs must be Exempt or QIF.</td>
+              <td>3.1.6 vs. 3.1.13</td>
+            </tr>
+            <tr>
+              <td><strong>Fund of Funds vs. Feeder Fund</strong></td>
+              <td>Fund of Funds invests in ≥2 other Funds. Feeder Fund is dedicated to a single Master Fund only. A Sub-Fund of an Umbrella Fund cannot be a Feeder Fund.</td>
+              <td>3.1.3 vs. 3.1.4</td>
+            </tr>
+            <tr>
+              <td><strong>Property Fund vs. REIT</strong></td>
+              <td>All REITs are Property Funds, but not all Property Funds are REITs. A REIT must additionally meet the specific criteria in Rule 13.5.1(2) (distribution obligations, leverage limits, etc.).</td>
+              <td>3.1.7 vs. 3.1.8</td>
+            </tr>
+            <tr>
+              <td><strong>Investment Token Fund vs. Crypto Token Fund</strong></td>
+              <td>Investment Token Funds invest in Investment Tokens (as defined — typically security token-type instruments). Crypto Token Funds invest in Crypto Tokens (e.g. Bitcoin, Ethereum — subject to DFSA recognition under GEN 3A). These are separate categories subject to different rules (§13.11 vs. §13.13).</td>
+              <td>3.1.14 vs. 3.1.16</td>
+            </tr>
+            <tr>
+              <td><strong>ETF vs. other Open-ended Public Funds</strong></td>
+              <td>ETFs require: (a) open-ended Public Fund structure; (b) intraday exchange trading; and (c) at least one Authorised Participant (market maker). The name "ETF" or "Exchange Traded Fund" is protected — cannot be used unless Rule 3.1.12 criteria are met.</td>
+              <td>3.1.12 + Rule 13.9.1</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="case-study">
+          <h5>🔍 Case Study: Classifying a Complex Fund Structure</h5>
+          <p>Desert Capital DIFC Ltd launches a fund that: (i) invests exclusively in Units of two Shari'a-compliant Hedge Funds operating in UAE and London; (ii) is open-ended and structured as a Domestic Exempt Fund; (iii) the fund manager holds itself out as following Shari'a-compliant investment principles.</p>
+          <div class="verdict">
+            <strong>Classification Analysis:</strong> This fund attracts multiple specialist classifications simultaneously:
+            <ul style="margin-top:8px; padding-left:16px; font-size:13px; line-height:1.7;">
+              <li><strong>Islamic Fund (Rule 3.1.2)</strong> — held out as Shari'a-compliant</li>
+              <li><strong>Fund of Funds (Rule 3.1.3)</strong> — invests only in units of two or more other Funds</li>
+              <li><strong>Fund of Hedge Funds (Rule 3.1.9(2))</strong> — the underlying funds are Hedge Funds</li>
+            </ul>
+            As an Exempt Fund with three specialist classifications, it must comply with applicable rules in §13.1A (Fund of Funds), §13.6 (Hedge Funds — limited rules for Exempt Funds), the IFR module (Islamic Fund), and the standard Exempt Fund rules in Chapter 12. The fund does NOT qualify as an ETF (not a Public Fund) or a Venture Capital Fund (not investing in unlisted businesses).
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 ETF Structure — Decision Tree & Mechanism</summary>
+      <div class="details-body">
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+flowchart TD
+    A([Is the fund an Open-ended Public Fund?]) -->|No| Z1[Cannot be an ETF]
+    A -->|Yes| B{Are Units available for intraday trading on a qualifying exchange?}
+    B -->|No| Z1
+    B -->|Yes| C{Is the exchange operated by an AMI, or regulated by an IOSCO MOU or DFSA bilateral MOU signatory?}
+    C -->|No| Z1
+    C -->|Yes| D{Is there at least one Authorised Participant who creates/redeems Units and provides intraday liquidity?}
+    D -->|No| Z1
+    D -->|Yes| E[✅ ETF — Rule 3.1.12 criteria met\nAdditional rules in §13.9 apply\nName protection applies]
+    style E fill:#1e8449,color:#fff
+    style Z1 fill:#c0392b,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 4 ===================== -->
+    <div id="ch4" class="section-heading">⬛ Chapter 4 — Excluded Offers (§4.1)</div>
+
+    <div class="plain-english">
+      <h4>📖 How Chapter 4 Works</h4>
+      <p>Article 50(2) of the CIL 2010 enables the DFSA to prescribe that certain activities do not constitute an "Offer" for the purposes of the Law. An activity that is not an "Offer" does not trigger the prospectus disclosure obligations in Part 7 (Chapter 14) of CIR. Rules 4.1.2 to 4.1.5 set out four excluded activities.</p>
+    </div>
+
+    <details open>
+      <summary>📋 Rule Summary Table — All 4 Excluded Offers</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Rule</th><th>Excluded Activity</th><th>Key Conditions</th><th>Risk / Trap</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">4.1.2</span></td>
+              <td><strong>Personal sale of own Units</strong> — A person selling or transferring Units they own does not make an "Offer" if</td>
+              <td>(a) offer is capable of acceptance only by the named recipient; AND (b) not made by way of financial promotion (as defined in Article 19(3))</td>
+              <td><span class="risk-pill risk-med">Medium</span> — frequent secondary sales may still constitute "Dealing in Investments as Principal" requiring a licence</td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">4.1.3</span></td>
+              <td><strong>Authorised Firm executing transactions for clients</strong></td>
+              <td>(a) Execution-Only Transaction for a Client; OR (b) trade under Discretionary Portfolio Management Agreement; OR (c) redeeming a Unit for/on behalf of a Client from the Fund Manager</td>
+              <td><span class="risk-pill risk-low">Low</span> — standard secondary market and DPM execution; prospectus rules in Part 7 still apply to the underlying fund</td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">4.1.4</span></td>
+              <td><strong>Offers to Market Counterparties only</strong> — Authorised Firm making an offer directed exclusively at Market Counterparties</td>
+              <td>Offer must be made only to, or directed only at, Market Counterparties (as defined under COB module)</td>
+              <td><span class="risk-pill risk-low">Low</span> — if offer inadvertently reaches non-Market Counterparties, exclusion fails</td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">4.1.5</span></td>
+              <td><strong>Offers of Passported Fund Units in DIFC (as Host Jurisdiction)</strong></td>
+              <td>(a) Units of a Passported Fund; (b) DIFC is Host Jurisdiction; (c) offeror is Fund Manager, Agent, or Licensed Person; (d) offer made in accordance with Home Jurisdiction requirements including Fund Protocol rules</td>
+              <td><span class="risk-pill risk-low">Low</span> — compliance with Home Jurisdiction rules still required; FPR module applies</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚠️ Key Warning — Rule 4.1.2 Trap (Personal Sales)</summary>
+      <div class="details-body">
+        <div class="example-box">
+          <h5>📌 The Secondary Market Trap</h5>
+          <p>Ahmed holds Units in a DIFC Public Fund and occasionally sells them to colleagues. Each sale is personal (one-on-one), so Rule 4.1.2 means he is not making an "Offer" and does not need a prospectus.<br><br>
+          However: if Ahmed <strong>regularly sells Units</strong> held by him, the DFSA Guidance warns that he would likely be carrying on <strong>"Dealing in Investments as Principal"</strong> by way of business — requiring a DFSA licence regardless of whether his individual transactions qualify as "excluded offers." Similarly, if he acquires Units <strong>for the purpose of secondary sales</strong>, he would be regarded as making those sales "by way of business" — triggering licensing requirements.</p>
+        </div>
+        <div class="mermaid-wrap" style="margin-top:14px;">
+          <div class="mermaid">
+flowchart TD
+    A([Person wants to sell Units they hold]) --> B{Is the offer made to a named individual only — not by financial promotion?}
+    B -->|No| Z1[This IS an Offer — Part 7 prospectus rules apply]
+    B -->|Yes| C{Is the person making frequent secondary sales or acquiring Units for the purpose of resale?}
+    C -->|Yes| Z2[May need DFSA licence — Dealing in Investments as Principal — even though individual sales are Excluded Offers]
+    C -->|No — occasional personal sale only| OK[Excluded Offer — Rule 4.1.2 applies\nNo prospectus required for this transaction]
+    style Z1 fill:#c0392b,color:#fff
+    style Z2 fill:#b7770d,color:#fff
+    style OK fill:#1e8449,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚠️ Risk Analysis — Part 2 Overall</summary>
+      <div class="details-body">
+        <table class="risk-matrix">
+          <thead>
+            <tr><th>Obligation / Risk Area</th><th>Risk Level</th><th>Consequence of Error</th><th>Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Misclassifying a commercial arrangement as not a CIF (over-applying Ch. 2 exclusion)</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Unregulated fund operation; DFSA enforcement; investor redress claims</td>
+              <td>Apply multi-factor commercial/investment analysis; seek DFSA clarification if uncertain</td>
+            </tr>
+            <tr>
+              <td>Failing to identify a specialist fund class (missing Ch. 3 classification)</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Non-compliance with Chapter 13 specialist rules; misleading marketing</td>
+              <td>Conduct classification analysis for every new fund; document reasoning</td>
+            </tr>
+            <tr>
+              <td>Using "ETF" name without meeting Rule 3.1.12 criteria</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Breach of Rule 13.9.1 name protection; DFSA inquiry; investor confusion</td>
+              <td>Never use ETF label without confirming open-ended Public Fund + exchange listing + Authorised Participant</td>
+            </tr>
+            <tr>
+              <td>PE Fund also meeting VC Fund criteria — failing to note mutual exclusivity</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Misapplication of rules; incorrect investor disclosures</td>
+              <td>Confirm PE vs. VC distinction: age of target businesses, 90% threshold, fund type eligibility</td>
+            </tr>
+            <tr>
+              <td>Crowdfunding platform exceeding $10M threshold — exclusion fails</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Unregistered CIF operation; DFSA enforcement action against platform</td>
+              <td>Monitor cumulative investment per property; impose hard caps on platform</td>
+            </tr>
+            <tr>
+              <td>Relying on Rule 4.1.2 Excluded Offer while conducting systematic secondary sales</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Unlicensed Dealing in Investments as Principal activity</td>
+              <td>Review frequency and purpose of secondary sales; obtain licence if carrying on by way of business</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="section-heading">📊 Part 2 Summary Dashboard</div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card dash-takeaway">
+        <h4 style="color:var(--guidance);">💡 Key Takeaways</h4>
+        <ul>
+          <li>19 exclusions from CIF definition — check all before concluding an arrangement is a Fund</li>
+          <li>15 specialist fund classes — a fund can hold multiple classifications simultaneously</li>
+          <li>PE Fund and Venture Capital Fund are mutually exclusive</li>
+          <li>ETFs must be open-ended Public Funds with Authorised Participants — name is protected</li>
+          <li>4 excluded offer types — not all unit transactions trigger prospectus requirements</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-trap">
+        <h4 style="color:var(--obligation);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Assuming a commercial company structure automatically means it's not a Fund — apply the Rule 2.1.10 indicators carefully</li>
+          <li>Overlooking that crowdfunding exclusions require a strict $10M cap — any excess triggers full CIF regulation</li>
+          <li>Failing to check if a fund has multiple specialist class designations</li>
+          <li>Using Rule 4.1.2 to justify frequent secondary sales without considering licensing implications</li>
+          <li>A Crypto Token Fund investing in non-Recognised Crypto Tokens — only DFSA-recognised tokens permitted</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-flag">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Open-ended investment vehicle promoting itself based on investment mandate — likely a Fund, not a commercial company</li>
+          <li>A fund described as a "Venture Capital Fund" investing in companies older than 10 years at initial investment</li>
+          <li>A fund called an "ETF" without intraday exchange listing or Authorised Participant</li>
+          <li>Money Market Fund structured as SNAV (stable NAV) — prohibited in DIFC</li>
+          <li>Crowdfunding operator accepting >$10M across all investors in a single property</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-gov">
+        <h4 style="color:var(--specialist);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>New fund structuring should always begin with a Chapter 2 exclusion analysis, then Chapter 3 specialist classification</li>
+          <li>Board/Governing Body should formally approve classification analysis and document rationale</li>
+          <li>Annual review of specialist classifications is recommended — fund strategies evolve</li>
+          <li>Cross-reference Classification analysis with marketing materials to avoid ETF name protection and other breaches</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-btns">
+      <a href="part1.html" class="nav-btn">← Part 1: Introduction</a>
+      <a href="part3.html" class="nav-btn next">Part 3: Fund Functionaries →</a>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <div class="page-footer">
+    DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>
+    For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.
+  </div>
+</div><!-- /main -->
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#1a3a5c', primaryTextColor: '#fff', lineColor: '#6b7280' } });
+</script>
+</body>
+</html>

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 3 — Fund Functionaries | CIR Learning Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --obligation: #c0392b; --obligation-bg: #fdf0ef;
+      --guidance: #2471a3; --guidance-bg: #eaf3fb;
+      --exclusion: #5d6d7e; --exclusion-bg: #f2f3f4;
+      --specialist: #7d3c98; --specialist-bg: #f5eef8;
+      --reporting: #1e8449; --reporting-bg: #eafaf1;
+      --sidebar-w: 270px; --header-h: 64px;
+      --radius: 12px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+      --bg: #f4f6f9; --card: #ffffff; --text: #1a202c;
+      --muted: #6b7280; --border: #e5e7eb; --accent: #1a3a5c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    #sidebar { width: var(--sidebar-w); background: var(--accent); color: #fff; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo .rulebook-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .sidebar-logo h1 { font-size: 17px; font-weight: 700; color: #fff; margin-top: 4px; line-height: 1.3; }
+    .sidebar-logo .version-tag { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+    .sidebar-section-label { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); font-weight: 600; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 13.5px; border-left: 3px solid transparent; transition: all 0.2s; }
+    .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.1); border-left-color: #fff; color: #fff; }
+    .sidebar-nav a .part-num { background: rgba(255,255,255,0.15); border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 700; min-width: 36px; text-align: center; }
+    .sidebar-nav a.active .part-num { background: rgba(255,255,255,0.3); }
+
+    /* MAIN */
+    #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+    .top-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 32px; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .top-header h2 { font-size: 16px; font-weight: 600; color: var(--accent); }
+    .breadcrumb { font-size: 13px; color: var(--muted); }
+    .breadcrumb a { color: var(--guidance); text-decoration: none; }
+    .page-content { padding: 32px; max-width: 1200px; }
+
+    /* PART HERO */
+    .part-hero { background: linear-gradient(135deg, #145a32 0%, #1e8449 60%, #27ae60 100%); border-radius: var(--radius); padding: 36px 40px; color: #fff; margin-bottom: 28px; position: relative; overflow: hidden; }
+    .part-hero::after { content: 'P3'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 110px; font-weight: 900; opacity: 0.07; }
+    .part-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.65; margin-bottom: 8px; }
+    .part-hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+    .part-hero p { font-size: 13.5px; opacity: 0.85; max-width: 640px; line-height: 1.6; }
+    .part-meta { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+    .part-meta-item .lbl { font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 1px; }
+    .part-meta-item .val { font-size: 14px; font-weight: 700; margin-top: 2px; }
+
+    /* INFO BAR */
+    .info-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .info-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; }
+    .pill-ob { background: var(--obligation-bg); color: var(--obligation); }
+    .pill-gd { background: var(--guidance-bg); color: var(--guidance); }
+    .pill-rp { background: var(--reporting-bg); color: var(--reporting); }
+    .pill-sp { background: var(--specialist-bg); color: var(--specialist); }
+
+    /* SECTION HEADING */
+    .section-heading { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; margin-top: 36px; }
+    .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* CARD */
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 20px; }
+
+    /* PLAIN ENGLISH */
+    .plain-english { background: var(--guidance-bg); border-left: 4px solid var(--guidance); border-radius: 0 var(--radius) var(--radius) 0; padding: 18px 22px; margin-bottom: 20px; }
+    .plain-english h4 { font-size: 13px; font-weight: 700; color: var(--guidance); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .plain-english p { font-size: 14px; line-height: 1.65; }
+
+    /* ACCORDION */
+    details { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+    details[open] { box-shadow: var(--shadow); }
+    summary { padding: 16px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--card); display: flex; align-items: center; gap: 10px; user-select: none; list-style: none; color: var(--accent); }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '▶'; font-size: 11px; transition: transform 0.2s; color: var(--muted); }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body { padding: 20px 24px; background: var(--card); border-top: 1px solid var(--border); }
+
+    /* TABLES */
+    .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .rule-table th { background: var(--accent); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rule-table th:first-child { border-radius: 8px 0 0 0; }
+    .rule-table th:last-child { border-radius: 0 8px 0 0; }
+    .rule-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+    .rule-table tr:hover td { background: #f9fafb; }
+    .rule-table tr:last-child td { border-bottom: none; }
+    .rule-num { font-family: monospace; font-size: 12px; color: var(--guidance); font-weight: 700; white-space: nowrap; }
+    .risk-pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+    .risk-high { background: var(--obligation-bg); color: var(--obligation); }
+    .risk-med { background: #fef9e7; color: #b7770d; }
+    .risk-low { background: var(--reporting-bg); color: var(--reporting); }
+    .risk-info { background: var(--guidance-bg); color: var(--guidance); }
+    .tag-ob { color: var(--obligation); font-weight: 700; }
+    .tag-gd { color: var(--guidance); font-weight: 600; }
+    .tag-rp { color: var(--reporting); font-weight: 600; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '☐'; font-size: 16px; color: var(--guidance); flex-shrink: 0; margin-top: 1px; }
+
+    /* EXAMPLE & CASE STUDY */
+    .example-box { background: #fffde7; border: 1px solid #f9e04b; border-radius: var(--radius); padding: 18px 22px; margin-top: 16px; }
+    .example-box h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7d6608; margin-bottom: 8px; }
+    .example-box p { font-size: 13.5px; line-height: 1.6; color: #4a3c08; }
+    .case-study { background: var(--specialist-bg); border: 1px solid #d7bde2; border-radius: var(--radius); padding: 20px 24px; margin-top: 16px; }
+    .case-study h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--specialist); margin-bottom: 10px; }
+    .case-study p { font-size: 13.5px; line-height: 1.6; }
+    .case-study .verdict { margin-top: 12px; background: var(--card); border-radius: 8px; padding: 12px 16px; font-size: 13px; border-left: 3px solid var(--specialist); }
+
+    /* MERMAID */
+    .mermaid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; overflow-x: auto; }
+
+    /* RISK MATRIX */
+    .risk-matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .risk-matrix th { background: var(--obligation); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; }
+    .risk-matrix th:first-child { border-radius: 8px 0 0 0; }
+    .risk-matrix th:last-child { border-radius: 0 8px 0 0; }
+    .risk-matrix td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .risk-matrix tr:hover td { background: #fdf0ef; }
+    .risk-matrix tr:last-child td { border-bottom: none; }
+
+    /* FUNCTIONARY COMPARISON GRID */
+    .funky-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin: 16px 0 28px; }
+    .funky-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+    .funky-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+    .funky-icon { font-size: 26px; }
+    .funky-header h3 { font-size: 15px; font-weight: 700; color: #fff; }
+    .funky-header small { font-size: 11px; opacity: 0.75; display: block; margin-top: 2px; }
+    .funky-body { padding: 16px 20px; }
+    .funky-body p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+    .funky-tag { font-size: 11px; padding: 3px 9px; border-radius: 12px; font-weight: 600; display: inline-block; margin-right: 4px; margin-bottom: 4px; }
+
+    /* OBLIGATION BOX */
+    .ob-box { background: var(--obligation-bg); border: 1px solid #f5c6c0; border-radius: 10px; padding: 16px 20px; margin: 12px 0; }
+    .ob-box h5 { font-size: 12px; font-weight: 700; color: var(--obligation); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .ob-box ul { padding-left: 16px; }
+    .ob-box ul li { font-size: 13px; line-height: 1.65; padding: 2px 0; }
+
+    /* PROHIBITION BOX */
+    .prohib-box { background: #fff5f5; border: 2px solid var(--obligation); border-radius: 10px; padding: 16px 20px; margin: 12px 0; display: flex; gap: 14px; align-items: flex-start; }
+    .prohib-icon { font-size: 28px; flex-shrink: 0; }
+    .prohib-box h5 { font-size: 13px; font-weight: 700; color: var(--obligation); margin-bottom: 6px; }
+    .prohib-box p { font-size: 13px; line-height: 1.55; color: #7b241c; }
+
+    /* ICC STRUCTURE VISUAL */
+    .icc-visual { background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%); border: 1px solid #c5cae9; border-radius: var(--radius); padding: 24px; margin-top: 16px; }
+    .icc-core { background: var(--accent); color: #fff; border-radius: 12px; padding: 16px 24px; text-align: center; margin-bottom: 16px; }
+    .icc-core h4 { font-size: 15px; font-weight: 700; }
+    .icc-core p { font-size: 12px; opacity: 0.75; margin-top: 4px; }
+    .icc-cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .icc-cell { background: var(--card); border: 2px solid var(--specialist); border-radius: 10px; padding: 12px 14px; text-align: center; }
+    .icc-cell .cell-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--specialist); font-weight: 700; margin-bottom: 4px; }
+    .icc-cell h5 { font-size: 12.5px; font-weight: 700; color: var(--accent); }
+    .icc-cell p { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .icc-arrow { text-align: center; font-size: 20px; color: var(--muted); margin: 8px 0; }
+
+    /* SLA REQUIREMENTS */
+    .sla-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 14px; }
+    .sla-item { background: var(--reporting-bg); border: 1px solid #a9dfbf; border-radius: 10px; padding: 14px 16px; }
+    .sla-item .sla-letter { font-size: 22px; font-weight: 900; color: var(--reporting); margin-bottom: 6px; }
+    .sla-item p { font-size: 12.5px; line-height: 1.55; }
+
+    /* SUMMARY DASHBOARD */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+    .dash-card { border-radius: var(--radius); padding: 18px 20px; border-left: 4px solid; }
+    .dash-takeaway { background: var(--guidance-bg); border-color: var(--guidance); }
+    .dash-trap { background: var(--obligation-bg); border-color: var(--obligation); }
+    .dash-flag { background: #fef9e7; border-color: #d4ac0d; }
+    .dash-gov { background: var(--specialist-bg); border-color: var(--specialist); }
+    .dash-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .dash-card ul { list-style: none; padding: 0; }
+    .dash-card ul li { font-size: 12.5px; padding: 3px 0; line-height: 1.55; }
+    .dash-card ul li::before { content: '• '; font-weight: 700; }
+
+    /* NAV BUTTONS */
+    .nav-btns { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 22px; text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+    .nav-btn:hover { box-shadow: var(--shadow-hover); }
+    .nav-btn.next { background: var(--accent); color: #fff; }
+
+    .page-footer { text-align: center; padding: 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .page-content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="rulebook-label">The DFSA Rulebook</div>
+    <h1>Collective Investment Rules</h1>
+    <div class="version-tag">CIR/VER40/01-26 · Jan 2026</div>
+  </div>
+  <div class="sidebar-section-label">Navigation</div>
+  <div class="sidebar-nav">
+    <a href="index.html"><span class="part-num">🏠</span> Dashboard</a>
+  </div>
+  <div class="sidebar-section-label">Parts</div>
+  <div class="sidebar-nav">
+    <a href="part1.html"><span class="part-num">P1</span> Introduction</a>
+    <a href="part2.html"><span class="part-num">P2</span> Definitional Provisions</a>
+    <a href="part3.html" class="active"><span class="part-num">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="part-num">P4</span> Establishment & Management</a>
+    <a href="part5.html"><span class="part-num">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="part-num">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="part-num">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="part-num">P8</span> Transfer & Winding Up</a>
+  </div>
+  <div class="sidebar-section-label">Appendices</div>
+  <div class="sidebar-nav">
+    <a href="appendices.html"><span class="part-num">APP</span> All Appendices (1–9)</a>
+  </div>
+  <div class="sidebar-section-label" style="margin-top:12px;">Part 3 Chapters</div>
+  <div class="sidebar-nav" style="font-size:12.5px;">
+    <a href="#ch5" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.5</span> Fund Administrators</a>
+    <a href="#ch6" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">Ch.6</span> External Fund Managers</a>
+    <a href="#ch6a" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">6A</span> Fund Platforms (ICC)</a>
+    <a href="#compare" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">⚖️</span> Comparisons</a>
+    <a href="#dashboard" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <header class="top-header">
+    <div>
+      <div class="breadcrumb"><a href="index.html">CIR Hub</a> › <strong>Part 3: Fund Functionaries</strong></div>
+    </div>
+    <h2>Chapters 5, 6 & 6A · §5.1 – 6A.1</h2>
+  </header>
+
+  <div class="page-content">
+
+    <!-- HERO -->
+    <div class="part-hero">
+      <div class="part-tag">Part 3 · Chapters 5, 6 & 6A</div>
+      <h1>Fund Functionaries</h1>
+      <p>Governs the key service providers and intermediaries in a DIFC fund structure — Fund Administrators (Chapter 5), External Fund Managers and External Funds (Chapter 6), and the innovative Incorporated Cell Company (ICC) Fund Platform structure (Chapter 6A). These rules establish who can act, what agreements are required, and how responsibilities are allocated.</p>
+      <div class="part-meta">
+        <div class="part-meta-item"><div class="lbl">Chapters</div><div class="val">5, 6 & 6A</div></div>
+        <div class="part-meta-item"><div class="lbl">Key Players</div><div class="val">3 Types</div></div>
+        <div class="part-meta-item"><div class="lbl">Risk Level</div><div class="val">🔴 High</div></div>
+        <div class="part-meta-item"><div class="lbl">Prohibitions</div><div class="val">4 Key</div></div>
+        <div class="part-meta-item"><div class="lbl">Record Retention</div><div class="val">6 Years</div></div>
+      </div>
+    </div>
+
+    <!-- INFO BAR -->
+    <div class="info-bar">
+      <span class="info-pill pill-ob">🔴 Multiple hard obligations on Fund Administrators</span>
+      <span class="info-pill pill-ob">🔴 External FM cannot use Fund Platform or manage Credit Funds</span>
+      <span class="info-pill pill-rp">🟢 Fund Manager bears liability for ICC acts</span>
+      <span class="info-pill pill-gd">🔵 SLA minimum content prescribed for Foreign Fund admins</span>
+    </div>
+
+    <!-- PLAIN ENGLISH OVERVIEW -->
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Part 3 deals with the <strong>people and entities who make a fund work</strong> — not the investors or the fund itself, but the service providers around it. <strong>Chapter 5</strong> regulates Fund Administrators — their AML obligations, restrictions on holding client money, required agreements, record-keeping standards, and the 6-year retention rule. <strong>Chapter 6</strong> covers the special case of External Fund Managers (fund managers based outside DIFC who manage a DIFC-domiciled fund) and External Funds (DIFC-managed funds domiciled elsewhere), including key prohibitions on Credit Fund management. <strong>Chapter 6A</strong> introduces the sophisticated Incorporated Cell Company (ICC) Fund Platform — a structure where a Fund Manager establishes a "mothership" ICC with individual fund cells, each regulated as a separate Fund, with the Fund Manager remaining personally responsible for all ICC acts or omissions.</p>
+    </div>
+
+    <!-- FUNCTIONARY OVERVIEW CARDS -->
+    <div class="funky-grid">
+      <div class="funky-card">
+        <div class="funky-header" style="background: #1a5276;">
+          <div class="funky-icon">🏢</div>
+          <div>
+            <h3>Fund Administrator</h3>
+            <small>Chapter 5 · §5.1.1–5.1.7</small>
+          </div>
+        </div>
+        <div class="funky-body">
+          <p>An DFSA-Authorised Firm appointed to provide Fund Administration services to a Domestic or Foreign Fund. Distinct from the Fund Manager or Trustee, who may perform admin within their own licensed activities.</p>
+          <span class="funky-tag" style="background:#eaf3fb; color:#2471a3;">Authorised Firm</span>
+          <span class="funky-tag" style="background:#eafaf1; color:#1e8449;">AML Obligations</span>
+          <span class="funky-tag" style="background:#fdf0ef; color:#c0392b;">No Client Money (except limited)</span>
+        </div>
+      </div>
+      <div class="funky-card">
+        <div class="funky-header" style="background: #7b241c;">
+          <div class="funky-icon">🌍</div>
+          <div>
+            <h3>External Fund Manager</h3>
+            <small>Chapter 6 · §6.1.1–6.1.5</small>
+          </div>
+        </div>
+        <div class="funky-body">
+          <p>A fund manager based outside the DIFC (regulated in a Recognised Jurisdiction or DFSA-accepted jurisdiction) who manages a Domestic Fund. Must submit to DIFC jurisdiction and appoint a DFSA-licensed Appointed Fund Administrator or Trustee.</p>
+          <span class="funky-tag" style="background:#fdf0ef; color:#c0392b;">No Fund Platform use</span>
+          <span class="funky-tag" style="background:#fdf0ef; color:#c0392b;">No Credit Fund management</span>
+          <span class="funky-tag" style="background:#eaf3fb; color:#2471a3;">Must file jurisdiction declaration</span>
+        </div>
+      </div>
+      <div class="funky-card">
+        <div class="funky-header" style="background: #4a235a;">
+          <div class="funky-icon">🏗️</div>
+          <div>
+            <h3>Fund Platform (ICC)</h3>
+            <small>Chapter 6A · §6A.1.1–6A.1.6</small>
+          </div>
+        </div>
+        <div class="funky-body">
+          <p>An Incorporated Cell Company (ICC) used by a Fund Manager to host multiple Funds as separate Incorporated Cells. Each cell is a standalone legal entity and a separate DIFC-registered Fund. Fund Manager remains fully liable for all ICC acts.</p>
+          <span class="funky-tag" style="background:#f5eef8; color:#7d3c98;">Separate legal entities</span>
+          <span class="funky-tag" style="background:#fdf0ef; color:#c0392b;">No External FMs permitted</span>
+          <span class="funky-tag" style="background:#eafaf1; color:#1e8449;">Fund Manager controls ICC board</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CHAPTER 5 ===================== -->
+    <div id="ch5" class="section-heading">🏢 Chapter 5 — Fund Administrators (§5.1)</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation — Chapter 5</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">Fund Administrators are Authorised Firms appointed to carry out the operational functions of a fund — maintaining unit-holder registers, processing subscriptions/redemptions, preparing accounts, etc. Chapter 5 sets out their specific obligations which sit <em>alongside</em> (not instead of) the broader Authorised Firm requirements. Key themes are: AML compliance (treating unitholders as "customers"), strict limits on holding client money, mandatory written agreements with fund managers, and rigorous 6-year record-keeping requirements.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;"><strong>Note:</strong> If a Fund Manager or Trustee carries on fund administration activities within their own licensed Financial Service of Managing a Fund or Acting as Trustee, Chapter 5 does NOT apply to those activities — it only applies to <em>standalone</em> Fund Administrators appointed separately.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Rule Summary Table — Chapter 5 (§5.1.1 – 5.1.7)</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">5.1.1</span></td>
+              <td>Application</td>
+              <td>Chapter 5 applies to Authorised Firms appointed as Fund Administrator to Domestic or Foreign Funds. Does NOT apply to Fund Managers/Trustees doing admin within their own licensed activity.</td>
+              <td><span class="risk-pill risk-info">Scope</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.2</span></td>
+              <td><span class="tag-ob">AML Compliance</span></td>
+              <td>The AML module applies to Fund Administration activities. All references to "customer" in AML are read as "Unitholder" or "prospective Unitholder."</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.3</span></td>
+              <td><span class="tag-ob">Client Money Restriction</span></td>
+              <td>Fund Administrator MUST NOT hold or control third-party monies or assets, except: (a) cheques held ≤3 business days before deposit; (b) limited mandate over fund's bank account (strictly fee/expense payments only, not remitted to Fund Admin except on express Fund Manager instruction).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.4</span></td>
+              <td><span class="tag-ob">Delegation Agreement — Domestic Fund</span></td>
+              <td>Fund Administrator of a Domestic Fund MUST have a Delegation Agreement meeting App 1 requirements with the Fund Manager or Trustee. Exception: does NOT apply to QIF Fund Administrators.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.5</span></td>
+              <td><span class="tag-ob">Service Level Agreement — Foreign Fund</span></td>
+              <td>Fund Administrator of a Foreign Fund MUST have a written SLA with the foreign fund manager. SLA must: (i) describe functions/service standards; (ii) prohibit sub-delegation without fund manager approval; (iii) require records retention on termination.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.6</span></td>
+              <td><span class="tag-ob">Record-Keeping Obligation</span></td>
+              <td>Must maintain records sufficient to show and explain all transactions in relation to specific activities/functions for each Fund, in respect of Unitholders or prospective Unitholders.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">5.1.7</span></td>
+              <td><span class="tag-ob">Record Standards</span></td>
+              <td>Records must: (a) enable Governing Body compliance verification; (b) be retained ≥6 years; (c) be open to DFSA, Fund Auditor, and oversight function providers at all reasonable times; (d) be reproducible within 3 days in hard copy and in English on DFSA request.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔍 Deep-Dive: Rule 5.1.3 — Client Money Restriction</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65; margin-bottom:14px;">The client money restriction is one of the most operationally significant rules for Fund Administrators. The general prohibition is clear — Fund Administrators must not hold or control fund monies or assets. The two narrow exceptions must be strictly observed:</p>
+        <div class="ob-box">
+          <h5>Exception (a) — Cheques (Maximum 3 Business Days)</h5>
+          <ul>
+            <li>Fund Administrator may hold cheques payable to the Fund's bank account</li>
+            <li>Cheques must be held securely and deposited or returned to drawer within <strong>3 business days maximum</strong></li>
+            <li>No discretion to hold cheques longer under any circumstances</li>
+          </ul>
+        </div>
+        <div class="ob-box" style="margin-top:10px;">
+          <h5>Exception (b) — Bank Mandate (Strictly Limited Scope)</h5>
+          <ul>
+            <li>A bank account mandate may be granted to the Fund Administrator, agreed in writing with the bank</li>
+            <li>Mandate must be <strong>strictly restricted</strong> to payments of invoiced fees and expenses</li>
+            <li>Payments must be made in accordance with the Fund's Constitution and Prospectus</li>
+            <li>Payments must <strong>NOT</strong> be remitted to the Fund Administrator's own account except on <strong>express written instruction</strong> of the Fund Manager</li>
+          </ul>
+        </div>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 Practical Example</h5>
+          <p>Gulf Admin Services (a DFSA-licensed Fund Administrator) provides administration to the Emirates Growth Fund (a DIFC Public Fund). A unitholder sends a cheque payable to the Emirates Growth Fund's bank account. Gulf Admin Services may hold the cheque for up to 3 business days before depositing it. They may NOT hold the cheque in their own account or deposit it into their firm's account. If the fund's bank account has a mandate in favour of Gulf Admin Services, they may only use that mandate to pay their own invoiced administration fees — they cannot use it to transfer funds to third parties or to their own accounts without express Fund Manager instruction.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 DFSA Minimum SLA Requirements (Rule 5.1.5 — Foreign Fund Administrators)</summary>
+      <div class="details-body">
+        <p style="font-size:13.5px; line-height:1.65; margin-bottom:14px;">The DFSA provides Guidance on the minimum provisions it expects in any Service Level Agreement (SLA) between a Fund Administrator and the manager of a Foreign Fund:</p>
+        <div class="sla-grid">
+          <div class="sla-item">
+            <div class="sla-letter">a</div>
+            <p><strong>Clear definitions</strong> of all activities and functions to be performed by the Fund Administrator, and duties of both parties</p>
+          </div>
+          <div class="sla-item">
+            <div class="sla-letter">b</div>
+            <p><strong>Agreed service standards</strong> supported by performance measures in line with applicable legislation</p>
+          </div>
+          <div class="sla-item">
+            <div class="sla-letter">c</div>
+            <p><strong>Regular detailed reporting</strong> to a specified frequency from the Fund Administrator on its duties and activities</p>
+          </div>
+          <div class="sla-item">
+            <div class="sla-letter">d</div>
+            <p><strong>Event reporting provisions</strong>: technology changes, errors, and events that undermine the Fund Administrator's ability to fulfil its duties</p>
+          </div>
+          <div class="sla-item">
+            <div class="sla-letter">e</div>
+            <p><strong>Annual review</strong> (at minimum) of Fund Administrator performance of functions</p>
+          </div>
+          <div class="sla-item">
+            <div class="sla-letter">f</div>
+            <p><strong>Record access</strong> provisions for the fund manager, Fund Auditor, and control/risk management function providers as required</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Compliance Checklist — Chapter 5 (Fund Administrators)</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Confirm your entity holds a DFSA authorisation for Providing Fund Administration before accepting any appointment</li>
+          <li>Implement AML procedures treating Unitholders and prospective Unitholders as "customers" under the AML module</li>
+          <li>Establish strict controls ensuring no client money or assets are held except: cheques ≤3 business days, or strictly limited bank mandate arrangements</li>
+          <li>Ensure a compliant Delegation Agreement (per App 1) is executed with the Fund Manager or Trustee before Providing Fund Administration for any Domestic Fund (note: not required for QIFs)</li>
+          <li>For each Foreign Fund mandate, execute a written SLA containing all six DFSA minimum provisions (Rule 5.1.5 Guidance: functions/standards, reporting, event notification, annual review, record access)</li>
+          <li>Confirm the SLA for Foreign Funds explicitly prohibits sub-delegation without the foreign fund manager's approval</li>
+          <li>Confirm the SLA for Foreign Funds requires record retention on termination</li>
+          <li>Set up record-keeping systems covering all transactions per Fund, per Unitholder/prospective Unitholder</li>
+          <li>Verify records are retained for a minimum of 6 years and are accessible to DFSA, Fund Auditor, and oversight function providers at all reasonable times</li>
+          <li>Confirm records can be reproduced in hard copy, in English, within 3 days of any DFSA request</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 6 ===================== -->
+    <div id="ch6" class="section-heading">🌍 Chapter 6 — External Fund Managers & External Funds (§6.1 – 6.2)</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation — Chapter 6</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">Chapter 6 deals with two cross-border fund scenarios. An <strong>External Fund Manager (EFM)</strong> is a fund manager based outside the DIFC who manages a Domestic Fund (a fund domiciled in the DIFC). An <strong>External Fund</strong> is a fund domiciled outside the DIFC but managed by a DFSA-Authorised Firm inside the DIFC. Both situations require specific regulatory arrangements because the fund structure spans multiple jurisdictions.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;">The core concern in both cases is ensuring that <strong>DIFC-based investors and market participants can access regulatory oversight</strong> even when key parties are outside the DIFC. Hence the requirements for DIFC-licensed appointed agents, jurisdiction submissions, and the prohibition of arrangements that might undermine regulatory access (such as Credit Fund management by EFMs).</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Rule Summary Table — §6.1 External Fund Managers</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">6.1.1</span></td>
+              <td>Application</td>
+              <td>Section 6.1 applies to External Fund Managers. Criteria for EFM status in Article 20(5) of the Collective Investment Law 2010.</td>
+              <td><span class="risk-pill risk-info">Scope</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.1.2</span></td>
+              <td><span class="tag-ob">DIFC Jurisdiction Submission</span></td>
+              <td>EFM must: (a) be regulated by a Financial Services Regulator in a Recognised Jurisdiction or DFSA-accepted jurisdiction for fund management; AND (b) submit itself to DIFC laws and DIFC Courts jurisdiction for activities relating to the Domestic Fund — must sign the appropriate declaration in AFN.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.1.3</span></td>
+              <td><span class="tag-ob">Appointed Fund Administrator / Trustee</span></td>
+              <td>EFM must appoint a DFSA-licensed Fund Administrator or Trustee BEFORE offering any Units. The Appointed FA/Trustee acts as agent for the EFM for dealings with DFSA, Unitholders and prospective Unitholders, and facilitates unit issuance, reports, register access, Constitution/Prospectus access, and books/records access — all from within the DIFC.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.1.4</span></td>
+              <td><span class="tag-ob">Fund Platform Prohibition</span></td>
+              <td>An External Fund Manager MUST NOT use a Fund Platform (ICC structure).</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.1.5</span></td>
+              <td><span class="tag-ob">Credit Fund Prohibition</span></td>
+              <td>An External Fund Manager MUST NOT manage a Domestic Fund that is a Credit Fund.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Rule Summary Table — §6.2 External Funds</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">6.2.1</span></td>
+              <td>Application</td>
+              <td>Section 6.2 applies to Fund Managers of External Funds. An External Fund = established outside DIFC + managed by a DFSA-Authorised Firm (Article 14(1) of the Law).</td>
+              <td><span class="risk-pill risk-info">Scope</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.2.2</span></td>
+              <td><span class="tag-ob">Systems & Controls + DFSA Notification</span></td>
+              <td>(a) Fund Manager must have systems and controls adequate to ensure compliance with the external jurisdiction's requirements for the External Fund; AND (b) must inform the DFSA of the jurisdiction of establishment/domicile and nature of regulatory requirements applicable there.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6.2.3</span></td>
+              <td><span class="tag-ob">External Credit Fund Restriction</span></td>
+              <td>A Fund Manager MUST NOT manage an External Fund that is a Credit Fund — UNLESS the External Fund is a Qualified Investor Fund.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example-box" style="margin-top:14px;">
+          <h5>📌 External Credit Fund Exception — Rule 6.2.3</h5>
+          <p>A DFSA-licensed Fund Manager managing an External Fund domiciled in the Cayman Islands that is classified as a Credit Fund may only do so if the fund qualifies as a Qualified Investor Fund. If the same fund were structured as an Exempt Fund or Public Fund (rather than a QIF), the Fund Manager would be prohibited from managing it as an External Fund under Rule 6.2.3.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚠️ Key Prohibitions Summary — Chapter 6</summary>
+      <div class="details-body">
+        <div class="prohib-box">
+          <div class="prohib-icon">🚫</div>
+          <div>
+            <h5>Prohibition 1: External Fund Manager Cannot Use Fund Platform (Rule 6.1.4)</h5>
+            <p>An External Fund Manager is not permitted to use a Fund Platform (ICC structure) under any circumstances. Only DIFC-domiciled Fund Managers with the appropriate endorsement under GEN 2.2.7A may use a Fund Platform.</p>
+          </div>
+        </div>
+        <div class="prohib-box" style="margin-top:12px;">
+          <div class="prohib-icon">🚫</div>
+          <div>
+            <h5>Prohibition 2: External Fund Manager Cannot Manage a Domestic Credit Fund (Rule 6.1.5)</h5>
+            <p>An External Fund Manager must not manage a Domestic Fund that is classified as a Credit Fund. There is no exception — this prohibition is absolute for Domestic Credit Funds managed by External Fund Managers.</p>
+          </div>
+        </div>
+        <div class="prohib-box" style="margin-top:12px;">
+          <div class="prohib-icon">⚠️</div>
+          <div>
+            <h5>Prohibition 3: Fund Manager Cannot Manage External Credit Fund (unless QIF) (Rule 6.2.3)</h5>
+            <p>A DFSA-Authorised Fund Manager may only manage an External Fund that is a Credit Fund if that fund is structured as a Qualified Investor Fund. External Credit Funds that are Exempt or Public Funds cannot be managed by a DIFC Fund Manager.</p>
+          </div>
+        </div>
+        <div class="prohib-box" style="margin-top:12px;">
+          <div class="prohib-icon">⚠️</div>
+          <div>
+            <h5>Prohibition 4: No Units Offered Before Appointed FA/Trustee in Place (Rule 6.1.3(1)(a))</h5>
+            <p>An External Fund Manager must appoint a DFSA-licensed Appointed Fund Administrator or Trustee <strong>before</strong> any Units in the Fund are offered to any person. Offering Units without this appointment in place is a direct breach of Rule 6.1.3.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Decision Tree — Is a Fund Manager Subject to External FM or External Fund Rules?</summary>
+      <div class="details-body">
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+flowchart TD
+    A([A fund management arrangement is being structured]) --> B{Is the Fund Manager a DFSA-Authorised Firm?}
+    B -->|No| Z1[Cannot manage a Domestic Fund — must obtain DFSA authorisation or use External FM route]
+    B -->|Yes| C{Is the Fund domiciled in the DIFC?}
+    C -->|Yes — Domestic Fund| D{Is the Fund Manager located outside the DIFC?}
+    D -->|Yes| E[External Fund Manager regime — Ch. 6.1 applies]
+    E --> E1[Must: be regulated in Recognised/accepted jurisdiction]
+    E --> E2[Must: submit to DIFC jurisdiction — sign AFN declaration]
+    E --> E3[Must: appoint DFSA-licensed Appointed FA or Trustee BEFORE Units offered]
+    E --> F{Is the Domestic Fund a Credit Fund?}
+    F -->|Yes| Z2[🚫 PROHIBITED — EFM cannot manage Domestic Credit Funds — Rule 6.1.5]
+    F -->|No| G{Does EFM want to use a Fund Platform?}
+    G -->|Yes| Z3[🚫 PROHIBITED — EFM cannot use Fund Platform — Rule 6.1.4]
+    G -->|No| OK1[✅ EFM arrangement permitted — comply with Ch. 6.1]
+    D -->|No — DIFC-based FM| H[Standard CIR rules apply — Parts 4 & 5]
+    C -->|No — domiciled outside DIFC| I[External Fund regime — Ch. 6.2 applies]
+    I --> I1[Must: notify DFSA of domicile jurisdiction + regulatory requirements]
+    I --> I2[Must: have adequate systems and controls for host jurisdiction compliance]
+    I --> J{Is the External Fund a Credit Fund?}
+    J -->|Yes| K{Is it a QIF?}
+    K -->|No| Z4[🚫 PROHIBITED — FM cannot manage External Credit Fund unless QIF — Rule 6.2.3]
+    K -->|Yes| OK2[✅ External Credit Fund-QIF permitted]
+    J -->|No| OK3[✅ External Fund permitted — comply with Ch. 6.2]
+    style Z1 fill:#c0392b,color:#fff
+    style Z2 fill:#c0392b,color:#fff
+    style Z3 fill:#c0392b,color:#fff
+    style Z4 fill:#c0392b,color:#fff
+    style OK1 fill:#1e8449,color:#fff
+    style OK2 fill:#1e8449,color:#fff
+    style OK3 fill:#1e8449,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📁 Case Study — External Fund Manager Structuring</summary>
+      <div class="details-body">
+        <div class="case-study">
+          <h5>🔍 Case Study: Meridian Capital (London) Managing a DIFC QIF</h5>
+          <p>Meridian Capital LLP is a UK-FCA-authorised investment manager that wants to manage the "Meridian MENA Opportunities Fund," a Qualified Investor Fund to be domiciled in the DIFC and investing in regional equities. Meridian does not have a DFSA licence. They intend to launch quickly and want to know if they can use a Fund Platform to manage multiple sub-strategies.</p>
+          <div class="verdict">
+            <strong>Regulatory Analysis:</strong>
+            <ul style="margin-top:8px; padding-left:16px; font-size:13px; line-height:1.7;">
+              <li><strong>EFM Status:</strong> Meridian would be an External Fund Manager under Article 20(5) of the Law. The UK is a Recognised Jurisdiction — ✅ Rule 6.1.2(a) met.</li>
+              <li><strong>DIFC Jurisdiction:</strong> Meridian must sign the AFN declaration submitting to DIFC laws and DIFC Courts. ⚠️ Must be done before any structuring proceeding.</li>
+              <li><strong>Appointed FA:</strong> Meridian must appoint a DFSA-licensed Fund Administrator or Trustee (e.g., a DIFC-based fund admin firm) BEFORE offering any Units in the QIF — Rule 6.1.3(1)(a).</li>
+              <li><strong>Fund Platform:</strong> 🚫 <strong>Not permitted.</strong> Rule 6.1.4 explicitly prohibits External Fund Managers from using a Fund Platform. Meridian cannot use the ICC structure.</li>
+              <li><strong>Fund Type:</strong> The fund is a QIF (not a Credit Fund), so Rule 6.1.5 is not triggered — ✅ permissible.</li>
+            </ul>
+            <strong>Conclusion:</strong> Meridian can manage the DIFC QIF as an External Fund Manager, but must appoint a DFSA-licensed Appointed FA/Trustee before any Units are offered, sign the jurisdiction declaration, and cannot use a Fund Platform for any multi-strategy structure.
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== CHAPTER 6A ===================== -->
+    <div id="ch6a" class="section-heading">🏗️ Chapter 6A — Using a Fund Platform (ICC Structure) (§6A.1)</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation — Chapter 6A</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">A <strong>Fund Platform</strong> is an Incorporated Cell Company (ICC) established under DIFC Companies Law and ICC Regulations, used exclusively by a Fund Manager to manage multiple Funds as separate Incorporated Cells. Think of it as a regulatory "mothership" (the ICC core) that hosts individual "spaceship" Funds (each Incorporated Cell) — each cell is its own separate legal entity with its own directors and articles of association, regulated independently by the DFSA.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;">The key difference from an Umbrella Fund (PCC structure): an Umbrella Fund's Sub-Funds are parts of a single Fund. In contrast, each Incorporated Cell of an ICC is a <strong>completely separate Fund</strong> registered individually with the DFSA.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;"><strong>Critical rule:</strong> The Fund Manager remains legally responsible to Unitholders in each Fund for <em>any</em> acts or omissions of the ICC — you cannot use the ICC structure to escape liability (Rule 6A.1.3).</p>
+      </div>
+    </details>
+
+    <!-- ICC STRUCTURE VISUAL -->
+    <div class="card">
+      <h4 style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:16px;">🏗️ ICC Fund Platform Structure — Visual Overview</h4>
+      <div class="icc-visual">
+        <div class="icc-core">
+          <h4>Incorporated Cell Company (ICC) — The "Core"</h4>
+          <p>Fund Manager's infrastructure platform · Systems, controls, compliance, operational services<br>Not itself a Fund · Cannot act as Fund Manager</p>
+        </div>
+        <div class="icc-arrow">↓ provides infrastructure to ↓</div>
+        <div class="icc-cells">
+          <div class="icc-cell">
+            <div class="cell-label">Incorporated Cell 1</div>
+            <h5>Public Fund A</h5>
+            <p>Separately registered<br>with DFSA</p>
+          </div>
+          <div class="icc-cell">
+            <div class="cell-label">Incorporated Cell 2</div>
+            <h5>Exempt Fund B</h5>
+            <p>Separately registered<br>with DFSA</p>
+          </div>
+          <div class="icc-cell">
+            <div class="cell-label">Incorporated Cell 3</div>
+            <h5>QIF C</h5>
+            <p>Separately registered<br>with DFSA</p>
+          </div>
+          <div class="icc-cell">
+            <div class="cell-label">Incorporated Cell 4</div>
+            <h5>Hedge Fund D</h5>
+            <p>Separately registered<br>with DFSA</p>
+          </div>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px; text-align:center;">Each Incorporated Cell is a standalone legal entity · Each is a separate DFSA-registered Domestic Fund · Fund Manager is liable for all ICC acts</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>📋 Rule Summary Table — §6A.1 Fund Platform Rules</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">6A.1.1</span></td>
+              <td>Application</td>
+              <td>Chapter 6A applies to any Fund Manager that uses a Fund Platform.</td>
+              <td><span class="risk-pill risk-info">Scope</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6A.1.2</span></td>
+              <td><span class="tag-gd">General CIR Application</span></td>
+              <td>All CIR requirements that apply to Fund Managers also apply when using an ICC. All CIR requirements that apply to company-structured Funds apply to each Incorporated Cell.</td>
+              <td><span class="risk-pill risk-info">Foundational</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6A.1.3</span></td>
+              <td><span class="tag-ob">Fund Manager Liable for ICC Acts</span></td>
+              <td>Fund Manager using a Fund Platform remains responsible for any acts or omissions of the ICC as if they were the Fund Manager's own acts or omissions. No liability escape through ICC structure.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6A.1.4</span></td>
+              <td><span class="tag-ob">Fund Manager's Obligations re ICC</span></td>
+              <td>Fund Manager must ensure the ICC: (a) maintains adequate infrastructure for each Fund type/class; (b) only carries on activities the FM is authorised/permitted to do; (c) does NOT provide services to Funds outside the ICC; (d) maintains procedures and up-to-date records of activities per Fund and compliance evidence per Fund.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6A.1.5</span></td>
+              <td><span class="tag-ob">Board Control of ICC and Cells</span></td>
+              <td>If the ICC or any Incorporated Cell has Directors other than the Fund Manager's own Directors, the Fund Manager must exercise control by: (a) having a majority of its Directors on the board; OR (b) having veto power over decisions that could adversely impact the ICC or Cell.</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">6A.1.6</span></td>
+              <td><span class="tag-ob">No Corporate Director for ICC Cells</span></td>
+              <td>A Fund Manager using a Fund Platform must NOT allow any Fund constituted as an Incorporated Cell of the ICC to have a Corporate Director.</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚖️ ICC vs. PCC (Protected Cell Company) — Key Differences</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr><th>Feature</th><th>ICC (Incorporated Cell Company) — Fund Platform</th><th>PCC (Protected Cell Company) — Umbrella Fund</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Legal structure of cells</strong></td>
+              <td>Each Incorporated Cell is a <strong>separate legal entity</strong> with its own directors and articles</td>
+              <td>Cells (Sub-Funds) are parts of a <strong>single Fund</strong> — no separate legal personality</td>
+            </tr>
+            <tr>
+              <td><strong>Subsidiary relationship</strong></td>
+              <td>Incorporated Cells are NOT subsidiaries of the ICC</td>
+              <td>Sub-Funds are not legally distinct from the PCC</td>
+            </tr>
+            <tr>
+              <td><strong>DFSA registration</strong></td>
+              <td>Each Incorporated Cell registered <strong>separately</strong> as its own Domestic Fund</td>
+              <td>Single Fund registration — Sub-Funds are part of one registration</td>
+            </tr>
+            <tr>
+              <td><strong>Use case</strong></td>
+              <td>Multiple <strong>different types/classes</strong> of Funds as separate entities sharing infrastructure</td>
+              <td>Multiple sub-strategies within a <strong>single Fund</strong> — investors can switch between Sub-Funds</td>
+            </tr>
+            <tr>
+              <td><strong>Can EFMs use it?</strong></td>
+              <td>No — External Fund Managers prohibited (Rule 6.1.4)</td>
+              <td>No specific prohibition — but EFM jurisdiction rules still apply</td>
+            </tr>
+            <tr>
+              <td><strong>Corporate Director permitted?</strong></td>
+              <td>No — Rule 6A.1.6 prohibits Corporate Directors for ICC cells</td>
+              <td>Governed by Rule 8.1A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Compliance Checklist — Chapter 6A (Fund Platforms)</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Confirm Fund Manager holds GEN 2.2.7A endorsement to use a Fund Platform before establishing any ICC</li>
+          <li>Confirm Fund Manager is NOT an External Fund Manager — EFMs cannot use Fund Platforms</li>
+          <li>Ensure each Incorporated Cell is separately registered with (or notified to) the DFSA as an individual Domestic Fund</li>
+          <li>Treat Fund Manager's liability as extending fully to all ICC acts or omissions — no liability shield exists</li>
+          <li>Verify the ICC only carries on activities that the Fund Manager is authorised and permitted to undertake for each specific Fund type (e.g. if FM is QIF-only authorised, ICC cannot host Public or Exempt Funds)</li>
+          <li>Confirm the ICC does NOT provide any services to Funds outside the ICC structure (Rule 6A.1.4(c))</li>
+          <li>Maintain up-to-date records of: (a) all ICC activities per Fund; (b) compliance status per Fund</li>
+          <li>Where ICC or Incorporated Cells have external Directors, confirm Fund Manager controls the board by majority representation or veto power (Rule 6A.1.5)</li>
+          <li>Confirm no Incorporated Cell is permitted to have a Corporate Director (Rule 6A.1.6)</li>
+          <li>Document functional separation between Fund Platform resources and any standalone Funds managed by the same FM outside the ICC</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ===================== COMPARISON TABLE ===================== -->
+    <div id="compare" class="section-heading">⚖️ Part 3 Quick Comparison — Obligations by Functionary Type</div>
+
+    <div class="card" style="overflow-x:auto;">
+      <table class="rule-table">
+        <thead>
+          <tr>
+            <th>Requirement</th>
+            <th>Fund Administrator (Ch.5)</th>
+            <th>External Fund Manager (Ch.6.1)</th>
+            <th>Fund Platform — ICC (Ch.6A)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DFSA Authorisation Required?</strong></td>
+            <td>✅ Yes — must be Authorised Firm for Fund Administration</td>
+            <td>✅ Regulated by Recognised Jurisdiction FSR</td>
+            <td>✅ FM needs DFSA authorisation + GEN 2.2.7A endorsement</td>
+          </tr>
+          <tr>
+            <td><strong>AML Obligations</strong></td>
+            <td>✅ Full AML module applies (Unitholders as "customers")</td>
+            <td>Via Appointed FA/Trustee</td>
+            <td>Apply per Fund (each Incorporated Cell)</td>
+          </tr>
+          <tr>
+            <td><strong>Client Money Restriction</strong></td>
+            <td>✅ Cannot hold client money except 2 narrow exceptions</td>
+            <td>Via Appointed FA/Trustee</td>
+            <td>Per Fund — Appointed FA/Trustee holds Fund assets</td>
+          </tr>
+          <tr>
+            <td><strong>Mandatory Written Agreement</strong></td>
+            <td>✅ Delegation Agreement (App 1) — Domestic Funds (not QIFs); SLA for Foreign Funds</td>
+            <td>✅ AFN jurisdiction declaration; agency agreement with Appointed FA/Trustee</td>
+            <td>✅ Fund Manager responsible for all ICC acts — no separate agreement specified but full liability</td>
+          </tr>
+          <tr>
+            <td><strong>Record-Keeping</strong></td>
+            <td>✅ 6-year retention; 3-day reproduction; open to DFSA/Auditor/Oversight at all reasonable times</td>
+            <td>Per Appointed FA — Fund Manager retains overall responsibility</td>
+            <td>✅ Must maintain records of activities per Fund; compliance evidence per Fund</td>
+          </tr>
+          <tr>
+            <td><strong>Credit Fund Prohibition</strong></td>
+            <td>N/A</td>
+            <td>🚫 Cannot manage Domestic Credit Fund (any type)</td>
+            <td>Credit Fund may be hosted as ICC cell if FM is authorised; but External FMs cannot use ICC regardless</td>
+          </tr>
+          <tr>
+            <td><strong>Fund Platform Use</strong></td>
+            <td>N/A</td>
+            <td>🚫 Prohibited</td>
+            <td>✅ Core purpose of Ch. 6A</td>
+          </tr>
+          <tr>
+            <td><strong>Liability for Third-Party Acts</strong></td>
+            <td>Cannot sub-delegate for Foreign Funds without FM approval</td>
+            <td>Responsible for Appointed FA/Trustee's compliance</td>
+            <td>🚨 Full liability for all ICC acts or omissions as if own acts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RISK MATRIX -->
+    <details>
+      <summary>⚠️ Risk Matrix — Part 3 Key Risks</summary>
+      <div class="details-body">
+        <table class="risk-matrix">
+          <thead>
+            <tr><th>Risk Area</th><th>Risk Level</th><th>Consequence</th><th>Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fund Administrator holding client money beyond permitted exceptions</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 5.1.3; potential DFSA enforcement; investor harm risk</td>
+              <td>Implement operational controls preventing asset receipt; training on 3-day cheque rule and limited mandate scope</td>
+            </tr>
+            <tr>
+              <td>Fund Admin offering Units without Delegation Agreement (Domestic Fund)</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 5.1.4; DFSA may require retrospective remediation</td>
+              <td>Onboarding checklist requiring App 1-compliant Delegation Agreement before any Fund Administration begins</td>
+            </tr>
+            <tr>
+              <td>External Fund Manager offering Units before Appointed FA/Trustee appointed</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Breach of Rule 6.1.3; potentially illegal offer; DFSA action; investor redress</td>
+              <td>Hard gate: no marketing or offering activity until Appointed FA/Trustee confirmed in writing</td>
+            </tr>
+            <tr>
+              <td>External FM managing a Domestic Credit Fund</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Absolute prohibition breach — Rule 6.1.5; DFSA enforcement; fund wound up</td>
+              <td>Pre-structuring legal analysis of fund type; Credit Fund classification check before EFM appointment</td>
+            </tr>
+            <tr>
+              <td>ICC cell providing services to non-ICC Funds</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Breach of Rule 6A.1.4(c); regulatory integrity of Fund Platform questioned</td>
+              <td>Strict contractual and operational walls between ICC and standalone Funds; document functional separation</td>
+            </tr>
+            <tr>
+              <td>Fund Manager losing board control of ICC or cell directors</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Rule 6A.1.5 breach; potential loss of regulatory control; DFSA concern</td>
+              <td>Regular review of board composition; retain majority or veto rights in all ICC/cell articles</td>
+            </tr>
+            <tr>
+              <td>Fund Admin records not reproducible within 3 days in English</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Rule 5.1.7(d) breach; DFSA inspection obstruction</td>
+              <td>Test record retrieval systems quarterly; ensure English-language output capability</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="section-heading">📊 Part 3 Summary Dashboard</div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card dash-takeaway">
+        <h4 style="color:var(--guidance);">💡 Key Takeaways</h4>
+        <ul>
+          <li>Fund Administrators face strict client money limits — nearly a clean prohibition with two narrow exceptions</li>
+          <li>6-year record retention with 3-day DFSA reproduction capability is mandatory</li>
+          <li>External FMs must appoint a DFSA-licensed Appointed FA/Trustee BEFORE any Unit offering</li>
+          <li>External FMs cannot use Fund Platforms or manage Domestic Credit Funds</li>
+          <li>Fund Manager using ICC bears full liability for all ICC acts — no liability shield</li>
+          <li>Each ICC cell = separately registered DIFC Domestic Fund</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-trap">
+        <h4 style="color:var(--obligation);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Fund Admins receiving cheques and holding them for more than 3 business days</li>
+          <li>EFMs offering Units before Appointed FA/Trustee formally appointed</li>
+          <li>Assuming ICC structure limits Fund Manager liability — Rule 6A.1.3 makes liability personal</li>
+          <li>QIF Fund Admin believing Delegation Agreement (App 1) is required — it is NOT for QIFs</li>
+          <li>An ICC cell providing back-office services to Funds outside the platform</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-flag">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Fund Administrator with client money on its own balance sheet (beyond narrow exceptions)</li>
+          <li>EFM managing a DIFC Exempt Credit Fund — absolute prohibition regardless of structure</li>
+          <li>Fund Platform hosting Exempt or Public Funds when FM's authorisation is QIF-only</li>
+          <li>ICC cell with an external Corporate Director — prohibited under Rule 6A.1.6</li>
+          <li>SLA for Foreign Fund administration missing annual review, sub-delegation restriction, or record retention clause</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-gov">
+        <h4 style="color:var(--specialist);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Governance Map: clearly identify all Fund Functionaries and their obligations before fund launch</li>
+          <li>Board should formally approve appointment of Fund Administrator and Appointed FA/Trustee for EFM arrangements</li>
+          <li>Annual review of Fund Admin SLAs/Delegation Agreements — ensure still fit for purpose</li>
+          <li>Fund Platform Managers: establish a Fund-by-Fund compliance monitoring framework for each ICC cell</li>
+          <li>Cross-reference Chapter 5 obligations with App 1 (Delegation) and Section 8.12 (FM Delegation rules)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-btns">
+      <a href="part2.html" class="nav-btn">← Part 2: Definitional Provisions</a>
+      <a href="part4.html" class="nav-btn next">Part 4: Establishment & Management →</a>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <div class="page-footer">
+    DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>
+    For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.
+  </div>
+</div><!-- /main -->
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#1a3a5c', primaryTextColor: '#fff', lineColor: '#6b7280' } });
+</script>
+</body>
+</html>

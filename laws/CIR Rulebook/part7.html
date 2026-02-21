@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 7 — Marketing of Funds | CIR Learning Hub</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ob:#c0392b;--ob-bg:#fdf0ef;--gd:#2471a3;--gd-bg:#eaf3fb;
+      --rp:#1e8449;--rp-bg:#eafaf1;--sp:#7d3c98;--sp-bg:#f5eef8;
+      --sw:270px;--r:12px;--sh:0 2px 12px rgba(0,0,0,.08);
+      --shh:0 6px 24px rgba(0,0,0,.14);--bg:#f4f6f9;--card:#fff;
+      --text:#1a202c;--mu:#6b7280;--bo:#e5e7eb;--ac:#1a3a5c
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #sidebar{width:var(--sw);background:var(--ac);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+    .sbl{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sbl .rl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.5);font-weight:600}
+    .sbl h1{font-size:17px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+    .sbl .vt{font-size:11px;color:rgba(255,255,255,.5);margin-top:6px}
+    .sl{padding:14px 20px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);font-weight:600}
+    .nav a{display:flex;align-items:center;gap:10px;padding:8px 20px;color:rgba(255,255,255,.82);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:all .2s}
+    .nav a:hover,.nav a.active{background:rgba(255,255,255,.1);border-left-color:#fff;color:#fff}
+    .nav a .pn{background:rgba(255,255,255,.15);border-radius:4px;font-size:10px;padding:2px 6px;font-weight:700;min-width:36px;text-align:center}
+    .nav a.active .pn{background:rgba(255,255,255,.3)}
+    #main{margin-left:var(--sw);flex:1;min-height:100vh}
+    .hdr{background:var(--card);border-bottom:1px solid var(--bo);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .hdr h2{font-size:16px;font-weight:600;color:var(--ac)}
+    .bc{font-size:13px;color:var(--mu)}.bc a{color:var(--gd);text-decoration:none}
+    .pg{padding:32px;max-width:1200px}
+    .hero{background:linear-gradient(135deg,#0b3d6b 0%,#1a5276 60%,#2471a3 100%);border-radius:var(--r);padding:36px 40px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+    .hero::after{content:'P7';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:110px;font-weight:900;opacity:.07}
+    .pt{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:8px}
+    .hero h1{font-size:26px;font-weight:800;margin-bottom:10px}
+    .hero p{font-size:13.5px;opacity:.85;max-width:680px;line-height:1.6}
+    .pm{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+    .pm .l{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:1px}
+    .pm .v{font-size:14px;font-weight:700;margin-top:2px}
+    .ib{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+    .ip{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:24px;font-size:13px;font-weight:500}
+    .ipo{background:var(--ob-bg);color:var(--ob)}.ipg{background:var(--gd-bg);color:var(--gd)}
+    .ipr{background:var(--rp-bg);color:var(--rp)}.ips{background:var(--sp-bg);color:var(--sp)}
+    .sh2{font-size:18px;font-weight:700;color:var(--ac);margin-bottom:16px;display:flex;align-items:center;gap:10px;margin-top:36px}
+    .sh2::after{content:'';flex:1;height:1px;background:var(--bo)}
+    .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bo);padding:24px 28px;margin-bottom:20px}
+    .pe{background:var(--gd-bg);border-left:4px solid var(--gd);border-radius:0 var(--r) var(--r) 0;padding:18px 22px;margin-bottom:20px}
+    .pe h4{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+    .pe p{font-size:14px;line-height:1.65}.pe p+p{margin-top:8px}
+    details{border:1px solid var(--bo);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+    details[open]{box-shadow:var(--sh)}
+    summary{padding:16px 20px;font-size:14px;font-weight:600;cursor:pointer;background:var(--card);display:flex;align-items:center;gap:10px;user-select:none;list-style:none;color:var(--ac)}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:11px;transition:transform .2s;color:var(--mu)}
+    details[open] summary::before{transform:rotate(90deg)}
+    .db{padding:20px 24px;background:var(--card);border-top:1px solid var(--bo)}
+    .rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .rt th{background:var(--ac);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .rt th:first-child{border-radius:8px 0 0 0}.rt th:last-child{border-radius:0 8px 0 0}
+    .rt td{padding:11px 14px;border-bottom:1px solid var(--bo);vertical-align:top;line-height:1.55}
+    .rt tr:hover td{background:#f9fafb}.rt tr:last-child td{border-bottom:none}
+    .rn{font-family:monospace;font-size:12px;color:var(--gd);font-weight:700;white-space:nowrap}
+    .rph{background:var(--ob-bg);color:var(--ob);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpm{background:#fef9e7;color:#b7770d;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpl{background:var(--rp-bg);color:var(--rp);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .rpi{background:var(--gd-bg);color:var(--gd);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+    .to{color:var(--ob);font-weight:700}
+    .cl{list-style:none;padding:0}
+    .cl li{padding:8px 0;border-bottom:1px solid var(--bo);font-size:13.5px;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+    .cl li:last-child{border-bottom:none}
+    .cl li::before{content:'☐';font-size:16px;color:var(--gd);flex-shrink:0;margin-top:1px}
+    .ex{background:#fffde7;border:1px solid #f9e04b;border-radius:var(--r);padding:18px 22px;margin-top:16px}
+    .ex h5{font-size:12px;font-weight:700;text-transform:uppercase;color:#7d6608;margin-bottom:8px}
+    .ex p{font-size:13.5px;line-height:1.6;color:#4a3c08}
+    .ob{background:var(--ob-bg);border:1px solid #f5c6c0;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .ob h5{font-size:12px;font-weight:700;color:var(--ob);text-transform:uppercase;margin-bottom:8px}
+    .ob ul,.rb ul{padding-left:16px}.ob ul li,.rb ul li{font-size:13px;line-height:1.65;padding:2px 0}
+    .rb{background:var(--rp-bg);border:1px solid #a9dfbf;border-radius:10px;padding:16px 20px;margin:12px 0}
+    .rb h5{font-size:12px;font-weight:700;color:var(--rp);text-transform:uppercase;margin-bottom:8px}
+    .pb{background:#fff5f5;border:2px solid var(--ob);border-radius:10px;padding:16px 20px;margin:12px 0;display:flex;gap:14px;align-items:flex-start}
+    .pbi{font-size:26px;flex-shrink:0}.pb h5{font-size:13px;font-weight:700;color:var(--ob);margin-bottom:6px}.pb p{font-size:13px;line-height:1.55;color:#7b241c}
+    /* Prospectus type comparison grid */
+    .pros-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
+    .pros-card{background:var(--card);border-radius:var(--r);border:1px solid var(--bo);box-shadow:var(--sh);overflow:hidden}
+    .pros-hdr{padding:14px 18px;color:#fff}
+    .pros-body{padding:16px 18px}
+    .pros-body ul{padding-left:16px}.pros-body ul li{font-size:12.5px;line-height:1.65;padding:2px 0;color:var(--mu)}
+    .pros-body strong{color:var(--text)}
+    /* Warning box */
+    .warn-box{background:#1a3a5c;color:#fff;border-radius:10px;padding:18px 22px;margin:14px 0;font-size:13px;line-height:1.7;font-family:monospace}
+    .warn-box .wt{font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-bottom:8px;font-family:'Segoe UI',sans-serif;font-weight:700}
+    /* Foreign fund access pathway */
+    .path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+    .path-card{background:var(--card);border-radius:10px;border-top:4px solid;padding:16px 18px;box-shadow:var(--sh)}
+    .path-card h4{font-size:13px;font-weight:700;margin-bottom:8px}
+    .path-card p{font-size:12.5px;color:var(--mu);line-height:1.6}
+    .path-card .pc{font-size:22px;margin-bottom:8px}
+    /* Dashboard */
+    .dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
+    .dc{border-radius:var(--r);padding:18px 20px;border-left:4px solid}
+    .dt{background:var(--gd-bg);border-color:var(--gd)}.dtr{background:var(--ob-bg);border-color:var(--ob)}
+    .df{background:#fef9e7;border-color:#d4ac0d}.dgo{background:var(--sp-bg);border-color:var(--sp)}
+    .dc h4{font-size:13px;font-weight:700;margin-bottom:10px}
+    .dc ul{list-style:none;padding:0}.dc ul li{font-size:12.5px;padding:3px 0;line-height:1.55}
+    .dc ul li::before{content:'• ';font-weight:700}
+    .nav-btns{display:flex;justify-content:space-between;margin-top:36px;padding-top:24px;border-top:1px solid var(--bo)}
+    .nb{background:var(--card);border:1px solid var(--bo);border-radius:10px;padding:14px 22px;text-decoration:none;color:var(--ac);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);transition:box-shadow .2s}
+    .nb:hover{box-shadow:var(--shh)}.nb.next{background:var(--ac);color:#fff}
+    .pf{text-align:center;padding:32px;color:var(--mu);font-size:12px;border-top:1px solid var(--bo);margin-top:20px}
+    @media(max-width:900px){#sidebar{display:none}#main{margin-left:0}.pg{padding:16px}.pros-grid,.path-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sbl"><div class="rl">The DFSA Rulebook</div><h1>Collective Investment Rules</h1><div class="vt">CIR/VER40/01-26 · Jan 2026</div></div>
+  <div class="sl">Navigation</div>
+  <div class="nav"><a href="index.html"><span class="pn">🏠</span> Dashboard</a></div>
+  <div class="sl">Parts</div>
+  <div class="nav">
+    <a href="part1.html"><span class="pn">P1</span> Introduction</a>
+    <a href="part2.html"><span class="pn">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="pn">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="pn">P4</span> Establishment &amp; Management</a>
+    <a href="part5.html"><span class="pn">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="pn">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html" class="active"><span class="pn">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="pn">P8</span> Transfer &amp; Winding Up</a>
+  </div>
+  <div class="sl">Appendices</div>
+  <div class="nav"><a href="appendices.html"><span class="pn">APP</span> All Appendices (1–9)</a></div>
+  <div class="sl" style="margin-top:12px;">Chapter Sections</div>
+  <div class="nav" style="font-size:12px;">
+    <a href="#overview" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">P7</span> Overview</a>
+    <a href="#ch14-gen" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">14.1</span> Prospectus — General</a>
+    <a href="#ch14-content" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">14.3</span> Prospectus Content</a>
+    <a href="#ch14-specialist" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">14.4</span> Specialist Disclosures</a>
+    <a href="#ch14-avail" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">14.5</span> Availability</a>
+    <a href="#ch14-resp" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">14.6</span> Responsibility</a>
+    <a href="#ch15" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">15</span> Foreign Funds</a>
+    <a href="#dashboard" style="padding:6px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+
+<div id="main">
+  <header class="hdr">
+    <div><div class="bc"><a href="index.html">CIR Hub</a> › <strong>Part 7: Marketing of Funds</strong></div></div>
+    <h2>Chapters 14 &amp; 15 · §14.1 – 15.1.11</h2>
+  </header>
+  <div class="pg">
+
+    <div class="hero">
+      <div class="pt">Part 7 · Chapters 14 &amp; 15</div>
+      <h1>Marketing of Domestic and Foreign Funds</h1>
+      <p>Part 7 governs the Offer (marketing) of Units of both Domestic and Foreign Funds. The Marketing Prohibition in Article 50 of the Law requires that a compliant Prospectus must be made available to every prospective Unitholder before or at the time of any Offer. Chapter 14 covers Domestic Fund Prospectus requirements; Chapter 15 covers the access conditions and additional disclosure required for Foreign Funds marketed in or from the DIFC.</p>
+      <div class="pm">
+        <div><div class="l">Chapters</div><div class="v">14 &amp; 15</div></div>
+        <div><div class="l">Prospectus Validity</div><div class="v">Max 12 Months</div></div>
+        <div><div class="l">Correction Window</div><div class="v">≥7 Days</div></div>
+        <div><div class="l">Annual Report — AF</div><div class="v">31 January</div></div>
+        <div><div class="l">Records Retention</div><div class="v">6 Years</div></div>
+      </div>
+    </div>
+
+    <div class="ib">
+      <span class="ip ipo">🔴 Marketing Prohibition — Prospectus must be available before any Offer</span>
+      <span class="ip ipg">🔵 QIF — limited obligations apply under Ch.14 (Rules 14.2.1, 14.2.4–14.2.7, select 14.4 rules, 14.5, 14.6)</span>
+      <span class="ip ipr">🟢 Supplementary/Replacement Prospectus — ≥7 day withdrawal right for prior applicants</span>
+      <span class="ip ips">🟣 Foreign Fund annual report to DFSA — 31 January each year</span>
+    </div>
+
+    <div class="pe">
+      <h4>📖 Plain-English Overview</h4>
+      <p><strong>Chapter 14</strong> operationalises the statutory Marketing Prohibition. Its central obligation is simple: before any Offer of Units, the Fund Manager must make available a Prospectus that satisfies the relevant content requirements. The detailed content differs by fund type — Public Funds must follow App 7 (a long prescribed list), while Exempt Funds and QIFs need only an Information Memorandum containing what Professional Clients would reasonably need to make an informed decision.</p>
+      <p><strong>Chapter 15</strong> governs when and how an Authorised Firm can market a Foreign Fund in or from the DIFC. Three access pathways exist: (1) the Fund is a Designated Fund in a Recognised Jurisdiction; (2) the AF has a reasonable basis for recommending it as suitable for the specific Client; or (3) the fund meets Exempt/QIF-equivalent criteria (private placement, Professional Client, ≥US$50,000 minimum subscription). Passported Funds follow their Home Jurisdiction rules.</p>
+    </div>
+
+    <!-- MARKETING PROHIBITION OVERVIEW -->
+    <div id="overview" class="sh2">🚫 The Marketing Prohibition — Article 50 Framework</div>
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:16px;">Article 50 of the Law contains the <strong>Marketing Prohibition</strong>. No Person may Offer a Unit of a Fund to prospective or existing Unitholders unless <em>all three</em> conditions are met:</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;">
+        <div style="background:var(--ob-bg);border-radius:10px;padding:16px;border-top:3px solid var(--ob);">
+          <div style="font-size:22px;margin-bottom:8px;">📄</div>
+          <strong style="font-size:13px;color:var(--ob);">Condition 1</strong>
+          <p style="font-size:12.5px;margin-top:6px;color:var(--mu);line-height:1.6;">A compliant Prospectus is made available to the person to whom the Offer is made</p>
+        </div>
+        <div style="background:var(--gd-bg);border-radius:10px;padding:16px;border-top:3px solid var(--gd);">
+          <div style="font-size:22px;margin-bottom:8px;">🏢</div>
+          <strong style="font-size:13px;color:var(--gd);">Condition 2</strong>
+          <p style="font-size:12.5px;margin-top:6px;color:var(--mu);line-height:1.6;">The person making the Offer is the Fund Manager or an Authorised Firm licensed to do so</p>
+        </div>
+        <div style="background:var(--rp-bg);border-radius:10px;padding:16px;border-top:3px solid var(--rp);">
+          <div style="font-size:22px;margin-bottom:8px;">✅</div>
+          <strong style="font-size:13px;color:var(--rp);">Condition 3</strong>
+          <p style="font-size:12.5px;margin-top:6px;color:var(--mu);line-height:1.6;">The Offer is made in accordance with all applicable requirements in the Law or Rules</p>
+        </div>
+      </div>
+      <div class="ob"><h5>Excluded Offers — NOT subject to the Marketing Prohibition</h5><ul>
+        <li>Execution-only Transactions by an Authorised Firm (Rules 4.1.3–4.1.4)</li>
+        <li>Transactions for managing a Discretionary Portfolio for a Client</li>
+        <li>Transactions for redeeming a Unit of a Fund for a Client</li>
+        <li>Offers made by an Authorised Firm to a Market Counterparty</li>
+        <li>Offers of Units of a Passported Fund where the DIFC is the Host Jurisdiction (these follow Home Jurisdiction rules)</li>
+      </ul></div>
+    </div>
+
+    <!-- CH14 GENERAL PROSPECTUS REQUIREMENTS -->
+    <div id="ch14-gen" class="sh2">📋 Chapter 14 — General Prospectus Requirements (§14.1–14.2)</div>
+
+    <details open>
+      <summary>📋 §14.1 — Application &amp; §14.2 — General Requirements</summary>
+      <div class="db">
+        <div class="ob"><h5>§14.1 — Who Chapter 14 Applies To</h5><ul>
+          <li>Fund Manager of a Domestic Fund</li>
+          <li>Each Director or partner of the Fund Manager (and individual directors of a Corporate Director)</li>
+          <li>Each member of the Fund's Governing Body</li>
+          <li>Any Authorised Firm (and its Directors/partners) that undertakes marketing of Units of a Domestic Fund but is not the Fund Manager</li>
+          <li><strong>QIF — limited application only:</strong> Rule 14.2.1; Rules 14.2.4–14.2.7; Rules 14.4.6, 14.4.11, 14.4.12, 14.4.13; Rules 14.5.1 and 14.5.2; Rules in §14.6</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>§14.2.1 — Key Prospectus Principles</h5><ul>
+          <li>Prospectus must NOT contain any provision unfairly prejudicial to the interests of Unitholders generally or of any class of Units</li>
+          <li>Information must be <strong>material information</strong> — information is material if it is: (a) within the knowledge of the Directors/partners of the FM; or (b) which they ought reasonably to have obtained by making reasonable enquiries</li>
+          <li>Must be in <strong>English language</strong> (except the KIID for a Passported Fund, which must be in both Arabic and English)</li>
+          <li>Expiry date must be no later than <strong>12 months</strong> after the date of the Prospectus</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>§14.2.2–14.2.3 — Supplementary &amp; Replacement Prospectuses</h5><ul>
+          <li><strong>Trigger:</strong> Article 52(4) of the Law requires a Supplementary or Replacement Prospectus whenever there is: a material change affecting any matter in the Prospectus; or a significant new matter arising</li>
+          <li><strong>Supplementary Prospectus requirements:</strong> identify the Prospectus it supplements; state revisions and dates; file with DFSA (Public Funds); provide to all persons who applied for Units after the earliest date of the material change/new matter; made available in the same media/channels as the original</li>
+          <li><strong>Replacement Prospectus requirements:</strong> state it is a Replacement Prospectus; identify the Prospectus replaced; file with DFSA (Public Funds); provide to all persons who applied for Units after the earliest date of material change/new matter</li>
+          <li><strong>Expiry date</strong> of any Supplementary or Replacement Prospectus must be the same as the Prospectus it supplements or replaces</li>
+          <li><strong>Withdrawal right (Rule 14.2.3):</strong> FM must inform prior applicants of their right to confirm or retract their application and receive a refund; applicants must be allowed <strong>at least 7 days</strong> from receipt of the Supplementary/Replacement Prospectus to exercise this right</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>§14.2.4–14.2.7 — External Fund Prospectus Requirements</h5><ul>
+          <li>No Offer of an External Fund to a Retail Client unless the Fund's home jurisdiction allows offers to retail investors</li>
+          <li>Prospectus must be in English; must include in a prominent position a statement describing the Fund's home jurisdiction, legislation, regulator name, regulatory status, and the mandatory DFSA disclaimer warning (see warning box below)</li>
+          <li>If the Offer is not directed to Retail Clients — a prominent statement to that effect must be incorporated within the warning</li>
+          <li>If Units are Security Tokens — additional MKT App 7 equivalent information required</li>
+          <li>If ≥10% of GAV consists of Investment Tokens — MKT App 7 equivalent information required</li>
+          <li>If Fund invests in Crypto Tokens — MKT App 7 equivalent information required</li>
+          <li>If External Fund is a Credit Fund — mandatory risk warning (Rule 13.12.13), lending strategy, concentration information, risk diversification strategy, and borrowing limits must be disclosed</li>
+          <li>Copies of Prospectus must be maintained at the FM's DIFC place of business for inspection by Clients and DFSA during normal business hours (may be stored electronically)</li>
+        </ul></div>
+        <div class="warn-box"><div class="wt">Mandatory DFSA Disclaimer — External &amp; Foreign Fund Prospectuses</div>"This Prospectus relates to a Fund which is not subject to any form of regulation or approval by the Dubai Financial Services Authority ("DFSA"). The DFSA has no responsibility for reviewing or verifying any Prospectus or other documents in connection with this Fund. Accordingly, the DFSA has not approved this Prospectus or any other associated documents nor taken any steps to verify the information set out in this Prospectus, and has no responsibility for it. The Units to which this Prospectus relates may be illiquid and/or subject to restrictions on their resale. Prospective purchasers should conduct their own due diligence on the Units. If you do not understand the contents of this document you should consult an authorised financial adviser."</div>
+      </div>
+    </details>
+
+    <!-- CH14 PROSPECTUS CONTENT -->
+    <div id="ch14-content" class="sh2">📝 §14.3 — Prospectus Content by Fund Type</div>
+
+    <div class="pros-grid">
+      <div class="pros-card">
+        <div class="pros-hdr" style="background:#1a3a5c;">
+          <div style="font-size:20px;margin-bottom:6px;">🔵</div>
+          <strong style="font-size:14px;">Public Fund Prospectus</strong>
+          <div style="font-size:11px;opacity:.75;margin-top:4px;">Rule 14.3.1 · Appendix 7</div>
+        </div>
+        <div class="pros-body">
+          <ul>
+            <li><strong>Full Appendix 7 content</strong> (unless Passported Fund — then FPR App 1 + KIID)</li>
+            <li>Any specialist class additional disclosures from §14.4</li>
+            <li><strong>Summary Document</strong> containing: Fund identification/classification; investment objectives summary; past performance or scenarios; costs/charges; risk/reward profile with warnings</li>
+            <li>Mandatory DFSA disclaimer statement (Rule 14.3.3)</li>
+            <li>If Open-ended: liquidity risk management powers, procedures and triggers</li>
+            <li>Digital asset disclosures if Fund holds Security Tokens, Investment Tokens ≥10% GAV, or Crypto Tokens</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pros-card">
+        <div class="pros-hdr" style="background:#c0392b;">
+          <div style="font-size:20px;margin-bottom:6px;">🟠</div>
+          <strong style="font-size:14px;">Exempt Fund — Information Memorandum</strong>
+          <div style="font-size:11px;opacity:.75;margin-top:4px;">Rule 14.3.2 · Article 52(2) of the Law</div>
+        </div>
+        <div class="pros-body">
+          <ul>
+            <li><strong>No prescribed format</strong> — Information Memorandum = Prospectus under Article 50(3)(a)</li>
+            <li>Must contain all information that <strong>Professional Clients would reasonably require and expect</strong> to make an informed investment decision (Article 52(2) test)</li>
+            <li>Must include additional statement: "This Information Memorandum is intended for only Professional Clients who can make a minimum subscription of US$50,000 and must not, therefore, be delivered to, or relied on by, a Retail Client or a Professional Client not able to make that minimum subscription."</li>
+            <li>Specialist class additional disclosures if applicable (e.g. prime broker warning for Hedge Fund)</li>
+            <li>Digital asset information if Fund holds Investment Tokens ≥10% GAV or Crypto Tokens</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pros-card">
+        <div class="pros-hdr" style="background:#1e8449;">
+          <div style="font-size:20px;margin-bottom:6px;">🟢</div>
+          <strong style="font-size:14px;">QIF — Information Memorandum (Lighter)</strong>
+          <div style="font-size:11px;opacity:.75;margin-top:4px;">Rule 14.1.1(4) · Limited obligations</div>
+        </div>
+        <div class="pros-body">
+          <ul>
+            <li><strong>No prescribed format</strong> — same Article 52(2) test as Exempt Fund but for Professional Clients making ≥US$500,000</li>
+            <li>Only limited Chapter 14 rules apply (Rules 14.2.1, 14.2.4–14.2.7, Rules 14.4.6/11/12/13, Rules 14.5.1–14.5.2, and §14.6)</li>
+            <li>Specific specialist disclosures that apply to QIFs: Hedge Fund mandatory disclosure statement (Rule 14.4.6); VC Fund risk warning (Rule 14.4.11); Credit Fund disclosures (Rule 14.4.13)</li>
+            <li>Digital asset disclosures as for Exempt Fund</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex"><h5>📌 Multi-Part Prospectus</h5><p>A Public Fund Prospectus may consist of either a single document or a multi-part Prospectus containing: (a) a Summary; (b) information relating to the Fund Manager and Trustee; and (c) information relating to the Fund. If multi-part, the FM must ensure the Prospectus <em>as a whole</em> is kept up-to-date — it is not sufficient to update only one part.</p></div>
+
+    <!-- MANDATORY STATEMENT -->
+    <div style="margin-top:20px;">
+      <div class="warn-box"><div class="wt">Mandatory Statement — Public Fund Prospectus Front Page (Rule 14.3.3)</div>"This Prospectus relates to a DIFC Fund in accordance with the Collective Investment Law 2010 and Rules of the Dubai Financial Services Authority ("DFSA"). The DFSA has no responsibility for reviewing or verifying any Prospectus or other documents in connection with this Domestic Fund. Accordingly, the DFSA has not approved this Prospectus or any other associated documents nor taken any steps to verify the information set out in this Prospectus, and has no responsibility for it. The Units to which this Prospectus relates may be illiquid and/or subject to restrictions on their resale. Prospective purchasers of the Units offered should conduct their own due diligence on the Units. If you do not understand the contents of this document you should consult an authorised financial adviser."</div>
+    </div>
+
+    <!-- CH14 SPECIALIST DISCLOSURES -->
+    <div id="ch14-specialist" class="sh2">⚙️ §14.4 — Additional Prospectus Disclosure for Specialist Funds</div>
+    <details open>
+      <summary>📋 Specialist Disclosure Requirements by Fund Type</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Fund Type</th><th>Rule</th><th>Required Disclosure</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Feeder Fund</strong></td>
+              <td><span class="rn">14.4.1</span></td>
+              <td>Prominent risk warning on higher fees from layered structure; fee breakdown at Feeder Fund level, Master Fund level, and any underlying Funds (to the extent known)</td>
+              <td><span class="rpm">Medium</span></td>
+            </tr>
+            <tr>
+              <td><strong>Property Fund</strong></td>
+              <td><span class="rn">14.4.2–14.4.4B</span></td>
+              <td>Nature of investor commitment; property market risks; redemption risk warning; Valuer details (Rule 13.4.18); redemption procedures (prominently); dividend/income policy; insurance arrangements; RPT details; significant holder details; tax information; valuation standards; REIT status. Public Property Fund: investment limits (% non-traded PRAs, max single property, vacancy/development %, mortgaged property %). Single-property fund: prominent disclosure of single-property risk. Self-custody disclosure if FM acts as custodian of Real Property. RPT general approval disclosure if applicable.</td>
+              <td><span class="rph">High</span></td>
+            </tr>
+            <tr>
+              <td><strong>Private Equity Fund</strong></td>
+              <td><span class="rn">14.4.5</span></td>
+              <td>Arrangements for safekeeping of monies raised but not yet invested; exit arrangements for Unitholders</td>
+              <td><span class="rpm">Medium</span></td>
+            </tr>
+            <tr>
+              <td><strong>Hedge Fund</strong></td>
+              <td><span class="rn">14.4.6</span></td>
+              <td>Mandatory Hedge Fund Disclosure Statement (full text) prominently in Prospectus and any financial promotions — covers leverage/speculative risk, illiquidity, complex tax structures, high fees, non-transparency, volatility, potential total loss, single manager risk, expenses. <em>(Applies to QIFs)</em></td>
+              <td><span class="rph">High</span></td>
+            </tr>
+            <tr>
+              <td><strong>Money Market Fund (Public)</strong></td>
+              <td><span class="rn">14.4.7</span></td>
+              <td>Prominent warning that: (a) a Unit in a MMF differs from a Deposit; (b) capital is not guaranteed; (c) value of Units may fluctuate</td>
+              <td><span class="rpm">Medium</span></td>
+            </tr>
+            <tr>
+              <td><strong>ETF</strong></td>
+              <td><span class="rn">14.4.8–14.4.9</span></td>
+              <td>ETF type and characteristics; associated risks; tracking methodology and strategy; description of index/benchmark and underlying components (incl. liquidity); PIP information and website signposts; iNAV availability/access; how index is tracked; key factors affecting tracking (costs, illiquid segments, dividend reinvestment); for synthetic ETFs: funded/unfunded model, counterparty info, collateral details, counterparty default risk mitigation; diversification strategy; past tracking difference/error information; Authorised Participant details. Cost structure: performance fees, operational costs, swap/brokerage costs, rebalancing costs; revenue from portfolio assets and distribution between Fund and FM.</td>
+              <td><span class="rph">High</span></td>
+            </tr>
+            <tr>
+              <td><strong>Fund on Fund Platform (ICC)</strong></td>
+              <td><span class="rn">14.4.10</span></td>
+              <td>Statement that Fund is an Incorporated Cell of an ICC; the IC is a separate legal entity to the ICC and other ICs (no subsidiary/holding relationship); the ICC contains the infrastructure needed for Fund management; the FM is responsible for sound and prudent operation of the Fund Platform and liable for acts/omissions of the Platform in respect of the Fund</td>
+              <td><span class="rpm">Medium</span></td>
+            </tr>
+            <tr>
+              <td><strong>Venture Capital Fund</strong></td>
+              <td><span class="rn">14.4.11–14.4.12</span></td>
+              <td>Prominent risk warning: SME investments are highly illiquid, likely to be held for a considerable period, and have a high rate of failure as they are usually new businesses. Must also clearly set out any legal requirements disapplied to the Fund Manager in relation to the VC Fund (e.g. no Eligible Custodian, no internal audit function, no Finance Officer) — unless the FM voluntarily complies with the disapplied requirement. <em>(Applies to QIFs)</em></td>
+              <td><span class="rpm">Medium</span></td>
+            </tr>
+            <tr>
+              <td><strong>Credit Fund</strong></td>
+              <td><span class="rn">14.4.13</span></td>
+              <td>Prominent risk warning (per Rule 13.12.13 — risks of providing credit, no capital guarantee, potential illiquidity/loss); specific lending strategy; intended concentration by entity/geography/sector and associated risks; risk diversification strategy (Rule 13.12.9); whether borrowing is permitted and borrowing limits (Rule 13.12.11). <em>(Applies to QIFs)</em></td>
+              <td><span class="rph">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="ex" style="margin-top:14px;"><h5>📌 Mandatory Hedge Fund Disclosure Statement (full text — Rule 14.4.6)</h5><p>"When considering investment in a Hedge Fund you should consider the fact that some Hedge Fund products use leverage and other speculative investment practices that may increase the risk of investment loss, can be illiquid, may involve complex tax structures, often charge high fees, and in many cases the underlying investments are not transparent and are known only to the Hedge Fund Investment Manager. Returns from Hedge Funds can be volatile and you may lose all or part of your investment. With respect to single manager products the manager has total trading authority and this could mean a lack of diversification and higher risk. The Hedge Fund may be subject to substantial expenses that are generally offset by trading profits and other income. A portion of those fees is paid to the Hedge Fund Manager."</p></div>
+      </div>
+    </details>
+
+    <!-- CH14 AVAILABILITY & RESPONSIBILITY -->
+    <div id="ch14-avail" class="sh2">📤 §14.5 — Obligation to Make a Prospectus Available</div>
+    <details>
+      <summary>📋 Availability Obligations — Rules 14.5.1–14.5.3</summary>
+      <div class="db">
+        <div class="rb"><h5>FM's Obligation (Rule 14.5.1)</h5><ul>
+          <li>FM must make the Fund's most recent Prospectus available <strong>free of charge</strong> to any Unitholder and to any Person eligible to invest, when making any Offer to issue or sell a Unit</li>
+          <li>FM must not enter into any Transaction relating to the issue or sale of a Unit unless the Transaction results from an Excluded Offer (per §4.1)</li>
+          <li>FM of an Exempt Fund or QIF must not make (or cause any Person to make) an Offer in a manner breaching the private placement/Professional Client/minimum subscription conditions in Article 16(4) or (5) of the Law</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Authorised Firm's Obligation (Rule 14.5.2)</h5><ul>
+          <li>AF offering Units of a Domestic Fund must make available the most recent Prospectus at the time of the Offer or before effecting the Transaction (unless Excluded Offer)</li>
+          <li>AF must not Offer Units of an Exempt Fund or QIF in a manner breaching Articles 16(4) or (5) of the Law</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>How Prospectus Availability is Satisfied (Rule 14.5.3)</h5><ul>
+          <li>Maintaining copies at the DIFC place of business for inspection by Clients and DFSA during normal business hours; OR</li>
+          <li>Being able to advise readily of a location in the DIFC where copies are available</li>
+          <li>Electronic storage is acceptable so long as Clients and the DFSA have <strong>ready and immediate access</strong></li>
+        </ul></div>
+      </div>
+    </details>
+
+    <div id="ch14-resp" class="sh2">⚖️ §14.6 — Responsibility for Prospectus</div>
+    <details>
+      <summary>📋 Prescribed Responsible Persons &amp; Exceptions from Liability</summary>
+      <div class="db">
+        <div class="ob"><h5>Who Is Responsible for the Prospectus (Rule 14.6.1)</h5><ul>
+          <li>The Fund Manager</li>
+          <li>Each Director of a Body Corporate Fund that does not have a sole Corporate Director acting as FM</li>
+          <li>Each Person authorised to be named and named in the Prospectus as a Director, General Partner, or Governing Body member (or agreed to become one)</li>
+          <li>Each Person who accepts, and is stated as accepting, responsibility for the Prospectus or any part of it</li>
+          <li>Each Person who has authorised the contents or any part of the Prospectus</li>
+          <li>Note: A person giving advice on Prospectus contents in a professional capacity is NOT thereby responsible for it</li>
+          <li>A person responsible for only part of the Prospectus is responsible only for that part, in the form and context agreed</li>
+        </ul></div>
+        <div class="rb" style="margin-top:10px;"><h5>Exceptions from Liability (Rules 14.6.2–14.6.3) — Article 58 of the Law</h5><ul>
+          <li>A person (other than the FM) will not incur liability if, at the time of filing/notification, they believed on reasonable grounds (after making reasonable enquiries) that the statement was true and not misleading, or that the omission was proper — and one of the following applies: (a) continued in that belief until acquisition; (b) acquired before correction was reasonably practicable; (c) took all reasonable steps to bring correction to attention of likely acquirers; or (d) acquired after such a lapse of time that the person ought reasonably to be excused</li>
+          <li>Expert statements: a person is not liable for a loss caused by an expert statement included with the expert's consent if they reasonably believed the expert was competent and had consented — with similar continuing-belief or practicability conditions</li>
+          <li>No liability if a correction was published (or all reasonable steps taken to publish) before the Units were acquired</li>
+          <li>No liability for accurately and fairly reproduced statements by official persons or from public official documents</li>
+          <li>No liability if the investor acquired Units with knowledge of the false/misleading statement, omitted matter, or change</li>
+        </ul></div>
+        <div class="ob" style="margin-top:10px;"><h5>Expert Consent &amp; Records (Rules 14.6.4–14.6.5)</h5><ul>
+          <li>An expert is any Person who accepts responsibility for any statement or report reproduced (in whole or in part) in a Prospectus with that Person's written consent</li>
+          <li>FM must: keep a record of any consent received; and include a statement in the Prospectus that the expert has consented to reproduction</li>
+        </ul></div>
+      </div>
+    </details>
+
+    <!-- CHAPTER 15 — FOREIGN FUNDS -->
+    <div id="ch15" class="sh2">🌍 Chapter 15 — Marketing of Foreign Funds (§15.1)</div>
+
+    <div class="pe">
+      <h4>📖 Foreign Fund Access Pathways</h4>
+      <p>Article 54(1) of the Law prohibits the Offer of Units of any Foreign Fund from the DIFC unless one of three access conditions is satisfied. The Rules then set additional criteria and requirements on top of those statutory conditions.</p>
+    </div>
+
+    <div class="path-grid">
+      <div class="path-card" style="border-color:#1a3a5c;">
+        <div class="pc">🏅</div>
+        <h4 style="color:#1a3a5c;">Pathway 1 — Designated Fund</h4>
+        <p>The Fund is established and operated in a <strong>Recognised Jurisdiction</strong> and is listed as a <strong>Designated Fund</strong> in the DFSA's Recognised Jurisdictions Notice. Passported Funds designated under the Fund Protocol are also Designated Funds.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--ob);">Additional criteria apply for Property Funds (Rule 15.1.7), ETFs (Rule 13.9.1), VC Funds (closed-ended), and Credit Funds (closed-ended, Exempt/QIF-equivalent conditions, policies, stress testing, equivalent regulatory protection).</p>
+      </div>
+      <div class="path-card" style="border-color:#b7770d;">
+        <div class="pc">🎯</div>
+        <h4 style="color:#b7770d;">Pathway 2 — Suitability Recommendation</h4>
+        <p>The Authorised Firm has a <strong>reasonable basis for recommending</strong> the Unit of the Foreign Fund as suitable for the <strong>particular Client</strong> to whom the Offer is made.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--mu);">Requires a suitability assessment under COB Rule 3.4.2. AF must not make the Offer unless the assessment is completed.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--ob);">Additionally, the Fund must have a custodian and investment manager meeting Recognised Jurisdiction supervision standards, or the Fund must be investment-grade rated (Moody's/Fitch/S&amp;P or acceptable equivalent).</p>
+      </div>
+      <div class="path-card" style="border-color:#1e8449;">
+        <div class="pc">🔒</div>
+        <h4 style="color:#1e8449;">Pathway 3 — Exempt/QIF-Equivalent Criteria</h4>
+        <p>The Foreign Fund meets <em>all three</em> of: (i) Units offered only by <strong>Private Placement</strong>; (ii) only to persons who qualify as <strong>Professional Clients</strong>; and (iii) requires an initial subscription of at least <strong>US$50,000</strong>.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--mu);">AF must verify these criteria before marketing and be able to demonstrate adequate due diligence to the DFSA. Additional Crypto Token conditions apply if Fund invests in Crypto Tokens (daily valuations; custody by separate licensed entity or person with adequate custody arrangements).</p>
+      </div>
+    </div>
+
+    <details open>
+      <summary>📋 Foreign Fund — Additional Rules (§15.1.1–15.1.11)</summary>
+      <div class="db">
+        <table class="rt">
+          <thead><tr><th>Rule</th><th>Obligation</th><th>Key Requirement</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rn">15.1.1</span></td><td><strong>Passported Fund — Limited Rules</strong></td><td>For a Passported Fund where DIFC is the Host Jurisdiction, only Rules 15.1.1A, 15.1.2, 15.1.4, 15.1.5(a), 15.1.8, 15.1.9, 15.1.10 and 15.1.11 apply.</td><td><span class="rpi">Info</span></td></tr>
+            <tr><td><span class="rn">15.1.1A</span></td><td><span class="to">Retail Client Restriction</span></td><td>AF must NOT offer a Foreign Fund to a Retail Client unless the Fund's home jurisdiction regulation permits offers to retail investors. This applies even to Passported Funds.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">15.1.2–15.1.3</span></td><td><span class="to">Prospectus Disclosure</span></td><td>AF must make available a current Prospectus that: (a) is in English; (b) contains in a prominent position the mandatory DFSA disclaimer (same text as for External Funds in Rule 14.2.6); (c) names the home jurisdiction, legislation, and regulator; (d) if not directed to Retail Clients — prominent statement to that effect incorporated in the warning; (e) for MMF — includes Rule 14.4.7 risk warning; (f) for VC Fund — includes Rule 14.4.11 risk warning and Rule 14.4.12 disclosures; (g) if Security Tokens — MKT App 7 equivalent; (h) if ≥10% GAV in Investment Tokens — MKT App 7 equivalent.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">15.1.4</span></td><td><span class="to">Prospectus Inspection</span></td><td>AF must maintain copies of the Prospectus at its DIFC place of business for inspection by Clients and DFSA during normal business hours (electronic storage permitted if ready and immediate access).</td><td><span class="rpm">Medium</span></td></tr>
+            <tr><td><span class="rn">15.1.7</span></td><td><span class="to">Foreign Property Fund Conditions</span></td><td>A Foreign Fund meets the Property Fund condition if: (a) ≥60% of assets are Real Property, Property Related Assets or Property Fund Units; (b) it is a Closed-ended Fund; and (c) Units are either listed/traded on an AMI or Recognised Jurisdiction exchange, or offered only by Private Placement.</td><td><span class="rpm">Medium</span></td></tr>
+            <tr><td><span class="rn">15.1.8</span></td><td><span class="to">Suitability Assessment</span></td><td>Before relying on Pathway 2 (Article 54(1)(b)), AF must complete a suitability assessment under COB Rule 3.4.2 for the specific Client.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">15.1.9</span></td><td><span class="to">Pathway 3 Due Diligence</span></td><td>AF relying on Article 54(1)(c) (Pathway 3) must: satisfy itself on reasonable grounds that the three criteria are met; make the Offer in a manner consistent with private placement/Professional Client conditions; conduct adequate due diligence (demonstrable to DFSA); and for Crypto Token funds — verify daily valuations and separate custody by a licensed or due-diligenced custodian.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">15.1.10</span></td><td><span class="to">Annual Report to DFSA</span></td><td>AF must submit to DFSA by <strong>31 January each year</strong> a report covering all Offers or Transactions in Units of any Domestic Fund or Foreign Fund during the preceding calendar year. Must include: Fund name and FM name; if Foreign Fund — whether Designated Fund and Recognised Jurisdiction, OR basis relied upon for non-Designated Fund marketing.</td><td><span class="rph">High</span></td></tr>
+            <tr><td><span class="rn">15.1.11</span></td><td><span class="to">Record Keeping</span></td><td>AF must keep records sufficient to demonstrate due compliance with the marketing requirements in Chapter 15. Records must be maintained for a minimum of <strong>6 years</strong>.</td><td><span class="rpm">Medium</span></td></tr>
+          </tbody>
+        </table>
+        <div class="ex" style="margin-top:14px;"><h5>📌 Practical Example — Foreign Fund Annual Reporting</h5><p>An Authorised Firm markets three foreign funds during 2025: (1) a Cayman Islands hedge fund offered to Professional Clients via private placement at US$100,000 minimum (Pathway 3); (2) a Luxembourg UCITS fund designated as a Designated Fund (Pathway 1); (3) a US private equity fund recommended as suitable for a specific UHNW client (Pathway 2). By <strong>31 January 2026</strong>, the AF must file a report with the DFSA naming all three funds, their FMs, and for each identifying the pathway relied upon. For the UCITS, it must state it is a Designated Fund and confirm the Recognised Jurisdiction. For the Cayman fund and US PE fund, it must explain the alternative basis relied upon.</p></div>
+      </div>
+    </details>
+
+    <!-- COMPLIANCE CHECKLIST -->
+    <div class="sh2" style="margin-top:32px;">✅ Part 7 Compliance Checklist</div>
+    <div class="card">
+      <ul class="cl">
+        <li>Before making any Offer, confirm the relevant Prospectus/Information Memorandum is current, compliant, and will be made available free of charge to the prospective Unitholder</li>
+        <li>Public Fund Prospectus: mandatory DFSA disclaimer statement displayed prominently on the front page; Appendix 7 content satisfied; Summary Document included</li>
+        <li>Exempt Fund IM: "Professional Clients only / US$50,000 minimum" statement included; Article 52(2) materiality test applied</li>
+        <li>Prospectus expiry date set — no later than 12 months from date of Prospectus</li>
+        <li>Supplementary/Replacement Prospectus issued promptly when material changes or significant new matters arise; prior applicants notified and given ≥7 days withdrawal right with refund option</li>
+        <li>Specialist fund disclosures included where required: Feeder Fund layered fee warning; Property Fund risk warnings and Valuer details; Hedge Fund mandatory disclosure statement; MMF capital guarantee warning; ETF full tracking and cost structure disclosures; VC Fund illiquidity warning and disapplied requirements; Credit Fund risk warning and lending strategy</li>
+        <li>Self-custody Public Property Fund: prominent disclosure in Prospectus that FM acts as custodian, risks, and safeguards</li>
+        <li>Expert consents obtained in writing and kept on record; Prospectus states expert has consented</li>
+        <li>Copies of Prospectus maintained at DIFC place of business (or electronic equivalent) for Clients and DFSA inspection</li>
+        <li>Exempt Fund / QIF: no public marketing — Offer only by Private Placement to Professional Clients meeting minimum subscription criteria</li>
+        <li>Foreign Fund — pathway determined before marketing; suitability assessment completed if Pathway 2; due diligence documented for Pathway 3 and demonstrable to DFSA</li>
+        <li>Foreign Fund Prospectus: mandatory DFSA disclaimer in prominent position; English language; Retail Client restriction observed</li>
+        <li>Foreign Fund annual report filed with DFSA by 31 January each year</li>
+        <li>Foreign Fund marketing records retained for minimum 6 years</li>
+      </ul>
+    </div>
+
+    <!-- SUMMARY DASHBOARD -->
+    <div id="dashboard" class="sh2">📊 Part 7 Summary Dashboard</div>
+    <div class="dg">
+      <div class="dc dt">
+        <h4 style="color:var(--gd);">💡 Key Takeaways</h4>
+        <ul>
+          <li>The Marketing Prohibition is absolute — no Offer without a compliant Prospectus being made available</li>
+          <li>Prospectus validity is capped at 12 months; must be updated on any material change</li>
+          <li>Supplementary/Replacement Prospectus triggers a ≥7-day withdrawal right for prior applicants</li>
+          <li>QIFs face only limited Chapter 14 obligations — not the full Public Fund Prospectus requirements</li>
+          <li>Foreign Funds need one of three Article 54 access pathways; AF must document the basis used</li>
+          <li>All foreign fund marketing must be reported to DFSA by 31 January annually</li>
+        </ul>
+      </div>
+      <div class="dc dtr">
+        <h4 style="color:var(--ob);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Omitting the mandatory DFSA disclaimer from the Public Fund Prospectus front page</li>
+          <li>Failing to issue a Supplementary Prospectus after a material change — or issuing it without giving prior applicants their withdrawal rights</li>
+          <li>Hedge Fund Prospectus lacking the complete mandatory disclosure statement (even for QIFs)</li>
+          <li>Marketing an Exempt Fund or QIF via a public website or newsletter — must be private placement only</li>
+          <li>Marketing a Foreign Fund without documenting the access pathway relied upon</li>
+          <li>Missing the 31 January DFSA annual report deadline for Foreign Fund marketing activity</li>
+        </ul>
+      </div>
+      <div class="dc df">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Prospectus older than 12 months still being used for Offers — automatic expiry</li>
+          <li>ETF Prospectus with no tracking methodology, iNAV information, or Authorised Participant disclosure</li>
+          <li>VC Fund Prospectus that does not disclose disapplied requirements (e.g. no Eligible Custodian, no internal audit)</li>
+          <li>Credit Fund Prospectus lacking the prominent risk warning or risk diversification strategy</li>
+          <li>Foreign Fund offered to a Retail Client where home jurisdiction does not permit retail offers</li>
+          <li>No records to demonstrate Foreign Fund marketing due diligence — DFSA demonstrability test cannot be met</li>
+        </ul>
+      </div>
+      <div class="dc dgo">
+        <h4 style="color:var(--sp);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Prospectus Review Calendar: schedule annual review and re-filing before 12-month expiry for all Funds</li>
+          <li>Material Change Protocol: establish an internal trigger list and assign responsibility for identifying Prospectus material changes requiring Supplementary/Replacement issue</li>
+          <li>Foreign Fund Register: maintain a current register of all Foreign Funds marketed in/from DIFC with access pathway clearly documented for each</li>
+          <li>31 January Diary: annual DFSA reporting obligation for AFs — assign ownership and build into regulatory calendar</li>
+          <li>Private Placement Controls: for Exempt Funds and QIFs, implement pre-Offer verification that every potential investor meets Professional Client and minimum subscription criteria before any document is distributed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <a href="part6.html" class="nb">← Part 6: Specialist Fund Classes</a>
+      <a href="part8.html" class="nb next">Part 8: Transfer Schemes &amp; Winding Up →</a>
+    </div>
+
+  </div><!-- /pg -->
+  <div class="pf">DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.</div>
+</div>
+</body>
+</html>

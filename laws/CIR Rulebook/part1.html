@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 1 — Introduction | CIR Learning Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --obligation: #c0392b;
+      --obligation-bg: #fdf0ef;
+      --guidance: #2471a3;
+      --guidance-bg: #eaf3fb;
+      --exclusion: #5d6d7e;
+      --exclusion-bg: #f2f3f4;
+      --specialist: #7d3c98;
+      --specialist-bg: #f5eef8;
+      --reporting: #1e8449;
+      --reporting-bg: #eafaf1;
+      --sidebar-w: 270px;
+      --header-h: 64px;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.14);
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #1a3a5c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    #sidebar {
+      width: var(--sidebar-w); background: var(--accent); color: #fff;
+      display: flex; flex-direction: column; position: fixed;
+      top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100;
+    }
+    .sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo .rulebook-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .sidebar-logo h1 { font-size: 17px; font-weight: 700; color: #fff; margin-top: 4px; line-height: 1.3; }
+    .sidebar-logo .version-tag { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+    .sidebar-section-label { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); font-weight: 600; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+      color: rgba(255,255,255,0.82); text-decoration: none; font-size: 13.5px;
+      border-left: 3px solid transparent; transition: all 0.2s;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.1); border-left-color: #fff; color: #fff; }
+    .sidebar-nav a .part-num { background: rgba(255,255,255,0.15); border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 700; min-width: 36px; text-align: center; }
+    .sidebar-nav a.active .part-num { background: rgba(255,255,255,0.3); }
+
+    /* MAIN */
+    #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+    .top-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 0 32px; height: var(--header-h); display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 50;
+    }
+    .top-header h2 { font-size: 16px; font-weight: 600; color: var(--accent); }
+    .breadcrumb { font-size: 13px; color: var(--muted); }
+    .breadcrumb a { color: var(--guidance); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .page-content { padding: 32px; max-width: 1200px; }
+
+    /* PART HERO */
+    .part-hero {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2c6e9e 100%);
+      border-radius: var(--radius); padding: 36px 40px; color: #fff; margin-bottom: 28px; position: relative; overflow: hidden;
+    }
+    .part-hero::after { content: 'P1'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 110px; font-weight: 900; opacity: 0.07; }
+    .part-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.65; margin-bottom: 8px; }
+    .part-hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+    .part-hero p { font-size: 13.5px; opacity: 0.85; max-width: 620px; line-height: 1.6; }
+    .part-meta { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+    .part-meta-item .lbl { font-size: 10px; opacity: 0.55; text-transform: uppercase; letter-spacing: 1px; }
+    .part-meta-item .val { font-size: 14px; font-weight: 700; margin-top: 2px; }
+
+    /* INFO PILLS */
+    .info-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .info-pill {
+      display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+      border-radius: 24px; font-size: 13px; font-weight: 500;
+    }
+    .pill-ob { background: var(--obligation-bg); color: var(--obligation); }
+    .pill-gd { background: var(--guidance-bg); color: var(--guidance); }
+    .pill-sp { background: var(--specialist-bg); color: var(--specialist); }
+    .pill-rp { background: var(--reporting-bg); color: var(--reporting); }
+
+    /* SECTION HEADING */
+    .section-heading {
+      font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px; margin-top: 36px;
+    }
+    .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* CARD */
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 20px; }
+
+    /* PLAIN ENGLISH BOX */
+    .plain-english {
+      background: var(--guidance-bg); border-left: 4px solid var(--guidance);
+      border-radius: 0 var(--radius) var(--radius) 0; padding: 18px 22px; margin-bottom: 20px;
+    }
+    .plain-english h4 { font-size: 13px; font-weight: 700; color: var(--guidance); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .plain-english p { font-size: 14px; line-height: 1.65; color: var(--text); }
+
+    /* RULE SUMMARY TABLE */
+    .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
+    .rule-table th { background: var(--accent); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rule-table th:first-child { border-radius: 8px 0 0 0; }
+    .rule-table th:last-child { border-radius: 0 8px 0 0; }
+    .rule-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .rule-table tr:hover td { background: #f9fafb; }
+    .rule-table tr:last-child td { border-bottom: none; }
+    .rule-num { font-family: monospace; font-size: 12px; color: var(--guidance); white-space: nowrap; font-weight: 700; }
+    .risk-pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+    .risk-high { background: var(--obligation-bg); color: var(--obligation); }
+    .risk-med { background: #fef9e7; color: #b7770d; }
+    .risk-low { background: var(--reporting-bg); color: var(--reporting); }
+    .risk-info { background: var(--guidance-bg); color: var(--guidance); }
+    .tag-ob { color: var(--obligation); font-weight: 700; }
+    .tag-gd { color: var(--guidance); font-weight: 600; }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '☐'; font-size: 16px; color: var(--guidance); flex-shrink: 0; margin-top: 1px; }
+
+    /* ACCORDION */
+    details { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+    details[open] { box-shadow: var(--shadow); }
+    summary {
+      padding: 16px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
+      background: var(--card); display: flex; align-items: center; gap: 10px;
+      user-select: none; list-style: none; color: var(--accent);
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '▶'; font-size: 11px; transition: transform 0.2s; color: var(--muted); }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body { padding: 20px 24px; background: var(--card); border-top: 1px solid var(--border); }
+
+    /* EXAMPLE BOX */
+    .example-box {
+      background: #fffde7; border: 1px solid #f9e04b; border-radius: var(--radius);
+      padding: 18px 22px; margin-top: 16px;
+    }
+    .example-box h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7d6608; margin-bottom: 8px; }
+    .example-box p { font-size: 13.5px; line-height: 1.6; color: #4a3c08; }
+
+    /* RISK MATRIX */
+    .risk-matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .risk-matrix th { background: var(--obligation); color: #fff; padding: 11px 14px; text-align: left; font-size: 12px; }
+    .risk-matrix th:first-child { border-radius: 8px 0 0 0; }
+    .risk-matrix th:last-child { border-radius: 0 8px 0 0; }
+    .risk-matrix td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+    .risk-matrix tr:hover td { background: #fdf0ef; }
+    .risk-matrix tr:last-child td { border-bottom: none; }
+
+    /* CASE STUDY */
+    .case-study {
+      background: var(--specialist-bg); border: 1px solid #d7bde2;
+      border-radius: var(--radius); padding: 20px 24px; margin-top: 16px;
+    }
+    .case-study h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--specialist); margin-bottom: 10px; }
+    .case-study p { font-size: 13.5px; line-height: 1.6; color: var(--text); }
+    .case-study .verdict { margin-top: 12px; background: var(--card); border-radius: 8px; padding: 12px 16px; font-size: 13px; border-left: 3px solid var(--specialist); }
+
+    /* MERMAID */
+    .mermaid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; overflow-x: auto; }
+
+    /* APPLICABILITY GRID */
+    .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-top: 16px; }
+    .app-chip {
+      border-radius: 10px; padding: 14px 16px; text-align: center; font-size: 13px; font-weight: 600;
+      border: 1px solid; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .app-chip .chip-icon { font-size: 22px; }
+
+    /* SUMMARY DASHBOARD */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+    .dash-card { border-radius: var(--radius); padding: 18px 20px; border-left: 4px solid; }
+    .dash-takeaway { background: var(--guidance-bg); border-color: var(--guidance); }
+    .dash-trap { background: var(--obligation-bg); border-color: var(--obligation); }
+    .dash-flag { background: #fef9e7; border-color: #d4ac0d; }
+    .dash-gov { background: var(--specialist-bg); border-color: var(--specialist); }
+    .dash-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .dash-card ul { list-style: none; padding: 0; }
+    .dash-card ul li { font-size: 12.5px; padding: 3px 0; line-height: 1.55; }
+    .dash-card ul li::before { content: '• '; font-weight: 700; }
+
+    /* FUND TYPE TABLE */
+    .ftype-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 16px; }
+    .ftype-table th { background: var(--accent); color: #fff; padding: 10px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ftype-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .ftype-table tr:hover td { background: #f9fafb; }
+    .ftype-table tr:last-child td { border-bottom: none; }
+    .check { color: var(--reporting); font-weight: 700; }
+    .cross { color: var(--obligation); font-weight: 700; }
+    .partial { color: #b7770d; font-weight: 600; }
+
+    /* CRYPTO BOX */
+    .crypto-box {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: var(--radius); padding: 24px 28px; color: #fff; margin-top: 16px;
+    }
+    .crypto-box h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #a29bfe; }
+    .crypto-box .criteria { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .crypto-criterion { background: rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; line-height: 1.5; border-left: 3px solid #a29bfe; }
+    .crypto-criterion .crit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #a29bfe; margin-bottom: 4px; font-weight: 700; }
+
+    /* PAGE FOOTER */
+    .page-footer { text-align: center; padding: 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; }
+    .nav-btns { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 22px; text-decoration: none; color: var(--accent); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+    .nav-btn:hover { box-shadow: var(--shadow-hover); }
+    .nav-btn.next { background: var(--accent); color: #fff; }
+
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .page-content { padding: 16px; }
+      .part-hero { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="rulebook-label">The DFSA Rulebook</div>
+    <h1>Collective Investment Rules</h1>
+    <div class="version-tag">CIR/VER40/01-26 · Jan 2026</div>
+  </div>
+  <div class="sidebar-section-label">Navigation</div>
+  <div class="sidebar-nav">
+    <a href="index.html"><span class="part-num">🏠</span> Dashboard</a>
+  </div>
+  <div class="sidebar-section-label">Parts</div>
+  <div class="sidebar-nav">
+    <a href="part1.html" class="active"><span class="part-num">P1</span> Introduction</a>
+    <a href="part2.html"><span class="part-num">P2</span> Definitional Provisions</a>
+    <a href="part3.html"><span class="part-num">P3</span> Fund Functionaries</a>
+    <a href="part4.html"><span class="part-num">P4</span> Establishment & Management</a>
+    <a href="part5.html"><span class="part-num">P5</span> Types of Domestic Funds</a>
+    <a href="part6.html"><span class="part-num">P6</span> Specialist Fund Classes</a>
+    <a href="part7.html"><span class="part-num">P7</span> Marketing of Funds</a>
+    <a href="part8.html"><span class="part-num">P8</span> Transfer & Winding Up</a>
+  </div>
+  <div class="sidebar-section-label">Appendices</div>
+  <div class="sidebar-nav">
+    <a href="appendices.html"><span class="part-num">APP</span> All Appendices (1–9)</a>
+  </div>
+  <div class="sidebar-section-label" style="margin-top:12px;">Part 1 Sections</div>
+  <div class="sidebar-nav" style="font-size:12.5px;">
+    <a href="#s1-1" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.1</span> Application</a>
+    <a href="#s1-2" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.2</span> Interpretation</a>
+    <a href="#s1-3" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.3</span> Client Classification</a>
+    <a href="#s1-4" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.4</span> Types of Domestic Funds</a>
+    <a href="#s1-5" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.5</span> UAE Fund Protocol</a>
+    <a href="#s1-6" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">1.6</span> Crypto Token Funds</a>
+    <a href="#dashboard" style="padding:7px 20px;"><span style="min-width:36px;text-align:center;font-size:10px;">📊</span> Summary</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <header class="top-header">
+    <div>
+      <div class="breadcrumb"><a href="index.html">CIR Hub</a> › <strong>Part 1: Introduction</strong></div>
+    </div>
+    <h2>Chapter 1 · §1.1 – 1.6</h2>
+  </header>
+
+  <div class="page-content">
+
+    <!-- PART HERO -->
+    <div class="part-hero">
+      <div class="part-tag">Part 1 · Chapter 1</div>
+      <h1>Introduction — Application & Interpretation</h1>
+      <p>Establishes the foundational scope of the Collective Investment Rules (CIR) — who they apply to, how to interpret them, how clients are classified, the different types of Domestic Funds, the UAE Fund Protocol, and the rules that apply when a fund invests in Crypto Tokens.</p>
+      <div class="part-meta">
+        <div class="part-meta-item"><div class="lbl">Sections</div><div class="val">§1.1 – 1.6</div></div>
+        <div class="part-meta-item"><div class="lbl">Risk Level</div><div class="val">🟢 Foundational</div></div>
+        <div class="part-meta-item"><div class="lbl">Governing Law</div><div class="val">CIL 2010 + ITL 2006</div></div>
+        <div class="part-meta-item"><div class="lbl">Applies To</div><div class="val">All Persons under CIR</div></div>
+      </div>
+    </div>
+
+    <!-- INFO PILLS -->
+    <div class="info-bar">
+      <span class="info-pill pill-ob">🔴 Obligations apply to all regulated persons</span>
+      <span class="info-pill pill-gd">🔵 Guidance clarifies scope and intent</span>
+      <span class="info-pill pill-sp">🟣 Crypto Token rules introduced in §1.6</span>
+      <span class="info-pill pill-rp">🟢 Cross-module links: COB, FPR, MKT, REP</span>
+    </div>
+
+    <!-- PLAIN ENGLISH OVERVIEW -->
+    <div class="plain-english">
+      <h4>📖 Plain-English Overview</h4>
+      <p>Part 1 sets the stage for the entire CIR module. It tells you <strong>who must comply</strong> (Fund Managers, Administrators, Custodians, Trustees, Governing Body members, and Authorised Firms dealing with funds), <strong>what laws govern</strong> the rules (Collective Investment Law 2010 and Investment Trust Law 2006), and <strong>how funds are categorised</strong> — from most to least regulated: Public Funds → Exempt Funds → Qualified Investor Funds. It also introduces the UAE-wide Fund Protocol that allows funds to be "passported" across DIFC, SCA, and FSRA jurisdictions, and defines a critical modern category — funds that invest in Crypto Tokens, including indirect crypto exposure through other funds or derivatives.</p>
+    </div>
+
+    <!-- ===================== SECTION 1.1 ===================== -->
+    <div id="s1-1" class="section-heading">📌 Section 1.1 — Application</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">Rule 1.1 defines <strong>who CIR applies to</strong>. The rules were made under the Collective Investment Law 2010 and the Investment Trust Law 2006. CIR covers anyone carrying on regulated fund activities <strong>in or from the DIFC</strong> — whether managing, administering, providing custody to, or acting as Trustee of a Collective Investment Fund.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:12px;">Critically, CIR applies to the <strong>fund itself</strong> (with or without separate legal personality), meaning directors and partners of a fund are individually required to take reasonable steps to ensure fund-level compliance.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📋 Rule Summary Table — §1.1</summary>
+      <div class="details-body">
+        <table class="rule-table">
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Meaning</th>
+              <th>Applies To</th>
+              <th>Type</th>
+              <th>Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rule-num">1.1.1</span></td>
+              <td>CIR is made under CIL 2010 and ITL 2006; applies to all persons subject to those laws</td>
+              <td>All regulated persons</td>
+              <td><span class="tag-ob">Obligation</span></td>
+              <td><span class="risk-pill risk-info">Foundational</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">1.1.2</span></td>
+              <td>CIR applies to persons carrying on Managing a CIF, Fund Administration, Providing Custody, or Acting as Trustee in/from DIFC</td>
+              <td>Fund Managers, Admins, Custodians, Trustees</td>
+              <td><span class="tag-ob">Obligation</span></td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">1.1.3</span></td>
+              <td>CIR applies to Fund Managers, External Fund Managers, Governing Body members, Corporate Directors, Eligible Custodians, Trustees, and oversight providers</td>
+              <td>Individual role holders</td>
+              <td><span class="tag-ob">Obligation</span></td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">1.1.4(1)</span></td>
+              <td>CIR applies to Authorised Firms (except Representative Offices) providing Financial Services or undertaking Transactions relating to Domestic or Foreign Funds</td>
+              <td>Authorised Firms</td>
+              <td><span class="tag-ob">Obligation</span></td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">1.1.4(2)</span></td>
+              <td>For Representative Offices, only Chapter 15 rules apply (marketing of Foreign Funds)</td>
+              <td>Representative Offices</td>
+              <td><span class="tag-gd">Limited Application</span></td>
+              <td><span class="risk-pill risk-low">Low</span></td>
+            </tr>
+            <tr>
+              <td><span class="rule-num">1.1.5</span></td>
+              <td>CIR applies to the Fund itself regardless of legal personality. Where an obligation falls on the Fund, directors/partners must take reasonable steps to ensure compliance</td>
+              <td>Fund Governing Bodies</td>
+              <td><span class="tag-ob">Obligation</span></td>
+              <td><span class="risk-pill risk-high">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>✅ Compliance Checklist — §1.1</summary>
+      <div class="details-body">
+        <ul class="checklist">
+          <li>Confirm your firm carries on one of the four regulated activities (Managing CIF, Fund Administration, Custody, or Trustee) in or from the DIFC</li>
+          <li>Identify all individuals within your organisation who are subject to CIR (Fund Managers, Governing Body members, Corporate Directors, etc.)</li>
+          <li>Ensure the Fund itself has compliance obligations documented even if it lacks separate legal personality</li>
+          <li>Confirm that all directors/partners of the fund are aware of their personal obligation to ensure fund-level compliance under Rule 1.1.5</li>
+          <li>If you are a Representative Office, confirm your CIR obligations are limited to Chapter 15 (marketing of Foreign Funds) only</li>
+          <li>If you are an Authorised Firm dealing with Foreign Funds, confirm both CIR and COB module obligations apply</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>💡 Practical Example</summary>
+      <div class="details-body">
+        <div class="example-box">
+          <h5>📌 Example: Who is caught by Rule 1.1.2 and 1.1.3?</h5>
+          <p>Falcon Capital DIFC Ltd is a DFSA-authorised firm that manages three funds — a Public Fund, an Exempt Fund, and a Qualified Investor Fund. All of the following persons are subject to CIR obligations:</p>
+          <p style="margin-top:10px;"><strong>The Firm:</strong> Falcon Capital DIFC Ltd — as the Fund Manager (§1.1.2(a)).<br>
+          <strong>The CEO:</strong> As a member of the Governing Body (§1.1.3(c)).<br>
+          <strong>External custodian:</strong> Desert Custody PJSC — as an Eligible Custodian (§1.1.3(e)).<br>
+          <strong>The Trustee:</strong> Any entity acting as Trustee of an Investment Trust structure (§1.1.3(f)).<br>
+          <strong>Third-party fund administrator:</strong> Gulf Admin Services — as a Fund Administrator (§1.1.2(b)).</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Decision Tree — Who Does CIR Apply To?</summary>
+      <div class="details-body">
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+flowchart TD
+    A([Start: Does your firm operate in/from DIFC?]) --> B{Yes or No?}
+    B -->|No| Z1[CIR does not apply]
+    B -->|Yes| C{Do you carry on any of these?}
+    C --> C1[Managing a Collective Investment Fund]
+    C --> C2[Providing Fund Administration]
+    C --> C3[Providing Custody to a Fund]
+    C --> C4[Acting as Trustee of a Fund]
+    C1 & C2 & C3 & C4 --> D[CIR applies — Rule 1.1.2]
+    D --> E{Are you a Representative Office?}
+    E -->|Yes| F[Only Chapter 15 applies — Rule 1.1.4.2]
+    E -->|No| G[Full CIR obligations apply]
+    G --> H{Are you dealing with Foreign Funds?}
+    H -->|Yes| I[Also subject to COB module rules]
+    H -->|No| J[CIR applies to Domestic Fund activities]
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== SECTION 1.2 ===================== -->
+    <div id="s1-2" class="section-heading">📌 Section 1.2 — Interpretation</div>
+
+    <div class="card">
+      <div class="plain-english" style="margin-bottom:0;">
+        <h4>📖 Rule 1.2.1 — References to "the Law"</h4>
+        <p>Any reference in CIR to <strong>"the Law"</strong> or to <strong>"Articles"</strong> is a reference to the <strong>Collective Investment Law 2010</strong> and its Articles. This is a standard drafting convention — whenever CIR refers to "the Law", it means CIL 2010 specifically, not any other DIFC legislation.</p>
+      </div>
+      <div class="example-box" style="margin-top:16px;">
+        <h5>📌 Why this matters</h5>
+        <p>When reading other Parts of CIR and you see phrases like "Article 13 of the Law" or "for the purposes of Article 16(7)(a) of the Law," you can immediately know this references the Collective Investment Law 2010, not the Regulatory Law, Companies Law, or any other DIFC legislation.</p>
+      </div>
+    </div>
+
+    <!-- ===================== SECTION 1.3 ===================== -->
+    <div id="s1-3" class="section-heading">📌 Section 1.3 — Client Classification</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">CIR does not set its own client classification criteria — instead it cross-references the <strong>COB (Conduct of Business) module</strong>. For the purposes of Article 16(7)(a) of the CIL 2010, client classification is determined by the COB module:</p>
+        <ul style="margin-top:10px; padding-left:20px; font-size:14px; line-height:1.8;">
+          <li><strong>Professional Client</strong> → COB Rule 2.3.3</li>
+          <li><strong>Retail Client</strong> → COB Rule 2.3.2</li>
+        </ul>
+        <p style="font-size:14px; margin-top:12px;">This classification is significant because many CIR rules — particularly those governing Exempt Funds and Qualified Investor Funds — restrict participation to specific client categories.</p>
+      </div>
+    </details>
+
+    <div class="card">
+      <table class="rule-table">
+        <thead>
+          <tr><th>Client Type</th><th>Defined In</th><th>Significance in CIR</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Professional Client</strong></td>
+            <td>COB Rule 2.3.3</td>
+            <td>Can invest in Exempt Funds and QIFs; eligible for less regulatory protection</td>
+          </tr>
+          <tr>
+            <td><strong>Retail Client</strong></td>
+            <td>COB Rule 2.3.2</td>
+            <td>Full CIR protections apply; primarily limited to Public Funds</td>
+          </tr>
+          <tr>
+            <td><strong>Qualified Investor</strong></td>
+            <td>Defined in CIL 2010</td>
+            <td>Eligible for QIFs — the least regulated fund type</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===================== SECTION 1.4 ===================== -->
+    <div id="s1-4" class="section-heading">📌 Section 1.4 — Types of Domestic Funds</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">Article 13 of the Collective Investment Law 2010 divides funds into <strong>Domestic Funds</strong> and <strong>Foreign Funds</strong>. Article 15 then further divides Domestic Funds into three categories, listed from the <em>most intensively regulated</em> to the <em>least intensively regulated</em>:</p>
+        <div class="app-grid" style="margin-top:16px;">
+          <div class="app-chip" style="background:var(--obligation-bg); border-color:var(--obligation); color:var(--obligation);">
+            <span class="chip-icon">🏛️</span>
+            <strong>Public Fund</strong>
+            <small>Most regulated · Retail investors</small>
+          </div>
+          <div class="app-chip" style="background:#fff8e1; border-color:#f9e04b; color:#7d6608;">
+            <span class="chip-icon">🏢</span>
+            <strong>Exempt Fund</strong>
+            <small>Moderate regulation · Professional Clients</small>
+          </div>
+          <div class="app-chip" style="background:var(--reporting-bg); border-color:var(--reporting); color:var(--reporting);">
+            <span class="chip-icon">💼</span>
+            <strong>Qualified Investor Fund (QIF)</strong>
+            <small>Least regulated · Qualified Investors</small>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 CIR Chapter Applicability by Fund Type (from §1.4 Table)</summary>
+      <div class="details-body">
+        <div style="overflow-x:auto;">
+          <table class="ftype-table">
+            <thead>
+              <tr>
+                <th>CIR Chapter</th>
+                <th>Public Fund</th>
+                <th>Exempt Fund</th>
+                <th>QIF</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Ch. 1: Application &amp; Interpretation</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 2: Arrangements not constituting a CIF</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 3: Specialist Classes of Fund</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 4: Excluded Offers</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 5: Fund Administrator</td><td class="check">✔</td><td class="check">✔</td><td class="partial">✔ (Rule 5.1.4 not applicable)</td></tr>
+              <tr><td>Ch. 6: External Fund Managers / External Funds</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 6A: Using a Fund Platform</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 7: Constitution</td><td class="check">✔</td><td class="check">✔</td><td class="partial">✔ (Limited rules only)</td></tr>
+              <tr><td>Ch. 8: Management &amp; Operation</td><td class="check">✔</td><td class="check">✔</td><td class="partial">✔ (Limited rules only)</td></tr>
+              <tr><td>Ch. 9: Accounting, Audit &amp; Reporting</td><td class="check">✔</td><td class="partial">✔ (No interim reports unless material change)</td><td class="partial">✔ (No interim reports)</td></tr>
+              <tr><td>Ch. 10: Requirements for Public Funds</td><td class="check">✔</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>Ch. 12: Requirements for Exempt Funds</td><td class="cross">✘</td><td class="check">✔</td><td class="cross">✘</td></tr>
+              <tr><td>Ch. 12A: Requirements for QIFs</td><td class="cross">✘</td><td class="cross">✘</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 13: Specialist Fund Requirements</td><td class="check">✔</td><td class="check">✔</td><td class="partial">✔ (Limited rules only)</td></tr>
+              <tr><td>Ch. 14: Marketing / Prospectus Disclosure</td><td class="check">✔</td><td class="check">✔</td><td class="partial">✔ (Limited rules only)</td></tr>
+              <tr><td>Ch. 15: Marketing of Foreign Funds</td><td class="cross">✘</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>Ch. 16: Transfer Schemes</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>Ch. 17: Winding Up</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>APP 1: Delegation &amp; Outsourcing</td><td class="check">✔</td><td class="check">✔</td><td class="cross">✘</td></tr>
+              <tr><td>APP 2: Meeting Procedures</td><td class="check">✔</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>APP 3: Approvals &amp; Notifications</td><td class="check">✔</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>APP 4: Asset Valuation &amp; Pricing Guidance</td><td class="check">✔</td><td class="check">✔</td><td class="cross">✘</td></tr>
+              <tr><td>APP 5: Constitution of a Domestic Fund</td><td class="check">✔</td><td class="check">✔</td><td class="cross">✘</td></tr>
+              <tr><td>APP 6: Fitness &amp; Propriety — Oversight Functions</td><td class="check">✔</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>APP 7: Public Fund Prospectus Content</td><td class="check">✔</td><td class="cross">✘</td><td class="cross">✘</td></tr>
+              <tr><td>APP 8: Guidance for Hedge Fund Managers</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+              <tr><td>APP 9: Price Information Providers</td><td class="check">✔</td><td class="check">✔</td><td class="cross">✘</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px;">✔ = Fully applicable · ✘ = Not applicable · ✔ (partial) = Applies with modifications or limited rules only</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚠️ Key Notes from the Applicability Table</summary>
+      <div class="details-body">
+        <ul style="font-size:13.5px; line-height:1.8; padding-left:18px;">
+          <li><strong>Public Property Funds</strong> must be Closed-ended, Listed, and structured as an Investment Company or Investment Trust (per §1.1 Guidance Note 4).</li>
+          <li><strong>Exempt and QIF Property Funds</strong> may be Open-ended or Closed-ended.</li>
+          <li><strong>Exempt and QIF Funds cannot be listed</strong> on an Authorised Market Institution (AMI).</li>
+          <li>If a <strong>Domestic or Foreign Fund intends to list Units</strong> on an AMI, it must also comply with the MKT module and the AMI's listing rules.</li>
+          <li>Only certain rules in <strong>Chapter 8</strong> apply to QIFs — specifically Rules 8.1.1, 8.1A.1, 8.1A.2, 8.3.1(2) (Venture Capital Funds), section 8.3 (Credit Funds), Rule 8.4.1(1)(a), 8.6A.1 and 8.10.1.</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ===================== SECTION 1.5 ===================== -->
+    <div id="s1-5" class="section-heading">📌 Section 1.5 — The Fund Protocol in the UAE</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">The <strong>UAE Fund Protocol</strong> is a multi-regulator arrangement between the three main UAE financial regulators — <strong>DFSA</strong> (DIFC), <strong>SCA</strong> (onshore UAE), and <strong>FSRA</strong> (Abu Dhabi Global Market) — that allows a fund established in one jurisdiction to be promoted in another without re-registration.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;">Key principle: A fund passported under the Fund Protocol is called a <strong>"Passported Fund"</strong>. If a DIFC-domiciled fund wants to be a Passported Fund, it must comply with both the relevant CIR requirements <em>and</em> the requirements in the separate <strong>Fund Protocol Rules (FPR)</strong> module.</p>
+      </div>
+    </details>
+
+    <div class="card">
+      <h4 style="font-size:14px; font-weight:700; color:var(--accent); margin-bottom:14px;">🗺️ What the Fund Protocol Modifies (for DIFC Passported Funds)</h4>
+      <table class="rule-table">
+        <thead><tr><th>Area</th><th>Standard CIR Requirement</th><th>FPR Modification</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Custodian requirements</td>
+            <td>Standard CIR rules for Public Funds</td>
+            <td>Additional/modified custodian requirements under FPR</td>
+          </tr>
+          <tr>
+            <td>Prospectus</td>
+            <td>Standard prospectus rules for Public Funds</td>
+            <td>Additional FPR requirements including Key Investor Information Document (KIID)</td>
+          </tr>
+          <tr>
+            <td>Material event notifications</td>
+            <td>Standard CIR notification requirements</td>
+            <td>Additional FPR notification triggers for cross-border promotions</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="example-box" style="margin-top:16px;">
+        <h5>📌 Practical Note — Inbound Passported Funds</h5>
+        <p>If a fund is established in Abu Dhabi (FSRA) and is "passported" into the DIFC, it is treated as a <strong>Foreign Fund</strong> under DIFC rules. Most CIR requirements do not apply to it directly — only Chapter 15 (marketing of Foreign Funds) applies. The fund primarily complies with its home jurisdiction (FSRA) requirements.</p>
+      </div>
+    </div>
+
+    <!-- ===================== SECTION 1.6 ===================== -->
+    <div id="s1-6" class="section-heading">📌 Section 1.6 — When a Fund Invests in Crypto Tokens</div>
+
+    <details open>
+      <summary>🔵 Plain-English Explanation</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65;">Rule 1.6 introduces a key definitional trigger — <strong>when does a fund count as "investing in Crypto Tokens"</strong> for CIR purposes? This matters because such funds are subject to additional specialist rules in Chapter 13.13 and are cross-referenced in §1.1 Guidance.</p>
+        <p style="font-size:14px; line-height:1.65; margin-top:10px;">The rule adopts a <strong>broad, look-through approach</strong> — capturing not just direct ownership of Crypto Tokens but also derivative exposure, index-tracking, and indirect exposure through other funds — unless a de minimis exemption applies.</p>
+      </div>
+    </details>
+
+    <div class="crypto-box">
+      <h4>⛓️ Rule 1.6.1 — Four Ways a Fund "Invests in Crypto Tokens"</h4>
+      <div class="criteria">
+        <div class="crypto-criterion">
+          <div class="crit-label">(a) Direct Holding</div>
+          Any Fund Property consists of Crypto Tokens
+        </div>
+        <div class="crypto-criterion">
+          <div class="crit-label">(b) Derivative Exposure</div>
+          The fund has a derivative exposure to Crypto Tokens (e.g. futures, swaps)
+        </div>
+        <div class="crypto-criterion">
+          <div class="crit-label">(c) Index Tracking</div>
+          The fund tracks an index that includes Crypto Tokens
+        </div>
+        <div class="crypto-criterion">
+          <div class="crit-label">(d) Indirect Exposure</div>
+          The fund invests in another fund or entity that holds, has derivative exposure to, or tracks an index including Crypto Tokens
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>⚠️ De Minimis Exemption — When (d) Indirect Exposure is Disregarded (Rule 1.6.1(2))</summary>
+      <div class="details-body">
+        <p style="font-size:14px; line-height:1.65; margin-bottom:14px;">An investment in another fund or entity under (d) <strong>is disregarded</strong> (i.e. does not trigger the "invests in Crypto Tokens" classification) if either of these conditions is met:</p>
+        <table class="rule-table">
+          <thead><tr><th>Condition</th><th>Test</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>De Minimis Threshold</strong></td>
+              <td>The other fund or entity's total aggregate crypto exposure (under (d)(i), (ii) and (iii)) does not exceed <strong>5% of the gross value</strong> of that fund or entity</td>
+              <td>Indirect exposure disregarded — fund does not trigger Crypto Token rules</td>
+            </tr>
+            <tr>
+              <td><strong>Incidental Index Tracking</strong></td>
+              <td>The other fund or entity's crypto exposure results solely from tracking a broader index (not a crypto-specific index)</td>
+              <td>Indirect exposure disregarded — fund does not trigger Crypto Token rules</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example-box" style="margin-top:16px;">
+          <h5>📌 Example — De Minimis in Practice</h5>
+          <p>A DIFC Exempt Fund invests 10% of its NAV into GlobalTech ETF. GlobalTech ETF holds 3% of its gross assets in Bitcoin. Since 3% is below the 5% de minimis threshold, the DIFC Exempt Fund is <strong>not</strong> classified as a fund that "invests in Crypto Tokens" — the indirect crypto exposure is disregarded under Rule 1.6.1(2)(a).</p>
+          <p style="margin-top:10px;">However, if GlobalTech ETF held 8% in Bitcoin, the 5% threshold would be exceeded — the DIFC Exempt Fund would be classified as investing in Crypto Tokens and would need to comply with Chapter 13.13.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📊 Decision Tree — Does Your Fund "Invest in Crypto Tokens"?</summary>
+      <div class="details-body">
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+flowchart TD
+    A([Start: Does the fund hold or have exposure to Crypto Tokens?]) --> B{Direct Crypto Token holdings in Fund Property?}
+    B -->|Yes| Z[YES — Fund invests in Crypto Tokens\nChapter 13.13 + §1.6 apply]
+    B -->|No| C{Derivative exposure to Crypto Tokens?}
+    C -->|Yes| Z
+    C -->|No| D{Fund tracks an index including Crypto Tokens?}
+    D -->|Yes| Z
+    D -->|No| E{Fund invests in another fund/entity with crypto exposure?}
+    E -->|No| OK[NO — Not a Crypto Token Fund]
+    E -->|Yes| F{Does the other fund/entity have crypto > 5% of its gross value?}
+    F -->|No| G{Is the exposure due to tracking a non-crypto index?}
+    G -->|Yes| OK
+    G -->|No| OK2[De minimis — disregarded\nNot a Crypto Token Fund]
+    F -->|Yes| Z
+    style Z fill:#c0392b,color:#fff
+    style OK fill:#1e8449,color:#fff
+    style OK2 fill:#1e8449,color:#fff
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚠️ Risk Analysis — Crypto Token Classification Risks</summary>
+      <div class="details-body">
+        <table class="risk-matrix">
+          <thead>
+            <tr><th>Obligation</th><th>Risk Level</th><th>Consequence of Non-Compliance</th><th>Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Failure to identify fund as investing in Crypto Tokens</td>
+              <td><span class="risk-pill risk-high">High</span></td>
+              <td>Non-compliance with Chapter 13.13 specialist rules; DFSA enforcement action</td>
+              <td>Conduct periodic look-through analysis of all investee funds for crypto exposure</td>
+            </tr>
+            <tr>
+              <td>Indirect crypto exposure exceeding 5% threshold</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Fund triggers Crypto Token classification unexpectedly; retroactive non-compliance</td>
+              <td>Monitor underlying fund NAV allocations quarterly; set internal trigger at 4%</td>
+            </tr>
+            <tr>
+              <td>Index-tracking funds including crypto without disclosure</td>
+              <td><span class="risk-pill risk-med">Medium</span></td>
+              <td>Prospectus misrepresentation; investor complaint; DFSA review</td>
+              <td>Audit index compositions annually; include crypto exposure monitoring in fund ops</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>📁 Case Study — Crypto Classification Challenge</summary>
+      <div class="details-body">
+        <div class="case-study">
+          <h5>🔍 Case Study: The Hidden Crypto Exposure</h5>
+          <p>Gulf Horizon QIF is a Qualified Investor Fund focused on technology sector investments. It does not directly hold any Crypto Tokens. However, 15% of its NAV is allocated to "TechIndex Fund" — a DIFC Public Fund that tracks a global tech index. Unknown to Gulf Horizon's fund manager, TechIndex Fund recently began tracking an updated version of the index that includes 7% weighting in a blockchain infrastructure token classified as a Crypto Token.</p>
+          <div class="verdict">
+            <strong>Regulatory Analysis:</strong> Since TechIndex Fund now has 7% crypto exposure (exceeding the 5% de minimis threshold under Rule 1.6.1(2)(a)), Gulf Horizon QIF's investment in TechIndex Fund cannot be disregarded. Gulf Horizon QIF is now classified as a fund that "invests in Crypto Tokens" and must comply with Chapter 13.13 requirements. The fund manager's failure to monitor underlying index compositions constitutes a compliance gap. Gulf Horizon must immediately review its offering documents, risk disclosures, and notify investors of the material change.
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== SUMMARY DASHBOARD ===================== -->
+    <div id="dashboard" class="section-heading">📊 Part 1 Summary Dashboard</div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card dash-takeaway">
+        <h4 style="color:var(--guidance);">💡 Key Takeaways</h4>
+        <ul>
+          <li>CIR applies broadly to all fund-related activity in/from DIFC</li>
+          <li>Individuals (not just firms) bear personal obligations</li>
+          <li>Three fund categories: Public → Exempt → QIF (decreasing regulation)</li>
+          <li>Fund Protocol enables UAE cross-border fund passporting</li>
+          <li>Crypto Token classification has a look-through approach with 5% de minimis</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-trap">
+        <h4 style="color:var(--obligation);">🪤 Compliance Traps</h4>
+        <ul>
+          <li>Forgetting that the Fund itself has obligations even without legal personality</li>
+          <li>Representative Offices assuming full CIR applies — only Ch. 15 does</li>
+          <li>Indirect crypto exposure exceeding 5% triggering Classification unexpectedly</li>
+          <li>Passported funds not checking for additional FPR requirements on top of CIR</li>
+          <li>Using "the Law" without knowing it means CIL 2010 specifically</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-flag">
+        <h4 style="color:#7d6608;">🚩 Red Flags</h4>
+        <ul>
+          <li>Fund invests in other funds without crypto look-through analysis</li>
+          <li>No periodic review of investee fund index compositions</li>
+          <li>Governing Body members unaware of personal CIR obligations</li>
+          <li>Foreign Fund treated incorrectly as Domestic Fund or vice versa</li>
+          <li>QIF investors not verified as "Qualified Investors" before admission</li>
+        </ul>
+      </div>
+      <div class="dash-card dash-gov">
+        <h4 style="color:var(--specialist);">🏛️ Governance Notes</h4>
+        <ul>
+          <li>Directors must take "reasonable steps" for fund compliance (Rule 1.1.5)</li>
+          <li>Compliance function must map all persons subject to CIR obligations</li>
+          <li>Cross-module obligations: COB (client classification), FPR (passporting), MKT (listing)</li>
+          <li>Crypto Token monitoring should be a standing Board agenda item</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-btns">
+      <a href="index.html" class="nav-btn">← Back to Dashboard</a>
+      <a href="part2.html" class="nav-btn next">Part 2: Definitional Provisions →</a>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <div class="page-footer">
+    DFSA Collective Investment Rules (CIR) · Version VER40/01-26 · January 2026<br>
+    For educational reference only. Always refer to the official DFSA Rulebook for authoritative text.
+  </div>
+</div><!-- /main -->
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#1a3a5c', primaryTextColor: '#fff', lineColor: '#6b7280' } });
+</script>
+</body>
+</html>
