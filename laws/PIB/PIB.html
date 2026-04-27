@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFSA PIB Rulebook — Interactive Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2E47;
+    --navy-light: #243B55;
+    --slate: #2D4059;
+    --steel: #4A6FA5;
+    --ice: #B8D0E8;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+    --danger: #C0392B;
+    --warn: #E67E22;
+    --ok: #27AE60;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: rgba(201,168,76,0.25);
+    --glow: rgba(201,168,76,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--navy);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+    transition: transform .3s ease;
+  }
+
+  .sidebar-brand {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-brand .logo-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .sidebar-brand h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .sidebar-brand .version {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .nav-section { padding: 16px 16px 4px; }
+  .nav-section-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all .2s;
+    margin-bottom: 2px;
+  }
+  .nav-link:hover, .nav-link.active {
+    background: var(--glow);
+    color: var(--gold-light);
+    border-left: 2px solid var(--gold);
+    padding-left: 10px;
+  }
+  .nav-link .nav-icon { font-size: 14px; width: 18px; flex-shrink: 0; }
+  .nav-link .nav-badge {
+    margin-left: auto;
+    font-size: 9px;
+    background: var(--navy-light);
+    color: var(--ice);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #0a1628 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--white);
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .hero h2 span { color: var(--gold); }
+  .hero p {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 32px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat { text-align: left; }
+  .hero-stat .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .hero-stat .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* ── SECTION WRAPPERS ── */
+  .section {
+    padding: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .section:nth-child(even) { background: rgba(255,255,255,0.018); }
+
+  .section-header { margin-bottom: 36px; }
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* source link */
+  .source-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--gold-light);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    background: transparent;
+    transition: all .2s;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  .source-btn:hover {
+    background: var(--glow);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .source-btn .arrow { font-size: 10px; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; gap: 20px; }
+  .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  .card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+    transition: all .25s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .card-body {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+  }
+  .card-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--gold);
+    border-radius: 10px 0 0 10px;
+  }
+
+  /* ── TABLES ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .data-table thead th {
+    background: var(--navy-light);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .15s; }
+  .data-table tbody tr:hover { background: rgba(201,168,76,0.04); }
+  .data-table tbody td {
+    padding: 13px 16px;
+    color: rgba(255,255,255,0.8);
+    vertical-align: top;
+  }
+  .data-table tbody td:first-child { color: var(--white); font-weight: 500; }
+  .table-wrap {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+
+  /* ── FLOWCHART ── */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '›';
+    position: absolute;
+    right: -14px;
+    top: 30px;
+    font-size: 28px;
+    color: var(--gold);
+    z-index: 2;
+    line-height: 1;
+  }
+  .flow-node {
+    background: var(--navy-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 14px;
+    width: 100%;
+    margin: 0 16px;
+    text-align: center;
+    transition: all .2s;
+    cursor: default;
+  }
+  .flow-node:hover { border-color: var(--gold); background: var(--glow); }
+  .flow-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .flow-label { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .flow-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CAPITAL PYRAMID ── */
+  .pyramid-wrap { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+  .pyramid {
+    flex: 1;
+    min-width: 300px;
+    max-width: 420px;
+  }
+  .pyr-tier {
+    margin: 0 auto;
+    border-radius: 6px;
+    padding: 14px 20px;
+    text-align: center;
+    margin-bottom: 6px;
+    transition: all .2s;
+    cursor: default;
+  }
+  .pyr-tier:hover { filter: brightness(1.12); transform: scale(1.01); }
+  .pyr-t1 { width: 100%; background: linear-gradient(135deg, #1a5276, #2471a3); border: 1px solid #2e86c1; }
+  .pyr-t2 { width: 85%; background: linear-gradient(135deg, #145a32, #27ae60); border: 1px solid #2ecc71; }
+  .pyr-t3 { width: 70%; background: linear-gradient(135deg, #7d6608, #d4ac0d); border: 1px solid var(--gold); }
+  .pyr-t4 { width: 55%; background: linear-gradient(135deg, #641e16, #c0392b); border: 1px solid #e74c3c; }
+  .pyr-tier .tier-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; }
+  .pyr-tier .tier-name { font-size: 15px; font-weight: 700; margin: 4px 0; }
+  .pyr-tier .tier-detail { font-size: 11px; opacity: 0.7; }
+
+  /* ── RISK WHEEL infographic ── */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .risk-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .risk-card .risk-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .risk-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .risk-card .risk-name { font-size: 14px; font-weight: 600; color: var(--white); }
+  .risk-card .risk-ch { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); }
+  .risk-card .risk-desc { font-size: 12.5px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+  .risk-card .risk-formula {
+    background: rgba(0,0,0,0.25);
+    border-left: 2px solid var(--gold);
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--gold-light);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ── CATEGORY TABLE ── */
+  .cat-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  .cat-table th, .cat-table td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.06); text-align: center; }
+  .cat-table thead th { background: var(--navy-light); color: var(--gold-light); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .cat-table td:first-child { text-align: left; font-weight: 500; color: var(--white); background: rgba(255,255,255,0.025); }
+  .cat-table .check { color: #2ecc71; font-weight: 700; }
+  .cat-table .partial { color: var(--warn); font-weight: 600; font-size: 10px; }
+  .cat-table .dash { color: rgba(255,255,255,0.2); }
+  .cat-table tbody tr:hover { background: var(--glow); }
+
+  /* ── TIMELINE / CALENDAR ── */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--navy);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+  }
+  .tl-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* ── CALCULATOR ── */
+  .calc-wrap {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .calc-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--navy);
+  }
+  .calc-tab {
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    transition: all .2s;
+    border-bottom: 2px solid transparent;
+  }
+  .calc-tab:hover { color: var(--white); }
+  .calc-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .calc-body { padding: 32px; }
+  .calc-panel { display: none; }
+  .calc-panel.active { display: block; }
+
+  .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    padding: 11px 14px;
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: border .2s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group input::placeholder { color: rgba(255,255,255,0.2); }
+  .form-group select option { background: var(--navy); }
+
+  .calc-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 6px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: 0.5px;
+  }
+  .calc-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .calc-result {
+    display: none;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .calc-result.show { display: block; }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { font-size: 13px; color: var(--muted); }
+  .result-value { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--white); font-weight: 500; }
+  .result-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0 0;
+    margin-top: 8px;
+  }
+  .result-total .result-label { font-size: 14px; font-weight: 600; color: var(--white); }
+  .result-total .result-value { font-size: 20px; color: var(--gold); }
+
+  /* alert boxes */
+  .alert {
+    padding: 16px 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    margin: 16px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .alert-warn { background: rgba(230,126,34,0.1); border-color: var(--warn); color: rgba(255,255,255,0.8); }
+  .alert-danger { background: rgba(192,57,43,0.1); border-color: var(--danger); color: rgba(255,255,255,0.8); }
+  .alert-ok { background: rgba(39,174,96,0.1); border-color: var(--ok); color: rgba(255,255,255,0.8); }
+  .alert-info { background: rgba(201,168,76,0.08); border-color: var(--gold); color: rgba(255,255,255,0.8); }
+  .alert strong { color: var(--white); }
+
+  /* ── BADGES ── */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+  .badge-blue { background: rgba(74,111,165,0.2); color: var(--ice); }
+  .badge-green { background: rgba(39,174,96,0.15); color: #7dcea0; }
+  .badge-red { background: rgba(192,57,43,0.15); color: #f1948a; }
+
+  /* ── GLOSSARY ── */
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .gloss-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .gloss-term { font-size: 14px; font-weight: 600; color: var(--gold-light); margin-bottom: 6px; }
+  .gloss-abbr { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .gloss-def { font-size: 12.5px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* ── GOVERNANCE DIAGRAM ── */
+  .gov-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .gov-box {
+    background: var(--navy-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 28px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    position: relative;
+  }
+  .gov-box.top { background: linear-gradient(135deg, #1a2e47, #243b55); border-color: var(--gold); color: var(--gold-light); }
+  .gov-connector {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+    margin: 0 auto;
+  }
+  .gov-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .gov-col { display: flex; flex-direction: column; align-items: center; }
+  .gov-line { display: flex; align-items: center; gap: 0; }
+  .gov-hline { height: 2px; width: 60px; background: var(--border); }
+
+  /* ── MOBILE TOGGLE ── */
+  #menu-toggle {
+    display: none;
+    position: fixed;
+    top: 14px; left: 14px;
+    z-index: 200;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #menu-toggle { display: flex; }
+    .section { padding: 40px 24px; }
+    .hero { padding: 70px 24px 48px; }
+    .flow { flex-direction: column; }
+    .flow-step:not(:last-child)::after { display: none; }
+    .pyramid-wrap { flex-direction: column; }
+  }
+
+  /* ── CHAPTER NAV PILLS ── */
+  .chapter-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .chapter-pill {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all .2s;
+    background: transparent;
+  }
+  .chapter-pill:hover, .chapter-pill.active {
+    background: var(--glow);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  /* ── SREP CYCLE ── */
+  .cycle-wrap { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  .cycle-steps { flex: 1; min-width: 280px; }
+  .cycle-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .cycle-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .cycle-body .cycle-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .cycle-body .cycle-desc { font-size: 12.5px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid var(--border);
+    padding: 32px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer p { font-size: 12px; color: var(--muted); }
+  footer a { color: var(--gold-light); text-decoration: none; }
+
+  /* animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp .5s ease both; }
+</style>
+</head>
+<body>
+
+<button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<nav id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo-badge">DFSA · DIFC</div>
+    <h1>PIB Rulebook<br>Interactive Guide</h1>
+    <div class="version">VER52 / JAN 2026</div>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Introduction</span>
+    <a href="#overview" class="nav-link"><span class="nav-icon">🏛️</span> Overview</a>
+    <a href="#licensing" class="nav-link"><span class="nav-icon">🗺️</span> Licensing Flow</a>
+    <a href="#categories" class="nav-link"><span class="nav-icon">🏷️</span> Firm Categories</a>
+    <a href="#governance" class="nav-link"><span class="nav-icon">⚖️</span> Governance</a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Rulebook Chapters</span>
+    <a href="#ch1" class="nav-link"><span class="nav-icon">📖</span> Ch 1 — Application <span class="nav-badge">p.1</span></a>
+    <a href="#ch2" class="nav-link"><span class="nav-icon">📋</span> Ch 2 — General Req. <span class="nav-badge">p.27</span></a>
+    <a href="#ch3" class="nav-link"><span class="nav-icon">💰</span> Ch 3 — Capital <span class="nav-badge">p.31</span></a>
+    <a href="#ch4" class="nav-link"><span class="nav-icon">💳</span> Ch 4 — Credit Risk <span class="nav-badge">p.85</span></a>
+    <a href="#ch5" class="nav-link"><span class="nav-icon">📉</span> Ch 5 — Market Risk <span class="nav-badge">p.168</span></a>
+    <a href="#ch6" class="nav-link"><span class="nav-icon">⚙️</span> Ch 6 — Operational <span class="nav-badge">p.176</span></a>
+    <a href="#ch7" class="nav-link"><span class="nav-icon">📊</span> Ch 7 — IRRBB <span class="nav-badge">p.192</span></a>
+    <a href="#ch8" class="nav-link"><span class="nav-icon">🔗</span> Ch 8 — Group Risk <span class="nav-badge">p.213</span></a>
+    <a href="#ch9" class="nav-link"><span class="nav-icon">💧</span> Ch 9 — Liquidity <span class="nav-badge">p.219</span></a>
+    <a href="#ch10" class="nav-link"><span class="nav-icon">🔍</span> Ch 10 — ICAAP/IRAP <span class="nav-badge">p.240</span></a>
+    <a href="#ch11" class="nav-link"><span class="nav-icon">📢</span> Ch 11 — Disclosure <span class="nav-badge">p.245</span></a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Tools</span>
+    <a href="#calculators" class="nav-link"><span class="nav-icon">🧮</span> Calculators</a>
+    <a href="#application-table" class="nav-link"><span class="nav-icon">📐</span> Application Table</a>
+    <a href="#compliance-calendar" class="nav-link"><span class="nav-icon">📅</span> Compliance Calendar</a>
+    <a href="#glossary" class="nav-link"><span class="nav-icon">📚</span> Glossary</a>
+  </div>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main id="main">
+
+<!-- ── HERO ── -->
+<div class="hero" id="overview">
+  <div class="hero-eyebrow">Dubai Financial Services Authority · Prudential Module</div>
+  <h2>DFSA PIB Rulebook<br><span>Visual Guide</span></h2>
+  <p>A comprehensive, interactive breakdown of the DFSA Prudential — Investment, Insurance Intermediation and Banking (PIB) Module. Navigate chapters, use calculators, and jump directly to the source.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="stat-num">11</div><div class="stat-label">Chapters</div></div>
+    <div class="hero-stat"><div class="stat-num">455</div><div class="stat-label">Pages</div></div>
+    <div class="hero-stat"><div class="stat-num">8</div><div class="stat-label">Firm Categories</div></div>
+    <div class="hero-stat"><div class="stat-num">5+</div><div class="stat-label">Calculators</div></div>
+  </div>
+  <br>
+  <button class="source-btn" onclick="openPDF(1)">📄 Open Original Rulebook <span class="arrow">↗</span></button>
+</div>
+
+<!-- ── LICENSING FLOW ── -->
+<section class="section" id="licensing">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 1 · Regulatory Journey</span>
+    <h2 class="section-title">Licensing Flow</h2>
+    <p class="section-sub">The end-to-end regulatory process from business planning to post-licensing obligations. Each step is mandatory — skipping or mishandling any stage can result in rejection or restart.</p>
+    <button class="source-btn" onclick="openPDF(1)">View Ch.1 in Rulebook ↗</button>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">1</div>
+        <div class="flow-label">Business Planning</div>
+        <div class="flow-desc">Define scope, target market & governance model. Produce 3-year projections & draft Risk Appetite Statement (Ch. 2.5)</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">2</div>
+        <div class="flow-label">Category Selection</div>
+        <div class="flow-desc">Map financial services to Categories 1–5. Category determines all capital burdens. Incorrect selection = full restart.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">3</div>
+        <div class="flow-label">Application Submission</div>
+        <div class="flow-desc">Lodge via DFSA digital portal. Include core forms, Fit & Proper questionnaires, and non-refundable fee.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">4</div>
+        <div class="flow-label">Regulatory Review</div>
+        <div class="flow-desc">DFSA assesses capital adequacy, ownership structure, valuation practices. Iterative RFI process. UBO documentation critical.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">5</div>
+        <div class="flow-label">IPA / Approval</div>
+        <div class="flow-desc">In-Principle Approval issued with preconditions: incorporate entity, inject capital, establish physical office.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node">
+        <div class="flow-num">6</div>
+        <div class="flow-label">Post-Licensing</div>
+        <div class="flow-desc">Live operations: continuous capital maintenance, periodic DFSA reporting (Form B300), ICAAP/IRAP (Ch. 10).</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;">
+    <div class="alert alert-warn">
+      <strong>⚠ Common Failure Point:</strong> Failure to provide comprehensive Source of Wealth / Funds evidence for Ultimate Beneficial Owners (UBOs) is the #1 cause of extended delays or outright rejection during the Regulatory Review stage.
+    </div>
+    <div class="alert alert-danger">
+      <strong>🚨 Capital Timing Risk:</strong> Firms sometimes overlook that capital must be injected and maintained during the IPA period — before full licence grant. A breach at this stage resets the entire process.
+    </div>
+  </div>
+</section>
+
+<!-- ── FIRM CATEGORIES ── -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 1.3 · PIB App1</span>
+    <h2 class="section-title">Categories of Authorised Firms</h2>
+    <p class="section-sub">Authorised Firms are divided into Categories based on their licensed Financial Services. The Category determines capital requirements, applicable chapters, and reporting obligations.</p>
+    <button class="source-btn" onclick="openPDF(22)">View Rule 1.3 in Rulebook ↗</button>
+  </div>
+
+  <div class="card-grid cols-2" style="margin-bottom:32px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🏦</span>
+      <div class="card-title">Category 1 — Deposit-Takers / Islamic Banks</div>
+      <div class="card-body">Accepts Deposits or Manages PSIAu. The highest capital tier. Full application of all PIB chapters. Subject to ICAAP, IRAP, and Disclosure requirements.</div>
+      <span class="card-tag">Base Capital: USD 10 million</span>
+      <br><button class="source-btn" onclick="openPDF(28)">Rule 1.3.1 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">🏢</span>
+      <div class="card-title">Category 2 — Principal Dealers / Credit Providers</div>
+      <div class="card-body">Deals in Investments as Principal or Provides Credit. Subject to Risk Capital, Expenditure-Based Minimum, and full credit/market risk chapters.</div>
+      <span class="card-tag">Base Capital: USD 2M (USD 500K if Matched Principal)</span>
+      <br><button class="source-btn" onclick="openPDF(28)">Rule 1.3.2 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#27ae60"></div>
+      <span class="card-icon">🔄</span>
+      <div class="card-title">Category 3A — Agents / Fund Managers</div>
+      <div class="card-body">Deals in Investments as Agent. Risk Capital applies. Expenditure-Based Minimum required. Simplified credit risk approach available.</div>
+      <span class="card-tag">Base Capital: USD 200,000</span>
+      <br><button class="source-btn" onclick="openPDF(28)">Rule 1.3.3 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#8e44ad"></div>
+      <span class="card-icon">🗄️</span>
+      <div class="card-title">Category 3B — Custodians / Fund Trustees</div>
+      <div class="card-body">Provides Custody (for Funds / Crypto Assets), Trustee of a Fund, Employee Money Purchase Scheme Operators/Admins. Expenditure-Based Minimum key requirement.</div>
+      <span class="card-tag">Base Capital: USD 500K – USD 2M (varies)</span>
+      <br><button class="source-btn" onclick="openPDF(29)">Rule 1.3.4 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#e67e22"></div>
+      <span class="card-icon">📊</span>
+      <div class="card-title">Category 3C — Asset / Investment Managers</div>
+      <div class="card-body">Manages Assets, CIFs, PSIA (restricted), Trust Services (acting as trustee), Stored Value issuers. Stored Value Capital Requirement applies to e-money issuers.</div>
+      <span class="card-tag">Base Capital: USD 40K – USD 500K (varies)</span>
+      <br><button class="source-btn" onclick="openPDF(29)">Rule 1.3.5 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#16a085"></div>
+      <span class="card-icon">💳</span>
+      <div class="card-title">Category 3D — Payment Service Providers</div>
+      <div class="card-body">Provides Payment Services (excluding Stored Value). Transaction-Based Capital Requirement (TBCR) scaled to payment volumes. New category under PIB VER52.</div>
+      <span class="card-tag">Base Capital: USD 200,000</span>
+      <br><button class="source-btn" onclick="openPDF(30)">Rule 1.3.5A ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#c0392b"></div>
+      <span class="card-icon">📋</span>
+      <div class="card-title">Category 4 — Advisers / Arrangers</div>
+      <div class="card-body">Arranges Deals, Advises on Financial Products, Insurance Intermediation, Fund Administration, Crowdfunding Platforms, Money Transmission. Lightest capital burden.</div>
+      <span class="card-tag">Base Capital: USD 30K – USD 140K (varies)</span>
+      <br><button class="source-btn" onclick="openPDF(30)">Rule 1.3.6 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#d4ac0d"></div>
+      <span class="card-icon">🌙</span>
+      <div class="card-title">Category 5 — Islamic Banks (PSIAu)</div>
+      <div class="card-body">Islamic Financial Institutions managing Unrestricted Profit Sharing Investment Accounts. Same capital level as Category 1. Subject to IFR module additional requirements.</div>
+      <span class="card-tag">Base Capital: USD 10 million</span>
+      <br><button class="source-btn" onclick="openPDF(30)">Rule 1.3.7 ↗</button>
+    </div>
+  </div>
+
+  <!-- SIBs -->
+  <div class="alert alert-info" style="margin-bottom:20px;">
+    <strong>🏛 Systemically Important Banks (SIBs) — Ch. 1.4:</strong> The DFSA may designate Domestic Firms in Cat. 1, 2 or 5 as Global SIBs (G-SIBs) or Domestic SIBs (D-SIBs). SIBs are subject to <strong>HLA Capital Buffer</strong> requirements and more intensive supervision.
+    <br><button class="source-btn" onclick="openPDF(31)" style="margin-top:8px;">View Rule 1.4 ↗</button>
+  </div>
+</section>
+
+<!-- ── GOVERNANCE ── -->
+<section class="section" id="governance">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 2 · Three Lines of Defence</span>
+    <h2 class="section-title">Governance & Internal Controls</h2>
+    <p class="section-sub">The DFSA expects governance arrangements commensurate with nature, scale and complexity. Boards must actively link Risk Appetite (Ch. 2.5), capital strategy (Ch. 3), and day-to-day controls.</p>
+    <button class="source-btn" onclick="openPDF(33)">View Ch.2 in Rulebook ↗</button>
+  </div>
+
+  <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:flex-start;">
+    <!-- Governance Hierarchy -->
+    <div style="flex:1; min-width:280px;">
+      <p style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:20px; font-weight:600;">Governance Hierarchy</p>
+      <div class="gov-chart">
+        <div class="gov-box top" style="width:85%;">Board of Directors (Governing Body)<br><small style="font-weight:400; opacity:0.8;">Strategic Oversight · Risk Appetite Approval · Capital & Liquidity</small></div>
+        <div class="gov-connector"></div>
+        <div class="gov-box" style="width:70%;">Senior Executive Officer (SEO)<br><small style="font-weight:400; opacity:0.7; font-size:11px;">Execution · Control Environment · Regulatory Reporting</small></div>
+        <div class="gov-connector"></div>
+        <div class="gov-row">
+          <div class="gov-col">
+            <div class="gov-box" style="font-size:12px; padding:10px 14px; text-align:center;">
+              <div style="color:var(--ice); font-size:20px;">🟢</div>
+              1st Line<br><small>Business Ops</small>
+            </div>
+          </div>
+          <div class="gov-col">
+            <div class="gov-box" style="font-size:12px; padding:10px 14px; text-align:center;">
+              <div style="color:var(--gold); font-size:20px;">🟡</div>
+              2nd Line<br><small>Risk & Compliance</small>
+            </div>
+          </div>
+          <div class="gov-col">
+            <div class="gov-box" style="font-size:12px; padding:10px 14px; text-align:center;">
+              <div style="color:#9b59b6; font-size:20px;">🟣</div>
+              3rd Line<br><small>Internal Audit</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Controls -->
+    <div style="flex:1.2; min-width:280px;">
+      <p style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:16px; font-weight:600;">Key Control Requirements</p>
+      <div class="card-grid cols-2">
+        <div class="card" style="padding:16px;">
+          <div class="card-title" style="font-size:13px;">📜 Risk Appetite Statement</div>
+          <div class="card-body" style="font-size:12px;">Required for Cat. 1, 2, 3A, 5 (Rule 2.5). Board-approved. Quantitative + qualitative limits. Reviewed regularly.</div>
+        </div>
+        <div class="card" style="padding:16px;">
+          <div class="card-title" style="font-size:13px;">👁 Segregation of Duties</div>
+          <div class="card-body" style="font-size:12px;">No single individual controls end-to-end transactions. Trading separated from settlement and valuation.</div>
+        </div>
+        <div class="card" style="padding:16px;">
+          <div class="card-title" style="font-size:13px;">👥 Four-Eyes Principle</div>
+          <div class="card-body" style="font-size:12px;">Dual authorisation for capital expenditure, high-risk onboarding, and regulatory filings (Form B100).</div>
+        </div>
+        <div class="card" style="padding:16px;">
+          <div class="card-title" style="font-size:13px;">⚠ Valuation Independence</div>
+          <div class="card-body" style="font-size:12px;">Prudent valuation practices (Rule 2.4). Independent mark-to-market. No Front Office overrides.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" style="margin-top:24px;">
+    <strong>🚨 Absolute Independence — Internal Audit:</strong> The Internal Audit function must remain strictly independent from day-to-day operations and the compliance function. Internal Audit cannot design the controls it tests. Breaching this invalidates the entire assurance model.
+  </div>
+</section>
+
+<!-- ── CH 1 ── -->
+<section class="section" id="ch1">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 1</span>
+    <h2 class="section-title">Application, Interpretation & Categorisation</h2>
+    <p class="section-sub">Scope of PIB, firm categories, glossary definitions, and SIB designation framework.</p>
+    <button class="source-btn" onclick="openPDF(1)">Open Chapter 1 ↗</button>
+  </div>
+  <div class="card-grid cols-3">
+    <div class="card">
+      <span class="card-icon">📌</span>
+      <div class="card-title">Scope (Rule 1.1)</div>
+      <div class="card-body">PIB applies to all Authorised Firms except Insurers (→ PIN), Representative Offices (→ REP), and Credit Rating Agencies. Applies to entire business, excluding Client Assets held separately.</div>
+      <button class="source-btn" onclick="openPDF(7)" style="margin-top:10px;">Rule 1.1 p.7 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">📖</span>
+      <div class="card-title">Glossary (Rule 1.2)</div>
+      <div class="card-body">Comprehensive technical definitions unique to PIB — CET1, AT1, T2, CRCOM, LCR, NSFR, RWA, SFT, CCyB, IRAP, ICAAP and 100+ additional terms. GLO for common terms.</div>
+      <button class="source-btn" onclick="openPDF(13)" style="margin-top:10px;">Rule 1.2 p.13 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏛️</span>
+      <div class="card-title">Branches (Rule 1.1.2)</div>
+      <div class="card-body">Branches follow Application Table A. Generally only Rule 3.2.4 applies for capital — branches rely on home-state regulator requirements. Must copy home-state capital reports to DFSA within 10 business days.</div>
+      <button class="source-btn" onclick="openPDF(9)" style="margin-top:10px;">App Table A p.9 ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 2 ── -->
+<section class="section" id="ch2">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 2</span>
+    <h2 class="section-title">General Requirements</h2>
+    <p class="section-sub">Trading Book thresholds, DFSA reporting cadence, prudent valuation, and risk appetite requirements.</p>
+    <button class="source-btn" onclick="openPDF(33)">Open Chapter 2 ↗</button>
+  </div>
+
+  <div class="card-grid cols-2" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-title">📊 Trading Book Threshold (Rule 2.2)</div>
+      <div class="card-body">A firm must maintain a Trading Book if:<br><br>
+        • Positions <strong>normally exceed $15M</strong> or <strong>5%</strong> of combined on/off-balance sheet, OR<br>
+        • Has exceeded <strong>$20M</strong> or <strong>6%</strong> at any time in the preceding 12 months.<br><br>
+        Requires documented Trading Book Policy and segregation of Trading / Non-Trading Book positions.
+      </div>
+      <button class="source-btn" onclick="openPDF(33)" style="margin-top:10px;">Rule 2.2 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <div class="card-title">📅 Reporting to the DFSA (Rule 2.3)</div>
+      <div class="card-body">
+        <strong>Annual returns:</strong> Submit within 4 months of financial year-end. Signed by 2 officers (Director/Partner).<br><br>
+        <strong>Quarterly returns:</strong> Submit within 1 month after period end. Signed by 1 officer.<br><br>
+        All returns in USD thousands. Form B100 Declaration accompanies each return. Records kept 6 years minimum.
+      </div>
+      <button class="source-btn" onclick="openPDF(34)" style="margin-top:10px;">Rule 2.3 ↗</button>
+    </div>
+  </div>
+  <div class="alert alert-info">
+    <strong>💡 Prudent Valuation (Rule 2.4):</strong> Applies to all positions at fair value (Trading + Non-Trading Book). Must include adequate systems, valuation methodologies, and Valuation Adjustments. Appendix A2.5 provides detailed guidance.
+  </div>
+</section>
+
+<!-- ── CH 3 — CAPITAL ── -->
+<section class="section" id="ch3">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 3</span>
+    <h2 class="section-title">Capital Framework</h2>
+    <p class="section-sub">The cornerstone of PIB — comprehensive capital requirements covering Base Capital, Risk-Weighted Capital, Buffers, and Leverage. Applies to all Categories with varying scope.</p>
+    <button class="source-btn" onclick="openPDF(37)">Open Chapter 3 ↗</button>
+  </div>
+
+  <!-- Capital Structure Pyramid -->
+  <div class="pyramid-wrap" style="margin-bottom:40px;">
+    <div class="pyramid">
+      <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; text-align:center; font-weight:600;">Capital Resources Hierarchy</p>
+      <div style="text-align:center;">
+        <div class="pyr-tier pyr-t4" style="margin:0 auto 6px; width:50%;">
+          <div class="tier-label">Tier 2 Capital (T2)</div>
+          <div class="tier-name">Supplementary</div>
+          <div class="tier-detail">Subordinated debt, general provisions · Max 2% of RWA</div>
+        </div>
+        <div class="pyr-tier pyr-t3" style="margin:0 auto 6px; width:65%;">
+          <div class="tier-label">Additional Tier 1 (AT1)</div>
+          <div class="tier-name">Going Concern</div>
+          <div class="tier-detail">Contingent convertibles (CoCos), Perpetual instruments</div>
+        </div>
+        <div class="pyr-tier pyr-t2" style="margin:0 auto 6px; width:80%;">
+          <div class="tier-label">Common Equity Tier 1 (CET1)</div>
+          <div class="tier-name">Highest Quality</div>
+          <div class="tier-detail">Ordinary shares + retained earnings — Min 6% of RWA</div>
+        </div>
+        <div class="pyr-tier pyr-t1" style="margin:0 auto; width:100%;">
+          <div class="tier-label">Tier 1 Capital (CET1 + AT1)</div>
+          <div class="tier-name">T1 Capital</div>
+          <div class="tier-detail">Going concern capital — Minimum 8% of Risk Weighted Assets</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1.2; min-width:280px;">
+      <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Base Capital Requirements by Category</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Base Capital</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Category 1</td><td><span class="badge badge-red">USD 10,000,000</span></td><td>Full capital regime</td></tr>
+            <tr><td>Category 2</td><td><span class="badge badge-red">USD 2,000,000</span></td><td>USD 500K if Matched Principal</td></tr>
+            <tr><td>Category 3A</td><td><span class="badge badge-gold">USD 200,000</span></td><td>Dealing as Agent</td></tr>
+            <tr><td>Category 3B</td><td><span class="badge badge-gold">USD 500K – 2M</span></td><td>Varies by service licensed</td></tr>
+            <tr><td>Category 3C</td><td><span class="badge badge-blue">USD 40K – 500K</span></td><td>Varies; CIF managers lower</td></tr>
+            <tr><td>Category 3D</td><td><span class="badge badge-blue">USD 200,000</span></td><td>Payment Service Providers</td></tr>
+            <tr><td>Category 4</td><td><span class="badge badge-green">USD 30K – 140K</span></td><td>Varies; lowest tier</td></tr>
+            <tr><td>Category 5</td><td><span class="badge badge-red">USD 10,000,000</span></td><td>Islamic Banks (PSIAu)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="source-btn" onclick="openPDF(45)">Base Capital Table — Rule 3.6.2 ↗</button>
+    </div>
+  </div>
+
+  <!-- Capital Requirements by Category -->
+  <div style="margin-bottom:36px;">
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px; font-weight:500; text-transform:uppercase; letter-spacing:1px; font-size:11px;">Capital Requirement Calculation — By Category</p>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-title">Cat. 1 & 5 (Rule 3.3)</div>
+        <div class="card-body">
+          Capital Req = <strong>Higher of:</strong><br>
+          • Base Capital Requirement, OR<br>
+          • Risk Capital Req + Buffer Requirements<br><br>
+          Risk Capital = <strong>10% × RWA</strong><br>
+          RWA = 12.5 × (CRCOM + Market Risk CR + Op Risk CR + DCR)
+        </div>
+        <button class="source-btn" onclick="openPDF(42)" style="margin-top:10px;">Rule 3.3 ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--steel)"></div>
+        <div class="card-title">Cat. 2 & 3A (Rule 3.4)</div>
+        <div class="card-body">
+          Capital Req = <strong>Highest of:</strong><br>
+          • Base Capital Requirement,<br>
+          • Expenditure-Based Capital Minimum (EBCM), OR<br>
+          • Risk Capital Req + Buffer Requirements<br><br>
+          EBCM = Annual Audited Expenditure × Applicable Ratio
+        </div>
+        <button class="source-btn" onclick="openPDF(42)" style="margin-top:10px;">Rule 3.4 ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:#27ae60"></div>
+        <div class="card-title">Cat. 3B, 3C, 3D & 4 (Rule 3.5)</div>
+        <div class="card-body">
+          Capital Req = <strong>Highest of:</strong><br>
+          • Base Capital Requirement,<br>
+          • EBCM (if applicable), OR<br>
+          • Stored Value Capital Req (3C issuers: 3% of avg daily outstanding SV), OR<br>
+          • Transaction-Based Capital Req (PSPs — scaled to payment volumes)
+        </div>
+        <button class="source-btn" onclick="openPDF(43)" style="margin-top:10px;">Rule 3.5 ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buffers -->
+  <div style="margin-bottom:32px;">
+    <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Capital Buffers (Cat. 1, 2 non-Matched, 5)</p>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">Capital Conservation Buffer</div>
+        <div class="card-body">2.5% of RWA — composed entirely of CET1 Capital. Cannot be used to meet Risk Capital, CCyB, HLA, or ICR requirements. (Rule 3.9)</div>
+        <button class="source-btn" onclick="openPDF(53)" style="margin-top:10px;">Rule 3.9 ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌊</div>
+        <div class="card-title">Countercyclical Capital Buffer (CCyB)</div>
+        <div class="card-body">Weighted average of CCyB Rates × RWA. Only applies when firm has Non-Financial Private Sector exposures in jurisdictions with active CCyB rates. Rates set by Central Bank/CCyB Authority. (Rule 3.9A)</div>
+        <button class="source-btn" onclick="openPDF(54)" style="margin-top:10px;">Rule 3.9A ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏛️</div>
+        <div class="card-title">HLA Capital Buffer (SIBs)</div>
+        <div class="card-body">Higher Loss Absorbency buffer for Systemically Important Banks (D-SIBs and G-SIBs). Calculated per Basel Committee SIB framework. Applied on solo and consolidated basis. (Rule 3.9B)</div>
+        <button class="source-btn" onclick="openPDF(37)" style="margin-top:10px;">Rule 3.9B ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leverage Ratio -->
+  <div class="alert alert-info">
+    <strong>⚖ Leverage Ratio (Rule 3.18) — Ch. 1 & 5 only:</strong> Non-risk based backstop ratio = Tier 1 Capital ÷ Leverage Ratio Exposure Measure. Minimum leverage ratios apply. Exposures include on-balance-sheet, derivatives, SFTs, and off-balance-sheet items. Reported via Form B300.
+    <br><button class="source-btn" onclick="openPDF(81)" style="margin-top:8px;">Rule 3.18 — Leverage Ratios ↗</button>
+  </div>
+</section>
+
+<!-- ── CH 4 — CREDIT RISK ── -->
+<section class="section" id="ch4">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 4</span>
+    <h2 class="section-title">Credit Risk</h2>
+    <p class="section-sub">Risk of loss from counterparty default. Applies fully to Cat. 1, 2, 3A, 5; simplified approach available for Cat. 2 & 3A. Cat. 3B-4 apply only sections 4.1–4.4 and 4.5.1–4.5.9.</p>
+    <button class="source-btn" onclick="openPDF(85)">Open Chapter 4 ↗</button>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(192,57,43,0.2);">⚠️</div>
+        <div>
+          <div class="risk-name">Credit Risk Systems (4.3–4.5)</div>
+          <div class="risk-ch">Rules 4.3 – 4.5 · p.87</div>
+        </div>
+      </div>
+      <div class="risk-desc">Cat. 1 & 2 firms require comprehensive Credit Risk Management systems: risk policies, credit assessment processes, counterparty limits, connected party controls, and stress testing.</div>
+      <div class="risk-formula">Systems → Policy → Assessment → Mitigation → Reporting</div>
+      <button class="source-btn" onclick="openPDF(87)">Rule 4.3 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(39,174,96,0.2);">🧮</div>
+        <div>
+          <div class="risk-name">CRCOM — Credit Risk Capital (4.8)</div>
+          <div class="risk-ch">Rule 4.8 · p.99</div>
+        </div>
+      </div>
+      <div class="risk-desc">Credit Risk Capital Requirement (CRCOM). Calculated as sum of Risk Weighted Exposures × applicable Risk Weight. Full and Simplified Approaches available.</div>
+      <div class="risk-formula">CRCOM = Σ (Exposure × Risk Weight)</div>
+      <button class="source-btn" onclick="openPDF(99)">Rule 4.8 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(74,111,165,0.2);">📊</div>
+        <div>
+          <div class="risk-name">Exposure Categories (4.10)</div>
+          <div class="risk-ch">Rule 4.10 · p.106</div>
+        </div>
+      </div>
+      <div class="risk-desc">Exposures categorised as: Sovereigns, Banks, PSEs, MDBs, Corporates, Retail, Real Estate (Residential/Commercial/ADC), Securitisations.</div>
+      <div class="risk-formula">Category → CQG Rating → Risk Weight</div>
+      <button class="source-btn" onclick="openPDF(106)">Rule 4.10 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(212,172,13,0.2);">🛡️</div>
+        <div>
+          <div class="risk-name">Credit Risk Mitigation (4.13)</div>
+          <div class="risk-ch">Rule 4.13 · p.128</div>
+        </div>
+      </div>
+      <div class="risk-desc">Eligible collateral, guarantees, and credit derivatives reduce the exposure value. Financial collateral eligible if rated or liquid. Haircuts applied per App 4. Netting agreements recognised.</div>
+      <div class="risk-formula">E* = E × (1 – Collateral Haircut)</div>
+      <button class="source-btn" onclick="openPDF(128)">Rule 4.13 ↗</button>
+    </div>
+  </div>
+
+  <!-- Risk Weight Quick Reference Table -->
+  <div style="margin-top:28px;">
+    <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:14px; font-weight:600;">Common Risk Weights (Rule 4.12) — Quick Reference</p>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Exposure Type</th><th>CQG 1 (AAA–AA)</th><th>CQG 2 (A)</th><th>CQG 3 (BBB)</th><th>CQG 4 (BB)</th><th>Unrated</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sovereign</td><td>0%</td><td>20%</td><td>50%</td><td>100%</td><td>100%</td></tr>
+          <tr><td>Bank (Short-term)</td><td>20%</td><td>20%</td><td>20%</td><td>50%</td><td>20%</td></tr>
+          <tr><td>Bank (Long-term)</td><td>20%</td><td>50%</td><td>50%</td><td>100%</td><td>50%</td></tr>
+          <tr><td>Corporate</td><td>20%</td><td>50%</td><td>75%</td><td>100%</td><td>100%</td></tr>
+          <tr><td>Retail</td><td colspan="5" style="text-align:center; color:var(--ice);">75% (if diversified portfolio)</td></tr>
+          <tr><td>Residential Real Estate</td><td colspan="5" style="text-align:center; color:var(--ice);">35% – 100% (LTV-based)</td></tr>
+          <tr><td>Commercial Real Estate</td><td colspan="5" style="text-align:center; color:var(--ice);">100% – 150% (LTV-based)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="source-btn" onclick="openPDF(108)">Full Risk Weight Tables — Rule 4.12 ↗</button>
+  </div>
+</section>
+
+<!-- ── CH 5 — MARKET RISK ── -->
+<section class="section" id="ch5">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 5</span>
+    <h2 class="section-title">Market Risk</h2>
+    <p class="section-sub">Risk of loss from price fluctuations in interest rates, FX, equities, and commodities. Primarily applies to firms with a Trading Book (Cat. 1, 2, 3A, 5).</p>
+    <button class="source-btn" onclick="openPDF(168)">Open Chapter 5 ↗</button>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(52,152,219,0.2);">📈</div>
+        <div><div class="risk-name">Interest Rate Risk (Trading Book)</div><div class="risk-ch">Ch. 5 · Sections 5.2–5.4</div></div>
+      </div>
+      <div class="risk-desc">General and Specific risk on debt securities and interest rate instruments. Duration Method or Maturity Method. Applies to both general market movements and issuer-specific movements.</div>
+      <div class="risk-formula">IR Risk CR = General + Specific Components</div>
+      <button class="source-btn" onclick="openPDF(168)">Ch. 5 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(155,89,182,0.2);">💱</div>
+        <div><div class="risk-name">FX Risk (Rule 5.5)</div><div class="risk-ch">Section 5.5</div></div>
+      </div>
+      <div class="risk-desc">Applies to all positions in foreign currencies and gold. Net open position method. 8% capital charge on the greater of total long or total short net open positions.</div>
+      <div class="risk-formula">FX CR = 8% × max(Σ Long, Σ Short)</div>
+      <button class="source-btn" onclick="openPDF(168)">Section 5.5 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(231,76,60,0.2);">📊</div>
+        <div><div class="risk-name">Equity Risk (Rule 5.6)</div><div class="risk-ch">Section 5.6</div></div>
+      </div>
+      <div class="risk-desc">General risk (8% of net position) plus Specific risk (2–8% based on rating/liquidity). Applies to equity positions in the Trading Book including derivatives.</div>
+      <div class="risk-formula">Equity CR = General (8%) + Specific (2–8%)</div>
+      <button class="source-btn" onclick="openPDF(168)">Section 5.6 ↗</button>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header">
+        <div class="risk-dot" style="background:rgba(241,196,15,0.2);">🏭</div>
+        <div><div class="risk-name">Commodities Risk (Rule 5.7)</div><div class="risk-ch">Section 5.7</div></div>
+      </div>
+      <div class="risk-desc">Covers risk on commodity positions excluding gold (which falls under FX). Uses simplified approach or extended maturity ladder method.</div>
+      <div class="risk-formula">Commodity CR = 15% × Net Position</div>
+      <button class="source-btn" onclick="openPDF(168)">Section 5.7 ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 6 — OPERATIONAL RISK ── -->
+<section class="section" id="ch6">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 6</span>
+    <h2 class="section-title">Operational Risk</h2>
+    <p class="section-sub">Risk of loss from inadequate/failed internal processes, people, systems, or external events (including legal risk). Applies to all categories with varying scope.</p>
+    <button class="source-btn" onclick="openPDF(176)">Open Chapter 6 ↗</button>
+  </div>
+
+  <div class="card-grid cols-2" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-title">🏗️ Op Risk Framework (Rule 6.2)</div>
+      <div class="card-body">Robust risk management framework required. Clear governance, Board-approved Op Risk appetite, documented risk assessment processes, monitoring systems, and escalation procedures.</div>
+      <button class="source-btn" onclick="openPDF(177)">Rule 6.2 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Risk Identification & Assessment (Rule 6.3)</div>
+      <div class="card-body">Systematic identification of operational risk events. Key Risk Indicators (KRIs). Scenario analysis. Internal and external loss data collection. Mapping to business lines.</div>
+      <button class="source-btn" onclick="openPDF(179)">Rule 6.3 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-title">💻 IT Systems (Rule 6.6)</div>
+      <div class="card-body">Adequate IT systems for regulatory capital calculations, reporting, and data integrity. Annual penetration testing. DLP protocols. BCDR plans tested regularly. No shadow IT.</div>
+      <button class="source-btn" onclick="openPDF(182)">Rule 6.6 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-title">🌐 Outsourcing (Rule 6.8)</div>
+      <div class="card-body">Outsourced activities don't reduce regulatory obligations. Due diligence on service providers. DFSA must be notified of material outsourcing. Access rights and audit rights maintained.</div>
+      <button class="source-btn" onclick="openPDF(183)">Rule 6.8 ↗</button>
+    </div>
+  </div>
+
+  <!-- Operational Risk Capital Methods -->
+  <div>
+    <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Op Risk Capital Calculation Methods (Rule 6.11)</p>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Basic Indicator Approach (BIA)</div>
+        <div class="card-body">15% × Average 3-year positive gross income. Simplest method. Applicable to most firms.</div>
+        <div class="risk-formula" style="margin-top:12px; font-family:'DM Mono',monospace; font-size:12px; color:var(--gold-light); background:rgba(0,0,0,0.25); border-left:2px solid var(--gold); padding:8px 12px;">Op Risk CR = 15% × Avg(GI₁,GI₂,GI₃)</div>
+        <button class="source-btn" onclick="openPDF(185)">App A6.1 ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔢</div>
+        <div class="card-title">Standardised Approach (SA)</div>
+        <div class="card-body">Beta factor × Gross income per business line. Factors range 12%–18% by business line (Retail Banking, Trading, etc.).</div>
+        <div class="risk-formula" style="margin-top:12px; font-family:'DM Mono',monospace; font-size:12px; color:var(--gold-light); background:rgba(0,0,0,0.25); border-left:2px solid var(--gold); padding:8px 12px;">Op Risk CR = Σ (β_i × GI_i)</div>
+        <button class="source-btn" onclick="openPDF(185)">App A6.2 ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Alternative SA (ASA)</div>
+        <div class="card-body">For Retail Banking and Commercial Banking business lines, loans & advances replace gross income. 0.035 factor on lending volumes.</div>
+        <div class="risk-formula" style="margin-top:12px; font-family:'DM Mono',monospace; font-size:12px; color:var(--gold-light); background:rgba(0,0,0,0.25); border-left:2px solid var(--gold); padding:8px 12px;">Retail CR = β_r × 0.035 × m × LA</div>
+        <button class="source-btn" onclick="openPDF(185)">App A6.3 ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 7 — IRRBB ── -->
+<section class="section" id="ch7">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 7</span>
+    <h2 class="section-title">Interest Rate Risk in the Non-Trading Book (IRRBB)</h2>
+    <p class="section-sub">Structural interest rate risk from banking book activities. Full chapter applies to Cat. 1 & 5; Cat. 2 & 3A apply only Rules 7.2.2A, 7.2.4 and section 7.5.</p>
+    <button class="source-btn" onclick="openPDF(192)">Open Chapter 7 ↗</button>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card">
+      <span class="card-icon">📐</span>
+      <div class="card-title">Standardised Approach (SA-IRRBB — Rule 7.3)</div>
+      <div class="card-body">Calculate Economic Value of Equity (EVE) and Net Interest Income (NII) under 6 prescribed interest rate shock scenarios (parallel shifts up/down, steepener, flattener, short-rate up/down). ΔEVE must not exceed 15% of Tier 1 Capital.</div>
+      <button class="source-btn" onclick="openPDF(196)" style="margin-top:10px;">Rule 7.3 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚙️</span>
+      <div class="card-title">Systems & Controls (Rule 7.5)</div>
+      <div class="card-body">Board-approved IRRBB policy. Measurement and monitoring systems. Limit framework for EVE and NII sensitivity. Stress testing. Behavioural assumptions for non-maturity deposits documented.</div>
+      <button class="source-btn" onclick="openPDF(209)" style="margin-top:10px;">Rule 7.5 ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 8 — GROUP RISK ── -->
+<section class="section" id="ch8">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 8</span>
+    <h2 class="section-title">Group Risk</h2>
+    <p class="section-sub">Consolidated supervision for firms forming part of a Financial Group. Full chapter applies to Cat. 1 & 5 (Domestic); Cat. 2 applies sections 8.1, 8.2, 8.5; others apply 8.1 and 8.5 only.</p>
+    <button class="source-btn" onclick="openPDF(213)">Open Chapter 8 ↗</button>
+  </div>
+  <div class="card-grid cols-3">
+    <div class="card">
+      <span class="card-icon">🔗</span>
+      <div class="card-title">Intra-Group Exposures</div>
+      <div class="card-body">Firms must identify, measure and control intra-group exposures. Large intragroup exposures subject to concentration limits. Connected party rules apply.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌍</span>
+      <div class="card-title">Consolidated Capital</div>
+      <div class="card-body">Group-level capital requirements applied on consolidated basis for Financial Groups. Solo + consolidated compliance both required for Cat. 1 & 5.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Contagion Risk</div>
+      <div class="card-body">Risk that financial difficulties in one Group entity propagate to others. Ring-fencing of capital may be required. Intragroup guarantees assessed separately.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 9 — LIQUIDITY ── -->
+<section class="section" id="ch9">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 9</span>
+    <h2 class="section-title">Liquidity Risk</h2>
+    <p class="section-sub">Risk of inability to meet obligations as they fall due. Full chapter applies to Cat. 1, 3A, 5; Cat. 2 applies Whole Chapter except 9.2.2(3); Cat. 3B–4 apply Rule 9.2.2(3) only.</p>
+    <button class="source-btn" onclick="openPDF(219)">Open Chapter 9 ↗</button>
+  </div>
+
+  <div class="card-grid cols-2" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-title">💧 Liquidity Coverage Ratio (LCR) — Rule 9.3.5</div>
+      <div class="card-body">
+        Ensures firms hold enough High Quality Liquid Assets (HQLA) to cover 30-day stressed net cash outflows.<br><br>
+        <strong>LCR = HQLA ÷ Total Net Cash Outflows ≥ 100%</strong><br><br>
+        HQLA includes: Cash, Central Bank reserves, Level 1 and Level 2 assets (with haircuts). Applies to Cat. 1, 3A, 5 (Domestic).
+      </div>
+      <button class="source-btn" onclick="openPDF(219)" style="margin-top:10px;">App A9.2 — LCR Details ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <div class="card-title">🏦 Net Stable Funding Ratio (NSFR) — Rule 9.3.12</div>
+      <div class="card-body">
+        Ensures stable funding structure over 1-year horizon to reduce funding cliff risks.<br><br>
+        <strong>NSFR = Available Stable Funding (ASF) ÷ Required Stable Funding (RSF) ≥ 100%</strong><br><br>
+        ASF = sum of (Liability × ASF Factor). RSF = sum of (Asset × RSF Factor). Applies to Cat. 1 & 5.
+      </div>
+      <button class="source-btn" onclick="openPDF(219)" style="margin-top:10px;">App A9.4 — NSFR Details ↗</button>
+    </div>
+  </div>
+
+  <div class="card-grid cols-3">
+    <div class="card">
+      <span class="card-icon">📋</span>
+      <div class="card-title">Liquidity Policy (Rule 9.2)</div>
+      <div class="card-body">Board-approved liquidity risk management policy. Liquidity Risk Appetite documented. Intraday, day-to-day, and stressed liquidity monitoring systems required.</div>
+      <button class="source-btn" onclick="openPDF(219)" style="margin-top:8px;">Rule 9.2 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">🆘</span>
+      <div class="card-title">Contingency Funding Plan (Rule 9.2A.6)</div>
+      <div class="card-body">Documented CFP identifying early-warning indicators, stress triggers, and escalation procedures. Must include credible, tested funding sources for stress scenarios.</div>
+      <button class="source-btn" onclick="openPDF(219)" style="margin-top:8px;">Rule 9.2A ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏧</span>
+      <div class="card-title">Liquid Assets (Cat. 3B–4) — Rule 3.5.3</div>
+      <div class="card-body">Cat. 3B–4 must maintain liquid assets exceeding their Capital Requirement. Eligible assets: cash, rated bank deposits (≤1yr), demand deposits, cleared receivables, quality sovereign bonds.</div>
+      <button class="source-btn" onclick="openPDF(43)" style="margin-top:8px;">Rule 3.5.3 ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 10 — ICAAP/IRAP ── -->
+<section class="section" id="ch10">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 10</span>
+    <h2 class="section-title">Supervisory Review — ICAAP / IRAP / SREP</h2>
+    <p class="section-sub">Applies to Domestic Firms in Category 1, 2 (non-Matched Principal), and 5. Firms must conduct Internal Capital Adequacy Assessment and Internal Risk Assessment Processes.</p>
+    <button class="source-btn" onclick="openPDF(240)">Open Chapter 10 ↗</button>
+  </div>
+
+  <div class="cycle-wrap">
+    <div class="cycle-steps">
+      <div class="cycle-step">
+        <div class="cycle-num">1</div>
+        <div class="cycle-body">
+          <div class="cycle-title">IRAP — Internal Risk Assessment Process (Rule 10.3)</div>
+          <div class="cycle-desc">Firm-wide assessment of all material risks not fully captured in Pillar 1. Identifies, measures, and documents: strategic risk, reputational risk, concentration risk, and model risk. Documented and submitted to DFSA.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">2</div>
+        <div class="cycle-body">
+          <div class="cycle-title">ICAAP — Internal Capital Adequacy Assessment (Rule 10.4)</div>
+          <div class="cycle-desc">Firm determines its own view of adequate capital based on its specific risk profile, business model, and stress scenarios. Must exceed Pillar 1 minimum where risks warrant. Board-approved. Stress tests must include severe but plausible scenarios.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">3</div>
+        <div class="cycle-body">
+          <div class="cycle-title">SREP — Supervisory Review & Evaluation Process (Rule 10.5)</div>
+          <div class="cycle-desc">DFSA review of firm's IRAP and ICAAP assessments. DFSA evaluates adequacy of internal models, capital planning processes, and risk management quality. Outcome may include firm-specific add-ons.</div>
+        </div>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">4</div>
+        <div class="cycle-body">
+          <div class="cycle-title">Individual Capital Requirement — ICR (Rule 10.6)</div>
+          <div class="cycle-desc">DFSA may impose an ICR on a firm above Pillar 1 minimum where it determines the firm's capital is inadequate for its risk profile. ICR is firm-specific and in addition to the Risk Capital Requirement.</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1; min-width:260px;">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">ICAAP Documentation Requirements</div>
+        <div class="card-body">
+          • Board-approved capital plan<br>
+          • Risk identification and materiality assessment<br>
+          • Stress test results (base + adverse + severe)<br>
+          • Capital projections over planning horizon<br>
+          • Capital allocation by business line<br>
+          • Conclusion on capital adequacy vs. risks
+        </div>
+        <button class="source-btn" onclick="openPDF(242)" style="margin-top:12px;">Rule 10.4 / App A10.2 ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CH 11 — DISCLOSURE ── -->
+<section class="section" id="ch11">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 11</span>
+    <h2 class="section-title">Disclosure Requirements (Pillar 3)</h2>
+    <p class="section-sub">Public disclosure obligations for Cat. 1, 2 (Domestic, non-Matched), and 5 firms. Designed to complement minimum capital requirements with market discipline through transparency.</p>
+    <button class="source-btn" onclick="openPDF(245)">Open Chapter 11 ↗</button>
+  </div>
+  <div class="card-grid cols-3">
+    <div class="card">
+      <span class="card-icon">📢</span>
+      <div class="card-title">General Obligation (Rule 11.1)</div>
+      <div class="card-body">Firms must disclose information that enables stakeholders to assess capital adequacy, risk exposures, and risk management processes. Materiality and proprietary exemptions apply.</div>
+      <button class="source-btn" onclick="openPDF(245)" style="margin-top:10px;">Rule 11.1 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">📋</span>
+      <div class="card-title">Disclosure Policy (Rule 11.2)</div>
+      <div class="card-body">Formal Disclosure Policy required. Board-approved. Defines frequency, medium, completeness, and verification processes. Must address circumstances where disclosure is omitted.</div>
+      <button class="source-btn" onclick="openPDF(246)" style="margin-top:10px;">Rule 11.2 ↗</button>
+    </div>
+    <div class="card">
+      <span class="card-icon">⏰</span>
+      <div class="card-title">Frequency & Location (Rule 11.3)</div>
+      <div class="card-body">At least annual disclosure. SIBs may face higher frequency requirements. Disclosures on firm's website or via official report. Quantitative templates in App 11 must be completed.</div>
+      <button class="source-btn" onclick="openPDF(246)" style="margin-top:10px;">Rule 11.3 ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ APPLICATION TABLE ══════════ -->
+<section class="section" id="application-table">
+  <div class="section-header">
+    <span class="section-eyebrow">PIB Application Table B — Domestic Firms</span>
+    <h2 class="section-title">Chapter Applicability Matrix</h2>
+    <p class="section-sub">A quick-reference matrix of which PIB chapters apply to each category of Domestic Firm. Click any cell label to open the relevant section in the source rulebook.</p>
+    <button class="source-btn" onclick="openPDF(11)">View Application Table B ↗</button>
+  </div>
+
+  <div class="table-wrap" style="overflow-x:auto;">
+    <table class="cat-table">
+      <thead>
+        <tr>
+          <th style="text-align:left; min-width:180px;">PIB Chapter</th>
+          <th>Cat 1</th><th>Cat 2</th><th>Cat 3A</th><th>Cat 3B</th><th>Cat 3C</th><th>Cat 3D</th><th>Cat 4</th><th>Cat 5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td onclick="openPDF(7)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.1 — Application & Categorisation</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(33)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.2 — General Requirements</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="partial">Ex 2.5</td><td class="partial">Ex 2.5</td><td class="partial">Ex 2.5</td><td class="partial">Ex 2.5</td><td class="check">Whole</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(37)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.3 — Capital</td>
+          <td class="partial">Ex 3.2.4/3.2.6</td><td class="partial">Ex some</td><td class="partial">Ex 3.3/3.4</td><td class="partial">Ex 3.3-3.9C</td><td class="partial">Ex 3.3-3.9C</td><td class="partial">Ex 3.3-3.9C</td><td class="partial">Ex 3.3-3.9C</td><td class="partial">Ex 3.2.4/3.2.6</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(85)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.4 — Credit Risk</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="partial">4.1–4.5</td><td class="partial">4.1–4.5</td><td class="partial">4.1–4.5</td><td class="partial">4.1–4.5</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(168)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.5 — Market Risk</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="check">Whole</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="partial">Ex 5.4</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(176)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.6 — Operational Risk</td>
+          <td class="partial">Ex 6.12</td><td class="partial">Ex 6.12</td><td class="partial">Ex 6.12</td><td class="partial">Ex 6.10/11</td><td class="partial">Ex 6.10/11</td><td class="partial">Ex 6.10/11</td><td class="partial">Ex 6.12</td><td class="partial">Ex 6.12</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(192)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.7 — IRRBB</td>
+          <td class="partial">Ex 7.2.2A</td><td class="partial">7.2.2A/7.5</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(213)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.8 — Group Risk</td>
+          <td class="check">Whole</td><td class="partial">8.1/8.2/8.5</td><td class="partial">8.1/8.5</td><td class="partial">8.1/8.5</td><td class="partial">8.1/8.5</td><td class="partial">8.1/8.5</td><td class="partial">8.1/8.5</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(219)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.9 — Liquidity Risk</td>
+          <td class="partial">Ex 9.2.2(3)</td><td class="partial">Rule 9.2.2(3)</td><td class="partial">Ex 9.2.2(3)</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="partial">Ex 9.2.2(3)</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(240)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.10 — ICAAP / IRAP / SREP</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="check">Whole</td>
+        </tr>
+        <tr>
+          <td onclick="openPDF(245)" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">Ch.11 — Disclosure</td>
+          <td class="check">Whole</td><td class="check">Whole</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="check">Whole</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11px; color:var(--muted); margin-top:12px;">Click chapter names to open the corresponding section in the DFSA PIB Rulebook PDF. ✔ = Whole Chapter applies. "Ex" = applies except noted sections. "—" = does not apply.</p>
+</section>
+
+<!-- ══════════ CALCULATORS ══════════ -->
+<section class="section" id="calculators">
+  <div class="section-header">
+    <span class="section-eyebrow">Regulatory Tools</span>
+    <h2 class="section-title">Interactive Calculators</h2>
+    <p class="section-sub">Simplified DFSA PIB calculation tools for indicative capital assessment. Always verify against the full rulebook and consult your compliance team before submission.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-tabs">
+      <button class="calc-tab active" onclick="switchTab('capital')">Capital Requirement</button>
+      <button class="calc-tab" onclick="switchTab('rwa')">Risk Weighted Assets</button>
+      <button class="calc-tab" onclick="switchTab('credit')">Credit Risk (CRCOM)</button>
+      <button class="calc-tab" onclick="switchTab('ebcm')">Expenditure-Based Min</button>
+      <button class="calc-tab" onclick="switchTab('lcr')">LCR / NSFR Check</button>
+    </div>
+
+    <div class="calc-body">
+
+      <!-- ── Capital Requirement ── -->
+      <div class="calc-panel active" id="panel-capital">
+        <p style="font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.7;">Calculates the overall Capital Requirement per <strong style="color:var(--white);">Rules 3.3 / 3.4 / 3.5</strong>. The higher of Base Capital, EBCM (where applicable), or Risk Capital + Buffers.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Firm Category</label>
+            <select id="cr-cat" onchange="updateCRCat()">
+              <option value="1">Category 1 — Deposit-Taker</option>
+              <option value="2">Category 2 — Principal Dealer</option>
+              <option value="3a">Category 3A — Agent</option>
+              <option value="3b">Category 3B — Custodian</option>
+              <option value="3c">Category 3C — Asset Manager</option>
+              <option value="3d">Category 3D — Payment Services</option>
+              <option value="4">Category 4 — Adviser/Arranger</option>
+              <option value="5">Category 5 — Islamic Bank</option>
+            </select>
+          </div>
+          <div class="form-group" id="bcr-display">
+            <label>Base Capital Requirement (USD)</label>
+            <input type="text" id="base-cap" readonly value="10,000,000" style="color:var(--gold-light);">
+          </div>
+        </div>
+        <div class="form-row" id="risk-inputs">
+          <div class="form-group">
+            <label>CRCOM — Credit Risk (USD)</label>
+            <input type="number" id="crcom" placeholder="e.g. 500,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Market Risk Cap. Req. (USD)</label>
+            <input type="number" id="mrcr" placeholder="e.g. 200,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Operational Risk Cap. Req. (USD)</label>
+            <input type="number" id="orcr" placeholder="e.g. 150,000" min="0">
+          </div>
+        </div>
+        <div class="form-row" id="ebcm-inputs">
+          <div class="form-group">
+            <label>Annual Audited Expenditure (USD)</label>
+            <input type="number" id="aae" placeholder="e.g. 2,000,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>EBCM Ratio</label>
+            <select id="ebcm-ratio">
+              <option value="0.346">18/52 — Cat 2 / Holds Client Assets</option>
+              <option value="0.25">13/52 — Cat 2 / No Client Assets</option>
+              <option value="0.25">13/52 — Cat 3 / Provides Custody/CIF</option>
+              <option value="0.173">9/52 — Cat 3 / Money Services (limited)</option>
+              <option value="0.25">13/52 — Cat 4 / Crowdfunding + Client Assets</option>
+              <option value="0.115">6/52 — Cat 4 / Money Transmission (no CA)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Capital Conservation Buffer (2.5% of RWA)</label>
+            <input type="text" id="ccb-auto" readonly placeholder="Auto-calculated" style="color:var(--gold-light);">
+          </div>
+          <div class="form-group">
+            <label>CCyB Rate (% of RWA, if applicable)</label>
+            <input type="number" id="ccyb-rate" placeholder="0 – 2.5" min="0" max="10" step="0.1" value="0">
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcCapitalReq()">Calculate Capital Requirement</button>
+
+        <div class="calc-result" id="res-capital">
+          <div class="result-row"><span class="result-label">Base Capital Requirement</span><span class="result-value" id="r-bcr">—</span></div>
+          <div class="result-row"><span class="result-label">Expenditure-Based Capital Minimum (EBCM)</span><span class="result-value" id="r-ebcm">—</span></div>
+          <div class="result-row"><span class="result-label">Risk Weighted Assets (RWA)</span><span class="result-value" id="r-rwa">—</span></div>
+          <div class="result-row"><span class="result-label">Risk Capital Requirement (10% × RWA)</span><span class="result-value" id="r-rcr">—</span></div>
+          <div class="result-row"><span class="result-label">Capital Conservation Buffer (2.5% × RWA)</span><span class="result-value" id="r-ccb">—</span></div>
+          <div class="result-row"><span class="result-label">CCyB Requirement</span><span class="result-value" id="r-ccyb">—</span></div>
+          <div class="result-total">
+            <span class="result-label">✅ Total Capital Requirement</span>
+            <span class="result-value" id="r-total-cap">—</span>
+          </div>
+          <div class="alert alert-warn" style="margin-top:16px; font-size:12px;">⚠ This is indicative only. Final Capital Requirement must be computed in accordance with full PIB Rules and verified by your Finance and Compliance teams before submission to DFSA.</div>
+          <button class="source-btn" onclick="openPDF(42)" style="margin-top:8px;">Rules 3.3 / 3.4 / 3.5 in Rulebook ↗</button>
+        </div>
+      </div>
+
+      <!-- ── RWA ── -->
+      <div class="calc-panel" id="panel-rwa">
+        <p style="font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.7;">Calculates Risk Weighted Assets per <strong style="color:var(--white);">Rule 3.8.2</strong>: RWA = 12.5 × (CRCOM + Market Risk CR + Op Risk CR). Used to compute Risk Capital Requirement = 10% × RWA.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>CRCOM — Credit Risk Capital Req. (USD)</label>
+            <input type="number" id="rwa-cr" placeholder="e.g. 500,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Market Risk Capital Req. (USD)</label>
+            <input type="number" id="rwa-mr" placeholder="e.g. 200,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Operational Risk Capital Req. (USD)</label>
+            <input type="number" id="rwa-or" placeholder="e.g. 150,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Displaced Commercial Risk CR (USD, if PSIAu)</label>
+            <input type="number" id="rwa-dcr" placeholder="0 (if N/A)" min="0" value="0">
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcRWA()">Calculate RWA</button>
+        <div class="calc-result" id="res-rwa">
+          <div class="result-row"><span class="result-label">Sum of Risk Components</span><span class="result-value" id="r-rwa-sum">—</span></div>
+          <div class="result-row"><span class="result-label">Risk Weighted Assets (RWA = 12.5 × sum)</span><span class="result-value" id="r-rwa-val">—</span></div>
+          <div class="result-row"><span class="result-label">Risk Capital Requirement (10% × RWA)</span><span class="result-value" id="r-rwa-rcr">—</span></div>
+          <div class="result-row"><span class="result-label">CET1 Required (≥ 6% of RWA)</span><span class="result-value" id="r-rwa-cet1">—</span></div>
+          <div class="result-row"><span class="result-label">T1 Capital Required (≥ 8% of RWA)</span><span class="result-value" id="r-rwa-t1">—</span></div>
+          <div class="result-row"><span class="result-label">Capital Conservation Buffer (2.5% × RWA)</span><span class="result-value" id="r-rwa-ccb">—</span></div>
+          <button class="source-btn" onclick="openPDF(51)" style="margin-top:14px;">Rule 3.8.2 in Rulebook ↗</button>
+        </div>
+      </div>
+
+      <!-- ── Credit Risk ── -->
+      <div class="calc-panel" id="panel-credit">
+        <p style="font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.7;">Simplified CRCOM estimation per <strong style="color:var(--white);">Rule 4.8</strong>. Add up to 5 exposure types. CRCOM = Σ (Exposure Value × Risk Weight).</p>
+        <div id="exposure-rows">
+          <div class="form-row exposure-row">
+            <div class="form-group">
+              <label>Exposure Type</label>
+              <select class="exp-type">
+                <option value="0.00">Sovereign (CQG1) — 0%</option>
+                <option value="0.20">Sovereign (CQG2) — 20%</option>
+                <option value="0.50">Sovereign (CQG3) — 50%</option>
+                <option value="0.20">Bank – Short-term (rated) — 20%</option>
+                <option value="0.50">Bank – Long-term (CQG2) — 50%</option>
+                <option value="1.00">Bank (unrated) — 100%</option>
+                <option value="0.20">Corporate (CQG1) — 20%</option>
+                <option value="0.50">Corporate (CQG2) — 50%</option>
+                <option value="0.75">Corporate (CQG3) — 75%</option>
+                <option value="1.00">Corporate (unrated/CQG4) — 100%</option>
+                <option value="0.75">Retail (diversified) — 75%</option>
+                <option value="0.35">Residential Real Estate (low LTV) — 35%</option>
+                <option value="1.00">Residential Real Estate (high LTV) — 100%</option>
+                <option value="1.00">Commercial Real Estate — 100%</option>
+                <option value="1.50">Commercial Real Estate (ADC) — 150%</option>
+                <option value="1.50">Past Due (>90 days) — 150%</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Exposure Value (USD)</label>
+              <input type="number" class="exp-val" placeholder="e.g. 1,000,000" min="0">
+            </div>
+          </div>
+        </div>
+        <button style="background:transparent; border:1px solid var(--border); color:rgba(255,255,255,0.5); padding:8px 16px; border-radius:6px; cursor:pointer; font-size:12px; margin-bottom:16px;" onclick="addExposureRow()">+ Add Exposure</button><br>
+        <button class="calc-btn" onclick="calcCredit()">Calculate CRCOM</button>
+        <div class="calc-result" id="res-credit">
+          <div id="credit-breakdown"></div>
+          <div class="result-total">
+            <span class="result-label">✅ Total CRCOM</span>
+            <span class="result-value" id="r-crcom">—</span>
+          </div>
+          <button class="source-btn" onclick="openPDF(99)" style="margin-top:14px;">Rule 4.8 — CRCOM Calculation ↗</button>
+        </div>
+      </div>
+
+      <!-- ── EBCM ── -->
+      <div class="calc-panel" id="panel-ebcm">
+        <p style="font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.7;">Expenditure-Based Capital Minimum per <strong style="color:var(--white);">Rule 3.7</strong>. EBCM = Annual Audited Expenditure × Category Ratio. Excludes discretionary bonuses, depreciation, FX losses, charitable contributions.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Total P&L Expenditure (USD)</label>
+            <input type="number" id="ebcm-total" placeholder="e.g. 5,000,000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Deduct: Discretionary Bonuses (USD)</label>
+            <input type="number" id="ebcm-bonus" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Deduct: Depreciation (USD)</label>
+            <input type="number" id="ebcm-dep" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Deduct: FX Losses (USD)</label>
+            <input type="number" id="ebcm-fx" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Deduct: Shared Commissions (USD)</label>
+            <input type="number" id="ebcm-comm" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Other Allowable Deductions (USD)</label>
+            <input type="number" id="ebcm-other" placeholder="0" min="0" value="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category & Activity</label>
+            <select id="ebcm-cat">
+              <option value="0.346">Cat 2 — Holds Client Assets (18/52 = 34.6%)</option>
+              <option value="0.25">Cat 2 — No Client Assets (13/52 = 25.0%)</option>
+              <option value="0.25">Cat 3 — Custody / CIF / Trustee (13/52 = 25.0%)</option>
+              <option value="0.346">Cat 3 — Money Services + Client Assets (18/52)</option>
+              <option value="0.173">Cat 3 — Money Services (no Stored Value, no CA) (9/52)</option>
+              <option value="0.346">Cat 3 — EMPS + Client Assets (18/52)</option>
+              <option value="0.25">Cat 3 — EMPS / Stored Value (no CA) (13/52)</option>
+              <option value="0.346">Cat 3 — EMPS Admin (18/52)</option>
+              <option value="0.25">Cat 4 — Crowdfunding + Client Assets (13/52)</option>
+              <option value="0.346">Cat 4 — Money Transmission + Client Assets (18/52)</option>
+              <option value="0.115">Cat 4 — Money Transmission (no CA) (6/52)</option>
+            </select>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcEBCM()">Calculate EBCM</button>
+        <div class="calc-result" id="res-ebcm">
+          <div class="result-row"><span class="result-label">Total Expenditure</span><span class="result-value" id="r-ebcm-total">—</span></div>
+          <div class="result-row"><span class="result-label">Total Deductions</span><span class="result-value" id="r-ebcm-deduct">—</span></div>
+          <div class="result-row"><span class="result-label">Annual Audited Expenditure (AAE)</span><span class="result-value" id="r-ebcm-aae">—</span></div>
+          <div class="result-row"><span class="result-label">EBCM Ratio Applied</span><span class="result-value" id="r-ebcm-ratio">—</span></div>
+          <div class="result-total">
+            <span class="result-label">✅ Expenditure-Based Capital Minimum</span>
+            <span class="result-value" id="r-ebcm-result">—</span>
+          </div>
+          <button class="source-btn" onclick="openPDF(48)" style="margin-top:14px;">Rules 3.7.2 / 3.7.3 in Rulebook ↗</button>
+        </div>
+      </div>
+
+      <!-- ── LCR ── -->
+      <div class="calc-panel" id="panel-lcr">
+        <p style="font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.7;">Indicative Liquidity Coverage Ratio check per <strong style="color:var(--white);">Rule 9.3.5 / App A9.2</strong>. LCR = HQLA ÷ Net Cash Outflows (30-day stressed). Minimum: 100%.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Level 1 HQLA — Cash & Central Bank Reserves (USD)</label>
+            <input type="number" id="lcr-l1" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Level 2A HQLA — Gov Bonds etc. (USD, 85% value)</label>
+            <input type="number" id="lcr-l2a" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Level 2B HQLA — Corp Bonds / Equity (USD, 50% value)</label>
+            <input type="number" id="lcr-l2b" placeholder="0" min="0" value="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Retail Deposits (30-day outflow @ 5%)</label>
+            <input type="number" id="lcr-retail" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Wholesale Funding — Secured (30-day outflow @ 25%)</label>
+            <input type="number" id="lcr-wsec" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Wholesale Funding — Unsecured (30-day outflow @ 75%)</label>
+            <input type="number" id="lcr-wunsec" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Other Net Cash Outflows (USD)</label>
+            <input type="number" id="lcr-other" placeholder="0" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>Cash Inflows (capped at 75% of outflows)</label>
+            <input type="number" id="lcr-inflow" placeholder="0" min="0" value="0">
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcLCR()">Calculate LCR</button>
+        <div class="calc-result" id="res-lcr">
+          <div class="result-row"><span class="result-label">Total HQLA (with haircuts applied)</span><span class="result-value" id="r-lcr-hqla">—</span></div>
+          <div class="result-row"><span class="result-label">Gross 30-Day Cash Outflows</span><span class="result-value" id="r-lcr-out">—</span></div>
+          <div class="result-row"><span class="result-label">Cash Inflows (capped at 75%)</span><span class="result-value" id="r-lcr-in">—</span></div>
+          <div class="result-row"><span class="result-label">Net Cash Outflows</span><span class="result-value" id="r-lcr-net">—</span></div>
+          <div class="result-total">
+            <span class="result-label">LCR Ratio</span>
+            <span class="result-value" id="r-lcr-ratio">—</span>
+          </div>
+          <div id="lcr-status" style="margin-top:14px;"></div>
+          <button class="source-btn" onclick="openPDF(219)" style="margin-top:10px;">Rule 9.3.5 / App A9.2 in Rulebook ↗</button>
+        </div>
+      </div>
+
+    </div><!-- end calc-body -->
+  </div><!-- end calc-wrap -->
+</section>
+
+<!-- ══════════ COMPLIANCE CALENDAR ══════════ -->
+<section class="section" id="compliance-calendar">
+  <div class="section-header">
+    <span class="section-eyebrow">Regulatory Obligations</span>
+    <h2 class="section-title">Compliance Calendar</h2>
+    <p class="section-sub">Key recurring deadlines for Authorised Firms under the PIB module. Exact dates depend on the firm's financial year-end.</p>
+    <button class="source-btn" onclick="openPDF(259)">View Reporting Table — App A2.4 ↗</button>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:32px;">
+    <div>
+      <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Ongoing / Daily</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-period">DAILY</div>
+          <div class="tl-title">Capital Adequacy Monitoring</div>
+          <div class="tl-body">Cat. 1, 2, 5: Monitor Capital Resources vs. Capital Requirement. Intraday liquidity limits. Trading Book limits.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">DAILY</div>
+          <div class="tl-title">Liquidity Monitoring (Cat. 1 & 5)</div>
+          <div class="tl-body">LCR and NSFR must be maintained at 100%+ at all times. Intraday net liquidity positions tracked.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">ONGOING</div>
+          <div class="tl-title">Cat. 3B–4: Liquid Asset Maintenance</div>
+          <div class="tl-body">Hold liquid assets exceeding Capital Requirement at all times (Rule 3.5.3). Monitor eligible asset pool daily.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Quarterly</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-period">QUARTERLY (+1 month)</div>
+          <div class="tl-title">Quarterly Prudential Returns</div>
+          <div class="tl-body">Submit within 1 month of quarter-end. Signed by 1 officer (Director/Partner/approved). Form B100 Declaration required. (Rule 2.3.7–2.3.8)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">QUARTERLY</div>
+          <div class="tl-title">Form B300 — Leverage Ratio (Cat. 1 & 5)</div>
+          <div class="tl-body">Leverage Ratio Report including full exposures breakdown. Dual-authorised (4-eyes). (Rule 3.18)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">QUARTERLY</div>
+          <div class="tl-title">Cat. 3B/3C/3D/4 — Capital Trigger</div>
+          <div class="tl-body">Notify DFSA immediately if Capital Resources fall below 120% of Capital Requirement. (Rule 3.2.6)</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px; font-weight:600;">Annual</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-period">ANNUAL (+4 months)</div>
+          <div class="tl-title">Annual Prudential Returns</div>
+          <div class="tl-body">Submit within 4 months of financial year-end. Signed by 2 officers. Form B100 included. EBCM recalculation based on audited accounts. (Rule 2.3.8)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">ANNUAL</div>
+          <div class="tl-title">ICAAP / IRAP Submission (Cat. 1, 2, 5)</div>
+          <div class="tl-body">Internal Capital Adequacy Assessment and Internal Risk Assessment Processes. Board-approved. Submitted to DFSA on request or annually. (Ch. 10)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">ANNUAL</div>
+          <div class="tl-title">Pillar 3 Disclosure (Cat. 1, 2 Dom., 5)</div>
+          <div class="tl-body">Public disclosure of capital adequacy, risk exposures, and governance. Templates in App 11. On firm's website. (Ch. 11)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-period">ANNUAL</div>
+          <div class="tl-title">Penetration Testing (IT Systems)</div>
+          <div class="tl-body">Annual 3rd-party penetration testing on internet-facing infrastructure. BCDR plan tested. DLP protocols reviewed. (Rule 6.6)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GLOSSARY ══════════ -->
+<section class="section" id="glossary">
+  <div class="section-header">
+    <span class="section-eyebrow">Chapter 1.2</span>
+    <h2 class="section-title">Key PIB Terms & Acronyms</h2>
+    <p class="section-sub">Core technical definitions from the PIB glossary. Full definitions in Rule 1.2.1 (p.7 of the Rulebook).</p>
+    <button class="source-btn" onclick="openPDF(13)">View Full Glossary — Rule 1.2 ↗</button>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <input type="text" id="gloss-search" placeholder="Search terms…" oninput="filterGlossary()" style="width:100%; max-width:400px; background:var(--navy-mid); border:1px solid var(--border); border-radius:6px; padding:11px 16px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; outline:none;">
+  </div>
+
+  <div class="glossary-grid" id="glossary-grid">
+    <div class="gloss-card"><div class="gloss-term">CET1 Capital <span class="gloss-abbr">Common Equity Tier 1</span></div><div class="gloss-def">Highest quality capital — ordinary paid-up share capital, retained earnings, and other comprehensive income. Must be ≥ 6% of RWA. (Rule 3.13)</div></div>
+    <div class="gloss-card"><div class="gloss-term">AT1 Capital <span class="gloss-abbr">Additional Tier 1</span></div><div class="gloss-def">Going concern capital instruments that are perpetual and can absorb losses while the firm is operational (e.g., contingent convertibles). (Rule 3.14)</div></div>
+    <div class="gloss-card"><div class="gloss-term">T2 Capital <span class="gloss-abbr">Tier 2 Capital</span></div><div class="gloss-def">Supplementary capital — subordinated debt and general provisions. Can be used to meet Capital Requirement but capped at 2% of RWA. (Rule 3.15)</div></div>
+    <div class="gloss-card"><div class="gloss-term">RWA <span class="gloss-abbr">Risk Weighted Assets</span></div><div class="gloss-def">12.5 × (CRCOM + Market Risk CR + Op Risk CR + Displaced Commercial Risk CR). Used to calculate Risk Capital Requirement = 10% × RWA. (Rule 3.8.2)</div></div>
+    <div class="gloss-card"><div class="gloss-term">CRCOM <span class="gloss-abbr">Credit Risk Capital Requirement</span></div><div class="gloss-def">Sum of all Credit Risk Exposures multiplied by their applicable Risk Weights. Main component of RWA for banks and dealers. (Chapter 4)</div></div>
+    <div class="gloss-card"><div class="gloss-term">LCR <span class="gloss-abbr">Liquidity Coverage Ratio</span></div><div class="gloss-def">HQLA ÷ Total Net Cash Outflows (30-day stressed). Must be ≥ 100%. Ensures short-term liquidity resilience. (Rule 9.3.5 / App A9.2)</div></div>
+    <div class="gloss-card"><div class="gloss-term">NSFR <span class="gloss-abbr">Net Stable Funding Ratio</span></div><div class="gloss-def">Available Stable Funding ÷ Required Stable Funding. Must be ≥ 100%. Ensures long-term structural funding stability. (Rule 9.3.12 / App A9.4)</div></div>
+    <div class="gloss-card"><div class="gloss-term">ICAAP <span class="gloss-abbr">Internal Capital Adequacy Assessment Process</span></div><div class="gloss-def">Firm's own assessment of whether it holds adequate capital for its specific risks. Board-approved. Submitted to DFSA. Pillar 2 framework. (Rule 10.4)</div></div>
+    <div class="gloss-card"><div class="gloss-term">IRAP <span class="gloss-abbr">Internal Risk Assessment Process</span></div><div class="gloss-def">Identification and assessment of risks not captured by Pillar 1 minimum capital requirements (e.g., strategic, reputational, concentration). (Rule 10.3)</div></div>
+    <div class="gloss-card"><div class="gloss-term">SREP <span class="gloss-abbr">Supervisory Review & Evaluation Process</span></div><div class="gloss-def">DFSA's review of the firm's IRAP and ICAAP. May result in Individual Capital Requirement (ICR) imposition. (Rule 10.5)</div></div>
+    <div class="gloss-card"><div class="gloss-term">CCyB <span class="gloss-abbr">Countercyclical Capital Buffer</span></div><div class="gloss-def">Macro-prudential buffer set by CCyB Authority to counter excess credit growth. Applied as weighted-average rate × RWA when non-financial private sector exposures exist. (Rule 3.9A)</div></div>
+    <div class="gloss-card"><div class="gloss-term">EBCM <span class="gloss-abbr">Expenditure-Based Capital Minimum</span></div><div class="gloss-def">Annual Audited Expenditure × applicable ratio (9/52 to 18/52). Key floor for Cat. 2, 3, and 4 firms. Computed from audited P&L after prescribed deductions. (Rule 3.7)</div></div>
+    <div class="gloss-card"><div class="gloss-term">PSIAu <span class="gloss-abbr">Unrestricted Profit Sharing Investment Account</span></div><div class="gloss-def">Islamic finance instrument where account holders authorise the firm to invest at its discretion. Managed by Cat. 1 or Cat. 5 firms. Triggers DCR capital requirement.</div></div>
+    <div class="gloss-card"><div class="gloss-term">SIB <span class="gloss-abbr">Systemically Important Bank</span></div><div class="gloss-def">Firm designated by DFSA as G-SIB or D-SIB. Subject to HLA Capital Buffer and enhanced supervisory requirements. (Section 1.4)</div></div>
+    <div class="gloss-card"><div class="gloss-term">HQLA <span class="gloss-abbr">High Quality Liquid Assets</span></div><div class="gloss-def">Assets that can be easily and quickly converted to cash. Level 1 (cash/central bank reserves) and Level 2 (government bonds, high-grade corporate bonds) with applicable haircuts. (App A9.2)</div></div>
+    <div class="gloss-card"><div class="gloss-term">ADC Exposure <span class="gloss-abbr">Acquisition, Development & Construction</span></div><div class="gloss-def">Exposure to entities financing land acquisition, development, or construction. Carries 150% risk weight — the highest in the credit risk framework. (Rule 1.2.1)</div></div>
+    <div class="gloss-card"><div class="gloss-term">CCF <span class="gloss-abbr">Credit Conversion Factor</span></div><div class="gloss-def">Factor applied to off-balance-sheet items to convert them to an equivalent on-balance-sheet exposure for CRCOM calculation. (App A4.2)</div></div>
+    <div class="gloss-card"><div class="gloss-term">IRRBB <span class="gloss-abbr">Interest Rate Risk in the Non-Trading Book</span></div><div class="gloss-def">Structural interest rate risk arising from timing mismatches in the banking book (non-trading). Measured via EVE and NII under 6 shock scenarios. (Chapter 7)</div></div>
+    <div class="gloss-card"><div class="gloss-term">EVE <span class="gloss-abbr">Economic Value of Equity</span></div><div class="gloss-def">Present value of all non-trading book assets minus PV of liabilities. ΔEVE under prescribed interest rate shocks must not exceed 15% of Tier 1 Capital. (Rule 7.3)</div></div>
+    <div class="gloss-card"><div class="gloss-term">SFT <span class="gloss-abbr">Securities Financing Transaction</span></div><div class="gloss-def">Repos, reverse repos, stock lending/borrowing, and margin lending. Subject to specific credit risk (CCR) and leverage ratio treatment under PIB. (Rule 1.2.1)</div></div>
+    <div class="gloss-card"><div class="gloss-term">Trading Book</div><div class="gloss-def">Positions held with trading intent — for short-term profit or hedging. Subject to Market Risk capital requirements. Required when positions exceed $15M / 5% of balance sheet. (Rule 2.2)</div></div>
+    <div class="gloss-card"><div class="gloss-term">ICR <span class="gloss-abbr">Individual Capital Requirement</span></div><div class="gloss-def">Firm-specific capital add-on imposed by DFSA under Chapter 10 following SREP. In addition to Pillar 1 Risk Capital Requirement. Cannot be met by Conservation Buffer CET1. (Rule 10.6)</div></div>
+    <div class="gloss-card"><div class="gloss-term">BIA <span class="gloss-abbr">Basic Indicator Approach</span></div><div class="gloss-def">Simplest method for calculating Operational Risk Capital: 15% × 3-year average positive gross income. Available to most Cat. 2–5 firms. (App A6.1)</div></div>
+    <div class="gloss-card"><div class="gloss-term">Non-Trading Book <span class="gloss-abbr">Banking Book</span></div><div class="gloss-def">All positions not included in the Trading Book. Subject to IRRBB requirements. Credit risk capital rules typically apply using banking book exposure values. (Rule 2.2)</div></div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div>
+    <p>DFSA PIB Rulebook Interactive Guide · VER52/01-26</p>
+    <p style="margin-top:4px;">Based on the <a href="#" onclick="openPDF(1); return false;">DFSA PIB Module (PIB/VER52/01-26)</a> — 455 pages. For informational purposes only.</p>
+  </div>
+  <div style="text-align:right;">
+    <p>⚠ This guide is not legal or regulatory advice.</p>
+    <p style="margin-top:4px;">Always verify against the <a href="#" onclick="openPDF(1); return false;">official DFSA Rulebook</a>.</p>
+  </div>
+</footer>
+
+</main>
+
+<script>
+// ── PDF opener ──
+const PDF_FILE = 'DFSA_PIB_Rulebook.pdf';
+function openPDF(page) {
+  if (page) {
+    window.open(PDF_FILE + '#page=' + page, 'dfsa_pib_rulebook');
+  } else {
+    window.open(PDF_FILE, 'dfsa_pib_rulebook');
+  }
+}
+
+// ── Tab Switcher ──
+function switchTab(id) {
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── Category base capital map ──
+const BASE_CAPITAL = {
+  '1': 10000000, '2': 2000000, '3a': 200000,
+  '3b': 1000000, '3c': 500000, '3d': 200000,
+  '4': 30000, '5': 10000000
+};
+const CATEGORY_HAS_RISK = ['1','2','3a','5'];
+const CATEGORY_HAS_EBCM = ['2','3a','3b','3c','3d','4'];
+const CATEGORY_HAS_BUFFER = ['1','2','5'];
+
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return 'USD ' + Math.round(n).toLocaleString('en-US');
+}
+function fmtPct(n) { return (n * 100).toFixed(2) + '%'; }
+
+function updateCRCat() {
+  const cat = document.getElementById('cr-cat').value;
+  const bc = BASE_CAPITAL[cat] || 0;
+  document.getElementById('base-cap').value = bc.toLocaleString('en-US');
+  document.getElementById('risk-inputs').style.display = CATEGORY_HAS_RISK.includes(cat) ? '' : 'none';
+  document.getElementById('ebcm-inputs').style.display = CATEGORY_HAS_EBCM.includes(cat) ? '' : 'none';
+}
+updateCRCat();
+
+function calcCapitalReq() {
+  const cat = document.getElementById('cr-cat').value;
+  const bcr = BASE_CAPITAL[cat] || 0;
+  const crcom = Number(document.getElementById('crcom').value) || 0;
+  const mrcr  = Number(document.getElementById('mrcr').value)  || 0;
+  const orcr  = Number(document.getElementById('orcr').value)  || 0;
+  const riskSum = crcom + mrcr + orcr;
+  const rwa = 12.5 * riskSum;
+  const rcr = 0.10 * rwa;
+  const ccb = CATEGORY_HAS_BUFFER.includes(cat) ? 0.025 * rwa : 0;
+  const ccybRate = (Number(document.getElementById('ccyb-rate').value) || 0) / 100;
+  const ccyb = CATEGORY_HAS_BUFFER.includes(cat) ? ccybRate * rwa : 0;
+  const aae = Number(document.getElementById('aae').value) || 0;
+  const ratio = Number(document.getElementById('ebcm-ratio').value) || 0;
+  const ebcm = CATEGORY_HAS_EBCM.includes(cat) ? aae * ratio : 0;
+
+  document.getElementById('ccb-auto').value = CATEGORY_HAS_BUFFER.includes(cat) ? 'USD ' + Math.round(ccb).toLocaleString() : 'N/A for this category';
+
+  let total;
+  if (CATEGORY_HAS_RISK.includes(cat)) {
+    const riskPlusBuffers = rcr + ccb + ccyb;
+    total = Math.max(bcr, riskPlusBuffers);
+    if (CATEGORY_HAS_EBCM.includes(cat)) total = Math.max(total, ebcm);
+  } else {
+    total = Math.max(bcr, ebcm);
+  }
+
+  document.getElementById('r-bcr').textContent = fmt(bcr);
+  document.getElementById('r-ebcm').textContent = CATEGORY_HAS_EBCM.includes(cat) ? fmt(ebcm) : 'N/A';
+  document.getElementById('r-rwa').textContent = fmt(rwa);
+  document.getElementById('r-rcr').textContent = CATEGORY_HAS_RISK.includes(cat) ? fmt(rcr) : 'N/A';
+  document.getElementById('r-ccb').textContent = CATEGORY_HAS_BUFFER.includes(cat) ? fmt(ccb) : 'N/A';
+  document.getElementById('r-ccyb').textContent = CATEGORY_HAS_BUFFER.includes(cat) ? fmt(ccyb) : 'N/A';
+  document.getElementById('r-total-cap').textContent = fmt(total);
+  document.getElementById('res-capital').classList.add('show');
+}
+
+function calcRWA() {
+  const cr = Number(document.getElementById('rwa-cr').value) || 0;
+  const mr = Number(document.getElementById('rwa-mr').value) || 0;
+  const or = Number(document.getElementById('rwa-or').value) || 0;
+  const dcr = Number(document.getElementById('rwa-dcr').value) || 0;
+  const sum = cr + mr + or + dcr;
+  const rwa = 12.5 * sum;
+  const rcr = 0.10 * rwa;
+  document.getElementById('r-rwa-sum').textContent = fmt(sum);
+  document.getElementById('r-rwa-val').textContent = fmt(rwa);
+  document.getElementById('r-rwa-rcr').textContent = fmt(rcr);
+  document.getElementById('r-rwa-cet1').textContent = fmt(0.06 * rwa);
+  document.getElementById('r-rwa-t1').textContent = fmt(0.08 * rwa);
+  document.getElementById('r-rwa-ccb').textContent = fmt(0.025 * rwa);
+  document.getElementById('res-rwa').classList.add('show');
+}
+
+// ── Credit Risk ──
+function addExposureRow() {
+  const html = `<div class="form-row exposure-row">
+    <div class="form-group">
+      <label>Exposure Type</label>
+      <select class="exp-type">
+        <option value="0.00">Sovereign (CQG1) — 0%</option>
+        <option value="0.20">Sovereign (CQG2) — 20%</option>
+        <option value="0.50">Sovereign (CQG3) — 50%</option>
+        <option value="0.20">Bank – Short-term (rated) — 20%</option>
+        <option value="0.50">Bank – Long-term (CQG2) — 50%</option>
+        <option value="1.00">Bank (unrated) — 100%</option>
+        <option value="0.20">Corporate (CQG1) — 20%</option>
+        <option value="0.50">Corporate (CQG2) — 50%</option>
+        <option value="0.75">Corporate (CQG3) — 75%</option>
+        <option value="1.00">Corporate (unrated/CQG4) — 100%</option>
+        <option value="0.75">Retail (diversified) — 75%</option>
+        <option value="0.35">Residential Real Estate (low LTV) — 35%</option>
+        <option value="1.00">Residential Real Estate (high LTV) — 100%</option>
+        <option value="1.00">Commercial Real Estate — 100%</option>
+        <option value="1.50">Commercial Real Estate (ADC) — 150%</option>
+        <option value="1.50">Past Due (>90 days) — 150%</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Exposure Value (USD)</label>
+      <input type="number" class="exp-val" placeholder="e.g. 1,000,000" min="0">
+    </div>
+  </div>`;
+  document.getElementById('exposure-rows').insertAdjacentHTML('beforeend', html);
+}
+
+function calcCredit() {
+  const rows = document.querySelectorAll('.exposure-row');
+  let total = 0;
+  let html = '';
+  rows.forEach(row => {
+    const sel = row.querySelector('.exp-type');
+    const val = Number(row.querySelector('.exp-val').value) || 0;
+    const rw = Number(sel.value);
+    const rwa = val * rw;
+    total += rwa;
+    if (val > 0) {
+      html += `<div class="result-row">
+        <span class="result-label">${sel.options[sel.selectedIndex].text.split(' — ')[0]}</span>
+        <span class="result-value">${fmt(rwa)} <small style="opacity:0.5;font-size:10px;">(${(rw*100).toFixed(0)}% × ${fmt(val).replace('USD ','')})</small></span>
+      </div>`;
+    }
+  });
+  document.getElementById('credit-breakdown').innerHTML = html;
+  document.getElementById('r-crcom').textContent = fmt(total);
+  document.getElementById('res-credit').classList.add('show');
+}
+
+// ── EBCM ──
+function calcEBCM() {
+  const total = Number(document.getElementById('ebcm-total').value) || 0;
+  const bonus = Number(document.getElementById('ebcm-bonus').value) || 0;
+  const dep   = Number(document.getElementById('ebcm-dep').value)   || 0;
+  const fx    = Number(document.getElementById('ebcm-fx').value)    || 0;
+  const comm  = Number(document.getElementById('ebcm-comm').value)  || 0;
+  const other = Number(document.getElementById('ebcm-other').value) || 0;
+  const deductions = bonus + dep + fx + comm + other;
+  const aae = Math.max(0, total - deductions);
+  const catSel = document.getElementById('ebcm-cat');
+  const ratio = Number(catSel.value);
+  const ratioLabel = catSel.options[catSel.selectedIndex].text.match(/\(.*\)/)[0];
+  const ebcm = aae * ratio;
+
+  document.getElementById('r-ebcm-total').textContent = fmt(total);
+  document.getElementById('r-ebcm-deduct').textContent = fmt(deductions);
+  document.getElementById('r-ebcm-aae').textContent = fmt(aae);
+  document.getElementById('r-ebcm-ratio').textContent = ratioLabel;
+  document.getElementById('r-ebcm-result').textContent = fmt(ebcm);
+  document.getElementById('res-ebcm').classList.add('show');
+}
+
+// ── LCR ──
+function calcLCR() {
+  const l1  = Number(document.getElementById('lcr-l1').value)  || 0;
+  const l2a = Number(document.getElementById('lcr-l2a').value) || 0;
+  const l2b = Number(document.getElementById('lcr-l2b').value) || 0;
+  const hqla = l1 + (l2a * 0.85) + (l2b * 0.50);
+
+  const retail = (Number(document.getElementById('lcr-retail').value) || 0) * 0.05;
+  const wsec   = (Number(document.getElementById('lcr-wsec').value)   || 0) * 0.25;
+  const wunsec = (Number(document.getElementById('lcr-wunsec').value) || 0) * 0.75;
+  const other  = Number(document.getElementById('lcr-other').value)  || 0;
+  const grossOut = retail + wsec + wunsec + other;
+
+  const rawIn = Number(document.getElementById('lcr-inflow').value) || 0;
+  const cappedIn = Math.min(rawIn, 0.75 * grossOut);
+  const netOut = Math.max(grossOut - cappedIn, 1);
+  const lcr = (hqla / netOut) * 100;
+
+  document.getElementById('r-lcr-hqla').textContent = fmt(hqla);
+  document.getElementById('r-lcr-out').textContent = fmt(grossOut);
+  document.getElementById('r-lcr-in').textContent = fmt(cappedIn);
+  document.getElementById('r-lcr-net').textContent = fmt(netOut);
+  document.getElementById('r-lcr-ratio').textContent = lcr.toFixed(1) + '%';
+
+  const statusEl = document.getElementById('lcr-status');
+  if (lcr >= 100) {
+    statusEl.innerHTML = '<div class="alert alert-ok">✅ <strong>LCR COMPLIANT</strong> — ' + lcr.toFixed(1) + '% ≥ 100% minimum. Liquidity position is adequate under stressed conditions.</div>';
+  } else {
+    statusEl.innerHTML = '<div class="alert alert-danger">🚨 <strong>LCR BREACH</strong> — ' + lcr.toFixed(1) + '% < 100% minimum. Immediate action required. Notify Board and consider DFSA notification.</div>';
+  }
+  document.getElementById('res-lcr').classList.add('show');
+}
+
+// ── Glossary Search ──
+function filterGlossary() {
+  const q = document.getElementById('gloss-search').value.toLowerCase();
+  document.querySelectorAll('.gloss-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ── Active nav on scroll ──
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+
+// Close mobile sidebar when clicking a nav link
+navLinks.forEach(l => l.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+}));
+</script>
+</body>
+</html>
