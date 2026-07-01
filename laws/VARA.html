@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VARA Virtual Asset Regime — Interactive Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2E47;
+    --navy-light: #243B55;
+    --slate: #2D4059;
+    --steel: #4A6FA5;
+    --ice: #B8D0E8;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+    --danger: #C0392B;
+    --warn: #E67E22;
+    --ok: #27AE60;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: rgba(201,168,76,0.25);
+    --glow: rgba(201,168,76,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed; top: 0; left: 0;
+    width: 260px; height: 100vh;
+    background: var(--navy);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    z-index: 100; overflow-y: auto;
+    transition: transform .3s ease;
+  }
+  .sidebar-brand { padding: 24px 20px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-brand .logo-badge {
+    display: inline-block; background: var(--gold); color: var(--navy);
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    padding: 3px 8px; border-radius: 2px; margin-bottom: 8px; text-transform: uppercase;
+  }
+  .sidebar-brand h1 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.3; }
+  .sidebar-brand .version { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+  .nav-section { padding: 16px 16px 4px; }
+  .nav-section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
+  .nav-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 6px;
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    font-size: 13px; font-weight: 400; transition: all .2s; margin-bottom: 2px;
+  }
+  .nav-link:hover, .nav-link.active { background: var(--glow); color: var(--gold-light); border-left: 2px solid var(--gold); padding-left: 10px; }
+  .nav-link .nav-icon { font-size: 14px; width: 18px; flex-shrink: 0; }
+  .nav-link .nav-badge { margin-left: auto; font-size: 9px; background: var(--navy-light); color: var(--ice); padding: 2px 6px; border-radius: 10px; font-family: 'DM Mono', monospace; }
+
+  /* ── MAIN ── */
+  #main { margin-left: 260px; min-height: 100vh; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #0a1628 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 60px 60px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -50%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; }
+  .hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.1; color: var(--white); max-width: 720px; margin-bottom: 20px; }
+  .hero h2 span { color: var(--gold); }
+  .hero p { color: rgba(255,255,255,0.6); font-size: 16px; line-height: 1.7; max-width: 600px; margin-bottom: 32px; }
+  .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+  .hero-stat { text-align: left; }
+  .hero-stat .stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .hero-stat .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .section { padding: 60px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .section:nth-child(even) { background: rgba(255,255,255,0.018); }
+  .section-header { margin-bottom: 36px; }
+  .section-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .section-sub { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; max-width: 640px; }
+
+  .source-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border: 1px solid var(--border); border-radius: 4px;
+    color: var(--gold-light); font-size: 12px; font-family: 'DM Mono', monospace;
+    cursor: pointer; background: transparent; transition: all .2s;
+    text-decoration: none; margin-top: 8px;
+  }
+  .source-btn:hover { background: var(--glow); border-color: var(--gold); color: var(--gold); }
+  .source-btn .arrow { font-size: 10px; }
+
+  .card-grid { display: grid; gap: 20px; }
+  .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  .card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px; padding: 24px; position: relative; transition: all .25s; }
+  .card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .card-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+  .card-body { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+  .card-tag { display: inline-block; margin-top: 12px; font-size: 10px; font-family: 'DM Mono', monospace; background: rgba(201,168,76,0.12); color: var(--gold-light); padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
+  .card-accent { position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); border-radius: 10px 0 0 10px; }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .data-table thead th { background: var(--navy-light); color: var(--gold-light); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  .data-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .15s; }
+  .data-table tbody tr:hover { background: rgba(201,168,76,0.04); }
+  .data-table tbody td { padding: 13px 16px; color: rgba(255,255,255,0.8); vertical-align: top; }
+  .data-table tbody td:first-child { color: var(--white); font-weight: 500; }
+  .table-wrap { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; overflow-x: auto; }
+
+  .flow { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding-bottom: 12px; }
+  .flow-step { flex: 1; min-width: 150px; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .flow-step:not(:last-child)::after { content: '›'; position: absolute; right: -14px; top: 30px; font-size: 28px; color: var(--gold); z-index: 2; line-height: 1; }
+  .flow-node { background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; padding: 16px 14px; width: 100%; margin: 0 16px; text-align: center; transition: all .2s; cursor: default; }
+  .flow-node:hover { border-color: var(--gold); background: var(--glow); }
+  .flow-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--gold); color: var(--navy); font-size: 13px; font-weight: 700; border-radius: 50%; margin-bottom: 10px; }
+  .flow-label { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .flow-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .risk-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .risk-card .risk-header { display: flex; align-items: center; gap: 12px; }
+  .risk-dot { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .risk-card .risk-name { font-size: 14px; font-weight: 600; color: var(--white); }
+  .risk-card .risk-ch { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); }
+  .risk-card .risk-desc { font-size: 12.5px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  .cat-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  .cat-table th, .cat-table td { padding: 11px 14px; border: 1px solid rgba(255,255,255,0.06); text-align: center; }
+  .cat-table thead th { background: var(--navy-light); color: var(--gold-light); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .cat-table td:first-child { text-align: left; font-weight: 500; color: var(--white); background: rgba(255,255,255,0.025); }
+  .cat-table .check { color: #2ecc71; font-weight: 700; }
+  .cat-table .partial { color: var(--warn); font-weight: 600; font-size: 10px; }
+  .cat-table .dash { color: rgba(255,255,255,0.2); }
+  .cat-table tbody tr:hover { background: var(--glow); }
+
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 28px; }
+  .tl-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); border: 2px solid var(--navy); box-shadow: 0 0 0 3px rgba(201,168,76,0.2); }
+  .tl-period { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  .alert { padding: 16px 20px; border-radius: 8px; border-left: 4px solid; margin: 16px 0; font-size: 13.5px; line-height: 1.6; }
+  .alert-warn { background: rgba(230,126,34,0.1); border-color: var(--warn); color: rgba(255,255,255,0.8); }
+  .alert-danger { background: rgba(192,57,43,0.1); border-color: var(--danger); color: rgba(255,255,255,0.8); }
+  .alert-ok { background: rgba(39,174,96,0.1); border-color: var(--ok); color: rgba(255,255,255,0.8); }
+  .alert-info { background: rgba(201,168,76,0.08); border-color: var(--gold); color: rgba(255,255,255,0.8); }
+  .alert strong { color: var(--white); }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+  .badge-blue { background: rgba(74,111,165,0.2); color: var(--ice); }
+  .badge-green { background: rgba(39,174,96,0.15); color: #7dcea0; }
+  .badge-red { background: rgba(192,57,43,0.15); color: #f1948a; }
+
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .gloss-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .gloss-term { font-size: 14px; font-weight: 600; color: var(--gold-light); margin-bottom: 6px; }
+  .gloss-abbr { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .gloss-def { font-size: 12.5px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  .gov-chart { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .gov-box { background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; padding: 14px 28px; text-align: center; font-size: 13px; font-weight: 600; color: var(--white); position: relative; }
+  .gov-box.top { background: linear-gradient(135deg, #1a2e47, #243b55); border-color: var(--gold); color: var(--gold-light); }
+  .gov-connector { width: 2px; height: 28px; background: var(--border); margin: 0 auto; }
+  .gov-row { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .gov-col { display: flex; flex-direction: column; align-items: center; }
+
+  /* ── JURISDICTION MAP CARDS ── */
+  .juris-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .juris-card { border-radius: 12px; padding: 26px; border: 1px solid var(--border); position: relative; }
+  .juris-card.in { background: linear-gradient(160deg, rgba(39,174,96,0.14), var(--navy-mid)); border-color: rgba(39,174,96,0.4); }
+  .juris-card.out { background: linear-gradient(160deg, rgba(192,57,43,0.12), var(--navy-mid)); border-color: rgba(192,57,43,0.35); }
+  .juris-flag { font-size: 11px; font-family:'DM Mono', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; display:inline-block; padding: 3px 10px; border-radius: 20px; }
+  .juris-card.in .juris-flag { background: rgba(39,174,96,0.2); color: #7dcea0; }
+  .juris-card.out .juris-flag { background: rgba(192,57,43,0.2); color: #f1948a; }
+  .juris-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .juris-body { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.65; }
+
+  /* ── CHECKLIST ── */
+  .checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+  .check-item { display: flex; gap: 10px; align-items: flex-start; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+  .check-item .num { flex-shrink:0; width:20px; height:20px; border-radius:5px; background:var(--glow); color:var(--gold); font-size:10.5px; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; }
+
+  #menu-toggle { display: none; position: fixed; top: 14px; left: 14px; z-index: 200; background: var(--gold); color: var(--navy); border: none; border-radius: 6px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; align-items: center; justify-content: center; }
+
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #menu-toggle { display: flex; }
+    .section { padding: 40px 24px; }
+    .hero { padding: 70px 24px 48px; }
+    .flow { flex-direction: column; }
+    .flow-step:not(:last-child)::after { display: none; }
+  }
+
+  footer { background: var(--navy); border-top: 1px solid var(--border); padding: 32px 60px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer p { font-size: 12px; color: var(--muted); }
+  footer a { color: var(--gold-light); text-decoration: none; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeUp .5s ease both; }
+</style>
+</head>
+<body>
+
+<button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<nav id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo-badge">VARA · Dubai</div>
+    <h1>Virtual Asset Regime<br>Interactive Guide</h1>
+    <div class="version">LAW NO. 4/2022 · JUL 2026</div>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Introduction</span>
+    <a href="#overview" class="nav-link"><span class="nav-icon">🏛️</span> Overview</a>
+    <a href="#jurisdiction" class="nav-link"><span class="nav-icon">🗺️</span> Jurisdictional Scope</a>
+    <a href="#licensing" class="nav-link"><span class="nav-icon">🧭</span> Licensing Flow</a>
+    <a href="#activities" class="nav-link"><span class="nav-icon">🏷️</span> Licensed Activities</a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Regulatory Framework</span>
+    <a href="#rulebooks" class="nav-link"><span class="nav-icon">📚</span> Rulebook Architecture</a>
+    <a href="#governance" class="nav-link"><span class="nav-icon">⚖️</span> Governance & Presence</a>
+    <a href="#documentation" class="nav-link"><span class="nav-icon">📋</span> Application Documents</a>
+    <a href="#legacy" class="nav-link"><span class="nav-icon">🔄</span> Legacy VASP Pathway</a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Operating a VASP</span>
+    <a href="#fees" class="nav-link"><span class="nav-icon">💰</span> Fees & Capital</a>
+    <a href="#marketing" class="nav-link"><span class="nav-icon">📢</span> Marketing Rules</a>
+    <a href="#enforcement" class="nav-link"><span class="nav-icon">🚨</span> Enforcement</a>
+    <a href="#glossary" class="nav-link"><span class="nav-icon">📖</span> Glossary</a>
+  </div>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main id="main">
+
+<!-- ── HERO ── -->
+<div class="hero" id="overview">
+  <div class="hero-eyebrow">Virtual Assets Regulatory Authority · Emirate of Dubai</div>
+  <h2>VARA Virtual Asset<br>Regime <span>Visual Guide</span></h2>
+  <p>An interactive breakdown of Dubai's Virtual Assets and Related Activities Regulations 2023, built solely from VARA's official website and rulebooks. Navigate the licensing journey, activity categories, and rulebook architecture — and jump straight to the source.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="stat-num">8</div><div class="stat-label">Licensed VA Activities</div></div>
+    <div class="hero-stat"><div class="stat-num">4</div><div class="stat-label">Compulsory Rulebooks</div></div>
+    <div class="hero-stat"><div class="stat-num">2</div><div class="stat-label">Stage Licensing Process</div></div>
+    <div class="hero-stat"><div class="stat-num">12</div><div class="stat-label">Month Licence Cycle</div></div>
+  </div>
+  <br>
+  <button class="source-btn" onclick="openLink('https://www.vara.ae/en/')">🌐 Visit vara.ae <span class="arrow">↗</span></button>
+</div>
+
+<!-- ── JURISDICTIONAL SCOPE ── -->
+<section class="section" id="jurisdiction">
+  <div class="section-header">
+    <span class="section-eyebrow">Read This First</span>
+    <h2 class="section-title">Jurisdictional Scope — Where VARA Actually Regulates</h2>
+    <p class="section-sub">VARA's own website is explicit and repeated on every page footer: VARA is the sole authority for virtual assets across Dubai's mainland and free zones, <strong>except the Dubai International Financial Centre (DIFC)</strong>. VARA has no licensing mandate in the Abu Dhabi Global Market (ADGM) at all — that is a different emirate, under a different regulator.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/about-vara/')">View "About VARA" ↗</button>
+  </div>
+
+  <div class="alert alert-danger" style="margin-bottom:28px;">
+    <strong>🚨 Common Misconception:</strong> There is no "VARA regime in DIFC" or "VARA regime in ADGM." VARA's founding law (Dubai Law No. 4 of 2022) explicitly carves DIFC out of its territorial scope, and ADGM sits in a separate emirate (Abu Dhabi) entirely outside VARA's remit. Firms seeking to conduct virtual asset activity from DIFC or ADGM must look to the DFSA or FSRA frameworks respectively — not VARA.
+  </div>
+
+  <div class="juris-grid">
+    <div class="juris-card in">
+      <span class="juris-flag">VARA Jurisdiction</span>
+      <div class="juris-title">Dubai Mainland &amp; Free Zones</div>
+      <div class="juris-body">VARA is the competent authority regulating, supervising and overseeing Virtual Assets and VA Activities across all zones of the Emirate of Dubai, including Special Development Zones and Free Zones — but excluding DIFC. Applications route through Dubai Economy &amp; Tourism (DET) for mainland firms, or through any Dubai free zone.</div>
+    </div>
+    <div class="juris-card out">
+      <span class="juris-flag">Outside VARA</span>
+      <div class="juris-title">DIFC — Dubai International Financial Centre</div>
+      <div class="juris-body">Expressly excluded from VARA's regulations. Virtual asset and crypto-token activity conducted from DIFC falls under the Dubai Financial Services Authority (DFSA) — a separate regulator with its own rulebook (including the DFSA's Crypto Token regime), not covered by this guide.</div>
+    </div>
+    <div class="juris-card out">
+      <span class="juris-flag">Outside VARA</span>
+      <div class="juris-title">ADGM — Abu Dhabi Global Market</div>
+      <div class="juris-body">A separate financial free zone in the Emirate of Abu Dhabi. VARA's statutory remit is confined to Dubai; it has no licensing or supervisory authority over ADGM. Virtual asset business from ADGM is regulated by the Financial Services Regulatory Authority (FSRA), an entirely distinct regime.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LICENSING FLOW ── -->
+<section class="section" id="licensing">
+  <div class="section-header">
+    <span class="section-eyebrow">Two-Stage Process</span>
+    <h2 class="section-title">Licensing Flow</h2>
+    <p class="section-sub">Applying for a VASP Licence is completed in two stages: first an Approval to Incorporate (ATI), then the full VASP Licence application. Submissions are always lodged through the applicant's commercial licensor — DET for mainland, or a Dubai free zone — never directly with VARA.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/licenses-and-register/licence-applications/')">View Licence Applications ↗</button>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">1</div>
+      <div class="flow-label">Initial Disclosure</div>
+      <div class="flow-desc">Submit an Initial Disclosure Questionnaire (IDQ) to DET or the relevant Free Zone.</div>
+    </div></div>
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">2</div>
+      <div class="flow-label">Documentation & Fees</div>
+      <div class="flow-desc">Provide business plan, UBOs, senior management details. Pay ~50% of the licence application fee to commence review.</div>
+    </div></div>
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">3</div>
+      <div class="flow-label">Approval to Incorporate</div>
+      <div class="flow-desc">Receive an ATI to finalise legal incorporation and complete operational set-up — office, staffing, etc. No VA activity permitted yet.</div>
+    </div></div>
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">4</div>
+      <div class="flow-label">Stage 2 Submission</div>
+      <div class="flow-desc">Submit further documentation per VARA's guidance. Receive feedback — potentially meetings, interviews, further requests.</div>
+    </div></div>
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">5</div>
+      <div class="flow-label">Remaining Fees</div>
+      <div class="flow-desc">Pay the balance of application fees plus the first year's supervision fee.</div>
+    </div></div>
+    <div class="flow-step"><div class="flow-node">
+      <div class="flow-num">6</div>
+      <div class="flow-label">VASP Licence</div>
+      <div class="flow-desc">Full VASP Licence issued, possibly with operational conditions. Annual licence — renews every 12 months.</div>
+    </div></div>
+  </div>
+
+  <div style="margin-top:28px;">
+    <div class="alert alert-warn">
+      <strong>⚠ Not Yet Operational:</strong> Holding an Approval to Incorporate (ATI) — or later an In-Principle Approval — does not permit any Virtual Asset activity. VARA is explicit that applicants holding an IPA/ATI are strictly prohibited from initiating operations or servicing clients until the full VASP Licence is granted.
+    </div>
+    <div class="alert alert-info">
+      <strong>ℹ Annual Renewal:</strong> The VA licence is renewed every 12 months. VARA issues a renewal notification 90 days in advance, and an annual supervision fee is payable at renewal.
+    </div>
+  </div>
+</section>
+
+<!-- ── LICENSED ACTIVITIES ── -->
+<section class="section" id="activities">
+  <div class="section-header">
+    <span class="section-eyebrow">The Regulatory Perimeter</span>
+    <h2 class="section-title">Eight Licensed VA Activities</h2>
+    <p class="section-sub">VARA has identified eight distinct Virtual Asset activities. Each is "discrete" — a VASP must apply explicitly for every activity it wishes to offer. Multiple activities can usually sit under one overarching licence, with one key exception: Custody.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/licenses-and-register/licensed-activities/')">View Licensed Activities ↗</button>
+  </div>
+
+  <div class="card-grid cols-2" style="margin-bottom:32px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">💬</span>
+      <div class="card-title">Advisory Services</div>
+      <div class="card-body">Providing advice on Virtual Assets and VA activities to clients.</div>
+      <span class="card-tag">Advisory Services Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/215')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">🔁</span>
+      <div class="card-title">Broker-Dealer Services</div>
+      <div class="card-body">Dealing in Virtual Assets, including on behalf of or against clients. Requires a private office.</div>
+      <span class="card-tag">Broker-Dealer Services Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/226')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#8e44ad"></div>
+      <span class="card-icon">🗄️</span>
+      <div class="card-title">Custody Services</div>
+      <div class="card-body">Holding Virtual Assets on behalf of clients. The <strong>only</strong> activity VARA requires to be segregated into a distinct legal entity with a standalone licence. Requires a private office.</div>
+      <span class="card-tag">Custody Services Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/243')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#27ae60"></div>
+      <span class="card-icon">📊</span>
+      <div class="card-title">Exchange Services</div>
+      <div class="card-body">Operating a platform for the exchange of Virtual Assets for other Virtual Assets or fiat currency. Requires a private office.</div>
+      <span class="card-tag">Exchange Services Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/258')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#e67e22"></div>
+      <span class="card-icon">🏦</span>
+      <div class="card-title">Lending and Borrowing Services</div>
+      <div class="card-body">Facilitating lending or borrowing of Virtual Assets between parties. Requires a private office.</div>
+      <span class="card-tag">Lending &amp; Borrowing Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/279')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#16a085"></div>
+      <span class="card-icon">📈</span>
+      <div class="card-title">Management and Investment Services</div>
+      <div class="card-body">Managing Virtual Assets or a portfolio of Virtual Assets on behalf of clients. Requires a private office.</div>
+      <span class="card-tag">Mgmt &amp; Investment Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/317')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#c0392b"></div>
+      <span class="card-icon">💳</span>
+      <div class="card-title">Transfer &amp; Settlement Services</div>
+      <div class="card-body">Transferring or settling Virtual Assets between parties, wallets, or platforms. Requires a private office.</div>
+      <span class="card-tag">Transfer &amp; Settlement Rulebook</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/347')">Rulebook ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#d4ac0d"></div>
+      <span class="card-icon">🪙</span>
+      <div class="card-title">VA Issuance — Category 1</div>
+      <div class="card-body">Issuance of Fiat-Referenced Virtual Assets (FRVA) and similar Category 1 issuances. Follows the standard VARA Licensing Process. Requires a private office.</div>
+      <span class="card-tag">VA Issuance Rulebook (Cat. 1)</span>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/rulebook/d-category-1-va-issuance')">Rulebook ↗</button>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-bottom:16px;">
+    <strong>🪙 VA Issuance — Category 2:</strong> Any issuance that does not meet the Category 1 definition (e.g. many token launches, NFT mints) needs prior VARA <em>approval</em> rather than a full VASP Licence — via an Issuance Approval Form, a whitepaper, and AML/CFT and technical-control confirmations. Anonymity-enhanced tokens are prohibited.
+    <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/entiresection/293')" style="margin-top:8px;">View VA Issuance Rulebook ↗</button>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>⚠ No Activity Is Exempt:</strong> VARA states plainly that no VA activity is "exempt" from regulatory supervision. Every VA service requires a Licence, a Registration, or a No Objection Certificate (NOC) — including proprietary trading above certain volumes, and DLT service providers carrying out any of the eight listed activities.
+  </div>
+</section>
+
+<!-- ── RULEBOOK ARCHITECTURE ── -->
+<section class="section" id="rulebooks">
+  <div class="section-header">
+    <span class="section-eyebrow">Regulations & Guidelines</span>
+    <h2 class="section-title">Rulebook Architecture</h2>
+    <p class="section-sub">Every VASP licence application must satisfy four compulsory, activity-agnostic rulebooks — plus the specific rulebook(s) that correspond to each licensed VA activity.</p>
+    <button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/')">Open Full Rulebooks Portal ↗</button>
+  </div>
+
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:16px; font-weight:600;">Compulsory — Applies to Every VASP</p>
+  <div class="card-grid cols-4" style="margin-bottom:32px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🏢</span>
+      <div class="card-title">Company Rulebook</div>
+      <div class="card-body">Corporate structure, governance, Fit &amp; Proper, and Part VI Capital &amp; Prudential Requirements.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/36')">Open ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">🛡️</span>
+      <div class="card-title">Compliance &amp; Risk Management Rulebook</div>
+      <div class="card-body">AML/CFT controls, risk management framework, financial crime prevention.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/123')">Open ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#16a085"></div>
+      <span class="card-icon">💻</span>
+      <div class="card-title">Technology &amp; Information Rulebook</div>
+      <div class="card-body">Operational resilience, cybersecurity, data privacy, cryptographic controls.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/169')">Open ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#c0392b"></div>
+      <span class="card-icon">📢</span>
+      <div class="card-title">Market Conduct Rulebook</div>
+      <div class="card-body">Market surveillance, conflicts of interest, disclosure and conduct-of-business standards.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/190')">Open ↗</button>
+    </div>
+  </div>
+
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:16px; font-weight:600;">Activity-Specific — Applies per Licensed Activity</p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Rulebook</th><th>Governs</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Advisory Services Rulebook</td><td>VA Advisory Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/215')">Open ↗</button></td></tr>
+        <tr><td>Broker-Dealer Services Rulebook</td><td>VA Broker-Dealer Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/226')">Open ↗</button></td></tr>
+        <tr><td>Custody Services Rulebook</td><td>VA Custody Services (standalone entity)</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/243')">Open ↗</button></td></tr>
+        <tr><td>Exchange Services Rulebook</td><td>VA Exchange Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/258')">Open ↗</button></td></tr>
+        <tr><td>Lending and Borrowing Services Rulebook</td><td>VA Lending and Borrowing Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/279')">Open ↗</button></td></tr>
+        <tr><td>Management and Investment Services Rulebook</td><td>VA Management and Investment Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/317')">Open ↗</button></td></tr>
+        <tr><td>Transfer and Settlement Services Rulebook</td><td>VA Transfer and Settlement Services</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/347')">Open ↗</button></td></tr>
+        <tr><td>VA Issuance Rulebook (Category 1)</td><td>VA Issuance — Category 1 (incl. FRVA)</td><td><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/rulebook/d-category-1-va-issuance')">Open ↗</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── GOVERNANCE & PRESENCE ── -->
+<section class="section" id="governance">
+  <div class="section-header">
+    <span class="section-eyebrow">Entity, People & Presence</span>
+    <h2 class="section-title">Governance &amp; Physical Presence Requirements</h2>
+    <p class="section-sub">VARA sets baseline requirements on legal form, key personnel, and physical footprint that apply irrespective of which activity is being licensed.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/faq/')">View VARA FAQ ↗</button>
+  </div>
+
+  <div class="card-grid cols-3" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🏛️</span>
+      <div class="card-title">Legal Entity Type</div>
+      <div class="card-body">A Limited Liability Company (LLC) or Free Zone Company (FZ-CO) is preferable. Applications from sole proprietorships are not accepted.</div>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">👥</span>
+      <div class="card-title">Two Responsible Individuals</div>
+      <div class="card-body">Each VASP must appoint two Responsible Individuals (RIs) — full-time employees, UAE resident or UAE passport holder, and approved by VARA as Fit and Proper.</div>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#27ae60"></div>
+      <span class="card-icon">🌍</span>
+      <div class="card-title">No Nationality Restriction</div>
+      <div class="card-body">There is no restriction on the nationality of applicants — provided the application is made on behalf of a legal entity established with DET or a Dubai free zone (excluding DIFC).</div>
+    </div>
+  </div>
+
+  <p style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:16px; font-weight:600;">Which Activities Require a Private Office?</p>
+  <div class="table-wrap" style="margin-bottom:16px;">
+    <table class="cat-table">
+      <thead><tr><th>VA Activity</th><th>Private Office Required</th></tr></thead>
+      <tbody>
+        <tr><td>Advisory Services</td><td class="dash">Not specified as mandatory</td></tr>
+        <tr><td>Broker-Dealer Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>Custody Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>Exchange Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>Lending and Borrowing Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>Management and Investment Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>Transfer &amp; Settlement Services</td><td class="check">✓ Required</td></tr>
+        <tr><td>VA Issuance — Category 1</td><td class="check">✓ Required</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-info">
+    <strong>ℹ Note:</strong> VARA sets no minimum office size — space/staffing requirements are checked by the commercial licensor (DET or the relevant Free Zone), not by VARA itself.
+  </div>
+</section>
+
+<!-- ── APPLICATION DOCUMENTS ── -->
+<section class="section" id="documentation">
+  <div class="section-header">
+    <span class="section-eyebrow">Stage 2 Submission</span>
+    <h2 class="section-title">VASP Licence Application Documentation</h2>
+    <p class="section-sub">A non-exhaustive list of documents VARA requires under Corporate Structure &amp; Governance for a VASP Licence application. VARA may request further documentation as the review progresses.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/licenses-and-register/licence-applications/')">View Full Documentation List ↗</button>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item"><span class="num">01</span> Certificate of entity incorporation</div>
+    <div class="check-item"><span class="num">02</span> List of Ultimate Beneficial Owner(s) (UBOs)</div>
+    <div class="check-item"><span class="num">03</span> Fit and Proper confirmations</div>
+    <div class="check-item"><span class="num">04</span> Source of funds evidence</div>
+    <div class="check-item"><span class="num">05</span> Organisational structure</div>
+    <div class="check-item"><span class="num">06</span> Governance framework</div>
+    <div class="check-item"><span class="num">07</span> Local entity website</div>
+    <div class="check-item"><span class="num">08</span> Key personnel details — job descriptions, CVs, passport copies</div>
+    <div class="check-item"><span class="num">09</span> Regulatory Business Plan</div>
+    <div class="check-item"><span class="num">10</span> Financial projections</div>
+    <div class="check-item"><span class="num">11</span> Group-level and entity-level financial statements</div>
+    <div class="check-item"><span class="num">12</span> Proof of paid-up capital</div>
+    <div class="check-item"><span class="num">13</span> Available capital locked-up evidence</div>
+    <div class="check-item"><span class="num">14</span> Reserve account report</div>
+    <div class="check-item"><span class="num">15</span> Insurance certificate(s)</div>
+    <div class="check-item"><span class="num">16</span> Succession plan</div>
+    <div class="check-item"><span class="num">17</span> Wind-down plan</div>
+    <div class="check-item"><span class="num">18</span> Close links / associated entities analysis</div>
+  </div>
+  <div class="alert alert-warn" style="margin-top:20px;">
+    <strong>⚠ Additional Categories:</strong> VARA's published checklist also lists separate document sets under Risk &amp; Compliance, Technology, and Other headings on its site, without itemising every document publicly — expect further requests specific to your licensed activity during the Stage 2 review.
+  </div>
+</section>
+
+<!-- ── LEGACY VASP PATHWAY ── -->
+<section class="section" id="legacy">
+  <div class="section-header">
+    <span class="section-eyebrow">Firms Operating Before Feb 2023</span>
+    <h2 class="section-title">Legacy VASP Transition Pathway</h2>
+    <p class="section-sub">Firms carrying on VA activities in or from Dubai (excluding DIFC) prior to 7 February 2023 — "Legacy VA Operators" — follow a dedicated transition route into the full regime, under the Dubai Legacy Programme.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/faq/')">View Legacy VASP FAQ ↗</button>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-period">Stage 1</div>
+      <div class="tl-title">Initial Disclosure Questionnaire (IDQ)</div>
+      <div class="tl-body">Legacy VA Operators register by completing an IDQ with DET or a Free Zone, screened by the commercial licensor and passed to VARA for assessment. Eligible firms receive an Application Acknowledgment Notice (AAN).</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-period">Stage 2</div>
+      <div class="tl-title">Legacy Operating Permit (LoP)</div>
+      <div class="tl-body">Valid for 12 months, non-renewable. Offers up to a 50% discount on licensing fees and reduced capital requirements while the firm builds out full compliance. Firms must apply for a full VASP Licence 90 days before LoP expiry.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-period">Stage 3</div>
+      <div class="tl-title">Full VASP Licence — or Wind-Down</div>
+      <div class="tl-body">On completion of full requirements, VARA issues (or declines) the VASP Licence. Firms unable to comply within the 12-month LoP window must cease VA operations and wind down.</div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" style="margin-top:8px;">
+    <strong>🚨 Withdrawal Triggers:</strong> VARA can withdraw an AAN/LoP where a VASP fails to fulfil licence requirements, conducts illicit activity, or is found not to fall under VARA's regulatory regime at all.
+  </div>
+</section>
+
+<!-- ── FEES & CAPITAL ── -->
+<section class="section" id="fees">
+  <div class="section-header">
+    <span class="section-eyebrow">Statutory References</span>
+    <h2 class="section-title">Fees &amp; Capital Requirements</h2>
+    <p class="section-sub">VARA does not publish fee tables or capital thresholds on its general marketing pages — these figures live inside the formal regulatory instruments themselves. This guide links directly to the governing provisions rather than reproducing numbers that change between rulebook versions.</p>
+  </div>
+
+  <div class="card-grid cols-2">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">📄</span>
+      <div class="card-title">Licensing &amp; Supervision Fees</div>
+      <div class="card-body">Set out in Schedule 2 (Supervision and Authorisation Fees) of the Virtual Assets and Related Activities Regulations 2023. Stage 1 typically requires ~50% of the application fee upfront; the balance plus the first year's supervision fee is paid at Stage 2.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/rulebook/schedule-2-supervision-and-authorisation-fees')">View Schedule 2 ↗</button>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">💰</span>
+      <div class="card-title">Capital &amp; Prudential Requirements</div>
+      <div class="card-body">Set out in Part VI of the Company Rulebook, applying capital adequacy expectations calibrated to the licensed activity(ies) and scale of operations.</div>
+      <br><button class="source-btn" onclick="openLink('https://rulebooks.vara.ae/node/36')">View Company Rulebook ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARKETING ── -->
+<section class="section" id="marketing">
+  <div class="section-header">
+    <span class="section-eyebrow">Advertising, Events & Promotions</span>
+    <h2 class="section-title">VA Marketing Regulations</h2>
+    <p class="section-sub">Any marketing, advertising, or event activity related to Virtual Assets in Dubai (excluding DIFC) must confirm adherence to VARA's Marketing Regulations and Guidelines, even where the promoter itself is not VARA-licensed.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/faq/')">View Marketing FAQ ↗</button>
+  </div>
+
+  <div class="card-grid cols-3">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🎪</span>
+      <div class="card-title">Event Organisers</div>
+      <div class="card-body">Apply for a VA event permit through the DET e-Permit system (category: VA Event) and confirm adherence to VARA's Marketing Regulations and Guidelines.</div>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:var(--steel)"></div>
+      <span class="card-icon">🖼️</span>
+      <div class="card-title">Outdoor / Media Advertising</div>
+      <div class="card-body">Billboards, taxis, and outdoor advertising apply through Dubai Municipality's central government advertising system (category: Virtual Asset Activity).</div>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:#e67e22"></div>
+      <span class="card-icon">🚫</span>
+      <div class="card-title">Unlicensed VASP Marketing</div>
+      <div class="card-body">Unlicensed VASPs may still market in Dubai with the correct permit, but may not onboard Dubai residents — marketing material must disclose the product/service is unavailable to Dubai residents.</div>
+    </div>
+  </div>
+
+  <div class="alert alert-warn" style="margin-top:20px;">
+    <strong>⚠ Penalties Apply:</strong> Failure to comply with VARA's Marketing Regulations and Guidelines may result in substantial fines and penalties, including potential entity closure.
+  </div>
+</section>
+
+<!-- ── ENFORCEMENT ── -->
+<section class="section" id="enforcement">
+  <div class="section-header">
+    <span class="section-eyebrow">Regulatory Notices</span>
+    <h2 class="section-title">Enforcement &amp; Supervision</h2>
+    <p class="section-sub">VARA supervises the Dubai virtual asset market through both on-chain and off-chain methods, coordinating enforcement with commercial licensing bodies.</p>
+    <button class="source-btn" onclick="openLink('https://www.vara.ae/en/regulations/regulatory-notices/')">View Regulatory Notices ↗</button>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-header"><div class="risk-dot" style="background:rgba(230,126,34,0.15); color:var(--warn);">⚠️</div><div><div class="risk-name">Warnings &amp; Reprimands</div><div class="risk-ch">Lower-severity breaches</div></div></div>
+      <div class="risk-desc">Formal warnings and reprimands issued for non-compliance with Regulations and Rulebooks.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><div class="risk-dot" style="background:rgba(192,57,43,0.15); color:var(--danger);">🛑</div><div><div class="risk-name">Cease &amp; Desist Orders</div><div class="risk-ch">Halt unlicensed activity</div></div></div>
+      <div class="risk-desc">Issued against unlicensed VA activity or serious ongoing breaches.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><div class="risk-dot" style="background:rgba(192,57,43,0.15); color:var(--danger);">💸</div><div><div class="risk-name">Fines &amp; Penalties</div><div class="risk-ch">Material financial consequence</div></div></div>
+      <div class="risk-desc">Substantial punitive measures for non-compliance, up to and including entity closure.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><div class="risk-dot" style="background:rgba(192,57,43,0.15); color:var(--danger);">🔒</div><div><div class="risk-name">Licence Suspension / Limitation</div><div class="risk-ch">Scope or market restriction</div></div></div>
+      <div class="risk-desc">VARA may suspend licences or limit scope of service or market access as a disciplinary outcome.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GLOSSARY ── -->
+<section class="section" id="glossary">
+  <div class="section-header">
+    <span class="section-eyebrow">Reference</span>
+    <h2 class="section-title">Glossary</h2>
+    <p class="section-sub">Key abbreviations used across VARA's licensing framework.</p>
+  </div>
+  <div class="glossary-grid">
+    <div class="gloss-card"><div class="gloss-term">VASP</div><div class="gloss-abbr">Virtual Asset Service Provider</div><div class="gloss-def">Any entity carrying out a licensed VA activity in or from Dubai (excluding DIFC).</div></div>
+    <div class="gloss-card"><div class="gloss-term">IDQ</div><div class="gloss-abbr">Initial Disclosure Questionnaire</div><div class="gloss-def">First-stage disclosure submitted to DET or a Free Zone to begin the licensing or legacy transition process.</div></div>
+    <div class="gloss-card"><div class="gloss-term">ATI</div><div class="gloss-abbr">Approval to Incorporate</div><div class="gloss-def">Stage 1 approval permitting legal incorporation and operational set-up — not yet permission to conduct VA activity.</div></div>
+    <div class="gloss-card"><div class="gloss-term">AAN</div><div class="gloss-abbr">Application Acknowledgment Notice</div><div class="gloss-def">Confirmation issued to eligible Legacy VA Operators after IDQ assessment.</div></div>
+    <div class="gloss-card"><div class="gloss-term">LoP</div><div class="gloss-abbr">Legacy Operating Permit</div><div class="gloss-def">12-month, non-renewable transitional permit for pre-2023 Legacy VA Operators, with discounted fees and capital relief.</div></div>
+    <div class="gloss-card"><div class="gloss-term">NOC</div><div class="gloss-abbr">No Objection Certificate</div><div class="gloss-def">Confirmation that an activity (e.g. proprietary trading) may proceed under regulatory oversight without a full VA Licence.</div></div>
+    <div class="gloss-card"><div class="gloss-term">RI</div><div class="gloss-abbr">Responsible Individual</div><div class="gloss-def">One of two mandatory, VARA-approved Fit &amp; Proper senior staff each VASP must appoint as full-time UAE residents.</div></div>
+    <div class="gloss-card"><div class="gloss-term">FRVA</div><div class="gloss-abbr">Fiat-Referenced Virtual Asset</div><div class="gloss-def">A Category 1 VA issuance type subject to the VA Issuance Rulebook's Annex 1 rules.</div></div>
+    <div class="gloss-card"><div class="gloss-term">DET</div><div class="gloss-abbr">Dubai Economy &amp; Tourism</div><div class="gloss-def">Commercial licensor for mainland Dubai applicants routing VASP applications to VARA.</div></div>
+    <div class="gloss-card"><div class="gloss-term">FZ</div><div class="gloss-abbr">Free Zone</div><div class="gloss-def">Any Dubai free zone (excluding DIFC) authorised as a commercial licensor for VASP applicants.</div></div>
+    <div class="gloss-card"><div class="gloss-term">DIFC</div><div class="gloss-abbr">Dubai International Financial Centre</div><div class="gloss-def">Expressly excluded from VARA's jurisdiction; regulated instead by the DFSA.</div></div>
+    <div class="gloss-card"><div class="gloss-term">ADGM</div><div class="gloss-abbr">Abu Dhabi Global Market</div><div class="gloss-def">A separate financial free zone in Abu Dhabi, entirely outside VARA's remit; regulated by the FSRA.</div></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Sourced exclusively from <a href="https://www.vara.ae/en/" target="_blank">vara.ae</a> and <a href="https://rulebooks.vara.ae/" target="_blank">rulebooks.vara.ae</a> · Not legal advice · Verify current rulebook versions before relying on any provision.</p>
+  <p><a href="https://www.vara.ae/en/" target="_blank">Official VARA Website ↗</a></p>
+</footer>
+
+<script>
+function openLink(url) {
+  window.open(url, '_blank', 'noopener');
+}
+
+// ── Active nav on scroll ──
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+
+// Close mobile sidebar when clicking a nav link
+navLinks.forEach(l => l.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+}));
+</script>
+</body>
+</html>
