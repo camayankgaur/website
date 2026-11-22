@@ -1,0 +1,2812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Finance Intelligence, Top Journals, Buy-Side Research &amp; LinkedIn Studio</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --surface-tint: #f0f7ff;
+      --border: #dde4ee;
+      --text: #0f172a;
+      --text-muted: #334155;
+      --text-soft: #64748b;
+      --primary: #0c4a6e;
+      --primary-hover: #082f49;
+      --primary-soft: #e0f2fe;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --indigo: #3730a3;
+      --indigo-soft: #e0e7ff;
+      --amber: #b45309;
+      --amber-soft: #fef3c7;
+      --purple: #6b21a8;
+      --purple-soft: #f3e8ff;
+      --rose: #9f1239;
+      --rose-soft: #ffe4e6;
+      --shadow: 0 2px 6px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --radius: 12px;
+    }
+
+    body.dark {
+      --bg: #070b14;
+      --surface: #0f172a;
+      --surface-alt: #1e293b;
+      --surface-tint: rgba(56, 189, 248, 0.09);
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-soft: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #7dd3fc;
+      --primary-soft: rgba(56, 189, 248, 0.15);
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.15);
+      --indigo: #a5b4fc;
+      --indigo-soft: rgba(129, 140, 248, 0.18);
+      --amber: #fbbf24;
+      --amber-soft: rgba(251, 191, 36, 0.15);
+      --purple: #d8b4fe;
+      --purple-soft: rgba(192, 132, 252, 0.16);
+      --rose: #fda4af;
+      --rose-soft: rgba(244, 63, 94, 0.18);
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* Top Header */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow);
+    }
+
+    .topbar-inner {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .brand p {
+      font-size: 0.76rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.78rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary {
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: 1px solid var(--primary);
+      padding: 7px 12px;
+    }
+
+    body.dark .btn-primary {
+      color: #070b14;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .container {
+      max-width: 1540px;
+      margin: 14px auto;
+      padding: 0 20px 44px;
+    }
+
+    /* Primary Stream Navigation Bar */
+    .stream-nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .stream-btn {
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stream-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .stream-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    body.dark .stream-btn.active {
+      color: #070b14;
+    }
+
+    .stream-count {
+      font-size: 0.67rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.12);
+    }
+
+    .stream-btn.active .stream-count {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .kpi-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-soft);
+    }
+
+    .kpi-value {
+      font-size: 1.12rem;
+      font-weight: 700;
+      margin-top: 2px;
+      color: var(--text);
+    }
+
+    .kpi-sub {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Drawers */
+    .drawer {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .drawer.open {
+      display: block;
+    }
+
+    .drawer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .source-directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .source-dir-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 13px;
+      font-size: 0.78rem;
+    }
+
+    .source-dir-card h4 {
+      font-size: 0.81rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .source-dir-card ul {
+      padding-left: 16px;
+      color: var(--text-muted);
+    }
+
+    .source-dir-card li {
+      margin-bottom: 5px;
+    }
+
+    .source-dir-card a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .source-dir-card a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .mini-filter-link {
+      font-size: 0.69rem;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 4px;
+      text-decoration: underline;
+    }
+
+    input[type="text"], select, textarea {
+      font-family: inherit;
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 0.84rem;
+    }
+
+    input[type="text"]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Main 2-Column Layout */
+    .workspace {
+      display: grid;
+      grid-template-columns: 1.06fr 1.34fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .panel-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .filter-section-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-soft);
+      margin-top: 9px;
+      margin-bottom: 4px;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .pill {
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.71rem;
+      font-weight: 600;
+    }
+
+    .pill:hover {
+      border-color: var(--primary);
+    }
+
+    .pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    body.dark .pill.active {
+      color: #070b14;
+    }
+
+    .pill.topic-pill.active {
+      background: var(--indigo);
+      border-color: var(--indigo);
+      color: #ffffff;
+    }
+
+    body.dark .pill.topic-pill.active {
+      color: #070b14;
+    }
+
+    .filter-controls-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1.2;
+      min-width: 180px;
+    }
+
+    .mode-select {
+      flex: 1;
+      min-width: 175px;
+      font-size: 0.77rem;
+      font-weight: 600;
+    }
+
+    .feed-list {
+      max-height: 1260px;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .news-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px;
+      background: var(--surface-alt);
+      transition: border-color 0.15s ease;
+    }
+
+    .news-card:hover {
+      border-color: var(--primary);
+    }
+
+    .news-card.selected {
+      border-color: var(--primary);
+      background: var(--surface-tint);
+      box-shadow: 0 0 0 2px var(--primary-soft);
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+      font-size: 0.71rem;
+    }
+
+    .source-tag {
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .stream-tag {
+      font-weight: 700;
+      color: var(--purple);
+      background: var(--purple-soft);
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-left: 4px;
+    }
+
+    .pillar-tag {
+      font-weight: 600;
+      color: var(--indigo);
+      background: var(--indigo-soft);
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-left: 4px;
+    }
+
+    .region-tag {
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .news-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 5px;
+      line-height: 1.38;
+    }
+
+    .news-title:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .news-summary {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Right Column */
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brief-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .brief-headline-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 11px;
+    }
+
+    .brief-kicker {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+
+    .brief-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text);
+    }
+
+    .brief-source-line {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      margin-top: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .brief-source-line a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .brief-source-line a:hover {
+      text-decoration: underline;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .analysis-block {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 11px 14px;
+    }
+
+    .analysis-block.mechanism {
+      border-left-color: #0284c7;
+    }
+
+    .analysis-block.impact {
+      border-left-color: var(--accent);
+    }
+
+    .analysis-block.why {
+      border-left-color: var(--indigo);
+    }
+
+    .analysis-block-title {
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .analysis-block.impact .analysis-block-title {
+      color: var(--accent);
+    }
+
+    .analysis-block.why .analysis-block-title {
+      color: var(--indigo);
+    }
+
+    .analysis-text {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.56;
+    }
+
+    .impact-list {
+      margin-top: 3px;
+      padding-left: 18px;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .impact-list li {
+      margin-bottom: 5px;
+    }
+
+    /* Concept Glossary */
+    .concepts-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+    }
+
+    .concepts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .concepts-header span {
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-soft);
+    }
+
+    .concept-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+      gap: 8px;
+    }
+
+    .concept-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 11px;
+    }
+
+    .concept-term {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+
+    .concept-def {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .wiki-enrich-box {
+      display: none;
+      margin-top: 8px;
+      padding: 9px 11px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      font-size: 0.79rem;
+      color: var(--text);
+    }
+
+    .wiki-enrich-box.show {
+      display: block;
+    }
+
+    /* LinkedIn Studio */
+    .studio-body {
+      padding: 15px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .angle-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .angle-btn {
+      font-size: 0.74rem;
+      padding: 5px 10px;
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .angle-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    body.dark .angle-btn.active {
+      color: #070b14;
+    }
+
+    .custom-take-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .custom-take-row label {
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+
+    textarea#postEditor {
+      width: 100%;
+      min-height: 295px;
+      resize: vertical;
+      line-height: 1.58;
+      font-size: 0.86rem;
+    }
+
+    .editor-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .editor-toggles {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .char-good {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .char-warn {
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .fold-preview {
+      background: var(--surface-alt);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .fold-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    .studio-footer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .studio-footer button {
+      flex: 1;
+      min-width: 145px;
+      padding: 10px 12px;
+    }
+
+    .tip-note {
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      background: var(--amber-soft);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .journal-list {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .journal-item {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-size: 0.79rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--text);
+      color: var(--surface);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1040px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .container {
+        padding: 0 12px 28px;
+      }
+      .kpi-value {
+        font-size: 1.02rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <h1>Executive Finance Intelligence, Top Journals &amp; LinkedIn Studio <span class="brand-badge">Edition v7</span></h1>
+        <p id="todayDateLine">JoF · JFE · RFS · FAJ · HBR · MIT Sloan · KKR · JPM · BlackRock · Global SWF · Damodaran · MGI · FRED</p>
+      </div>
+      <div class="top-actions">
+        <span class="status-pill" id="syncStatus"><span class="status-dot"></span><span id="syncText">Ready</span></span>
+        <button class="btn-secondary" onclick="refreshAllFeeds()">Sync All Feeds</button>
+        <button class="btn-secondary" onclick="toggleDrawer('customAnalyzeDrawer')">+ Analyze Any Text</button>
+        <button class="btn-secondary" onclick="toggleDrawer('rssDrawer')">Portals &amp; Podcasts</button>
+        <button class="btn-secondary" onclick="toggleDrawer('journalDrawer')">Archive (<span id="savedCount">0</span>)</button>
+        <button class="btn-secondary" onclick="toggleTheme()" id="themeBtn">Dark Mode</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Primary 9-Mode Intelligence Stream Switcher -->
+    <nav class="stream-nav" id="streamNav" aria-label="Intelligence Streams">
+      <button class="stream-btn active" data-stream="ALL" onclick="setStreamFilter('ALL', this)">All Intelligence <span class="stream-count" id="cnt-ALL">0</span></button>
+      <button class="stream-btn" data-stream="Institutional & Sovereign" onclick="setStreamFilter('Institutional & Sovereign', this)">Institutional &amp; Sovereign <span class="stream-count" id="cnt-Institutional & Sovereign">0</span></button>
+      <button class="stream-btn" data-stream="Research & Journals" onclick="setStreamFilter('Research & Journals', this)">Academic &amp; Exec Journals <span class="stream-count" id="cnt-Research & Journals">0</span></button>
+      <button class="stream-btn" data-stream="Daily Must-Know" onclick="setStreamFilter('Daily Must-Know', this)">Today's Top News <span class="stream-count" id="cnt-Daily Must-Know">0</span></button>
+      <button class="stream-btn" data-stream="Weekly Wrap" onclick="setStreamFilter('Weekly Wrap', this)">Weekly Wrap <span class="stream-count" id="cnt-Weekly Wrap">0</span></button>
+      <button class="stream-btn" data-stream="Buzzwords & Trending" onclick="setStreamFilter('Buzzwords & Trending', this)">Buzzwords &amp; Trending <span class="stream-count" id="cnt-Buzzwords & Trending">0</span></button>
+      <button class="stream-btn" data-stream="Upcoming Catalysts" onclick="setStreamFilter('Upcoming Catalysts', this)">Upcoming Catalysts <span class="stream-count" id="cnt-Upcoming Catalysts">0</span></button>
+      <button class="stream-btn" data-stream="Big Questions" onclick="setStreamFilter('Big Questions', this)">Big Questions &amp; Debates <span class="stream-count" id="cnt-Big Questions">0</span></button>
+      <button class="stream-btn" data-stream="Tech & AI Finance" onclick="setStreamFilter('Tech & AI Finance', this)">Tech &amp; AI Finance <span class="stream-count" id="cnt-Tech & AI Finance">0</span></button>
+    </nav>
+
+    <!-- KPI Strip -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Active Briefs</div>
+        <div class="kpi-value" id="kpiStories">22</div>
+        <div class="kpi-sub">Buy-side, sovereign, journals &amp; macro news</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Briefs Studied</div>
+        <div class="kpi-value" id="kpiStudied">1</div>
+        <div class="kpi-sub">Self-explanatory analyses reviewed</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Posts Copied</div>
+        <div class="kpi-value" id="kpiPosts">0</div>
+        <div class="kpi-sub" id="kpiLastPost">Insight-first LinkedIn drafts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Live Feeds Connected</div>
+        <div class="kpi-value" style="font-size: 0.96rem;" id="kpiActiveStream">19 Feeds</div>
+        <div class="kpi-sub">Auto-sanitized · Zero promo/DOI clutter</div>
+      </div>
+    </section>
+
+    <!-- Custom News / Paper Analyzer Drawer -->
+    <section class="drawer" id="customAnalyzeDrawer">
+      <div class="panel-title-row">
+        <strong style="font-size: 0.9rem;">Paste Any Buy-Side Memo, Journal Abstract, or Article for Instant Analysis</strong>
+        <button class="btn-secondary" onclick="toggleDrawer('customAnalyzeDrawer')">Close</button>
+      </div>
+      <div class="drawer-row">
+        <input type="text" id="manualHeadlineInput" placeholder="Title or Memo Name (e.g., KKR Global Macro: Private Credit & Real Assets...)" style="flex: 2; min-width: 220px;" />
+        <select id="manualStreamSelect">
+          <option value="Institutional & Sovereign">Institutional &amp; Sovereign</option>
+          <option value="Research & Journals">Academic &amp; Exec Journals</option>
+          <option value="Daily Must-Know">Today's Top News</option>
+          <option value="Buzzwords & Trending">Buzzwords &amp; Trending</option>
+          <option value="Upcoming Catalysts">Upcoming Catalysts</option>
+          <option value="Big Questions">Big Questions &amp; Debates</option>
+          <option value="Tech & AI Finance">Tech &amp; AI Finance</option>
+        </select>
+        <select id="manualRegionSelect">
+          <option value="Global">Global</option>
+          <option value="UAE & GCC">UAE &amp; GCC</option>
+          <option value="India">India</option>
+        </select>
+      </div>
+      <div class="drawer-row">
+        <textarea id="manualBodyInput" rows="3" placeholder="Paste raw memo or abstract (DOIs, dates, publisher copyright, and 'subscribe' banners are stripped automatically)..." style="width: 100%;"></textarea>
+      </div>
+      <div class="drawer-row">
+        <button class="btn-primary" onclick="analyzeManualNews()">Analyze &amp; Generate LinkedIn Post</button>
+      </div>
+    </section>
+
+    <!-- Complete Resources, Journals, Data Terminals & Audio Directory Drawer -->
+    <section class="drawer" id="rssDrawer">
+      <div class="panel-title-row">
+        <strong style="font-size: 0.9rem;">Complete Executive Research, Journals, Macro Terminals &amp; Audio Directory</strong>
+        <button class="btn-secondary" onclick="toggleDrawer('rssDrawer')">Close</button>
+      </div>
+
+      <div class="source-directory-grid">
+        <div class="source-dir-card">
+          <h4>Institutional Buy-Side &amp; Sovereign Research</h4>
+          <ul>
+            <li><a href="https://www.kkr.com/insights/in-brief-outlook-2026" target="_blank" rel="noopener">KKR Global Macro &amp; Asset Allocation</a> (Henry McVey) <span class="mini-filter-link" onclick="filterByJournalName('KKR')">[Filter]</span></li>
+            <li><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/market-insights/eye-on-the-market/" target="_blank" rel="noopener">J.P. Morgan Eye on the Market</a> (Michael Cembalest) <span class="mini-filter-link" onclick="filterByJournalName('Eye on the Market')">[Filter]</span></li>
+            <li><a href="https://www.blackrock.com/sg/en/insights" target="_blank" rel="noopener">BlackRock Investment Institute</a> (Weekly Commentary) <span class="mini-filter-link" onclick="filterByJournalName('BlackRock')">[Filter]</span></li>
+            <li><a href="https://globalswf.com/" target="_blank" rel="noopener">Global SWF</a> — Sovereign Wealth &amp; Pension Tracker <span class="mini-filter-link" onclick="filterByJournalName('Global SWF')">[Filter]</span></li>
+          </ul>
+        </div>
+        <div class="source-dir-card">
+          <h4>Valuation, Strategy &amp; Macro Terminals</h4>
+          <ul>
+            <li><a href="https://aswathdamodaran.blogspot.com/" target="_blank" rel="noopener">Musings on Markets</a> (Prof. Aswath Damodaran) <span class="mini-filter-link" onclick="filterByJournalName('Damodaran')">[Filter]</span></li>
+            <li><a href="https://www.mckinsey.com/mgi/our-research" target="_blank" rel="noopener">McKinsey Global Institute (MGI)</a> — Balance-sheet studies <span class="mini-filter-link" onclick="filterByJournalName('McKinsey')">[Filter]</span></li>
+            <li><a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED (St. Louis Fed)</a> — Primary yields, spreads &amp; CPI data <span class="mini-filter-link" onclick="filterByJournalName('FRED')">[Filter]</span></li>
+          </ul>
+        </div>
+        <div class="source-dir-card">
+          <h4>Top Academic &amp; Executive Journals</h4>
+          <ul>
+            <li><a href="https://afajof.org/journal-of-finance/" target="_blank" rel="noopener">The Journal of Finance</a> <span class="mini-filter-link" onclick="filterByJournalName('Journal of Finance')">[Filter]</span> &amp; <a href="https://www.sciencedirect.com/journal/journal-of-financial-economics" target="_blank" rel="noopener">JFE</a> <span class="mini-filter-link" onclick="filterByJournalName('Journal of Financial Economics')">[Filter]</span></li>
+            <li><a href="https://academic.oup.com/rfs/advance-articles" target="_blank" rel="noopener">Review of Financial Studies</a> <span class="mini-filter-link" onclick="filterByJournalName('Review of Financial Studies')">[Filter]</span> &amp; <a href="https://rpc.cfainstitute.org/research/financial-analysts-journal" target="_blank" rel="noopener">FAJ</a> <span class="mini-filter-link" onclick="filterByJournalName('Financial Analysts Journal')">[Filter]</span></li>
+            <li><a href="https://hbr.org/topic/subject/finance-and-accounting" target="_blank" rel="noopener">Harvard Business Review</a> <span class="mini-filter-link" onclick="filterByJournalName('Harvard Business Review')">[Filter]</span> &amp; <a href="https://sloanreview.mit.edu/" target="_blank" rel="noopener">MIT Sloan</a> <span class="mini-filter-link" onclick="filterByJournalName('MIT Sloan')">[Filter]</span></li>
+          </ul>
+        </div>
+        <div class="source-dir-card">
+          <h4>Commute Podcasts &amp; Central Bank Research</h4>
+          <ul>
+            <li><a href="https://podcasts.apple.com/us/podcast/money-stuff-the-podcast/id1739582836" target="_blank" rel="noopener">Money Stuff: The Podcast</a> (Matt Levine &amp; Katie Greifeld)</li>
+            <li><a href="https://podcasts.apple.com/us/podcast/eye-on-the-market/id1367963156" target="_blank" rel="noopener">Eye On The Market Podcast</a> (J.P. Morgan Asset Mgmt)</li>
+            <li><a href="https://www.bis.org/publications/working-paper" target="_blank" rel="noopener">BIS</a>, <a href="https://www.nber.org/topics/financial-economics" target="_blank" rel="noopener">NBER</a>, <a href="https://centralbank.ae/en/news-and-publications/" target="_blank" rel="noopener">CBUAE</a>, <a href="https://www.dfsa.ae/news" target="_blank" rel="noopener">DFSA</a>, <a href="https://www.sebi.gov.in/" target="_blank" rel="noopener">SEBI</a> &amp; <a href="https://www.rbi.org.in/" target="_blank" rel="noopener">RBI</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="drawer-row" style="margin-top: 12px;">
+        <input type="text" id="customFeedName" placeholder="Add Custom RSS Name (e.g., Sovereign Wealth Report)" style="flex: 1; min-width: 170px;" />
+        <select id="customFeedStream">
+          <option value="Institutional & Sovereign">Institutional &amp; Sovereign</option>
+          <option value="Research & Journals">Academic &amp; Exec Journals</option>
+          <option value="Daily Must-Know">Today's Top News</option>
+          <option value="Tech & AI Finance">Tech &amp; AI Finance</option>
+        </select>
+        <select id="customFeedRegion">
+          <option value="Global">Global</option>
+          <option value="UAE & GCC">UAE &amp; GCC</option>
+          <option value="India">India</option>
+        </select>
+        <input type="text" id="customFeedUrl" placeholder="Paste RSS Feed URL (https://...)" style="flex: 2; min-width: 220px;" />
+        <button class="btn-primary" onclick="addCustomFeed()">Add &amp; Fetch</button>
+      </div>
+      <div id="activeFeedsList" style="margin-top: 8px; font-size: 0.76rem; color: var(--text-soft);"></div>
+    </section>
+
+    <!-- Archive Drawer -->
+    <section class="drawer" id="journalDrawer">
+      <div class="panel-title-row">
+        <strong style="font-size: 0.9rem;">Saved Knowledge Briefs &amp; Draft Archive</strong>
+        <button class="btn-secondary" onclick="toggleDrawer('journalDrawer')">Close</button>
+      </div>
+      <div class="journal-list" id="journalList"></div>
+    </section>
+
+    <section class="workspace">
+      <!-- Left Column: Multi-Stream Feed & Filters -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <span class="panel-title">Intelligence Feed &amp; Publication Filters</span>
+            <button class="btn-secondary" style="font-size: 0.71rem; padding: 3px 8px;" onclick="resetAllFilters()">Reset Filters</button>
+          </div>
+
+          <div class="filter-section-label">Geography &amp; Saved</div>
+          <div class="filter-bar" id="regionFilters">
+            <button class="pill active" data-filter="ALL" onclick="setRegionFilter('ALL', this)">All Regions</button>
+            <button class="pill" data-filter="UAE & GCC" onclick="setRegionFilter('UAE & GCC', this)">UAE &amp; GCC</button>
+            <button class="pill" data-filter="India" onclick="setRegionFilter('India', this)">India</button>
+            <button class="pill" data-filter="Global" onclick="setRegionFilter('Global', this)">Global</button>
+            <button class="pill" data-filter="BOOKMARKED" onclick="setRegionFilter('BOOKMARKED', this)">Bookmarked</button>
+          </div>
+
+          <div class="filter-section-label">Financial Pillar</div>
+          <div class="filter-bar" id="topicFilters">
+            <button class="pill topic-pill active" data-topic="ALL" onclick="setTopicFilter('ALL', this)">All Pillars</button>
+            <button class="pill topic-pill" data-topic="Macro & Central Banks" onclick="setTopicFilter('Macro & Central Banks', this)">Macro &amp; Central Banks</button>
+            <button class="pill topic-pill" data-topic="Markets & Valuations" onclick="setTopicFilter('Markets & Valuations', this)">Markets &amp; Valuations</button>
+            <button class="pill topic-pill" data-topic="Commodities & Energy" onclick="setTopicFilter('Commodities & Energy', this)">Commodities &amp; Energy</button>
+            <button class="pill topic-pill" data-topic="Regulation & Governance" onclick="setTopicFilter('Regulation & Governance', this)">Regulation &amp; Governance</button>
+            <button class="pill topic-pill" data-topic="Capital Flows & Deals" onclick="setTopicFilter('Capital Flows & Deals', this)">Capital Flows &amp; Deals</button>
+          </div>
+
+          <div class="filter-controls-row">
+            <select class="mode-select" id="journalFilterSelect" onchange="renderFeed()">
+              <option value="ALL">All Publications &amp; Institutions</option>
+              <optgroup label="Institutional Buy-Side & Sovereign">
+                <option value="KKR">KKR Global Macro (Henry McVey)</option>
+                <option value="Eye on the Market">J.P. Morgan Eye on the Market</option>
+                <option value="BlackRock">BlackRock Investment Institute</option>
+                <option value="Global SWF">Global SWF (Sovereign Funds)</option>
+                <option value="Damodaran">Musings on Markets (Damodaran)</option>
+                <option value="McKinsey">McKinsey Global Institute (MGI)</option>
+                <option value="FRED">FRED / St. Louis Fed Data</option>
+              </optgroup>
+              <optgroup label="Top Academic & Executive Journals">
+                <option value="Journal of Finance">The Journal of Finance (AFA)</option>
+                <option value="Journal of Financial Economics">Journal of Financial Economics (JFE)</option>
+                <option value="Review of Financial Studies">The Review of Financial Studies (RFS)</option>
+                <option value="Financial Analysts Journal">Financial Analysts Journal (CFA)</option>
+                <option value="Harvard Business Review">Harvard Business Review (HBR)</option>
+                <option value="MIT Sloan">MIT Sloan Management Review</option>
+                <option value="BIS / NBER">BIS &amp; NBER Working Papers</option>
+              </optgroup>
+            </select>
+            <input type="text" class="search-box" id="keywordSearch" placeholder="Search keyword (KKR, Cembalest, BlackRock, SWF, ERP, FRED, JoF)..." oninput="renderFeed()" />
+          </div>
+        </div>
+        <div class="feed-list" id="feedList"></div>
+      </div>
+
+      <!-- Right Column: Dynamic Deep-Dive Brief + LinkedIn Post Studio -->
+      <div class="right-column" id="analysisColumn">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-row">
+              <span class="panel-title">1. Self-Explanatory Knowledge &amp; Impact Brief</span>
+              <span style="font-size: 0.73rem; font-weight: 700; color: var(--purple);" id="briefDomainBadge">Institutional &amp; Sovereign</span>
+            </div>
+          </div>
+          <div class="brief-body">
+            <div class="brief-headline-header">
+              <div class="brief-kicker" id="briefRegionKicker">Global · Markets &amp; Valuations</div>
+              <div class="brief-title" id="briefTitle">Select any item on the left to inspect its full breakdown</div>
+              <div class="brief-source-line">
+                <span id="briefSourceText">Source: —</span>
+                <a id="briefSourceLink" href="#" target="_blank" rel="noopener noreferrer">Open Publication / Portal &nearr;</a>
+              </div>
+            </div>
+
+            <div class="analysis-grid">
+              <div class="analysis-block">
+                <div class="analysis-block-title" id="lblBlock1">Institutional Thesis &amp; Macro Context</div>
+                <div class="analysis-text" id="briefWhatHappened"></div>
+              </div>
+
+              <div class="analysis-block mechanism">
+                <div class="analysis-block-title" id="lblBlock2">Capital-Allocation Mechanism &amp; Data Signal</div>
+                <div class="analysis-text" id="briefMechanism"></div>
+              </div>
+
+              <div class="analysis-block impact">
+                <div class="analysis-block-title" id="lblBlock3">Portfolio, Sovereign &amp; Corporate Implications</div>
+                <ul class="impact-list" id="briefImpacts"></ul>
+              </div>
+
+              <div class="analysis-block why">
+                <div class="analysis-block-title" id="lblBlock4">Why Institutional Allocators Care</div>
+                <div class="analysis-text" id="briefWhyImportant"></div>
+              </div>
+            </div>
+
+            <div class="concepts-box">
+              <div class="concepts-header">
+                <span>Core Concepts &amp; Terminology Decoded</span>
+                <button class="btn-secondary" style="font-size: 0.71rem; padding: 3px 8px;" onclick="fetchEncyclopediaContext()" id="wikiBtn">Load Reference Primer</button>
+              </div>
+              <div class="concept-cards" id="briefConcepts"></div>
+              <div class="wiki-enrich-box" id="wikiEnrichBox"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-row">
+              <span class="panel-title">2. Insight-Led LinkedIn Post Studio</span>
+              <button class="btn-secondary" style="font-size: 0.73rem; padding: 4px 8px;" onclick="regenerateDraft()">Regenerate Draft</button>
+            </div>
+          </div>
+          <div class="studio-body">
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;">Select Post Architecture</div>
+              <div class="angle-grid" id="angleGrid">
+                <button class="angle-btn active" data-angle="institutional" onclick="selectAngle('institutional', this)">Institutional / Buy-Side Lens</button>
+                <button class="angle-btn" data-angle="research" onclick="selectAngle('research', this)">Journal / Paper Breakdown</button>
+                <button class="angle-btn" data-angle="explainer" onclick="selectAngle('explainer', this)">Deep-Dive Mechanism Explainer</button>
+                <button class="angle-btn" data-angle="debate" onclick="selectAngle('debate', this)">Balanced Debate / Catalyst Lens</button>
+              </div>
+            </div>
+
+            <div class="custom-take-row">
+              <label for="personalNoteInput">Optional: Add 1 sentence of your own practical perspective (woven cleanly into the post)</label>
+              <input type="text" id="personalNoteInput" placeholder="e.g., Across DIFC fund and real-asset reviews this quarter, implied equity risk premia and real rates..." oninput="generateDraft()" />
+            </div>
+
+            <div>
+              <textarea id="postEditor" oninput="updateEditorMetrics()" placeholder="Your clean, self-explanatory LinkedIn post draft appears here..."></textarea>
+              <div class="editor-meta">
+                <span id="charCountLabel">0 characters (Ideal: 850 - 1,550)</span>
+                <div class="editor-toggles">
+                  <button class="btn-secondary" style="font-size: 0.71rem; padding: 3px 8px;" onclick="toggleClosingStyle()" id="closingToggleBtn">Closing: Strategic Takeaway</button>
+                  <button class="btn-secondary" style="font-size: 0.71rem; padding: 3px 8px;" onclick="toggleHashtags()">+ Toggle Hashtags</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="fold-preview">
+              <span class="fold-label">Mobile "See More" Hook Preview (First 210 Characters)</span>
+              <div id="hookPreviewText">Your opening lines appear here...</div>
+            </div>
+
+            <div class="tip-note">
+              <strong>Credibility &amp; Reach Rule:</strong> Zero DOIs, zero RSS timestamps, zero "subscribe" clutter, and zero generic engagement bait. Copy the post, publish on LinkedIn, and paste the publication/portal link in the <strong>first comment</strong>.
+            </div>
+
+            <div class="studio-footer">
+              <button class="btn-primary" onclick="copyPostAndLog()">Copy Post &amp; Log Update</button>
+              <button class="btn-secondary" onclick="saveToJournal()">Save Brief &amp; Post to Archive</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script>
+    const memoryStore = {};
+    const safeStorage = {
+      get: function(key, fallback) {
+        try {
+          const val = window.localStorage.getItem(key);
+          return val !== null ? val : (key in memoryStore ? memoryStore[key] : fallback);
+        } catch (e) {
+          return key in memoryStore ? memoryStore[key] : fallback;
+        }
+      },
+      set: function(key, value) {
+        memoryStore[key] = value;
+        try {
+          window.localStorage.setItem(key, value);
+        } catch (e) {}
+      }
+    };
+
+    // 19 Live RSS Feeds covering Institutional Buy-Side, Valuation, FRED, Top 6 Journals, BIS/NY Fed & Regional Finance
+    const DEFAULT_FEEDS = [
+      {
+        name: "BlackRock Investment Institute",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=%22BlackRock+Investment+Institute%22+commentary+OR+outlook+when:14d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "J.P. Morgan Eye on the Market",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=%22Eye+on+the+Market%22+Cembalest+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "KKR Global Macro (Henry McVey)",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=%22Henry+McVey%22+OR+%22KKR%22+macro+outlook+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "Global SWF (Sovereign Funds)",
+        stream: "Institutional & Sovereign",
+        region: "UAE & GCC",
+        url: "https://news.google.com/rss/search?q=site:globalswf.com+OR+%22Global+SWF%22+sovereign+wealth+when:14d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "Musings on Markets (Aswath Damodaran)",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://aswathdamodaran.blogspot.com/feeds/posts/default"
+      },
+      {
+        name: "McKinsey Global Institute (MGI)",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=%22McKinsey+Global+Institute%22+economy+OR+capital+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "FRED Economic Blog (St. Louis Fed)",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        url: "https://fredblog.stlouisfed.org/feed/"
+      },
+      {
+        name: "The Journal of Finance (AFA)",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=site:afajof.org+OR+%22Journal+of+Finance%22+research+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "Journal of Financial Economics (JFE)",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=%22Journal+of+Financial+Economics%22+paper+OR+study+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "The Review of Financial Studies (RFS)",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=site:academic.oup.com/rfs+OR+%22Review+of+Financial+Studies%22+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "Financial Analysts Journal (CFA)",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=site:rpc.cfainstitute.org+OR+%22Financial+Analysts+Journal%22+when:30d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "Harvard Business Review (Finance)",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=site:hbr.org+finance+OR+CFO+OR+capital+allocation+when:21d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        name: "MIT Sloan Management Review",
+        stream: "Tech & AI Finance",
+        region: "Global",
+        url: "https://sloanreview.mit.edu/feed/"
+      },
+      {
+        name: "BIS Working Papers",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://www.bis.org/doclist/wppubls.rss"
+      },
+      {
+        name: "NY Fed Liberty Street Economics",
+        stream: "Research & Journals",
+        region: "Global",
+        url: "https://libertystreeteconomics.newyorkfed.org/feed/"
+      },
+      {
+        name: "UAE Economy & CBUAE",
+        stream: "Daily Must-Know",
+        region: "UAE & GCC",
+        url: "https://news.google.com/rss/search?q=UAE+economy+OR+CBUAE+OR+DIFC+finance+when:3d&hl=en-AE&gl=AE&ceid=AE:en"
+      },
+      {
+        name: "Finshots Daily",
+        stream: "Daily Must-Know",
+        region: "India",
+        url: "https://finshots.in/archive/rss/"
+      },
+      {
+        name: "India Macro, RBI & SEBI",
+        stream: "Daily Must-Know",
+        region: "India",
+        url: "https://news.google.com/rss/search?q=RBI+OR+SEBI+OR+India+economy+OR+FPI+markets+when:3d&hl=en-IN&gl=IN&ceid=IN:en"
+      },
+      {
+        name: "AI & FinTech Economics",
+        stream: "Tech & AI Finance",
+        region: "Global",
+        url: "https://news.google.com/rss/search?q=AI+capex+OR+fintech+banking+OR+data+center+financing+when:5d&hl=en-US&gl=US&ceid=US:en"
+      }
+    ];
+
+    // 22 Comprehensive Executive Briefings including Institutional Buy-Side, Sovereign Wealth, Damodaran, MGI, FRED & Top 6 Journals
+    const CURATED_BRIEFINGS = [
+      // NEW INSTITUTIONAL & SOVEREIGN BRIEFINGS
+      {
+        id: "inst-bii-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "BlackRock Investment Institute (Nov 2026): 'AI: Looking Beyond the Buildout — Capex Financing & Power Constraints'",
+        summary: "BlackRock's November 16, 2026 weekly commentary examines how AI infrastructure spending is shifting from cash-rich balance sheets toward corporate debt while electrical grid constraints dictate winners.",
+        source: "BlackRock Investment Institute",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://www.blackrock.com/sg/en/insights",
+        pubDate: "BII Weekly · Nov 2026",
+        wikiTopic: "Capital expenditure",
+        whatHappened: "In its November 16, 2026 Global Weekly Commentary ('AI: Looking Beyond the Buildout'), the BlackRock Investment Institute evaluates the next phase of the AI capital-expenditure cycle—highlighting rising corporate bond issuance by hyperscalers, physical power-grid constraints, and the dispersion between infrastructure builders and end-user adopters.",
+        mechanism: "During the initial buildout phase, mega-cap technology firms funded data centers out of internal free cash flows, insulating credit markets. As capital intensity escalates into hundreds of billions of dollars annually while 10-year Treasury yields remain above 5%, hyperscalers are increasingly tapping corporate bond and private-credit markets—shifting investor focus from headline chip orders to return on invested capital (ROIC) and physical power availability.",
+        impacts: [
+          "Credit & Bond Supply Shift: Increased investment-grade tech bond issuance competes for institutional fixed-income demand alongside heavy sovereign debt supply.",
+          "Power & Grid Bottleneck Premium: Utilities, grid equipment suppliers, and energy-rich jurisdictions capture durable cash flows regardless of which AI software model wins.",
+          "Selective Equity Dispersion: Broad passive exposure gives way to discriminating between firms with proven AI revenue monetization versus capex-heavy laggards."
+        ],
+        whyImportant: "Shows how the world's largest asset manager frames the transition from an equity-fueled AI narrative to a credit- and infrastructure-constrained capital cycle.",
+        concepts: [
+          { term: "Capex-to-Cash-Flow Conversion", def: "Measures how quickly upfront spending on data centers and hardware translates into recurring operating cash flow." },
+          { term: "Return on Invested Capital (ROIC)", def: "Net operating profit after tax divided by invested capital—the ultimate test of whether massive AI capex creates shareholder value." },
+          { term: "Mega-Force Dispersion", def: "BlackRock's framework showing how structural themes (AI, energy transition, demographics) create wide performance gaps within the same sector." }
+        ],
+        hashtags: "#BlackRock #InstitutionalInvesting #AICapex"
+      },
+      {
+        id: "inst-jpm-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "J.P. Morgan Eye on the Market (Michael Cembalest, Nov 2026): 'Now You Can See Everything — Grid Reality & Fiscal Math'",
+        summary: "Michael Cembalest's November 2026 Eye on the Market dissects the collision between ambitious AI power forecasts, utility turbine backlogs, and sovereign fiscal deficits.",
+        source: "J.P. Morgan Eye on the Market",
+        region: "Global",
+        pillar: "Commodities & Energy",
+        link: "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/market-insights/eye-on-the-market/now-you-can-see-everything/",
+        pubDate: "Eye on the Market · Nov 2026",
+        wikiTopic: "Energy economics",
+        whatHappened: "In J.P. Morgan Asset Management's November 2026 'Eye on the Market' ('Now You Can See Everything'), Chairman of Market and Investment Strategy Michael Cembalest pairs empirical grid-capacity data with sovereign fiscal arithmetic to test consensus market assumptions.",
+        mechanism: "Cembalest demonstrates that financial projections often assume frictionless physical scaling, whereas real-world infrastructure faces hard engineering constraints—such as multi-year backlogs for high-voltage transformers, gas turbines, and transmission lines. Simultaneously, rising sovereign debt-service costs limit governments' ability to subsidize both energy transitions and industrial policy simultaneously.",
+        impacts: [
+          "Physical Bottlenecks Cap Growth Rates: Data-center and industrial expansion timelines are increasingly governed by megawatt availability rather than capital availability.",
+          "Fiscal Deficit Discipline: Higher long-term bond yields mean interest payments consume a growing share of developed-market tax revenues.",
+          "Pragmatic Energy Mix: Natural gas, nuclear life extensions, and behind-the-meter generation remain indispensable alongside renewables to meet baseload industrial demand."
+        ],
+        whyImportant: "Eye on the Market is prized by CIOs and CFOs because it stress-tests popular Wall Street narratives against hard engineering, energy, and fiscal data.",
+        concepts: [
+          { term: "Baseload Power Reliability", def: "Continuous, dispatchable electricity (such as natural gas or nuclear) required 24/7 by data centers and heavy industry." },
+          { term: "Debt-Service-to-Revenue Ratio", def: "Percentage of government tax receipts consumed by interest payments—rising rapidly when sovereign debt meets 5%+ yields." },
+          { term: "Physical vs. Financial Capital", def: "The gap between raising money on Wall Street and actually procuring physical turbines, transformers, and grid permits." }
+        ],
+        hashtags: "#EyeOnTheMarket #EnergyEconomics #MacroStrategy"
+      },
+      {
+        id: "inst-kkr-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "KKR Global Macro (Henry McVey): 'Regime Change — Collateral-Based Cash Flows, Private Credit & Real Assets'",
+        summary: "Henry McVey's KKR Global Macro & Asset Allocation playbook explains why persistent inflation volatility favors infrastructure, real estate credit, and asset-backed cash flows over traditional bonds.",
+        source: "KKR Global Macro (Henry McVey)",
+        region: "Global",
+        pillar: "Capital Flows & Deals",
+        link: "https://www.kkr.com/insights/in-brief-outlook-2026",
+        pubDate: "KKR Macro Outlook · 2026",
+        wikiTopic: "Alternative investment",
+        whatHappened: "KKR's Global Macro & Asset Allocation team, led by Henry McVey, outlines a structural regime shift in institutional portfolio construction—arguing that elevated fiscal deficits and supply-chain fragmentation keep inflation volatility higher than in the 2010s.",
+        mechanism: "In a regime where sovereign bonds no longer reliably hedge equity drawdowns, institutional allocators earn an 'illiquidity and complexity premium' by owning real assets (infrastructure, energy transition, logistics real estate) with inflation-linked cash flows and senior asset-backed private credit where loans are secured by hard collateral.",
+        impacts: [
+          "Rise of Asset-Backed Finance (ABF): Private credit is expanding beyond corporate buyouts into equipment, real estate, and infrastructure receivables.",
+          "Inflation-Linked Real Assets: Essential infrastructure with contractual inflation pass-through protects real purchasing power better than fixed-coupon nominal bonds.",
+          "GCC & Asia Capital Deployment: Sovereign funds and family offices in the Middle East and Asia are prime beneficiaries and co-investors in real-asset platforms."
+        ],
+        whyImportant: "Provides the exact asset-allocation framework used by global private equity, infrastructure funds, and sovereign wealth allocators.",
+        concepts: [
+          { term: "Asset-Backed Finance (ABF)", def: "Private lending secured directly by pools of contractual cash flows or hard assets (equipment, real estate, leases) rather than unsecured corporate cash flow." },
+          { term: "Illiquidity Premium", def: "Extra annual return earned by locking up capital in private infrastructure, real estate, or private credit compared to daily-traded public securities." },
+          { term: "Contractual Inflation Pass-Through", def: "Pricing clauses in infrastructure and lease agreements that automatically adjust revenues upward with CPI." }
+        ],
+        hashtags: "#KKR #PrivateCredit #RealAssets"
+      },
+      {
+        id: "inst-damodaran-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "Musings on Markets (Prof. Aswath Damodaran, Nov 2026): 'Implied Equity Risk Premiums When Treasury Yields Top 5%'",
+        summary: "NYU Stern's Aswath Damodaran updates his forward-looking Implied Equity Risk Premium (ERP) for the S&P 500—showing how 5%+ risk-free rates compress the cushion for equity investors.",
+        source: "Musings on Markets (Aswath Damodaran)",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://aswathdamodaran.blogspot.com/2026/",
+        pubDate: "Damodaran Valuation · Nov 2026",
+        wikiTopic: "Equity risk premium",
+        whatHappened: "In his November 2026 'Musings on Markets' valuation update, NYU Stern Finance Professor Aswath Damodaran computes the live Implied Equity Risk Premium (ERP) for US equities by backing out the expected return implied by current index levels, expected cash flows (dividends + buybacks), and 10-year Treasury yields.",
+        mechanism: "Expected Equity Return = Risk-Free Rate + Implied ERP. When the 10-year Treasury yield rises above 5% while stock prices remain elevated, the extra reward for owning risky stocks over risk-free government bonds (the Implied ERP) compresses toward historical lows (~3.8–4.2%). That leaves little valuation cushion if corporate earnings growth disappoints.",
+        impacts: [
+          "Higher Corporate Hurdle Rates: CFOs evaluating M&A or capex must add country/company risk premia on top of a 5%+ risk-free rate—raising WACC significantly.",
+          "Buybacks vs. Dividends Discipline: With higher borrowing costs, debt-funded share buybacks become far less accretive than when rates were near 1%.",
+          "Emerging & GCC Country Risk Spreads: Global investors benchmark Dubai, Riyadh, and Mumbai equity valuations directly against this US risk-free + ERP baseline."
+        ],
+        whyImportant: "Damodaran's Implied ERP is the gold-standard practitioner tool for testing whether stock markets are priced for perfection or offering genuine risk compensation.",
+        concepts: [
+          { term: "Implied Equity Risk Premium (ERP)", def: "Forward-looking extra return demanded by stock investors over the risk-free Treasury rate, derived directly from current market prices and expected cash flows." },
+          { term: "Country Risk Premium (CRP)", def: "Additional return required when investing in emerging or regional markets to compensate for sovereign, currency, and political risk." },
+          { term: "Hurdle Rate", def: "The minimum acceptable internal rate of return (IRR) a project or acquisition must clear to create value above WACC." }
+        ],
+        hashtags: "#Valuation #AswathDamodaran #CorporateFinance"
+      },
+      {
+        id: "inst-swf-mgi-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "Global SWF & McKinsey Global Institute: 'Gulf Sovereign Capital Deployment & Global Balance-Sheet Shifts'",
+        summary: "Global SWF tracking and MGI balance-sheet research show Gulf sovereign wealth funds anchoring global AI, infrastructure, and bilateral corridor deals as global wealth reallocates.",
+        source: "Global SWF & McKinsey Global Institute",
+        region: "UAE & GCC",
+        pillar: "Capital Flows & Deals",
+        link: "https://globalswf.com/",
+        pubDate: "Sovereign & MGI Intelligence",
+        wikiTopic: "Sovereign wealth fund",
+        whatHappened: "Tracking across Global SWF's 400+ sovereign wealth and public pension funds alongside McKinsey Global Institute (MGI) balance-sheet research highlights how Gulf sovereign allocators (ADIA, Mubadala, PIF, QIA) have become primary liquidity providers for global private equity, AI infrastructure, and Asia-Middle East trade corridors.",
+        mechanism: "While Western pension funds face liquidity constraints from denominator effects and slower private-equity distributions, Gulf sovereign funds combine multi-decade investment horizons with strong hydrocarbon and non-oil fiscal surpluses—allowing them to negotiate co-investment rights, regional headquarters commitments in Abu Dhabi/Dubai, and strategic technology transfers.",
+        impacts: [
+          "DIFC & ADGM Ecosystem Expansion: Global hedge funds, private credit managers, and asset managers increasingly establish regulated DIFC/ADGM offices to partner with Gulf sovereign LPs.",
+          "Co-Investment & Structured Capital: Sovereign funds favor direct co-investments and structured hybrid capital over blind-pool passive commitments.",
+          "Long-Horizon Productivity Focus: MGI research underscores that channeling capital into physical infrastructure and AI adoption is decisive for sustaining real GDP growth."
+        ],
+        whyImportant: "For finance leaders in Dubai and the GCC, tracking sovereign wealth deployment and global balance-sheet shifts reveals where institutional mandates and capital partnerships are forming.",
+        concepts: [
+          { term: "Sovereign Co-Investment", def: "When a sovereign wealth fund invests directly alongside a private equity or infrastructure fund into a specific asset, reducing fee drag and increasing governance control." },
+          { term: "Permanent Capital Vehicle", def: "An investment entity with no fixed redemption deadline, enabling patient deployment across 10–20 year infrastructure and real-estate cycles." },
+          { term: "National Balance-Sheet Intensity", def: "MGI metric comparing total financial assets and liabilities against real GDP to spot valuation vs. productivity gaps." }
+        ],
+        hashtags: "#SovereignWealth #GlobalSWF #GCCFinance"
+      },
+      {
+        id: "inst-fred-1",
+        isCurated: true,
+        stream: "Institutional & Sovereign",
+        title: "FRED Data Terminal Primer (St. Louis Fed): Tracking Real Yields, 10Y–2Y Curve & Credit Spreads Before Posting",
+        summary: "Using primary Federal Reserve Economic Data (FRED) series (DFII10, T10Y2Y, BAMLH0A0HYM2) lets you verify exact real rates and credit stress before writing executive market commentary.",
+        source: "FRED / Federal Reserve Bank of St. Louis",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://fred.stlouisfed.org/",
+        pubDate: "Macro Data Terminal",
+        wikiTopic: "Yield spread",
+        whatHappened: "The St. Louis Fed's FRED database (tracking over 800,000 economic time series) provides free, institutional-grade access to the exact benchmark indicators that drive global asset pricing—including 10-Year TIPS Real Yields (DFII10), the 10-Year minus 2-Year Treasury Spread (T10Y2Y), and High-Yield Corporate Credit Spreads (BAMLH0A0HYM2).",
+        mechanism: "Instead of relying on secondhand media summaries, checking three primary FRED series gives an instant X-ray of global financial conditions: (1) Real Yields (DFII10) show the true inflation-adjusted cost of capital; (2) the 10Y–2Y Spread shows whether bond markets expect rate cuts or renewed tightening; and (3) High-Yield Credit Spreads reveal whether corporate default stress is actually rising beneath equity headlines.",
+        impacts: [
+          "Fact-Checked Executive Posts: Citing exact primary series (real yields, credit spreads, breakeven inflation) immediately elevates LinkedIn commentary above generic opinion.",
+          "Treasury & Debt Timing: Monitoring corporate credit spreads helps CFOs judge whether bond markets are open at attractive spreads before launching debt issuances.",
+          "Early Warning on Credit Stress: High-yield credit spreads widen well before equity markets price in an economic downturn."
+        ],
+        whyImportant: "Combining primary FRED macro data with institutional research from KKR, BlackRock, and Damodaran gives you a complete, institutional-grade analytical toolkit.",
+        concepts: [
+          { term: "10-Year TIPS Real Yield (DFII10)", def: "Market-implied inflation-adjusted yield on 10-year US Treasury Inflation-Protected Securities—the purest measure of real borrowing cost." },
+          { term: "High-Yield Option-Adjusted Spread (OAS)", def: "Extra yield investors demand to hold below-investment-grade corporate bonds over risk-free Treasuries; a real-time gauge of corporate credit stress." },
+          { term: "Breakeven Inflation Rate", def: "Nominal Treasury yield minus TIPS real yield—representing the bond market's average annual inflation expectation over the next 5 to 10 years." }
+        ],
+        hashtags: "#FREDData #Macroeconomics #CreditSpreads"
+      },
+
+      // TOP 6 JOURNALS DEDICATED BRIEFINGS
+      {
+        id: "jof-1",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "The Journal of Finance (Vol. 81, Issue 5): Collateral Constraints, Small-Business Credit & Rate Transmission",
+        summary: "Empirical findings in the American Finance Association's flagship journal show how collateral-backed lending rules amplify interest-rate hikes for asset-light and mid-sized firms.",
+        source: "The Journal of Finance (AFA)",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://afajof.org/issue/volume-81-issue-5/",
+        pubDate: "Journal of Finance · Oct 2026",
+        wikiTopic: "Credit channel",
+        whatHappened: "Published in The Journal of Finance (Volume 81, Issue 5, October 2026), empirical corporate-finance research examines how credit availability for small and mid-sized enterprises responds when benchmark interest rates rise and commercial real estate or equipment collateral values fluctuate.",
+        mechanism: "Banks underwrite mid-market corporate loans primarily against tangible collateral value rather than projected cash flows alone. When benchmark interest rates rise, debt-service costs jump while higher discount rates compress appraised collateral values—triggering a 'financial accelerator' loop where credit limits tighten precisely when businesses need working capital most.",
+        impacts: [
+          "Working Capital & Facility Sizing: Asset-light businesses and service firms face sharper credit rationing during rate-tightening cycles than asset-heavy peers.",
+          "Shift Toward Cash-Flow & Private Credit: Borrowers constrained by rigid bank collateral formulas increasingly turn to private credit funds or structured receivables financing.",
+          "Valuation & Covenant Buffer: Maintaining unencumbered liquid reserves protects mid-market firms from forced asset sales when collateral appraisals reset."
+        ],
+        whyImportant: "Bridges academic asset-pricing and banking theory directly to corporate treasury management—explaining why credit conditions tighten faster for mid-sized firms than headline policy rates suggest.",
+        concepts: [
+          { term: "Collateral Channel", def: "Mechanism whereby falling asset prices reduce borrowers' debt capacity, amplifying economic slowdowns during tight monetary policy." },
+          { term: "Financial Accelerator", def: "Feedback loop in which tighter credit conditions depress investment and asset values, further reducing borrowing capacity." },
+          { term: "Earnings-Based vs. Asset-Based Lending", def: "Distinction between loans underwritten on EBITDA cash-flow coverage versus loans capped by physical collateral liquidation value." }
+        ],
+        hashtags: "#JournalOfFinance #CorporateFinance #CreditMarkets"
+      },
+      {
+        id: "jfe-1",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "Journal of Financial Economics (JFE): Institutional Ownership, Governance Transparency & Equity Cost of Capital",
+        summary: "Research in Elsevier's Journal of Financial Economics demonstrates how institutional investor participation and transparent disclosure measurably lower a firm's cost of equity.",
+        source: "Journal of Financial Economics (JFE)",
+        region: "Global",
+        pillar: "Regulation & Governance",
+        link: "https://www.sciencedirect.com/journal/journal-of-financial-economics",
+        pubDate: "JFE · 2026",
+        wikiTopic: "Corporate governance",
+        whatHappened: "Studies in the Journal of Financial Economics analyze cross-market firm-level panel data to quantify how board independence, minority-shareholder protections, and institutional ownership affect valuation multiples and equity financing costs.",
+        mechanism: "When external investors face high information asymmetry or weak minority-shareholder governance, they demand a higher 'governance risk premium'—discounting stock prices and raising the cost of issuing new equity. Conversely, credible audit oversight, transparent related-party disclosures, and active institutional ownership narrow bid-ask spreads and reduce the required return on equity.",
+        impacts: [
+          "Valuation Multiple Premium: Firms with verifiable governance standards consistently trade at higher P/E and EV/EBITDA multiples than opaque peers.",
+          "Lower Cross-Border Fundraising Cost: Transparent reporting lowers friction for foreign institutional allocators entering emerging and regional markets.",
+          "Board & Audit Committee ROI: Strong governance controls are not merely compliance overhead—they directly reduce a company's weighted average cost of capital (WACC)."
+        ],
+        whyImportant: "Proves empirically that strong corporate governance and transparent financial reporting translate into tangible valuation and cost-of-capital advantages.",
+        concepts: [
+          { term: "Information Asymmetry", def: "When corporate insiders possess far more information about asset quality and risks than outside investors, prompting investors to demand higher returns." },
+          { term: "Governance Risk Premium", def: "Extra return demanded by institutional investors to hold shares in companies with concentrated control or opaque disclosures." },
+          { term: "Weighted Average Cost of Capital (WACC)", def: "Blended return required by a company's debt and equity holders; lowering WACC directly increases net present value (NPV)." }
+        ],
+        hashtags: "#CorporateGovernance #CostOfCapital #FinancialEconomics"
+      },
+      {
+        id: "rfs-1",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "The Review of Financial Studies (RFS): Asset Pricing Under Macro Uncertainty & Sovereign Yield Term Premia",
+        summary: "Advance articles in Oxford's Review of Financial Studies model how macroeconomic regime uncertainty drives sovereign bond term premia and cross-asset volatility.",
+        source: "The Review of Financial Studies (RFS)",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://academic.oup.com/rfs/advance-articles",
+        pubDate: "RFS · Nov 2026",
+        wikiTopic: "Asset pricing",
+        whatHappened: "Recent advance research in The Review of Financial Studies (Oxford University Press, November 2026) examines how investors price long-dated bonds and equities when macroeconomic inflation and fiscal trajectories become harder to forecast.",
+        mechanism: "When investors are confident about future inflation and policy rates, long-term government bonds serve as reliable hedges against stock-market downturns. However, when fiscal deficits and supply-driven inflation raise macro uncertainty, long-term bonds lose their hedging reliability—forcing investors to demand a higher term premium and causing stocks and bonds to sell off together.",
+        impacts: [
+          "End of Automatic 60/40 Diversification: When inflation uncertainty dominates, sovereign bonds no longer reliably offset equity drawdowns.",
+          "Higher Long-Term Discount Rates: Elevated macro uncertainty keeps long-dated sovereign yields sticky even when short-term growth cools.",
+          "Portfolio Allocation Shift: Institutional investors increasingly blend short-duration sovereign bills, real assets, and private credit to stabilize returns."
+        ],
+        whyImportant: "Explains the theoretical foundation behind why 10-year sovereign yields and equity valuations have moved together during recent inflation waves.",
+        concepts: [
+          { term: "Stock-Bond Correlation", def: "Measures whether stocks and bonds move in opposite directions (good for diversification) or fall together (driven by inflation shocks)." },
+          { term: "Macroeconomic Regime Uncertainty", def: "Difficulty in predicting whether the economy is shifting into a structurally higher-inflation or higher-rate regime." },
+          { term: "Duration Hedging", def: "Using long-dated government bonds to protect portfolios against growth slowdowns—less effective during supply-inflation regimes." }
+        ],
+        hashtags: "#AssetPricing #PortfolioStrategy #FinancialResearch"
+      },
+      {
+        id: "faj-1",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "Financial Analysts Journal (Vol. 82, Issue 4): Institutional Portfolio Construction Amid Mega-Cap Concentration & Real Yields",
+        summary: "Practitioner research in the CFA Institute's Financial Analysts Journal evaluates how allocators manage index concentration risk and private-market liquidity when real yields sit above 2%.",
+        source: "Financial Analysts Journal (CFA)",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://www.tandfonline.com/toc/ufaj20/current",
+        pubDate: "FAJ · Vol 82 Issue 4",
+        wikiTopic: "Portfolio optimization",
+        whatHappened: "Published in Volume 82, Issue 4 (2026) of the CFA Institute's Financial Analysts Journal, applied investment studies examine portfolio resilience when passive equity indices are heavily concentrated in a handful of mega-cap technology stocks while real government bond yields offer attractive positive returns.",
+        mechanism: "Heavy market-cap concentration means passive index investors inadvertently hold large single-sector bets on AI capex monetization. Meanwhile, positive real yields on sovereign bonds restore fixed income as a genuine income-generating competitor to equities, while illiquid private assets require stricter liquidity-budgeting to avoid denominator-effect imbalances during market drawdowns.",
+        impacts: [
+          "Active Risk Budgeting: Portfolio managers are diversifying away from pure market-cap-weighted concentration toward equal-weight, quality cash-flow, and international value exposures.",
+          "Fixed Income Re-Rating: Positive real yields allow pension funds, endowments, and family offices to lock in predictable income without stretching into speculative risk.",
+          "Liquidity Tiering: Institutional treasuries segment reserves into daily liquid bills, medium-term investment-grade credit, and selective private-market commitments."
+        ],
+        whyImportant: "Translates empirical asset-allocation research directly into actionable portfolio construction rules for institutional investors and family offices.",
+        concepts: [
+          { term: "Index Concentration Risk", def: "Vulnerability created when top 5–10 stocks account for an outsized share of benchmark index weight and return variance." },
+          { term: "Denominator Effect", def: "When public equity prices fall faster than private-market valuations are updated, pushing private allocations above policy limits." },
+          { term: "Liquidity Budgeting", def: "Structuring a portfolio across liquid, semi-liquid, and illiquid sleeves so cash obligations are met without forced selling." }
+        ],
+        hashtags: "#CFAInstitute #PortfolioManagement #AssetAllocation"
+      },
+      {
+        id: "hbr-1",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "Harvard Business Review (HBR): Why AI Isn't Transforming Corporate Finance Yet—and How CFOs Fix It",
+        summary: "Harvard Business Review analysis shows why layering generative AI onto fragmented ERP systems stalls ROI—and how leading CFOs redesign data governance and capital-allocation workflows first.",
+        source: "Harvard Business Review (HBR)",
+        region: "Global",
+        pillar: "Regulation & Governance",
+        link: "https://hbr.org/topic/subject/finance-and-accounting",
+        pubDate: "HBR Finance Practice",
+        wikiTopic: "Enterprise resource planning",
+        whatHappened: "Harvard Business Review's 2026 finance and CFO leadership coverage highlights a widespread enterprise paradox: while companies have invested heavily in AI pilots, most corporate finance functions have yet to see measurable bottom-line transformation.",
+        mechanism: "Generative AI tools fail when deployed on top of inconsistent chart-of-accounts mappings, siloed subsidiary ERPs, and manual spreadsheet reconciliations. High-performing CFOs succeed by standardizing master data first, automating high-volume deterministic workflows (AP/AR matching, variance commentary, treasury cash forecasting), and reserving human executive attention for capital allocation and risk judgment.",
+        impacts: [
+          "Data Architecture Before AI Tools: Clean ERP master data and unified multi-entity reporting deliver far higher ROI than standalone AI overlays.",
+          "Shift from Reporting to Decision Support: Automating routine close and reconciliation cycles frees finance teams to model scenario sensitivities and working-capital levers.",
+          "Auditability & Controls: Finance AI deployments require strict human-in-the-loop sign-off and deterministic audit logs."
+        ],
+        whyImportant: "Gives CFOs and Finance Heads a pragmatic blueprint to separate genuine finance transformation from unproductive AI hype.",
+        concepts: [
+          { term: "Deterministic vs. Probabilistic Systems", def: "Accounting ledgers require deterministic (100% repeatable, exact) outputs, whereas large language models generate probabilistic predictions." },
+          { term: "Master Data Governance", def: "Standardizing vendor IDs, tax codes, and chart-of-accounts hierarchies across entities before automating analytics." },
+          { term: "Attention Economics in Leadership", def: "As routine analysis becomes abundant via AI, executive judgment and capital-allocation discipline become the scarcest resource." }
+        ],
+        hashtags: "#HarvardBusinessReview #CFOLeadership #FinanceTransformation"
+      },
+      {
+        id: "mitsmr-1",
+        isCurated: true,
+        stream: "Tech & AI Finance",
+        title: "MIT Sloan Management Review: Calibrating AI Use to the Financial Decision at Hand",
+        summary: "MIT Sloan researchers outline a decision-calibration framework showing executives when to delegate financial tasks to AI automation versus when human strategic oversight is essential.",
+        source: "MIT Sloan Management Review",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://sloanreview.mit.edu/",
+        pubDate: "MIT SMR · 2026",
+        wikiTopic: "Decision theory",
+        whatHappened: "MIT Sloan Management Review's 2026 research on AI decision-making introduces a structured matrix for matching AI capabilities to decision frequency, data stability, and downside risk.",
+        mechanism: "High-frequency, data-rich, reversible operational decisions (invoice coding, anomaly detection, short-term cash-flow clustering) benefit enormously from machine learning automation. By contrast, low-frequency, high-consequence, regime-shifting decisions (M&A valuation, debt-structure selection during rate shifts, regulatory interpretation) suffer when organizations over-rely on historical pattern-matching models that cannot anticipate structural breaks.",
+        impacts: [
+          "Tiered Governance Framework: Organizations avoid costly errors by classifying finance workflows into full automation, AI-assisted analysis, and human-led judgment.",
+          "Protection Against Regime Breaks: Models trained on low-interest-rate historical data systematically misprice risk when rates and inflation shift structurally.",
+          "Talent Upskilling Priority: Finance teams need critical model-validation skills to challenge AI assumptions rather than accepting outputs blindly."
+        ],
+        whyImportant: "Provides a clear, board-ready framework for governing AI adoption across treasury, FP&A, and investment committees.",
+        concepts: [
+          { term: "Decision Calibration", def: "Matching the level of AI autonomy to the reversibility, data stability, and financial impact of a specific business decision." },
+          { term: "Structural Regime Break", def: "A fundamental shift in economic rules (such as moving from 0% to 5% interest rates) that invalidates models trained only on past data." },
+          { term: "Human-in-the-Loop Validation", def: "Governance control requiring qualified finance professionals to verify assumptions and edge cases before execution." }
+        ],
+        hashtags: "#MITSloan #AIGovernance #FinancialStrategy"
+      },
+
+      // DAILY MUST-KNOW, WEEKLY WRAP, BUZZWORDS, UPCOMING & BIG QUESTIONS
+      {
+        id: "daily-1",
+        isCurated: true,
+        stream: "Daily Must-Know",
+        title: "IMF Upgrades UAE 2026 Growth Outlook as Banking Assets Surpass AED 5.815 Trillion ($1.57T)",
+        summary: "At the conclusion of its November 2026 Article IV mission, the IMF reversed an earlier contraction forecast to project positive 2026 growth and 7.3% expansion in 2027, backed by $1.57T in UAE banking assets.",
+        source: "CBUAE / IMF Article IV",
+        region: "UAE & GCC",
+        pillar: "Macro & Central Banks",
+        link: "https://centralbank.ae/en/news-and-publications/news-and-insights/press-release/imf-mission-affirms-the-strength-and-resilience-of-the-uae-economy-and-the-solidity-of-its-financial-and-banking-system-at-the-conclusion-of-the-2026-article-iv-mission/",
+        pubDate: "Latest Brief",
+        wikiTopic: "Foreign exchange reserves",
+        whatHappened: "Following its 2026 Article IV consultation, the IMF reversed an earlier contraction forecast for the UAE—projecting positive growth in 2026 followed by 7.3% expansion in 2027 (with non-oil GDP growing 5.4%). Total UAE banking assets surpassed AED 5.815 trillion ($1.57 trillion) by Q3 2026, while Fitch affirmed the UAE's AA- sovereign rating.",
+        mechanism: "When regional conflicts disrupt energy transit, aviation, and tourism, small open economies typically suffer capital flight and credit freezes. In the UAE, three shock absorbers prevented a credit crunch: (1) domestic banks holding over $1.57T in assets with high capital-adequacy buffers, (2) deep sovereign wealth and foreign reserves that defend the fixed AED/USD currency peg without emergency rate hikes, and (3) targeted fiscal and trade-corridor measures (CEPAs) that kept non-oil business activity expanding even as regional inflation averaged ~5% in 2026.",
+        impacts: [
+          "Corporate Credit Stability: UAE banks retain ample balance-sheet liquidity to keep lending to real estate, infrastructure, and corporate borrowers instead of rationing credit.",
+          "Inflation Normalization Path: While regional supply disruptions lifted 2026 inflation to ~5%, the IMF projects inflation to cool to 3% in 2027 and ~2% over the medium term.",
+          "Safe-Haven Capital Magnet: Affirmation of AA- sovereign credit quality alongside 7.3% projected 2027 growth reinforces Dubai and Abu Dhabi as regional headquarters for global capital."
+        ],
+        whyImportant: "Headline GDP percentages often mask underlying balance-sheet strength. For finance leaders and investors in the Gulf, banking-sector capitalization and sovereign reserve depth are the true leading indicators of whether credit remains accessible during geopolitical shocks.",
+        concepts: [
+          { term: "Capital & Liquidity Buffers", def: "Tier-1 equity and liquid reserves held by banks above regulatory minimums, enabling them to absorb macro shocks without halting corporate lending." },
+          { term: "AED/USD Currency Peg", def: "Backed by substantial CBUAE foreign-exchange reserves, the fixed peg eliminates bilateral dollar FX risk for international investors and trade." },
+          { term: "Non-Oil GDP Momentum", def: "Measures economic expansion across trade, financial services, tourism, and logistics—projected by the IMF to grow 5.4% in the UAE in 2027." }
+        ],
+        hashtags: "#UAEEconomy #BankingLiquidity #Macroeconomics"
+      },
+      {
+        id: "daily-2",
+        isCurated: true,
+        stream: "Daily Must-Know",
+        title: "SEBI Proposes Scrapping Additional Disclosure Framework (ADF) for Concentrated FPIs",
+        summary: "In a November 20, 2026 consultation paper, SEBI proposed eliminating granular natural-person look-through disclosures for concentrated FPIs to lower compliance friction and revive foreign inflows.",
+        source: "SEBI Consultation Paper",
+        region: "India",
+        pillar: "Regulation & Governance",
+        link: "https://taxguru.in/sebi/sebi-proposes-removal-disclosure-framework-fpis-public-comments-invited-11-december-2026.html",
+        pubDate: "Latest Brief",
+        wikiTopic: "Foreign portfolio investment",
+        whatHappened: "On November 20, 2026, SEBI released a consultation paper (open for public comments until December 11, 2026) proposing to remove the Additional Disclosure Framework (ADF) under Regulations 22(6) and 22(7) of the FPI Regulations.",
+        mechanism: "Unlike major financial centers (the US, UK, Singapore, Japan, and Hong Kong apply a 25% beneficial-ownership threshold, while India's PMLA applies 10–15%), SEBI's ADF required zero-threshold look-through across multi-layered global funds—creating heavy administrative friction that SEBI now proposes removing.",
+        impacts: [
+          "Lower Institutional Entry Friction: Removing the ADF eliminates redundant look-through compliance for legitimate global funds while keeping standard PMLA beneficial-ownership and AML checks intact.",
+          "Relief for Concentrated & Thematic Funds: Single-sector and newly seeded India funds can scale positions above ₹50,000 crore or 50% group concentration without disproportionate reporting burdens.",
+          "Competitive Regulatory Alignment: Brings India's FPI operational rules closer to competing Asian and global capital markets."
+        ],
+        whyImportant: "Global capital flows toward markets with predictable, proportionate rules. Removing excessive compliance friction acts as a direct catalyst for foreign institutional inflows.",
+        concepts: [
+          { term: "Additional Disclosure Framework (ADF)", def: "SEBI rule requiring concentrated or large FPIs (>50% in one group or >₹50,000 Cr AUM) to disclose granular natural-person ownership down to zero threshold." },
+          { term: "Beneficial Ownership Threshold", def: "The minimum percentage of economic interest or control (typically 10–25% globally) that triggers mandatory identification of underlying individuals." },
+          { term: "Offshore Derivative Instruments (ODIs)", def: "Instruments issued by registered FPIs to overseas investors seeking exposure to Indian equities without direct local registration." }
+        ],
+        hashtags: "#IndianMarkets #CapitalFlows #FinancialRegulation"
+      },
+      {
+        id: "weekly-1",
+        isCurated: true,
+        stream: "Weekly Wrap",
+        title: "Weekly Market Wrap: Gold Drops 7% on Hawkish Central Banks While Global Equities Pull Back",
+        summary: "Spot gold suffered its steepest weekly drop in 8 months (-7%), Nikkei futures slid 5%, and 10-year sovereign yields held above 5% after hawkish Fed and ECB remarks.",
+        source: "Global Multi-Asset Desk",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://www.caixabankresearch.com/en/publications/financial-markets-daily-report/20-november-2026",
+        pubDate: "Weekly Synthesis",
+        wikiTopic: "Real interest rate",
+        whatHappened: "Over the past week, Federal Reserve Governor Christopher Waller floated the possibility of a 50 bps rate hike in December 2026 while Bundesbank President Joachim Nagel signaled a December ECB hike. In response, 10-year US Treasury yields held above 5.07%, gold plunged over 7%, and global equities retreated.",
+        mechanism: "When central banks signal that inflation remains too sticky to cut rates, rising real yields raise the opportunity cost of holding non-yielding assets like gold while a higher discount rate compresses the present value of distant future earnings in high-multiple growth stocks.",
+        impacts: [
+          "Cross-Asset Tightening: Gold, crypto, and long-duration growth equities all sold off together due to rising real yields and a firmer US dollar.",
+          "Valuation Discipline in Tech: Even blockbuster IPO headlines could not offset investor scrutiny of heavy AI infrastructure capex in a 5%+ rate environment.",
+          "Regional Divergence: Gulf banking systems and domestic-demand markets showed stronger balance-sheet insulation."
+        ],
+        whyImportant: "Reviewing the week across asset classes reveals the single macro driver connecting them all: the price of risk-free money (real Treasury yields).",
+        concepts: [
+          { term: "Cross-Asset Correlation", def: "When seemingly unrelated assets (gold, tech stocks, crypto) move in the same direction because they share sensitivity to real interest rates and USD liquidity." },
+          { term: "Real Yield", def: "Nominal government bond yield minus expected inflation—the true hurdle rate competing against zero-yield assets like bullion." },
+          { term: "Long-Duration Equities", def: "High-growth companies whose cash flows lie far in the future, making their stock prices highly sensitive to discount-rate increases." }
+        ],
+        hashtags: "#WeeklyMarketWrap #GlobalMarkets #MonetaryPolicy"
+      },
+      {
+        id: "buzz-1",
+        isCurated: true,
+        stream: "Buzzwords & Trending",
+        title: "Trending Buzzword: 'Term Premium' & Why It Pushed 10-Year Treasury Yields Above 5%",
+        summary: "Bond desks and central bankers are focused on 'Term Premium'—the hidden component driving 20-year highs in long-dated sovereign yields even before central banks move policy rates.",
+        source: "Fixed Income & IMF Research",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://www.imf.org/en/blogs",
+        pubDate: "Trending Concept",
+        wikiTopic: "Yield curve",
+        whatHappened: "In recent IMF blogs and ECB Financial Stability reviews, 'term premium' has become the defining macro buzzword explaining why 10-year US Treasury yields crossed 5.07% and European long-dated yields hit 20-year highs.",
+        mechanism: "A 10-year bond yield equals expected average overnight policy rates plus the 'term premium'—the extra yield investors demand for locking up capital for a decade against inflation surprises and heavy fiscal debt supply.",
+        impacts: [
+          "Higher Mortgage & Corporate Loan Floors: Corporate bonds and commercial real estate loans are priced off 5-to-10-year sovereign yields.",
+          "Sovereign Rollover Temptation: Treasuries issuing more short-term T-bills to save interest take on rollover risk if short rates jump.",
+          "Equity Hurdle Rate Reset: A rising term premium lifts the risk-free discount rate across all DCF valuation models."
+        ],
+        whyImportant: "Distinguishing a term-premium yield spike from a growth-driven yield rise is essential for corporate debt and valuation decisions.",
+        concepts: [
+          { term: "Term Premium", def: "The extra compensation investors require to hold a longer-term bond instead of rolling over a series of short-term bills." },
+          { term: "Fiscal Dominance Risk", def: "When large government deficits and debt-service costs constrain a central bank's flexibility or keep long-term yields elevated." },
+          { term: "Quantitative Tightening (QT)", def: "Central banks allowing maturing bonds to roll off their balance sheets, increasing net bond supply for private investors." }
+        ],
+        hashtags: "#TermPremium #BondMarket #FinanceExplained"
+      },
+      {
+        id: "upcoming-1",
+        isCurated: true,
+        stream: "Upcoming Catalysts",
+        title: "Upcoming Catalyst (Dec 8–9 & Dec 17, 2026): High-Stakes Fed FOMC & ECB Rate Decisions",
+        summary: "Markets brace for back-to-back policy meetings—the US Fed on Dec 8–9 and the ECB & Bank of England on Dec 17—after policymakers openly floated renewed December rate-hike risks.",
+        source: "Global Central Bank Calendar",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://marketstryder.com/calendar/central-banks",
+        pubDate: "Upcoming: Dec 8–17, 2026",
+        wikiTopic: "Federal Open Market Committee",
+        whatHappened: "Global markets are positioning ahead of the Federal Reserve FOMC meeting on December 8–9, 2026, followed by the European Central Bank and Bank of England decisions on December 17, 2026.",
+        mechanism: "Central bank policy decisions reprice the entire global yield curve in minutes. Because the UAE dirham is pegged to the US dollar, CBUAE base-rate adjustments mirror Fed decisions directly, while Indian markets react through FPI flow sensitivity and USD/INR channels.",
+        impacts: [
+          "Direct GCC Rate Transmission: Any Fed move on December 9 passes straight through to EIBOR benchmarks and corporate borrowing costs in the UAE.",
+          "FX & Commodity Volatility Window: Hawkish surprises strengthen the US dollar and pressure gold and emerging-market currencies.",
+          "2027 Budget & Debt Hedging: CFOs finalizing 2027 operating budgets must stress-test floating-rate debt facilities ahead of December 8."
+        ],
+        whyImportant: "Knowing the exact policy calendar lets finance teams lock in FX hedges and brief boards before volatility hits.",
+        concepts: [
+          { term: "FOMC Dot Plot & Guidance", def: "The Federal Reserve's quarterly summary of economic projections showing policymakers' expected path for interest rates into 2027." },
+          { term: "EIBOR Transmission", def: "Because the AED is pegged to the USD, Emirates Interbank Offered Rates track US Federal Reserve policy adjustments closely." },
+          { term: "Rate-Hike Tail Risk", def: "When markets must price in the probability of an unexpected interest-rate increase rather than a smooth easing cycle." }
+        ],
+        hashtags: "#FOMC #CentralBanks #MacroCalendar"
+      },
+      {
+        id: "upcoming-2",
+        isCurated: true,
+        stream: "Upcoming Catalysts",
+        title: "Upcoming Milestone (Dec 31, 2026): UAE Year-End IAS 40 Valuations & Jan 1 E-Invoicing Readiness",
+        summary: "December 31, 2026 marks the dual cutoff for UAE balance-sheet fair-value measurements (IAS 40 / IFRS 13) and final ERP readiness ahead of Phase 1 PEPPOL e-invoicing on January 1, 2027.",
+        source: "UAE Accounting & Tax Calendar",
+        region: "UAE & GCC",
+        pillar: "Regulation & Governance",
+        link: "https://www.arabianbusiness.com/finance/uae-businesses-urged-to-begin-2026-year-end-valuations-early",
+        pubDate: "Upcoming: Dec 31, 2026",
+        wikiTopic: "Fair value",
+        whatHappened: "Finance teams in the UAE face a critical year-end convergence on December 31, 2026: locking down point-in-time fair-value evidence for investment properties under IAS 40/IFRS 13 while completing Accredited Service Provider (ASP) testing ahead of the January 1, 2027 PEPPOL e-invoicing go-live for large entities (revenue ≥ AED 50M).",
+        mechanism: "Under IAS 40, property valuations must reflect market conditions strictly as of December 31, feeding unrealized gains/losses directly into 2026 net profit and fund NAV. Simultaneously, PEPPOL continuous transaction controls require clean master data before January 1.",
+        impacts: [
+          "Audit & NAV Sign-Off Speed: Reconciling tenancy schedules and capex records in November–December prevents Q1 audit bottlenecks.",
+          "Tax & E-Invoicing Continuity: Testing ASP billing pipelines before year-end avoids invoice rejection on January 1, 2027.",
+          "Covenant Verification: Accurate year-end asset values confirm compliance with bank loan-to-value covenants."
+        ],
+        whyImportant: "Combining year-end valuation discipline with ERP tax readiness separates proactive finance leadership from year-end firefighting.",
+        concepts: [
+          { term: "Point-in-Time Fair Value", def: "IFRS 13 requirement that asset valuations reflect market conditions strictly as of the balance-sheet date (Dec 31)." },
+          { term: "PEPPOL 5-Corner Model", def: "The UAE's decentralized e-invoicing architecture routing structured XML invoices through Accredited Service Providers to the FTA." },
+          { term: "Loan-to-Value (LTV) Covenant", def: "A bank loan condition requiring total debt to remain below a specified percentage of appraised property value." }
+        ],
+        hashtags: "#UAEFinance #IFRS #CorporateTax"
+      },
+      {
+        id: "question-1",
+        isCurated: true,
+        stream: "Big Questions",
+        title: "Big Question: Is the $1.5 Trillion AI Infrastructure Boom Built on Solid Cash Flows or Fragile Credit?",
+        summary: "NBER research ('Clouds of Credit') and ECB warnings spotlight a central debate: do big-tech equity cushions protect the financial system, or are leveraged data-center debt webs creating systemic weak links?",
+        source: "NBER WP 36032 & ECB FSR",
+        region: "Global",
+        pillar: "Markets & Valuations",
+        link: "https://www.nber.org/papers/w36032",
+        pubDate: "Core Market Debate",
+        wikiTopic: "Capital structure",
+        whatHappened: "Two authoritative November 2026 releases—NBER Working Paper 36032 ('Clouds of Credit') and the ECB Financial Stability Review—frame the biggest question in global finance: can enterprise AI revenues scale fast enough to service the rapidly growing network of corporate bonds, private credit, and lease commitments funding AI data centers?",
+        mechanism: "Mega-cap hyperscalers still hold massive equity cushions at the core, while specialized GPU cloud operators and data-center developers have layered high-yield bonds, private credit, and compute leases on top of rapidly depreciating hardware.",
+        impacts: [
+          "The Optimistic Case: Hyperscaler balance sheets have deep equity buffers, and enterprise AI productivity gains will gradually convert capex into recurring software cash flows.",
+          "The Risk Case: If open-source models compress pricing power while 10-year yields stay above 5%, leveraged compute intermediaries face refinancing stress and rapid asset obsolescence.",
+          "What Settles the Debate: Quarterly free-cash-flow conversion of hyperscalers and default/spread trends in private-credit data-center loans."
+        ],
+        whyImportant: "Framing both sides of a major financial debate is the hallmark of executive-level analysis.",
+        concepts: [
+          { term: "Hardware Depreciation Risk", def: "The risk that expensive AI servers lose economic value faster than their debt maturity if next-generation chips render them uncompetitive." },
+          { term: "Off-Balance-Sheet Compute Leases", def: "Long-term capacity commitments that resemble fixed debt obligations economically even when structured as service contracts." },
+          { term: "Equity Cushion", def: "The buffer of shareholder equity that absorbs asset write-downs before creditors suffer losses." }
+        ],
+        hashtags: "#AIEconomics #CorporateFinance #MarketDebate"
+      },
+      {
+        id: "research-bis-1391",
+        isCurated: true,
+        stream: "Research & Journals",
+        title: "BIS Working Paper 1391 (Nov 2026): 'Scenarios for Future Banking: Profitability, Liquidity & Solvency'",
+        summary: "Analyzing 9,000 banks across 150+ jurisdictions, BIS researchers find emerging tech models could contest 40% of banking's revenue pool even while traditional banks hold 75% of assets.",
+        source: "BIS Working Paper 1391",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://www.bis.org/publications/scenarios-future-banking-implications-profitability-liquidity-and-solvency",
+        pubDate: "BIS Paper · Nov 2026",
+        wikiTopic: "Financial intermediation",
+        whatHappened: "In BIS Working Paper 1391 (November 2026), researchers classify 9,000 banks across 150+ jurisdictions and model four 10-year scenarios for how digitalization, fintech platforms, and regulation reshape banking profitability, liquidity, and solvency.",
+        mechanism: "Even in scenarios where traditional banks retain ~75% of system assets, digital challengers and tech platforms contest roughly 40% of banking revenues—specifically high-margin payments, loan origination, distribution, and advisory fees.",
+        impacts: [
+          "Asset Share Illusion: Measuring bank dominance by total assets understates competitive erosion in high-ROE fee and payment businesses.",
+          "Weak Earnings as a Solvency Risk: When net interest margins compress and fee income migrates to platforms, mid-sized banks struggle to generate organic capital.",
+          "Four Supervisory Priorities: Reassessing digital deposit-outflow speed, hardening third-party tech resilience, monitoring weak earnings, and tracking non-bank data."
+        ],
+        whyImportant: "Explains the structural economics behind modern banking: whoever owns the customer interface captures fee income, while traditional balance sheets carry the regulatory capital weight.",
+        concepts: [
+          { term: "Unbundling of Banking", def: "Separation of capital-light, high-fee services (payments, origination, wealth advice) from capital-intensive balance-sheet lending." },
+          { term: "Organic Capital Generation", def: "A bank's ability to build tier-1 equity through retained profits rather than issuing dilutive new shares." },
+          { term: "Third-Party Ecosystem Risk", def: "Operational vulnerability arising when banks rely on shared cloud, core-banking, or payment infrastructure providers." }
+        ],
+        hashtags: "#BISResearch #FutureOfBanking #FinTech"
+      }
+    ];
+
+    // Domain Profiles for Auto-Analyzing Any Live RSS Article or Pasted Excerpt
+    const DOMAIN_PROFILES = [
+      {
+        pillar: "Macro & Central Banks",
+        keywords: ["rate", "fed", "ecb", "rbi", "central bank", "inflation", "cpi", "yield", "bond", "treasury", "monetary", "gdp", "imf", "credit", "collateral", "fred", "tips"],
+        wikiTopic: "Monetary policy",
+        mechanism: "Central bank rate guidance, inflation prints, and sovereign bond yields govern the 'risk-free' cost of money across the economy. When policy expectations shift, bond yields reprice first—altering corporate borrowing rates, collateral values, currency exchange rates, and the discount rate applied to future business cash flows.",
+        impacts: [
+          "Cost of Capital & Refinancing: Higher benchmark yields increase interest expenses for leveraged corporates and tighten credit conditions.",
+          "Valuation Discount Rate: A higher risk-free yield reduces the present value of future earnings, pressuring high-multiple assets.",
+          "Currency & Reserve Dynamics: Interest-rate differentials across the US, Europe, Gulf pegged currencies, and India steer cross-border capital flows."
+        ],
+        whyImportant: "Interest rates and sovereign yields act as financial gravity. Understanding how inflation and central bank policy flow through the yield curve helps finance leaders anticipate credit tightening and valuation shifts before they hit company P&Ls.",
+        concepts: [
+          { term: "Discount Rate", def: "The interest rate used to convert future cash flows into present value; when yields rise, present value falls." },
+          { term: "Yield Curve", def: "Plots interest rates of bonds with equal credit quality across maturities from short-term bills to 30-year debt." },
+          { term: "Basis Point (bps)", def: "One hundredth of one percentage point (0.01%); 50 bps equals 0.50%." }
+        ],
+        hashtags: "#MonetaryPolicy #InterestRates #Macroeconomics"
+      },
+      {
+        pillar: "Commodities & Energy",
+        keywords: ["oil", "crude", "brent", "opec", "energy", "gas", "gold", "silver", "commodity", "shipping", "freight", "bullion", "grid", "power"],
+        wikiTopic: "Supply shock",
+        mechanism: "Energy and commodity prices transmit directly into corporate input costs, freight rates, and national trade balances. Higher oil strengthens fiscal surpluses for GCC exporters while widening trade deficits and imported inflation for energy importers like India and Europe; meanwhile, gold responds inversely to real interest rates and US dollar strength.",
+        impacts: [
+          "Corporate Gross Margins: Sustained energy and shipping cost swings directly impact operating margins in manufacturing, aviation, and logistics.",
+          "Divergent Regional Trade Balances: Higher crude boosts Gulf sovereign revenues, whereas softer oil eases currency and inflation pressure for importers.",
+          "Real-Yield Sensitivity: Precious metals and commodities reprice rapidly when central bank rate expectations shift the US dollar."
+        ],
+        whyImportant: "Commodities sit at the foundation of physical trade and inflation. Tracking energy, freight, and bullion trends explains why input costs and currency balances shift across global corridors.",
+        concepts: [
+          { term: "Supply Shock", def: "An unexpected disruption or surge in commodity supply that forces rapid price and margin adjustment across industries." },
+          { term: "Terms of Trade", def: "The ratio of export prices to import prices; higher oil improves terms of trade for energy exporters and weakens them for importers." },
+          { term: "Real Yield", def: "Nominal bond yield minus expected inflation—the primary opportunity-cost driver for non-yielding gold." }
+        ],
+        hashtags: "#Commodities #EnergyMarkets #GlobalTrade"
+      },
+      {
+        pillar: "Regulation & Governance",
+        keywords: ["sebi", "regulation", "tax", "compliance", "audit", "ifrs", "dfsa", "law", "policy", "fpi", "fema", "governance", "cbuae", "cfo", "board"],
+        wikiTopic: "Financial regulation",
+        mechanism: "Regulatory, tax, and governance frameworks define how capital enters markets, how assets are valued, and how organizations manage accountability. Transparent governance lowers the cost of equity and attracts institutional capital, while clear ERP and reporting controls turn compliance into operational resilience.",
+        impacts: [
+          "System & Process Readiness: Finance teams must align ERP workflows, valuation schedules, and statutory filings ahead of regulatory deadlines.",
+          "Institutional Capital Access: Proportionate, transparent rules reduce information asymmetry and lower a firm's cost of capital.",
+          "Audit & Board Accountability: Clearer reporting standards directly strengthen investor confidence and covenant compliance."
+        ],
+        whyImportant: "Governance and regulatory shifts quietly reshape where capital flows and how enterprise value is priced.",
+        concepts: [
+          { term: "Fiduciary Governance", def: "The duty of corporate officers and fund managers to maintain transparent controls and protect stakeholder capital." },
+          { term: "Information Asymmetry", def: "When insiders hold more risk data than outside investors, prompting investors to demand higher risk premia." },
+          { term: "Fair-Value Measurement", def: "Accounting framework requiring assets to reflect current market exit prices as of the balance-sheet date." }
+        ],
+        hashtags: "#FinancialRegulation #CorporateGovernance #CFOLeadership"
+      },
+      {
+        pillar: "Capital Flows & Deals",
+        keywords: ["ipo", "deal", "merger", "acquisition", "m&a", "fund", "private equity", "sovereign", "investment", "inflow", "outflow", "trade", "cepa", "private credit", "swf", "kkr", "mubadala"],
+        wikiTopic: "Foreign direct investment",
+        mechanism: "Institutional capital flows, sovereign co-investments, and cross-border M&A reflect where allocators see durable risk-adjusted returns. When trade pacts, local-currency settlement rails, and deep capital markets align, both strategic corporates and private funds accelerate deployment into high-growth corridors.",
+        impacts: [
+          "Liquidity & Price Discovery: Strong institutional inflows and IPO activity deepen local capital markets and lower equity cost of capital.",
+          "Cross-Border Expansion: Trade agreements and streamlined registration accelerate hub-and-spoke corporate structures across the UAE and India.",
+          "Selective Deal Discipline: Elevated interest rates mean acquirers and LPs scrutinize cash conversion and unit economics far more closely."
+        ],
+        whyImportant: "Tracking where institutional and sovereign money actually moves reveals which regions and sectors are building long-term compounding momentum.",
+        concepts: [
+          { term: "Capital Rotation", def: "The reallocation of institutional portfolios across geographies or asset classes in response to valuation and macro shifts." },
+          { term: "Cost of Equity", def: "The return shareholders require to compensate for risk; deeper institutional liquidity lowers a market's cost of equity." },
+          { term: "Cross-Border Corridor", def: "Integrated trade, banking, and regulatory links connecting two economies (such as the UAE-India CEPA corridor)." }
+        ],
+        hashtags: "#CapitalFlows #SovereignWealth #GlobalInvesting"
+      },
+      {
+        pillar: "Markets & Valuations",
+        keywords: ["stock", "equity", "market", "sensex", "nifty", "nasdaq", "s&p", "nikkei", "earnings", "profit", "valuation", "ai", "tech", "fintech", "banking", "asset pricing", "portfolio", "damodaran", "erp"],
+        wikiTopic: "Valuation (finance)",
+        mechanism: "Asset prices and corporate valuations reflect the market's collective discounting of future free cash flows. When earnings growth beats expectations or valuations are reasonable, multiples expand; when heavy capital expenditure outpaces near-term monetization or discount rates rise, high-multiple assets undergo rapid repricing.",
+        impacts: [
+          "Earnings vs. Multiple Expansion: Sustainable market gains require genuine cash-flow growth rather than reliance on rising P/E multiples.",
+          "Capex Payback Scrutiny: Investors increasingly test whether massive technology and infrastructure spending converts into high-margin revenue.",
+          "Portfolio Diversification: Managing index concentration and real-rate sensitivity protects long-term risk-adjusted returns."
+        ],
+        whyImportant: "Separating daily market volatility from underlying free-cash-flow fundamentals is the core discipline of sound financial judgment.",
+        concepts: [
+          { term: "Free Cash Flow (FCF)", def: "Operating cash flow minus capital expenditures—the actual cash available to pay down debt, fund dividends, or reinvest." },
+          { term: "Valuation Multiple (P/E)", def: "Price paid per dollar of earnings; sensitive to both expected earnings growth and benchmark interest rates." },
+          { term: "Operating Leverage", def: "How incremental revenue growth translates into disproportionately higher operating profit when fixed costs are controlled." }
+        ],
+        hashtags: "#EquityMarkets #Valuation #AssetPricing"
+      }
+    ];
+
+    let allArticles = [...CURATED_BRIEFINGS];
+    let currentStream = "ALL";
+    let currentRegion = "ALL";
+    let currentTopic = "ALL";
+    let selectedArticle = CURATED_BRIEFINGS[0];
+    let currentAngle = "institutional";
+    let useQuestionClosing = false;
+    let studiedIds = new Set(["inst-bii-1"]);
+    let bookmarks = [];
+    let customFeeds = [];
+    let journal = [];
+    let postStats = { count: 0, lastDate: "" };
+
+    try { bookmarks = JSON.parse(safeStorage.get("finDashV7_bookmarks", "[]")); } catch (e) { bookmarks = []; }
+    try { customFeeds = JSON.parse(safeStorage.get("finDashV7_customFeeds", "[]")); } catch (e) { customFeeds = []; }
+    try { journal = JSON.parse(safeStorage.get("finDashV7_journal", "[]")); } catch (e) { journal = []; }
+    try { postStats = JSON.parse(safeStorage.get("finDashV7_stats", '{"count":0,"lastDate":""}')); } catch (e) { postStats = { count: 0, lastDate: "" }; }
+
+    function init() {
+      const now = new Date();
+      document.getElementById("todayDateLine").textContent =
+        now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) +
+        " · JoF · JFE · RFS · FAJ · HBR · MIT Sloan · KKR · JPM · BlackRock · Global SWF · Damodaran · MGI · FRED";
+
+      if (safeStorage.get("finDashV7_theme", "light") === "dark") {
+        document.body.classList.add("dark");
+        document.getElementById("themeBtn").textContent = "Light Mode";
+      }
+
+      updateStreamCounts();
+      updateStatsUI();
+      renderCustomFeedsList();
+      renderJournal();
+      renderFeed();
+      selectArticleForStudy(allArticles[0], false);
+      refreshAllFeeds();
+    }
+
+    function sanitizeNewsText(rawHtml, titleToStrip) {
+      if (!rawHtml) return "";
+      const div = document.createElement("div");
+      div.innerHTML = rawHtml;
+      div.querySelectorAll("script, style, nav, footer, aside, button, form, table, figure, figcaption").forEach(function(el) {
+        el.remove();
+      });
+
+      let text = (div.textContent || div.innerText || "").replace(/\s+/g, " ").trim();
+
+      if (titleToStrip) {
+        const cleanTitle = titleToStrip.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        text = text.replace(new RegExp("^" + cleanTitle + "\\s*[-–—:|.]?\\s*", "i"), "");
+      }
+
+      const noisePatterns = [
+        /\b(Published|Updated|Posted|Last Updated|First published|Advance online publication)\s*(on|:)?\s*[A-Za-z0-9,:\s\/-]{4,35}(IST|GST|EST|UTC|GMT|AM|PM)?/gi,
+        /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}(\s*,?\s*\d{1,2}:\d{2}\s*(AM|PM)?\s*(IST|GST|EST|UTC|GMT)?)?/gi,
+        /\b\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{4}/gi,
+        /\b\d+(\.\d+)?\s*min(ute)?s?\.?\s*read\b/gi,
+        /\b(DOI|JEL Classification|ISSN|Volume\s+\d+|Issue\s+\d+)\s*[:.]?\s*[A-Za-z0-9./()-]+/gi,
+        /©\s*\d{4}\s*(Elsevier|Wiley|Oxford University Press|Taylor & Francis|Harvard Business|MIT|BlackRock|JPMorgan|KKR)[^.!?]*[.!?]?/gi,
+        /\bBy\s+[A-Z][a-z]+(\s+[A-Z][a-z]+){0,3}\s*[-–—|•]?/g,
+        /(Subscribe|Sign up|Join our WhatsApp|Follow us|Download the app|Open a Free Demat|Read more|Click here|Also Read|Must Read|Top Stories|Highlights by|Image source|File photo|Representative image)[^.!?]*[.!?]?/gi,
+        /The post\s+.*?\s+appeared first on\s+.*?\.?$/gi,
+        /\s*[-–—|]\s*(Reuters|Bloomberg|PTI|ANI|ET Bureau|IANS|CNBC|Arabian Business|Finshots|Mint|Economic Times)\s*$/gi
+      ];
+
+      noisePatterns.forEach(function(rx) {
+        text = text.replace(rx, " ");
+      });
+
+      text = text.replace(/\s+/g, " ").replace(/^[,;:\-–—|•.\s]+/, "").trim();
+
+      const sentences = text.split(/(?<=[.!?])\s+/).filter(function(s) {
+        const trimmed = s.trim();
+        if (trimmed.length < 28) return false;
+        if (/^(subscribe|sign up|read|watch|listen|share|comment|advertisement|sponsored|doi|copyright)/i.test(trimmed)) return false;
+        return true;
+      });
+
+      return sentences.join(" ").trim();
+    }
+
+    function detectDomainProfile(title, body) {
+      const blob = (title + " " + body).toLowerCase();
+      let bestMatch = DOMAIN_PROFILES[4];
+      let bestScore = 0;
+
+      DOMAIN_PROFILES.forEach(function(prof) {
+        let score = 0;
+        prof.keywords.forEach(function(kw) {
+          if (blob.indexOf(kw) !== -1) score += 1;
+        });
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = prof;
+        }
+      });
+
+      return bestMatch;
+    }
+
+    function buildSelfExplanatoryArticle(params) {
+      const cleanTitle = sanitizeNewsText(params.title, "");
+      const cleanBody = sanitizeNewsText(params.rawSummary, cleanTitle);
+      const profile = detectDomainProfile(cleanTitle, cleanBody);
+
+      const factualContext = cleanBody && cleanBody.length >= 45
+        ? cleanBody
+        : "Institutional and research coverage highlights: " + cleanTitle + ". This analysis examines empirical capital-allocation dynamics and practical decision rules within " + profile.pillar.toLowerCase() + ".";
+
+      return {
+        id: params.id,
+        isCurated: false,
+        stream: params.stream || "Daily Must-Know",
+        title: cleanTitle || params.title,
+        summary: factualContext.slice(0, 240) + (factualContext.length > 240 ? "..." : ""),
+        source: params.source,
+        region: params.region,
+        pillar: profile.pillar,
+        link: params.link,
+        pubDate: params.pubDate || "Live Feed",
+        wikiTopic: profile.wikiTopic,
+        whatHappened: factualContext,
+        mechanism: profile.mechanism,
+        impacts: profile.impacts,
+        whyImportant: profile.whyImportant,
+        concepts: profile.concepts,
+        hashtags: profile.hashtags
+      };
+    }
+
+    async function fetchSingleFeed(feed) {
+      try {
+        const res1 = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed.url));
+        if (res1.ok) {
+          const data = await res1.json();
+          if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
+            return data.items.slice(0, 4).map(function(item, idx) {
+              let rawTitle = item.title || "";
+              let publisher = feed.name;
+              const dashIdx = rawTitle.lastIndexOf(" - ");
+              if (dashIdx > 20 && rawTitle.length - dashIdx < 45) {
+                rawTitle = rawTitle.slice(0, dashIdx).trim();
+              }
+              return buildSelfExplanatoryArticle({
+                id: feed.name + "-r2j-" + idx + "-" + (item.guid || item.link || idx),
+                stream: feed.stream || "Daily Must-Know",
+                title: rawTitle,
+                rawSummary: item.description || item.content || "",
+                source: publisher,
+                region: feed.region,
+                link: item.link || feed.url,
+                pubDate: feed.stream === "Institutional & Sovereign" ? "Institutional Memo" : "Live Feed"
+              });
+            });
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const res2 = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(feed.url));
+        if (res2.ok) {
+          const wrapper = await res2.json();
+          if (wrapper && wrapper.contents) {
+            const doc = new DOMParser().parseFromString(wrapper.contents, "text/xml");
+            const items = Array.from(doc.querySelectorAll("item, entry")).slice(0, 4);
+            if (items.length > 0) {
+              return items.map(function(node, idx) {
+                const titleEl = node.querySelector("title");
+                const descEl = node.querySelector("description, summary, content");
+                const linkEl = node.querySelector("link");
+                const linkHref = linkEl ? (linkEl.getAttribute("href") || linkEl.textContent || feed.url).trim() : feed.url;
+                let rawTitle = titleEl ? titleEl.textContent : "Research Update";
+                const dashIdx = rawTitle.lastIndexOf(" - ");
+                if (dashIdx > 20 && rawTitle.length - dashIdx < 45) {
+                  rawTitle = rawTitle.slice(0, dashIdx).trim();
+                }
+                return buildSelfExplanatoryArticle({
+                  id: feed.name + "-xml-" + idx,
+                  stream: feed.stream || "Daily Must-Know",
+                  title: rawTitle,
+                  rawSummary: descEl ? descEl.textContent : "",
+                  source: feed.name,
+                  region: feed.region,
+                  link: linkHref,
+                  pubDate: "Live Feed"
+                });
+              });
+            }
+          }
+        }
+      } catch (e) {}
+
+      return [];
+    }
+
+    async function refreshAllFeeds() {
+      const syncText = document.getElementById("syncText");
+      syncText.textContent = "Syncing 19 Portals...";
+      const feedsToFetch = DEFAULT_FEEDS.concat(customFeeds);
+      let fetchedItems = [];
+      let successCount = 0;
+
+      await Promise.all(
+        feedsToFetch.map(async function(feed) {
+          const items = await fetchSingleFeed(feed);
+          if (items.length > 0) {
+            successCount++;
+            fetchedItems = fetchedItems.concat(items);
+          }
+        })
+      );
+
+      if (fetchedItems.length > 0) {
+        allArticles = CURATED_BRIEFINGS.concat(fetchedItems);
+        syncText.textContent = "Live + Briefs (" + successCount + "/" + feedsToFetch.length + ")";
+      } else {
+        allArticles = [...CURATED_BRIEFINGS];
+        syncText.textContent = "20 Executive Briefs Ready";
+      }
+
+      updateStreamCounts();
+      renderFeed();
+    }
+
+    function updateStreamCounts() {
+      const streams = [
+        "ALL",
+        "Institutional & Sovereign",
+        "Research & Journals",
+        "Daily Must-Know",
+        "Weekly Wrap",
+        "Buzzwords & Trending",
+        "Upcoming Catalysts",
+        "Big Questions",
+        "Tech & AI Finance"
+      ];
+      streams.forEach(function(st) {
+        const el = document.getElementById("cnt-" + st);
+        if (!el) return;
+        if (st === "ALL") {
+          el.textContent = allArticles.length;
+        } else {
+          el.textContent = allArticles.filter(function(a) { return a.stream === st; }).length;
+        }
+      });
+    }
+
+    function setStreamFilter(stream, btn) {
+      currentStream = stream;
+      document.querySelectorAll("#streamNav .stream-btn").forEach(function(b) {
+        b.classList.remove("active");
+      });
+      btn.classList.add("active");
+      renderFeed();
+    }
+
+    function filterByJournalName(journalQuery) {
+      currentStream = "ALL";
+      document.querySelectorAll("#streamNav .stream-btn").forEach(function(b) {
+        b.classList.toggle("active", b.dataset.stream === "ALL");
+      });
+      document.getElementById("journalFilterSelect").value = journalQuery;
+      toggleDrawer("rssDrawer");
+      renderFeed();
+      showToast("Filtered to " + journalQuery);
+    }
+
+    function analyzeManualNews() {
+      const title = document.getElementById("manualHeadlineInput").value.trim();
+      const stream = document.getElementById("manualStreamSelect").value;
+      const region = document.getElementById("manualRegionSelect").value;
+      const body = document.getElementById("manualBodyInput").value.trim();
+
+      if (!title) {
+        showToast("Please enter a title or topic first");
+        return;
+      }
+
+      const customArt = buildSelfExplanatoryArticle({
+        id: "manual-" + Date.now(),
+        stream: stream,
+        title: title,
+        rawSummary: body || title,
+        source: "Custom Memo / Article",
+        region: region,
+        link: "#",
+        pubDate: "Analyzed Now"
+      });
+
+      allArticles.unshift(customArt);
+      document.getElementById("manualHeadlineInput").value = "";
+      document.getElementById("manualBodyInput").value = "";
+      toggleDrawer("customAnalyzeDrawer");
+      updateStreamCounts();
+      renderFeed();
+      selectArticleForStudy(customArt, true);
+      showToast("Sanitized & analyzed! Deep-dive brief ready.");
+    }
+
+    function setRegionFilter(filter, btn) {
+      currentRegion = filter;
+      document.querySelectorAll("#regionFilters .pill").forEach(function(p) {
+        p.classList.remove("active");
+      });
+      btn.classList.add("active");
+      renderFeed();
+    }
+
+    function setTopicFilter(topic, btn) {
+      currentTopic = topic;
+      document.querySelectorAll("#topicFilters .pill").forEach(function(p) {
+        p.classList.remove("active");
+      });
+      btn.classList.add("active");
+      renderFeed();
+    }
+
+    function resetAllFilters() {
+      currentStream = "ALL";
+      currentRegion = "ALL";
+      currentTopic = "ALL";
+      document.getElementById("keywordSearch").value = "";
+      document.getElementById("journalFilterSelect").value = "ALL";
+      document.querySelectorAll("#streamNav .stream-btn").forEach(function(b) {
+        b.classList.toggle("active", b.dataset.stream === "ALL");
+      });
+      document.querySelectorAll("#regionFilters .pill").forEach(function(p) {
+        p.classList.toggle("active", p.dataset.filter === "ALL");
+      });
+      document.querySelectorAll("#topicFilters .pill").forEach(function(p) {
+        p.classList.toggle("active", p.dataset.topic === "ALL");
+      });
+      renderFeed();
+    }
+
+    function toggleBookmark(id) {
+      if (bookmarks.includes(id)) {
+        bookmarks = bookmarks.filter(function(b) { return b !== id; });
+        showToast("Removed from bookmarks");
+      } else {
+        bookmarks.push(id);
+        showToast("Bookmarked brief");
+      }
+      safeStorage.set("finDashV7_bookmarks", JSON.stringify(bookmarks));
+      renderFeed();
+    }
+
+    function renderFeed() {
+      const container = document.getElementById("feedList");
+      const query = document.getElementById("keywordSearch").value.toLowerCase().trim();
+      const journalFilter = document.getElementById("journalFilterSelect").value;
+
+      const filtered = allArticles.filter(function(art) {
+        if (currentStream !== "ALL" && art.stream !== currentStream) return false;
+        if (currentRegion === "BOOKMARKED" && !bookmarks.includes(art.id)) return false;
+        if (currentRegion !== "ALL" && currentRegion !== "BOOKMARKED" && art.region !== currentRegion) return false;
+        if (currentTopic !== "ALL" && art.pillar !== currentTopic) return false;
+        if (journalFilter !== "ALL") {
+          const srcBlob = (art.source + " " + art.title).toLowerCase();
+          if (journalFilter === "BIS / NBER") {
+            if (srcBlob.indexOf("bis") === -1 && srcBlob.indexOf("nber") === -1) return false;
+          } else if (srcBlob.indexOf(journalFilter.toLowerCase()) === -1) {
+            return false;
+          }
+        }
+        if (query) {
+          const hay = (art.title + " " + art.summary + " " + art.pillar + " " + art.stream + " " + art.source).toLowerCase();
+          if (hay.indexOf(query) === -1) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("kpiStories").textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--text-soft);">No items match this filter combination. Click <strong>Reset Filters</strong> above to restore all briefs.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(function(art) {
+        const isSelected = selectedArticle && selectedArticle.id === art.id;
+        const isBookmarked = bookmarks.includes(art.id);
+        const safeId = art.id.replace(/"/g, "&quot;");
+        return (
+          '<article class="news-card ' + (isSelected ? "selected" : "") + '">' +
+            '<div class="news-meta">' +
+              '<div>' +
+                '<span class="source-tag">' + art.source + '</span>' +
+                '<span class="stream-tag">' + art.stream + '</span>' +
+                '<span class="pillar-tag">' + art.pillar + '</span>' +
+              '</div>' +
+              '<span class="region-tag">' + art.region + '</span>' +
+            '</div>' +
+            '<a class="news-title" href="' + art.link + '" target="_blank" rel="noopener noreferrer">' + art.title + '</a>' +
+            '<p class="news-summary">' + art.summary + '</p>' +
+            '<div class="news-actions">' +
+              '<button class="btn-primary" onclick=\'selectArticleById("' + safeId + '")\'>Inspect Deep-Dive &amp; Draft &rarr;</button>' +
+              '<button class="btn-secondary" onclick=\'toggleBookmark("' + safeId + '")\'>' + (isBookmarked ? "Bookmarked" : "Bookmark") + '</button>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join("");
+    }
+
+    function selectArticleById(id) {
+      const found = allArticles.find(function(a) { return a.id === id; });
+      if (found) {
+        selectArticleForStudy(found, true);
+        renderFeed();
+      }
+    }
+
+    function applyAdaptiveBlockLabels(stream) {
+      const b1 = document.getElementById("lblBlock1");
+      const b2 = document.getElementById("lblBlock2");
+      const b3 = document.getElementById("lblBlock3");
+      const b4 = document.getElementById("lblBlock4");
+
+      if (stream === "Institutional & Sovereign") {
+        b1.textContent = "Institutional Thesis & Macro Context";
+        b2.textContent = "Capital-Allocation Mechanism & Data Signal";
+        b3.textContent = "Portfolio, Sovereign & Corporate Implications";
+        b4.textContent = "Why Institutional Allocators Care";
+      } else if (stream === "Research & Journals") {
+        b1.textContent = "Journal / Paper Premise & Scope";
+        b2.textContent = "Core Empirical Finding & Financial Mechanism";
+        b3.textContent = "Practical Implications for Banks, Funds & Corporates";
+        b4.textContent = "Why This Research Matters";
+      } else if (stream === "Buzzwords & Trending") {
+        b1.textContent = "Why It Is Trending Right Now";
+        b2.textContent = "Plain-English Mechanism (How It Actually Works)";
+        b3.textContent = "Where It Shows Up in Markets & Balance Sheets";
+        b4.textContent = "Why Finance Leaders Should Master This Concept";
+      } else if (stream === "Upcoming Catalysts") {
+        b1.textContent = "The Upcoming Event / Regulatory Milestone";
+        b2.textContent = "Transmission Channel (How It Moves Markets & Rules)";
+        b3.textContent = "Scenarios & Preparation Checklist";
+        b4.textContent = "Why Acting Ahead of the Date Matters";
+      } else if (stream === "Big Questions") {
+        b1.textContent = "The Core Unresolved Question";
+        b2.textContent = "The Structural Tension Behind the Debate";
+        b3.textContent = "Both Sides of the Debate & Key Signals to Watch";
+        b4.textContent = "Strategic Takeaway for Decision-Makers";
+      } else {
+        b1.textContent = "What Happened (Clean Factual Context)";
+        b2.textContent = "The Financial Mechanism (How & Why It Works)";
+        b3.textContent = "1st & 2nd Order Impact (Markets, Corporates & Capital Flows)";
+        b4.textContent = "Why It Is Important (Strategic Takeaway)";
+      }
+    }
+
+    function selectArticleForStudy(article, shouldScroll) {
+      selectedArticle = article;
+      if (article && article.id) {
+        studiedIds.add(article.id);
+        document.getElementById("kpiStudied").textContent = studiedIds.size;
+      }
+
+      applyAdaptiveBlockLabels(article.stream);
+
+      document.getElementById("briefDomainBadge").textContent = article.stream;
+      document.getElementById("briefRegionKicker").textContent = article.region + " · " + article.pillar;
+      document.getElementById("briefTitle").textContent = article.title;
+      document.getElementById("briefSourceText").textContent = "Source: " + article.source;
+      const linkEl = document.getElementById("briefSourceLink");
+      linkEl.href = article.link || "#";
+      linkEl.style.display = (article.link && article.link !== "#") ? "inline" : "none";
+
+      document.getElementById("briefWhatHappened").textContent = article.whatHappened;
+      document.getElementById("briefMechanism").textContent = article.mechanism;
+
+      const impactsUl = document.getElementById("briefImpacts");
+      impactsUl.innerHTML = (article.impacts || []).map(function(imp) {
+        const parts = imp.split(":");
+        if (parts.length > 1) {
+          return "<li><strong>" + parts[0] + ":</strong>" + parts.slice(1).join(":") + "</li>";
+        }
+        return "<li>" + imp + "</li>";
+      }).join("");
+
+      document.getElementById("briefWhyImportant").textContent = article.whyImportant;
+
+      const conceptsDiv = document.getElementById("briefConcepts");
+      conceptsDiv.innerHTML = (article.concepts || []).map(function(c) {
+        return (
+          '<div class="concept-card">' +
+            '<div class="concept-term">' + c.term + '</div>' +
+            '<div class="concept-def">' + c.def + '</div>' +
+          '</div>'
+        );
+      }).join("");
+
+      const wikiBox = document.getElementById("wikiEnrichBox");
+      wikiBox.classList.remove("show");
+      wikiBox.textContent = "";
+      document.getElementById("wikiBtn").textContent = "Load Reference Primer (" + (article.wikiTopic || "Concept") + ")";
+
+      if (article.stream === "Institutional & Sovereign") {
+        currentAngle = "institutional";
+      } else if (article.stream === "Research & Journals") {
+        currentAngle = "research";
+      } else if (article.stream === "Big Questions" || article.stream === "Upcoming Catalysts") {
+        currentAngle = "debate";
+      } else {
+        currentAngle = "explainer";
+      }
+      document.querySelectorAll(".angle-btn").forEach(function(b) {
+        b.classList.toggle("active", b.dataset.angle === currentAngle);
+      });
+
+      generateDraft();
+
+      if (shouldScroll && window.innerWidth <= 1040) {
+        document.getElementById("analysisColumn").scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    async function fetchEncyclopediaContext() {
+      if (!selectedArticle || !selectedArticle.wikiTopic) return;
+      const btn = document.getElementById("wikiBtn");
+      const box = document.getElementById("wikiEnrichBox");
+      btn.textContent = "Loading...";
+      try {
+        const topic = encodeURIComponent(selectedArticle.wikiTopic);
+        const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + topic);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.extract) {
+            box.innerHTML = "<strong>Reference Primer (" + data.title + "):</strong> " + data.extract;
+            box.classList.add("show");
+            btn.textContent = "Primer Loaded";
+            return;
+          }
+        }
+      } catch (e) {}
+      box.innerHTML = "<strong>Concept Note:</strong> Review the 3 decoded terms above—together they explain the core mechanism behind this development.";
+      box.classList.add("show");
+      btn.textContent = "Primer Ready";
+    }
+
+    function selectAngle(angle, btn) {
+      currentAngle = angle;
+      document.querySelectorAll(".angle-btn").forEach(function(b) {
+        b.classList.remove("active");
+      });
+      btn.classList.add("active");
+      generateDraft();
+    }
+
+    function toggleClosingStyle() {
+      useQuestionClosing = !useQuestionClosing;
+      document.getElementById("closingToggleBtn").textContent = useQuestionClosing
+        ? "Closing: Focused Peer Question"
+        : "Closing: Strategic Takeaway";
+      generateDraft();
+    }
+
+    function regenerateDraft() {
+      generateDraft();
+      showToast("Draft refreshed from Deep-Dive Brief");
+    }
+
+    function generateDraft() {
+      const art = selectedArticle || CURATED_BRIEFINGS[0];
+      const impacts = art.impacts || [];
+      const personalNote = document.getElementById("personalNoteInput").value.trim();
+      const personalLine = personalNote ? "\n\nPractical observation: " + personalNote : "";
+
+      const closingLine = useQuestionClosing
+        ? "\n\nFor finance leaders and allocators watching this shift—which portfolio or balance-sheet implication is highest on your radar right now?"
+        : "\n\nWhy this matters: " + art.whyImportant;
+
+      let draft = "";
+
+      if (currentAngle === "institutional") {
+        draft = "Institutional perspective from " + art.source + ":\n" +
+          art.title + ".\n\n" +
+          "The capital-allocation signal:\n" +
+          art.mechanism + "\n\n" +
+          "Three implications for portfolios, treasuries & corporate strategy:\n" +
+          impacts.map(function(item) { return "• " + item; }).join("\n") +
+          personalLine +
+          closingLine;
+      } else if (currentAngle === "research") {
+        draft = "Key insight from " + art.source + ":\n" +
+          art.title + ".\n\n" +
+          "The core mechanism:\n" +
+          art.mechanism + "\n\n" +
+          "Three practical implications for finance & investment leaders:\n" +
+          impacts.map(function(item) { return "• " + item; }).join("\n") +
+          personalLine +
+          closingLine;
+      } else if (currentAngle === "debate") {
+        draft = art.title + ".\n\n" +
+          "What is driving this:\n" +
+          art.whatHappened + "\n\n" +
+          "The underlying tension:\n" +
+          art.mechanism + "\n\n" +
+          "Key scenarios & signals to watch:\n" +
+          impacts.map(function(item) { return "• " + item; }).join("\n") +
+          personalLine +
+          closingLine;
+      } else {
+        draft = art.title + ".\n\n" +
+          "Most headlines stop at the surface number. Here is the financial mechanism underneath it:\n\n" +
+          art.mechanism + "\n\n" +
+          "Three second-order ripples worth watching:\n" +
+          impacts.map(function(item) { return "• " + item; }).join("\n") +
+          personalLine +
+          closingLine;
+      }
+
+      document.getElementById("postEditor").value = draft;
+      updateEditorMetrics();
+    }
+
+    function updateEditorMetrics() {
+      const text = document.getElementById("postEditor").value;
+      const len = text.length;
+      const label = document.getElementById("charCountLabel");
+
+      if (len >= 750 && len <= 1650) {
+        label.innerHTML = '<span class="char-good">' + len + ' characters</span> (Substantive, high-retention length)';
+      } else if (len > 1650) {
+        label.innerHTML = '<span class="char-warn">' + len + ' characters</span> (Rich deep-dive; trim ~150 chars if tightening for mobile)';
+      } else {
+        label.textContent = len + " characters (Target: 850 - 1,550)";
+      }
+
+      const preview = text.trim().slice(0, 210);
+      document.getElementById("hookPreviewText").textContent =
+        preview ? preview + (text.trim().length > 210 ? "... see more" : "") : "Your opening lines appear here...";
+    }
+
+    function toggleHashtags() {
+      const editor = document.getElementById("postEditor");
+      const tags = "\n\n" + ((selectedArticle && selectedArticle.hashtags) ? selectedArticle.hashtags : "#Finance #Macroeconomics #InstitutionalInvesting");
+      if (editor.value.indexOf(tags.trim()) !== -1) {
+        editor.value = editor.value.replace(tags, "");
+      } else {
+        editor.value = editor.value.trim() + tags;
+      }
+      updateEditorMetrics();
+    }
+
+    function copyPostAndLog() {
+      const editor = document.getElementById("postEditor");
+      const text = editor.value.trim();
+      if (!text) return;
+
+      const logSuccess = function() {
+        postStats.count += 1;
+        postStats.lastDate = new Date().toLocaleDateString();
+        safeStorage.set("finDashV7_stats", JSON.stringify(postStats));
+        updateStatsUI();
+        showToast("Post copied! Paste into LinkedIn & drop source link in 1st comment.");
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(logSuccess).catch(function() {
+          editor.select();
+          document.execCommand("copy");
+          logSuccess();
+        });
+      } else {
+        editor.select();
+        document.execCommand("copy");
+        logSuccess();
+      }
+    }
+
+    function updateStatsUI() {
+      document.getElementById("kpiPosts").textContent = postStats.count;
+      if (postStats.lastDate) {
+        document.getElementById("kpiLastPost").textContent = "Last logged: " + postStats.lastDate;
+      }
+      document.getElementById("savedCount").textContent = journal.length;
+    }
+
+    function saveToJournal() {
+      const text = document.getElementById("postEditor").value.trim();
+      if (!text || !selectedArticle) return;
+      journal.unshift({
+        date: new Date().toLocaleDateString(),
+        headline: selectedArticle.title,
+        whyImportant: selectedArticle.whyImportant,
+        content: text
+      });
+      safeStorage.set("finDashV7_journal", JSON.stringify(journal.slice(0, 50)));
+      updateStatsUI();
+      renderJournal();
+      showToast("Saved brief & post to Archive!");
+    }
+
+    function renderJournal() {
+      const list = document.getElementById("journalList");
+      if (journal.length === 0) {
+        list.innerHTML = '<div style="color: var(--text-soft); font-size: 0.8rem;">No saved briefs yet. Click "Save Brief &amp; Post to Archive" to build your personal finance knowledge library.</div>';
+        return;
+      }
+      list.innerHTML = journal.map(function(item, i) {
+        return (
+          '<div class="journal-item">' +
+            '<div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px;">' +
+              '<strong>' + item.date + ' — ' + item.headline + '</strong>' +
+              '<button class="btn-secondary" style="padding:2px 7px; font-size:0.7rem;" onclick="loadJournalItem(' + i + ')">Load</button>' +
+            '</div>' +
+            '<div style="color: var(--text-muted); font-size: 0.78rem;">' + (item.whyImportant || item.content.slice(0, 180)) + '</div>' +
+          '</div>'
+        );
+      }).join("");
+    }
+
+    function loadJournalItem(idx) {
+      const item = journal[idx];
+      if (!item) return;
+      document.getElementById("postEditor").value = item.content;
+      updateEditorMetrics();
+      toggleDrawer("journalDrawer");
+    }
+
+    function addCustomFeed() {
+      const name = document.getElementById("customFeedName").value.trim();
+      const stream = document.getElementById("customFeedStream").value;
+      const region = document.getElementById("customFeedRegion").value;
+      const url = document.getElementById("customFeedUrl").value.trim();
+      if (!name || !url) {
+        showToast("Enter both a source name and RSS URL");
+        return;
+      }
+      customFeeds.push({ name: name, stream: stream, region: region, url: url });
+      safeStorage.set("finDashV7_customFeeds", JSON.stringify(customFeeds));
+      document.getElementById("customFeedName").value = "";
+      document.getElementById("customFeedUrl").value = "";
+      renderCustomFeedsList();
+      refreshAllFeeds();
+      showToast("Added " + name + "!");
+    }
+
+    function removeCustomFeed(idx) {
+      customFeeds.splice(idx, 1);
+      safeStorage.set("finDashV7_customFeeds", JSON.stringify(customFeeds));
+      renderCustomFeedsList();
+      refreshAllFeeds();
+    }
+
+    function renderCustomFeedsList() {
+      const el = document.getElementById("activeFeedsList");
+      if (customFeeds.length === 0) {
+        el.textContent = "19 Built-in Live Feeds: BlackRock Investment Institute, J.P. Morgan Eye on the Market, KKR Global Macro, Global SWF, Aswath Damodaran, McKinsey Global Institute, FRED, JoF, JFE, RFS, FAJ, HBR, MIT Sloan, BIS, NY Fed, CBUAE, Finshots & RBI/SEBI.";
+        return;
+      }
+      el.innerHTML = "Custom feeds: " + customFeeds.map(function(f, i) {
+        return '<span style="margin-right:10px;"><strong>' + f.name + '</strong> (' + f.stream + ') <a href="#" onclick="removeCustomFeed(' + i + ');return false;" style="color:var(--rose);">[remove]</a></span>';
+      }).join("");
+    }
+
+    function toggleDrawer(id) {
+      document.getElementById(id).classList.toggle("open");
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      safeStorage.set("finDashV7_theme", isDark ? "dark" : "light");
+      document.getElementById("themeBtn").textContent = isDark ? "Light Mode" : "Dark Mode";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(function() { t.classList.remove("show"); }, 2600);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
