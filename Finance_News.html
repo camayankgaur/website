@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Executive Finance Intelligence, Top Journals, Buy-Side Research &amp; LinkedIn Studio</title>
+  <title>Executive Finance Intelligence, Date-Synced Vault &amp; LinkedIn Studio</title>
   <style>
     :root {
       --bg: #eef2f6;
@@ -929,15 +929,16 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <h1>Executive Finance Intelligence, Top Journals &amp; LinkedIn Studio <span class="brand-badge">Edition v7</span></h1>
+        <h1>Executive Finance Intelligence, Top Journals &amp; LinkedIn Studio <span class="brand-badge">Edition v11 · Verified Engine</span></h1>
         <p id="todayDateLine">JoF · JFE · RFS · FAJ · HBR · MIT Sloan · KKR · JPM · BlackRock · Global SWF · Damodaran · MGI · FRED</p>
       </div>
       <div class="top-actions">
         <span class="status-pill" id="syncStatus"><span class="status-dot"></span><span id="syncText">Ready</span></span>
-        <button class="btn-secondary" onclick="refreshAllFeeds()">Sync All Feeds</button>
+        <span style="display:inline-flex; align-items:center; gap:5px; background:var(--surface-alt); border:1px solid var(--border); padding:3px 6px 3px 9px; border-radius:8px;"><label for="topSyncDateInput" style="font-size:0.73rem; font-weight:700; color:var(--text-soft);">Target Date:</label><input type="date" id="topSyncDateInput" title="Select date to fetch & filter news for that date" style="padding:3px 6px; font-size:0.76rem; border-radius:6px;" /><button class="btn-primary" style="padding:5px 11px; font-size:0.76rem;" onclick="syncForSelectedDate()">Sync Date</button></span>
         <button class="btn-secondary" onclick="toggleDrawer('customAnalyzeDrawer')">+ Analyze Any Text</button>
         <button class="btn-secondary" onclick="toggleDrawer('rssDrawer')">Portals &amp; Podcasts</button>
-        <button class="btn-secondary" onclick="toggleDrawer('journalDrawer')">Archive (<span id="savedCount">0</span>)</button>
+        <button class="btn-secondary" onclick="toggleDrawer('historyVaultDrawer')">Historical Vault (<span id="vaultCount">0</span>)</button>
+        <button class="btn-secondary" onclick="toggleDrawer('journalDrawer')">Saved Drafts (<span id="savedCount">0</span>)</button>
         <button class="btn-secondary" onclick="toggleTheme()" id="themeBtn">Dark Mode</button>
       </div>
     </div>
@@ -955,6 +956,7 @@
       <button class="stream-btn" data-stream="Upcoming Catalysts" onclick="setStreamFilter('Upcoming Catalysts', this)">Upcoming Catalysts <span class="stream-count" id="cnt-Upcoming Catalysts">0</span></button>
       <button class="stream-btn" data-stream="Big Questions" onclick="setStreamFilter('Big Questions', this)">Big Questions &amp; Debates <span class="stream-count" id="cnt-Big Questions">0</span></button>
       <button class="stream-btn" data-stream="Tech & AI Finance" onclick="setStreamFilter('Tech & AI Finance', this)">Tech &amp; AI Finance <span class="stream-count" id="cnt-Tech & AI Finance">0</span></button>
+      <button class="stream-btn" data-stream="Historical & Landmarks" onclick="setStreamFilter('Historical & Landmarks', this)">Historical &amp; Landmarks <span class="stream-count" id="cnt-Historical & Landmarks">0</span></button>
     </nav>
 
     <!-- KPI Strip -->
@@ -975,10 +977,40 @@
         <div class="kpi-sub" id="kpiLastPost">Insight-first LinkedIn drafts</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Live Feeds Connected</div>
-        <div class="kpi-value" style="font-size: 0.96rem;" id="kpiActiveStream">19 Feeds</div>
-        <div class="kpi-sub">Auto-sanitized · Zero promo/DOI clutter</div>
+        <div class="kpi-label">Historical Vault</div>
+        <div class="kpi-value" style="font-size: 0.96rem;" id="kpiVaultTotal">0 Retained</div>
+        <div class="kpi-sub">Auto-retains past news by date &amp; month</div>
       </div>
+    </section>
+
+    <!-- Historical News Vault Drawer -->
+    <section class="drawer" id="historyVaultDrawer">
+      <div class="panel-title-row">
+        <strong style="font-size: 0.92rem;">Historical News Vault &amp; Cumulative Timeline (Auto-Retained Across Sessions)</strong>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn-secondary" style="font-size:0.74rem;" onclick="exportVaultJSON()">Export Backup (.json)</button>
+          <button class="btn-secondary" style="font-size:0.74rem;" onclick="triggerImportVault()">Import Backup</button>
+          <input type="file" id="vaultImportInput" accept=".json" style="display:none;" onchange="importVaultJSON(event)" />
+          <button class="btn-secondary" onclick="toggleDrawer('historyVaultDrawer')">Close</button>
+        </div>
+      </div>
+      <p style="font-size:0.77rem; color:var(--text-soft); margin-top:4px;">
+        Every time you open the dashboard or click <strong>Sync All Feeds</strong>, new stories are automatically deduplicated and permanently archived here with their capture date so you never lose historical market developments.
+      </p>
+      <div class="drawer-row" style="align-items:center;">
+        <select id="vaultMonthFilter" onchange="renderHistoryVault()" style="min-width:165px;">
+          <option value="ALL">All Historical Months</option>
+        </select>
+        <input type="date" id="vaultExactDateFilter" onchange="renderHistoryVault()" title="Filter by exact date" style="min-width:140px;" />
+        <select id="vaultRegionFilter" onchange="renderHistoryVault()" style="min-width:150px;">
+          <option value="ALL">All Regions</option>
+          <option value="UAE & GCC">UAE &amp; GCC</option>
+          <option value="India">India</option>
+          <option value="Global">Global</option>
+        </select>
+        <input type="text" id="vaultSearchInput" placeholder="Search historical archive by keyword, year, or policy..." oninput="renderHistoryVault()" style="flex:1; min-width:200px;" />
+      </div>
+      <div class="journal-list" id="historyVaultList" style="max-height:340px; margin-top:10px;"></div>
     </section>
 
     <!-- Custom News / Paper Analyzer Drawer -->
@@ -1003,6 +1035,7 @@
           <option value="UAE & GCC">UAE &amp; GCC</option>
           <option value="India">India</option>
         </select>
+        <input type="date" id="manualDateInput" title="Story / Event Date" style="min-width:145px;" />
       </div>
       <div class="drawer-row">
         <textarea id="manualBodyInput" rows="3" placeholder="Paste raw memo or abstract (DOIs, dates, publisher copyright, and 'subscribe' banners are stripped automatically)..." style="width: 100%;"></textarea>
@@ -1133,7 +1166,12 @@
                 <option value="BIS / NBER">BIS &amp; NBER Working Papers</option>
               </optgroup>
             </select>
-            <input type="text" class="search-box" id="keywordSearch" placeholder="Search keyword (KKR, Cembalest, BlackRock, SWF, ERP, FRED, JoF)..." oninput="renderFeed()" />
+            <select class="mode-select" id="dateHorizonSelect" onchange="renderFeed()" style="min-width:150px;">
+              <option value="ALL">All Dates &amp; History</option>
+              <option value="LATEST">Latest (2026 Current)</option>
+              <option value="HISTORICAL">Historical Vault &amp; Landmarks</option>
+            </select>
+            <input type="text" class="search-box" id="keywordSearch" placeholder="Search keyword (KKR, Cembalest, SWF, Corporate Tax, 2023–2026)..." oninput="renderFeed()" />
           </div>
         </div>
         <div class="feed-list" id="feedList"></div>
@@ -1154,6 +1192,11 @@
               <div class="brief-title" id="briefTitle">Select any item on the left to inspect its full breakdown</div>
               <div class="brief-source-line">
                 <span id="briefSourceText">Source: —</span>
+                <span style="display:inline-flex; align-items:center; gap:5px; background:var(--surface-alt); border:1px solid var(--border); padding:2px 8px; border-radius:6px;">
+                  <label for="briefDateEditor" style="font-size:0.71rem; font-weight:700; color:var(--text-soft);">Date:</label>
+                  <input type="date" id="briefDateEditor" onchange="updateSelectedArticleDate(this.value)" style="padding:2px 6px; font-size:0.74rem; border-radius:5px;" />
+                  <button type="button" class="btn-secondary" style="padding:2px 7px; font-size:0.69rem;" onclick="setSelectedDateToToday()" title="Set date to today">Today</button>
+                </span>
                 <a id="briefSourceLink" href="#" target="_blank" rel="noopener noreferrer">Open Publication / Portal &nearr;</a>
               </div>
             </div>
@@ -1265,126 +1308,200 @@
       }
     };
 
-    // 19 Live RSS Feeds covering Institutional Buy-Side, Valuation, FRED, Top 6 Journals, BIS/NY Fed & Regional Finance
+    // Reliable Date-Aware Search & RSS Feeds (Works for Today OR Any Selected Historical Date)
     const DEFAULT_FEEDS = [
       {
-        name: "BlackRock Investment Institute",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=%22BlackRock+Investment+Institute%22+commentary+OR+outlook+when:14d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "J.P. Morgan Eye on the Market",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=%22Eye+on+the+Market%22+Cembalest+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "KKR Global Macro (Henry McVey)",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=%22Henry+McVey%22+OR+%22KKR%22+macro+outlook+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "Global SWF (Sovereign Funds)",
-        stream: "Institutional & Sovereign",
-        region: "UAE & GCC",
-        url: "https://news.google.com/rss/search?q=site:globalswf.com+OR+%22Global+SWF%22+sovereign+wealth+when:14d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "Musings on Markets (Aswath Damodaran)",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://aswathdamodaran.blogspot.com/feeds/posts/default"
-      },
-      {
-        name: "McKinsey Global Institute (MGI)",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=%22McKinsey+Global+Institute%22+economy+OR+capital+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "FRED Economic Blog (St. Louis Fed)",
-        stream: "Institutional & Sovereign",
-        region: "Global",
-        url: "https://fredblog.stlouisfed.org/feed/"
-      },
-      {
-        name: "The Journal of Finance (AFA)",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=site:afajof.org+OR+%22Journal+of+Finance%22+research+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "Journal of Financial Economics (JFE)",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=%22Journal+of+Financial+Economics%22+paper+OR+study+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "The Review of Financial Studies (RFS)",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=site:academic.oup.com/rfs+OR+%22Review+of+Financial+Studies%22+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "Financial Analysts Journal (CFA)",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=site:rpc.cfainstitute.org+OR+%22Financial+Analysts+Journal%22+when:30d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "Harvard Business Review (Finance)",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://news.google.com/rss/search?q=site:hbr.org+finance+OR+CFO+OR+capital+allocation+when:21d&hl=en-US&gl=US&ceid=US:en"
-      },
-      {
-        name: "MIT Sloan Management Review",
-        stream: "Tech & AI Finance",
-        region: "Global",
-        url: "https://sloanreview.mit.edu/feed/"
-      },
-      {
-        name: "BIS Working Papers",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://www.bis.org/doclist/wppubls.rss"
-      },
-      {
-        name: "NY Fed Liberty Street Economics",
-        stream: "Research & Journals",
-        region: "Global",
-        url: "https://libertystreeteconomics.newyorkfed.org/feed/"
-      },
-      {
-        name: "UAE Economy & CBUAE",
+        name: "UAE Economy & Banking",
         stream: "Daily Must-Know",
         region: "UAE & GCC",
-        url: "https://news.google.com/rss/search?q=UAE+economy+OR+CBUAE+OR+DIFC+finance+when:3d&hl=en-AE&gl=AE&ceid=AE:en"
+        query: "(UAE economy OR CBUAE OR DIFC OR Dubai finance OR Abu Dhabi investment)",
+        rssUrl: ""
       },
       {
-        name: "Finshots Daily",
-        stream: "Daily Must-Know",
-        region: "India",
-        url: "https://finshots.in/archive/rss/"
+        name: "GCC Markets & Sovereign Deals",
+        stream: "Institutional & Sovereign",
+        region: "UAE & GCC",
+        query: "(Dubai OR Abu Dhabi OR Mubadala OR ADIA OR GCC sovereign fund)",
+        rssUrl: ""
       },
       {
         name: "India Macro, RBI & SEBI",
         stream: "Daily Must-Know",
         region: "India",
-        url: "https://news.google.com/rss/search?q=RBI+OR+SEBI+OR+India+economy+OR+FPI+markets+when:3d&hl=en-IN&gl=IN&ceid=IN:en"
+        query: "(RBI OR SEBI OR India economy OR Nifty OR Sensex OR FPI inflows)",
+        rssUrl: ""
       },
       {
-        name: "AI & FinTech Economics",
+        name: "Finshots Daily",
+        stream: "Daily Must-Know",
+        region: "India",
+        query: "(site:finshots.in OR India business economy explained)",
+        rssUrl: "https://finshots.in/archive/rss/"
+      },
+      {
+        name: "Global Central Banks & Rates",
+        stream: "Daily Must-Know",
+        region: "Global",
+        query: "(Federal Reserve OR ECB OR inflation OR Treasury yields OR interest rates)",
+        rssUrl: "https://www.cnbc.com/id/10000664/device/rss/rss.html"
+      },
+      {
+        name: "BlackRock, KKR & JPM Research",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        query: "(BlackRock Investment Institute OR Henry McVey KKR OR Michael Cembalest)",
+        rssUrl: ""
+      },
+      {
+        name: "Aswath Damodaran & Valuation",
+        stream: "Institutional & Sovereign",
+        region: "Global",
+        query: "(Aswath Damodaran OR equity risk premium OR corporate valuation)",
+        rssUrl: "https://aswathdamodaran.blogspot.com/feeds/posts/default"
+      },
+      {
+        name: "Top Finance Journals (JoF, JFE, RFS, HBR)",
+        stream: "Research & Journals",
+        region: "Global",
+        query: "(\"Journal of Finance\" OR \"Journal of Financial Economics\" OR \"Review of Financial Studies\" OR \"Harvard Business Review\" finance)",
+        rssUrl: ""
+      },
+      {
+        name: "BIS & NY Fed Working Papers",
+        stream: "Research & Journals",
+        region: "Global",
+        query: "(\"BIS Working Paper\" OR \"Liberty Street Economics\" OR NBER finance)",
+        rssUrl: "https://libertystreeteconomics.newyorkfed.org/feed/"
+      },
+      {
+        name: "AI Capex & FinTech Economics",
         stream: "Tech & AI Finance",
         region: "Global",
-        url: "https://news.google.com/rss/search?q=AI+capex+OR+fintech+banking+OR+data+center+financing+when:5d&hl=en-US&gl=US&ceid=US:en"
+        query: "(AI infrastructure capex OR data center power OR fintech banking)",
+        rssUrl: "https://sloanreview.mit.edu/feed/"
       }
     ];
 
     // 22 Comprehensive Executive Briefings including Institutional Buy-Side, Sovereign Wealth, Damodaran, MGI, FRED & Top 6 Journals
     const CURATED_BRIEFINGS = [
+      // HISTORICAL & LANDMARK DEVELOPMENTS (2023–2026)
+      {
+        id: "hist-uae-ct-2023",
+        isCurated: true,
+        isHistorical: true,
+        capturedDate: "2023-06-01",
+        stream: "Historical & Landmarks",
+        title: "Historical Landmark (June 2023): UAE Introduces 9% Federal Corporate Tax & 0% Qualifying Free Zone Regime",
+        summary: "Effective for financial years starting on or after June 1, 2023, the UAE implemented Federal Decree-Law No. 47 of 2022—introducing a 9% corporate tax above AED 375,000 while preserving 0% tax on Qualifying Income in Free Zones like DIFC and ADGM.",
+        source: "UAE Ministry of Finance / Historical Archive",
+        region: "UAE & GCC",
+        pillar: "Regulation & Governance",
+        link: "https://mof.gov.ae/corporate-tax/",
+        pubDate: "June 2023 · Historical Landmark",
+        wikiTopic: "Corporate tax",
+        whatHappened: "Under Federal Decree-Law No. 47 of 2022 (effective June 1, 2023), the UAE transitioned from a zero-corporate-tax jurisdiction to a globally aligned 9% federal corporate tax regime on taxable profits exceeding AED 375,000, alongside strict transfer-pricing documentation and Qualifying Free Zone Person (QFZP) substance rules.",
+        mechanism: "To comply with OECD Pillar Two global minimum tax standards without eroding Dubai and Abu Dhabi's attractiveness as international financial hubs, the UAE paired a competitive 9% mainland rate with a 0% regime for Qualifying Free Zone Persons (such as DIFC/ADGM fund managers and holding entities) that maintain adequate local substance, audited financial statements, and arm's-length intercompany pricing.",
+        impacts: [
+          "Mandatory Audited Financials & Substance: Free-zone funds and corporates must maintain audited IFRS statements and demonstrable UAE economic substance to retain 0% status.",
+          "Transfer-Pricing Discipline: Intercompany management fees, treasury loans, and cross-border recharges now require formal benchmarking and documentation.",
+          "ERP & Chart-of-Accounts Restructuring: Finance teams separated qualifying vs. non-qualifying revenue streams inside ERP ledgers."
+        ],
+        whyImportant: "Every current UAE tax, e-invoicing, and DIFC fund-structuring decision rests on the 2023 Corporate Tax foundation—understanding its architecture is essential context for regional CFOs.",
+        concepts: [
+          { term: "Qualifying Free Zone Person (QFZP)", def: "A UAE free-zone entity meeting substance, audit, and de-minimis requirements to benefit from a 0% corporate tax rate on Qualifying Income." },
+          { term: "Arm's-Length Principle", def: "Transfer-pricing rule requiring transactions between related entities to be priced as if conducted between independent parties." },
+          { term: "OECD Pillar Two Alignment", def: "Global minimum tax framework (15% for MNEs above €750M revenue) that prompted sovereign tax modernization across the GCC." }
+        ],
+        hashtags: "#UAECorporateTax #DIFC #HistoricalContext"
+      },
+      {
+        id: "hist-svb-2023",
+        isCurated: true,
+        isHistorical: true,
+        capturedDate: "2023-03-10",
+        stream: "Historical & Landmarks",
+        title: "Historical Landmark (March 2023): Silicon Valley Bank Failure & The Lesson of Unhedged Duration Risk",
+        summary: "When rapid Fed rate hikes collided with uninsured digital deposit flight in March 2023, SVB's collapse reshaped global bank liquidity rules, treasury counterparty limits, and BIS deposit-velocity research.",
+        source: "Federal Reserve / Historical Archive",
+        region: "Global",
+        pillar: "Macro & Central Banks",
+        link: "https://www.federalreserve.gov/publications/review-of-the-federal-reserves-supervision-and-regulation-of-silicon-valley-bank.htm",
+        pubDate: "March 2023 · Historical Landmark",
+        wikiTopic: "Duration (finance)",
+        whatHappened: "In March 2023, Silicon Valley Bank suffered a $42 billion single-day digital deposit outflow after disclosing a $1.8 billion realized loss on long-dated US Treasury and mortgage-backed securities sold to meet liquidity needs.",
+        mechanism: "SVB had invested short-term, uninsured startup deposits into long-duration fixed-rate bonds ('Held-to-Maturity') when interest rates were near zero. As the Federal Reserve hiked rates aggressively in 2022–2023, the market value of those long-dated bonds plunged. Once depositors withdrew cash via mobile banking in hours rather than days, unrealized paper losses became realized solvency losses.",
+        impacts: [
+          "Birth of 'Deposit Velocity' Supervision: Regulators (including BIS in 2026) overhauled liquidity models to account for instant mobile-app bank runs.",
+          "Corporate Treasury Counterparty Rules: CFOs instituted strict single-bank concentration caps and moved excess cash into direct sovereign Treasury bills.",
+          "Held-to-Maturity (HTM) Accounting Scrutiny: Investors now closely examine unrealized bond losses sitting off the income statement on bank balance sheets."
+        ],
+        whyImportant: "Every modern discussion about deposit velocity, sovereign yield shocks, and bank liquidity buffers traces directly back to the lessons of March 2023.",
+        concepts: [
+          { term: "Duration Mismatch", def: "Funding long-term fixed-rate bonds with short-term withdrawable deposits—exposing the institution to insolvency when interest rates jump." },
+          { term: "Held-to-Maturity (HTM) Accounting", def: "Accounting classification allowing banks to carry bonds at amortized cost without recognizing market price drops in equity—unless forced to sell early." },
+          { term: "Uninsured Deposit Concentration", def: "High proportion of corporate deposits above statutory insurance limits ($250k in the US), which flee fastest at the first sign of stress." }
+        ],
+        hashtags: "#BankingHistory #TreasuryRisk #AssetLiabilityManagement"
+      },
+      {
+        id: "hist-uae-india-cepa-2022",
+        isCurated: true,
+        isHistorical: true,
+        capturedDate: "2022-05-01",
+        stream: "Historical & Landmarks",
+        title: "Historical Landmark (2022–2026 Arc): UAE–India CEPA & Local-Currency Settlement (INR–AED) Rails",
+        summary: "Entered into force in May 2022, the UAE–India CEPA eliminated tariffs on over 80% of product lines and laid the foundation for $100B+ bilateral trade and direct INR–AED settlement.",
+        source: "UAE Ministry of Economy / Historical Archive",
+        region: "UAE & GCC",
+        pillar: "Capital Flows & Deals",
+        link: "https://www.moec.gov.ae/en/cepa_india",
+        pubDate: "2022–2026 · Historical Arc",
+        wikiTopic: "Bilateral trade",
+        whatHappened: "Implemented on May 1, 2022, the UAE–India Comprehensive Economic Partnership Agreement (CEPA) became the UAE's first bilateral free trade pact—subsequently paired with central-bank agreements enabling direct Indian Rupee (INR) and UAE Dirham (AED) trade settlement.",
+        mechanism: "By removing customs duties on over 80% of tariff lines, establishing fast-track rules of origin, and linking payment/clearing systems, CEPA lowered cross-border transaction costs—catalyzing the surge to $101.24 billion in bilateral trade and over 42,000 new Indian corporate registrations in the UAE by 2026.",
+        impacts: [
+          "Supply-Chain & Re-Export Hub: Indian manufacturers and exporters use Dubai free zones for duty-advantaged assembly and distribution across MENA and Africa.",
+          "Reduced USD Intermediation Friction: Direct INR–AED settlement rails reduce double currency-conversion spreads for bilateral trade.",
+          "Institutional Investment Bridge: Paved the way for sovereign wealth co-investments and GIFT City–DIFC financial corridor collaboration."
+        ],
+        whyImportant: "Provides the historical baseline for understanding why UAE–India corporate registrations, gold volumes, and bilateral capital flows reached record highs in 2026.",
+        concepts: [
+          { term: "Rules of Origin", def: "Criteria determining the national source of a product so it qualifies for preferential zero-tariff treatment under a trade pact." },
+          { term: "Local-Currency Settlement", def: "Settling cross-border invoices directly in INR and AED rather than routing every payment through US dollar correspondent banks." },
+          { term: "Non-Oil Bilateral Trade Target", def: "Joint UAE–India target to scale non-oil bilateral trade to $100 billion+, achieved ahead of schedule." }
+        ],
+        hashtags: "#UAEIndiaCEPA #TradeCorridor #EconomicHistory"
+      },
+      {
+        id: "hist-rbi-cbdc-upi-2023",
+        isCurated: true,
+        isHistorical: true,
+        capturedDate: "2023-07-15",
+        stream: "Historical & Landmarks",
+        title: "Historical Landmark (2023–2026 Arc): India's Digital Public Infrastructure (DPI) & Cross-Border UPI–Aani Integration",
+        summary: "From UPI's domestic scale to linking India's UPI with the UAE's Aani instant payment platform, Digital Public Infrastructure transformed retail and cross-border remittance economics.",
+        source: "RBI & CBUAE / Historical Archive",
+        region: "India",
+        pillar: "Markets & Valuations",
+        link: "https://www.npci.org.in/",
+        pubDate: "2023–2026 · Historical Arc",
+        wikiTopic: "Payment system",
+        whatHappened: "Beginning with the 2023 RBI–CBUAE Memorandum of Understanding on linking fast payment systems (UPI in India and Aani in the UAE) and domestic RuPay/Jaywan card networks, cross-border retail payments and remittances shifted onto real-time interoperable rails.",
+        mechanism: "Traditional cross-border remittances relied on multi-bank SWIFT correspondent chains charging 4–6% in fees and FX spreads with multi-day settlement delays. Interlinking national instant payment switches settles retail and SME transfers in seconds at near-zero marginal cost.",
+        impacts: [
+          "Remittance Cost Compression: Lowered transfer friction across one of the world's largest remittance corridors (UAE–India).",
+          "Merchant Acceptance & Tourism Boost: Indian travelers and UAE residents can transact seamlessly across QR payment networks.",
+          "Blueprint for Regulatory DPI: Directly inspired SEBI's 2026 initiative to build shared AI regulatory infrastructure as public digital rails."
+        ],
+        whyImportant: "Shows how public-private payment infrastructure compounds over multi-year horizons to reshape banking fee pools and cross-border commerce.",
+        concepts: [
+          { term: "Fast Payment System Interlinking", def: "Direct technical connection between two countries' real-time payment switches (UPI and Aani) for instant cross-border settlement." },
+          { term: "Correspondent Banking Drag", def: "Fees and settlement delays incurred when cross-border payments pass through multiple intermediary banks." },
+          { term: "Interoperable QR Rails", def: "Standardized payment protocols allowing consumers on one banking app to pay merchants on any participating network." }
+        ],
+        hashtags: "#DigitalPublicInfrastructure #UPI #FinTechHistory"
+      },
+
       // NEW INSTITUTIONAL & SOVEREIGN BRIEFINGS
       {
         id: "inst-bii-1",
@@ -2044,8 +2161,221 @@
     try { journal = JSON.parse(safeStorage.get("finDashV7_journal", "[]")); } catch (e) { journal = []; }
     try { postStats = JSON.parse(safeStorage.get("finDashV7_stats", '{"count":0,"lastDate":""}')); } catch (e) { postStats = { count: 0, lastDate: "" }; }
 
+
+    // Persistent Historical News Vault (Retains all stories across days/weeks)
+    let historicalVault = [];
+    try { historicalVault = JSON.parse(safeStorage.get("finDashV8_historyVault", "[]")); } catch (e) { historicalVault = []; }
+
+    function syncToHistoricalVault(articles) {
+      const todayIso = new Date().toISOString().split("T")[0];
+      const existingMap = {};
+      historicalVault.forEach(function(item) {
+        const key = (item.title || "").toLowerCase().trim();
+        if (key) existingMap[key] = item;
+      });
+
+      let addedCount = 0;
+      articles.forEach(function(art) {
+        const key = (art.title || "").toLowerCase().trim();
+        if (!key) return;
+        if (!existingMap[key]) {
+          const copy = Object.assign({}, art, {
+            capturedDate: art.capturedDate || todayIso
+          });
+          historicalVault.unshift(copy);
+          existingMap[key] = copy;
+          addedCount++;
+        }
+      });
+
+      // Keep up to 500 historical briefs locally
+      historicalVault = historicalVault.slice(0, 500);
+      safeStorage.set("finDashV8_historyVault", JSON.stringify(historicalVault));
+      updateVaultUI();
+      return addedCount;
+    }
+
+    function updateVaultUI() {
+      const vc = document.getElementById("vaultCount");
+      const kv = document.getElementById("kpiVaultTotal");
+      if (vc) vc.textContent = historicalVault.length;
+      if (kv) kv.textContent = historicalVault.length + " Retained";
+      populateVaultMonths();
+      renderHistoryVault();
+    }
+
+    function populateVaultMonths() {
+      const sel = document.getElementById("vaultMonthFilter");
+      if (!sel) return;
+      const currentVal = sel.value;
+      const months = new Set();
+      historicalVault.forEach(function(item) {
+        if (item.capturedDate && item.capturedDate.length >= 7) {
+          months.add(item.capturedDate.slice(0, 7));
+        }
+      });
+      const sortedMonths = Array.from(months).sort().reverse();
+      sel.innerHTML = '<option value="ALL">All Historical Months (' + historicalVault.length + ')</option>' +
+        sortedMonths.map(function(m) {
+          return '<option value="' + m + '">' + m + '</option>';
+        }).join("");
+      if (sortedMonths.indexOf(currentVal) !== -1) sel.value = currentVal;
+    }
+
+    function renderHistoryVault() {
+      const list = document.getElementById("historyVaultList");
+      if (!list) return;
+      const monthFilter = document.getElementById("vaultMonthFilter") ? document.getElementById("vaultMonthFilter").value : "ALL";
+      const exactDateFilter = document.getElementById("vaultExactDateFilter") ? document.getElementById("vaultExactDateFilter").value : "";
+      const regFilter = document.getElementById("vaultRegionFilter") ? document.getElementById("vaultRegionFilter").value : "ALL";
+      const q = document.getElementById("vaultSearchInput") ? document.getElementById("vaultSearchInput").value.toLowerCase().trim() : "";
+
+      const items = historicalVault.filter(function(item) {
+        if (monthFilter !== "ALL" && (!item.capturedDate || item.capturedDate.indexOf(monthFilter) !== 0)) return false;
+        if (exactDateFilter && item.capturedDate !== exactDateFilter) return false;
+        if (regFilter !== "ALL" && item.region !== regFilter) return false;
+        if (q) {
+          const hay = (item.title + " " + item.summary + " " + item.source + " " + (item.capturedDate || "")).toLowerCase();
+          if (hay.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+
+      if (items.length === 0) {
+        list.innerHTML = '<div style="color:var(--text-soft); font-size:0.8rem;">No historical items match this filter.</div>';
+        return;
+      }
+
+      list.innerHTML = items.map(function(item, idx) {
+        const safeId = (item.id || ("vault-" + idx)).replace(/"/g, "&quot;");
+        return (
+          '<div class="journal-item">' +
+            '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:4px;">' +
+              '<div>' +
+                '<span style="display:inline-flex; align-items:center; gap:4px; margin-right:6px;"><input type="date" value="' + ((item.capturedDate && /^\d{4}-\d{2}-\d{2}$/.test(item.capturedDate)) ? item.capturedDate : "") + '" onchange=\'updateArticleDateById("' + safeId + '", this.value)\' title="Edit story date" style="padding:2px 6px; font-size:0.72rem; border-radius:5px;" /></span>' +
+                '<span class="region-tag">' + item.source + ' · ' + item.region + '</span>' +
+                '<div style="font-weight:700; margin-top:4px; color:var(--text);">' + item.title + '</div>' +
+              '</div>' +
+              '<button class="btn-primary" style="padding:4px 9px; font-size:0.72rem; white-space:nowrap;" onclick=\'loadFromVault("' + safeId + '")\'>Study &amp; Draft &rarr;</button>' +
+            '</div>' +
+            '<div style="color:var(--text-muted); font-size:0.78rem;">' + item.summary + '</div>' +
+          '</div>'
+        );
+      }).join("");
+    }
+
+    function loadFromVault(id) {
+      const found = historicalVault.find(function(a) { return a.id === id; });
+      if (!found) return;
+      if (!allArticles.some(function(a) { return a.id === found.id; })) {
+        allArticles.unshift(found);
+        updateStreamCounts();
+        renderFeed();
+      }
+      selectArticleForStudy(found, true);
+      toggleDrawer("historyVaultDrawer");
+    }
+
+    function exportVaultJSON() {
+      const blob = new Blob([JSON.stringify(historicalVault, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Finance_Historical_News_Vault_" + new Date().toISOString().split("T")[0] + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Exported " + historicalVault.length + " historical briefs!");
+    }
+
+    function triggerImportVault() {
+      document.getElementById("vaultImportInput").click();
+    }
+
+    function importVaultJSON(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (Array.isArray(imported)) {
+            const added = syncToHistoricalVault(imported);
+            allArticles = CURATED_BRIEFINGS.concat(historicalVault.filter(function(h) { return !h.isCurated; }));
+            updateStreamCounts();
+            renderFeed();
+            showToast("Imported " + added + " historical briefs into Vault!");
+          }
+        } catch (err) {
+          showToast("Invalid JSON backup file");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+
+    // Persistent Date Overrides Map (saves edited dates for both curated & live stories)
+    let dateOverrides = {};
+    try { dateOverrides = JSON.parse(safeStorage.get("finDashV9_dateOverrides", "{}")); } catch (e) { dateOverrides = {}; }
+
+    function applySavedDateOverrides(list) {
+      const todayIso = (document.getElementById("topSyncDateInput") && document.getElementById("topSyncDateInput").value) || new Date().toISOString().split("T")[0];
+      list.forEach(function(art) {
+        if (art.id && dateOverrides[art.id]) {
+          art.capturedDate = dateOverrides[art.id];
+        } else if (!art.capturedDate) {
+          art.capturedDate = todayIso;
+        }
+      });
+    }
+
+    function updateArticleDateById(id, newDate) {
+      if (!id || !newDate) return;
+      dateOverrides[id] = newDate;
+      safeStorage.set("finDashV9_dateOverrides", JSON.stringify(dateOverrides));
+
+      allArticles.forEach(function(a) {
+        if (a.id === id) {
+          a.capturedDate = newDate;
+        }
+      });
+
+      historicalVault.forEach(function(h) {
+        if (h.id === id) {
+          h.capturedDate = newDate;
+        }
+      });
+      safeStorage.set("finDashV8_historyVault", JSON.stringify(historicalVault));
+
+      if (selectedArticle && selectedArticle.id === id) {
+        selectedArticle.capturedDate = newDate;
+        const editorEl = document.getElementById("briefDateEditor");
+        if (editorEl) editorEl.value = newDate;
+      }
+
+      updateVaultUI();
+      renderFeed();
+      showToast("Date updated to " + newDate);
+    }
+
+    function updateSelectedArticleDate(newDate) {
+      if (!selectedArticle || !newDate) return;
+      updateArticleDateById(selectedArticle.id, newDate);
+    }
+
+    function setSelectedDateToToday() {
+      const todayIso = new Date().toISOString().split("T")[0];
+      updateSelectedArticleDate(todayIso);
+    }
+
     function init() {
       const now = new Date();
+      const todayStr = now.toISOString().split("T")[0];
+      const topDateEl = document.getElementById("topSyncDateInput");
+      if (topDateEl) topDateEl.value = todayStr;
+      const manualDateEl = document.getElementById("manualDateInput");
+      if (manualDateEl) manualDateEl.value = todayStr;
       document.getElementById("todayDateLine").textContent =
         now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) +
         " · JoF · JFE · RFS · FAJ · HBR · MIT Sloan · KKR · JPM · BlackRock · Global SWF · Damodaran · MGI · FRED";
@@ -2055,13 +2385,21 @@
         document.getElementById("themeBtn").textContent = "Light Mode";
       }
 
+      applySavedDateOverrides(CURATED_BRIEFINGS);
+      applySavedDateOverrides(historicalVault);
+      syncToHistoricalVault(CURATED_BRIEFINGS);
+      const archivedExtras = historicalVault.filter(function(h) { return !h.isCurated; });
+      if (archivedExtras.length > 0) {
+        allArticles = CURATED_BRIEFINGS.concat(archivedExtras);
+      }
+      applySavedDateOverrides(allArticles);
       updateStreamCounts();
       updateStatsUI();
       renderCustomFeedsList();
       renderJournal();
       renderFeed();
       selectArticleForStudy(allArticles[0], false);
-      refreshAllFeeds();
+      refreshAllFeeds(todayStr);
     }
 
     function sanitizeNewsText(rawHtml, titleToStrip) {
@@ -2157,64 +2495,161 @@
       };
     }
 
-    async function fetchSingleFeed(feed) {
+    function addDaysIso(isoDate, deltaDays) {
+      const parts = isoDate.split("-");
+      const dt = new Date(Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10)));
+      dt.setUTCDate(dt.getUTCDate() + deltaDays);
+      return dt.toISOString().split("T")[0];
+    }
+
+    function buildTargetFeedUrl(feed, targetDateIso) {
+      const todayIso = new Date().toISOString().split("T")[0];
+      const isTodayOrFuture = !targetDateIso || targetDateIso >= todayIso;
+
+      // If custom RSS URL was added by user and they are syncing today, use it directly
+      if (feed.url && (!feed.query || isTodayOrFuture)) {
+        return feed.url;
+      }
+
+      // If feed has a direct RSS URL AND we are syncing today, try direct RSS first when no date filter is forced
+      if (feed.rssUrl && isTodayOrFuture && !window.__forceDateWindow) {
+        return feed.rssUrl;
+      }
+
+      // Build exact Google News date-bounded search query: after:(date-1) before:(date+1)
+      let q = feed.query || feed.name;
+      if (targetDateIso) {
+        const afterDate = addDaysIso(targetDateIso, -1);
+        const beforeDate = addDaysIso(targetDateIso, 1);
+        q = q + " after:" + afterDate + " before:" + beforeDate;
+      }
+
+      let gl = "US", ceid = "US:en";
+      if (feed.region === "UAE & GCC") { gl = "AE"; ceid = "AE:en"; }
+      else if (feed.region === "India") { gl = "IN"; ceid = "IN:en"; }
+
+      return "https://news.google.com/rss/search?q=" + encodeURIComponent(q) + "&hl=en&gl=" + gl + "&ceid=" + ceid;
+    }
+
+    function parseXmlRssString(xmlText, feed, targetDateIso) {
+      const doc = new DOMParser().parseFromString(xmlText, "text/xml");
+      if (doc.querySelector("parsererror")) return [];
+      const nodes = Array.from(doc.querySelectorAll("item, entry")).slice(0, 6);
+      const results = [];
+      nodes.forEach(function(node, idx) {
+        const titleEl = node.querySelector("title");
+        const descEl = node.querySelector("description, summary, content");
+        const linkEl = node.querySelector("link");
+        const pubEl = node.querySelector("pubDate, published, updated");
+        const sourceEl = node.querySelector("source");
+
+        let rawTitle = titleEl ? titleEl.textContent : "";
+        if (!rawTitle) return;
+
+        let publisher = (sourceEl && sourceEl.textContent) ? sourceEl.textContent.trim() : feed.name;
+        const dashIdx = rawTitle.lastIndexOf(" - ");
+        if (dashIdx > 18 && rawTitle.length - dashIdx < 45) {
+          if (!sourceEl) publisher = rawTitle.slice(dashIdx + 3).trim();
+          rawTitle = rawTitle.slice(0, dashIdx).trim();
+        }
+
+        let itemIso = targetDateIso || new Date().toISOString().split("T")[0];
+        if (!targetDateIso && pubEl && pubEl.textContent) {
+          const parsed = new Date(pubEl.textContent);
+          if (!isNaN(parsed.getTime())) {
+            itemIso = parsed.toISOString().split("T")[0];
+          }
+        }
+
+        const linkHref = linkEl ? (linkEl.getAttribute("href") || linkEl.textContent || "#").trim() : "#";
+        const art = buildSelfExplanatoryArticle({
+          id: (feed.name + "-" + itemIso + "-" + rawTitle.slice(0, 32)).replace(/[^a-zA-Z0-9_-]/g, "_"),
+          stream: feed.stream || "Daily Must-Know",
+          title: rawTitle,
+          rawSummary: descEl ? descEl.textContent : "",
+          source: publisher,
+          region: feed.region,
+          link: linkHref,
+          pubDate: itemIso
+        });
+        art.capturedDate = itemIso;
+        results.push(art);
+      });
+      return results;
+    }
+
+    async function fetchTextWithTimeout(url, ms) {
+      const controller = new AbortController();
+      const timer = setTimeout(function() { controller.abort(); }, ms || 8000);
       try {
-        const res1 = await fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed.url));
-        if (res1.ok) {
-          const data = await res1.json();
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) return null;
+        return await res.text();
+      } catch (e) {
+        clearTimeout(timer);
+        return null;
+      }
+    }
+
+    async function fetchSingleFeed(feed, targetDateIso) {
+      const feedUrl = buildTargetFeedUrl(feed, targetDateIso);
+
+      // Proxy 1: codetabs CORS proxy (fast raw XML)
+      try {
+        const xml1 = await fetchTextWithTimeout("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(feedUrl), 7500);
+        if (xml1 && (xml1.indexOf("<item") !== -1 || xml1.indexOf("<entry") !== -1)) {
+          const parsed1 = parseXmlRssString(xml1, feed, targetDateIso);
+          if (parsed1.length > 0) return parsed1;
+        }
+      } catch (e) {}
+
+      // Proxy 2: allorigins raw endpoint
+      try {
+        const xml2 = await fetchTextWithTimeout("https://api.allorigins.win/raw?url=" + encodeURIComponent(feedUrl), 7500);
+        if (xml2 && (xml2.indexOf("<item") !== -1 || xml2.indexOf("<entry") !== -1)) {
+          const parsed2 = parseXmlRssString(xml2, feed, targetDateIso);
+          if (parsed2.length > 0) return parsed2;
+        }
+      } catch (e) {}
+
+      // Proxy 3: corsproxy.io
+      try {
+        const xml3 = await fetchTextWithTimeout("https://corsproxy.io/?" + encodeURIComponent(feedUrl), 7500);
+        if (xml3 && (xml3.indexOf("<item") !== -1 || xml3.indexOf("<entry") !== -1)) {
+          const parsed3 = parseXmlRssString(xml3, feed, targetDateIso);
+          if (parsed3.length > 0) return parsed3;
+        }
+      } catch (e) {}
+
+      // Proxy 4: rss2json JSON converter
+      try {
+        const jsonRaw = await fetchTextWithTimeout("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feedUrl), 7500);
+        if (jsonRaw) {
+          const data = JSON.parse(jsonRaw);
           if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
-            return data.items.slice(0, 4).map(function(item, idx) {
+            return data.items.slice(0, 5).map(function(item, idx) {
               let rawTitle = item.title || "";
               let publisher = feed.name;
               const dashIdx = rawTitle.lastIndexOf(" - ");
-              if (dashIdx > 20 && rawTitle.length - dashIdx < 45) {
+              if (dashIdx > 18 && rawTitle.length - dashIdx < 45) {
+                publisher = rawTitle.slice(dashIdx + 3).trim();
                 rawTitle = rawTitle.slice(0, dashIdx).trim();
               }
-              return buildSelfExplanatoryArticle({
-                id: feed.name + "-r2j-" + idx + "-" + (item.guid || item.link || idx),
+              const itemIso = targetDateIso || (item.pubDate ? item.pubDate.split(" ")[0] : new Date().toISOString().split("T")[0]);
+              const art = buildSelfExplanatoryArticle({
+                id: (feed.name + "-r2j-" + itemIso + "-" + idx).replace(/[^a-zA-Z0-9_-]/g, "_"),
                 stream: feed.stream || "Daily Must-Know",
                 title: rawTitle,
                 rawSummary: item.description || item.content || "",
                 source: publisher,
                 region: feed.region,
-                link: item.link || feed.url,
-                pubDate: feed.stream === "Institutional & Sovereign" ? "Institutional Memo" : "Live Feed"
+                link: item.link || feedUrl,
+                pubDate: itemIso
               });
+              art.capturedDate = itemIso;
+              return art;
             });
-          }
-        }
-      } catch (e) {}
-
-      try {
-        const res2 = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(feed.url));
-        if (res2.ok) {
-          const wrapper = await res2.json();
-          if (wrapper && wrapper.contents) {
-            const doc = new DOMParser().parseFromString(wrapper.contents, "text/xml");
-            const items = Array.from(doc.querySelectorAll("item, entry")).slice(0, 4);
-            if (items.length > 0) {
-              return items.map(function(node, idx) {
-                const titleEl = node.querySelector("title");
-                const descEl = node.querySelector("description, summary, content");
-                const linkEl = node.querySelector("link");
-                const linkHref = linkEl ? (linkEl.getAttribute("href") || linkEl.textContent || feed.url).trim() : feed.url;
-                let rawTitle = titleEl ? titleEl.textContent : "Research Update";
-                const dashIdx = rawTitle.lastIndexOf(" - ");
-                if (dashIdx > 20 && rawTitle.length - dashIdx < 45) {
-                  rawTitle = rawTitle.slice(0, dashIdx).trim();
-                }
-                return buildSelfExplanatoryArticle({
-                  id: feed.name + "-xml-" + idx,
-                  stream: feed.stream || "Daily Must-Know",
-                  title: rawTitle,
-                  rawSummary: descEl ? descEl.textContent : "",
-                  source: feed.name,
-                  region: feed.region,
-                  link: linkHref,
-                  pubDate: "Live Feed"
-                });
-              });
-            }
           }
         }
       } catch (e) {}
@@ -2222,16 +2657,29 @@
       return [];
     }
 
-    async function refreshAllFeeds() {
+    let activeDateFilter = "";
+
+    async function syncForSelectedDate() {
+      const dateInput = document.getElementById("topSyncDateInput");
+      const chosenDate = dateInput && dateInput.value ? dateInput.value : new Date().toISOString().split("T")[0];
+      activeDateFilter = chosenDate;
+      window.__forceDateWindow = true;
+      await refreshAllFeeds(chosenDate);
+    }
+
+    async function refreshAllFeeds(explicitDateIso) {
       const syncText = document.getElementById("syncText");
-      syncText.textContent = "Syncing 19 Portals...";
+      const dateInput = document.getElementById("topSyncDateInput");
+      const targetDate = explicitDateIso || (dateInput && dateInput.value) || "";
+
+      syncText.textContent = targetDate ? ("Syncing " + targetDate + "...") : "Syncing Feeds...";
       const feedsToFetch = DEFAULT_FEEDS.concat(customFeeds);
       let fetchedItems = [];
       let successCount = 0;
 
       await Promise.all(
         feedsToFetch.map(async function(feed) {
-          const items = await fetchSingleFeed(feed);
+          const items = await fetchSingleFeed(feed, targetDate);
           if (items.length > 0) {
             successCount++;
             fetchedItems = fetchedItems.concat(items);
@@ -2240,15 +2688,34 @@
       );
 
       if (fetchedItems.length > 0) {
-        allArticles = CURATED_BRIEFINGS.concat(fetchedItems);
-        syncText.textContent = "Live + Briefs (" + successCount + "/" + feedsToFetch.length + ")";
+        applySavedDateOverrides(fetchedItems);
+        const added = syncToHistoricalVault(fetchedItems);
+        const retainedLive = historicalVault.filter(function(h) { return !h.isCurated; });
+        allArticles = CURATED_BRIEFINGS.concat(retainedLive);
+        applySavedDateOverrides(allArticles);
+        syncText.textContent = "Synced " + fetchedItems.length + " (" + successCount + "/" + feedsToFetch.length + " sources)";
+        showToast("Loaded " + fetchedItems.length + " stories for " + (targetDate || "today") + " (" + added + " new saved to Vault)");
       } else {
-        allArticles = [...CURATED_BRIEFINGS];
-        syncText.textContent = "20 Executive Briefs Ready";
+        const retainedLive = historicalVault.filter(function(h) { return !h.isCurated; });
+        allArticles = CURATED_BRIEFINGS.concat(retainedLive);
+        syncText.textContent = "Vault Ready (" + allArticles.length + " briefs)";
+        if (explicitDateIso) {
+          showToast("Showing retained briefs matching " + explicitDateIso + " (live proxy rate-limited)");
+        }
       }
 
       updateStreamCounts();
       renderFeed();
+
+      // Auto-select the first visible story for that date
+      const visibleCards = document.querySelectorAll("#feedList .news-card");
+      if (visibleCards.length > 0 && explicitDateIso) {
+        const firstMatching = allArticles.find(function(a) { return a.capturedDate === explicitDateIso; });
+        if (firstMatching) {
+          selectArticleForStudy(firstMatching, false);
+          renderFeed();
+        }
+      }
     }
 
     function updateStreamCounts() {
@@ -2261,7 +2728,8 @@
         "Buzzwords & Trending",
         "Upcoming Catalysts",
         "Big Questions",
-        "Tech & AI Finance"
+        "Tech & AI Finance",
+        "Historical & Landmarks"
       ];
       streams.forEach(function(st) {
         const el = document.getElementById("cnt-" + st);
@@ -2298,6 +2766,7 @@
       const title = document.getElementById("manualHeadlineInput").value.trim();
       const stream = document.getElementById("manualStreamSelect").value;
       const region = document.getElementById("manualRegionSelect").value;
+      const manualDate = (document.getElementById("manualDateInput") && document.getElementById("manualDateInput").value) || new Date().toISOString().split("T")[0];
       const body = document.getElementById("manualBodyInput").value.trim();
 
       if (!title) {
@@ -2313,10 +2782,14 @@
         source: "Custom Memo / Article",
         region: region,
         link: "#",
-        pubDate: "Analyzed Now"
+        pubDate: manualDate
       });
+      customArt.capturedDate = manualDate;
+      dateOverrides[customArt.id] = manualDate;
+      safeStorage.set("finDashV9_dateOverrides", JSON.stringify(dateOverrides));
 
       allArticles.unshift(customArt);
+      syncToHistoricalVault([customArt]);
       document.getElementById("manualHeadlineInput").value = "";
       document.getElementById("manualBodyInput").value = "";
       toggleDrawer("customAnalyzeDrawer");
@@ -2344,12 +2817,20 @@
       renderFeed();
     }
 
+    function clearActiveDateFilter() {
+      activeDateFilter = "";
+      renderFeed();
+      showToast("Showing all dates");
+    }
+
     function resetAllFilters() {
+      activeDateFilter = "";
       currentStream = "ALL";
       currentRegion = "ALL";
       currentTopic = "ALL";
       document.getElementById("keywordSearch").value = "";
       document.getElementById("journalFilterSelect").value = "ALL";
+      if (document.getElementById("dateHorizonSelect")) document.getElementById("dateHorizonSelect").value = "ALL";
       document.querySelectorAll("#streamNav .stream-btn").forEach(function(b) {
         b.classList.toggle("active", b.dataset.stream === "ALL");
       });
@@ -2378,9 +2859,13 @@
       const container = document.getElementById("feedList");
       const query = document.getElementById("keywordSearch").value.toLowerCase().trim();
       const journalFilter = document.getElementById("journalFilterSelect").value;
+      const dateHorizon = document.getElementById("dateHorizonSelect") ? document.getElementById("dateHorizonSelect").value : "ALL";
 
       const filtered = allArticles.filter(function(art) {
+        if (activeDateFilter && art.capturedDate !== activeDateFilter) return false;
         if (currentStream !== "ALL" && art.stream !== currentStream) return false;
+        if (dateHorizon === "HISTORICAL" && !(art.isHistorical || art.stream === "Historical & Landmarks")) return false;
+        if (dateHorizon === "LATEST" && (art.isHistorical || art.stream === "Historical & Landmarks")) return false;
         if (currentRegion === "BOOKMARKED" && !bookmarks.includes(art.id)) return false;
         if (currentRegion !== "ALL" && currentRegion !== "BOOKMARKED" && art.region !== currentRegion) return false;
         if (currentTopic !== "ALL" && art.pillar !== currentTopic) return false;
@@ -2402,7 +2887,7 @@
       document.getElementById("kpiStories").textContent = filtered.length;
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--text-soft);">No items match this filter combination. Click <strong>Reset Filters</strong> above to restore all briefs.</div>';
+        container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--text-soft);">No stories loaded for <strong>' + (activeDateFilter || "this filter") + '</strong> yet. Click <strong>Sync Date</strong> at the top to fetch news for that date, or <a href="#" onclick="clearActiveDateFilter();return false;" style="color:var(--primary); font-weight:700;">Show All Dates</a>.</div>';
         return;
       }
 
@@ -2418,7 +2903,7 @@
                 '<span class="stream-tag">' + art.stream + '</span>' +
                 '<span class="pillar-tag">' + art.pillar + '</span>' +
               '</div>' +
-              '<span class="region-tag">' + art.region + '</span>' +
+              '<span class="region-tag">' + art.region + (art.capturedDate ? ' · <span style="cursor:pointer; text-decoration:underline dotted;" title="Click to inspect & edit date" onclick=\'selectArticleById("' + safeId + '"); setTimeout(function(){ var d=document.getElementById("briefDateEditor"); if(d) d.focus(); }, 150);\'>' + art.capturedDate + '</span>' : '') + '</span>' +
             '</div>' +
             '<a class="news-title" href="' + art.link + '" target="_blank" rel="noopener noreferrer">' + art.title + '</a>' +
             '<p class="news-summary">' + art.summary + '</p>' +
@@ -2491,6 +2976,11 @@
       document.getElementById("briefRegionKicker").textContent = article.region + " · " + article.pillar;
       document.getElementById("briefTitle").textContent = article.title;
       document.getElementById("briefSourceText").textContent = "Source: " + article.source;
+      const dateEditorEl = document.getElementById("briefDateEditor");
+      if (dateEditorEl) {
+        const validIso = (article.capturedDate && /^\d{4}-\d{2}-\d{2}$/.test(article.capturedDate)) ? article.capturedDate : new Date().toISOString().split("T")[0];
+        dateEditorEl.value = validIso;
+      }
       const linkEl = document.getElementById("briefSourceLink");
       linkEl.href = article.link || "#";
       linkEl.style.display = (article.link && article.link !== "#") ? "inline" : "none";
@@ -2709,8 +3199,10 @@
     function saveToJournal() {
       const text = document.getElementById("postEditor").value.trim();
       if (!text || !selectedArticle) return;
+      const activeIso = (selectedArticle.capturedDate && /^\d{4}-\d{2}-\d{2}$/.test(selectedArticle.capturedDate)) ? selectedArticle.capturedDate : new Date().toISOString().split("T")[0];
       journal.unshift({
-        date: new Date().toLocaleDateString(),
+        date: activeIso,
+        isoDate: activeIso,
         headline: selectedArticle.title,
         whyImportant: selectedArticle.whyImportant,
         content: text
@@ -2728,16 +3220,29 @@
         return;
       }
       list.innerHTML = journal.map(function(item, i) {
+        const jDateVal = (item.isoDate && /^\d{4}-\d{2}-\d{2}$/.test(item.isoDate)) ? item.isoDate : "";
         return (
           '<div class="journal-item">' +
-            '<div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px;">' +
-              '<strong>' + item.date + ' — ' + item.headline + '</strong>' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">' +
+              '<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">' +
+                '<input type="date" value="' + jDateVal + '" onchange="updateJournalItemDate(' + i + ', this.value)" title="Edit saved draft date" style="padding:2px 6px; font-size:0.72rem; border-radius:5px;" />' +
+                '<strong>' + item.headline + '</strong>' +
+              '</div>' +
               '<button class="btn-secondary" style="padding:2px 7px; font-size:0.7rem;" onclick="loadJournalItem(' + i + ')">Load</button>' +
             '</div>' +
             '<div style="color: var(--text-muted); font-size: 0.78rem;">' + (item.whyImportant || item.content.slice(0, 180)) + '</div>' +
           '</div>'
         );
       }).join("");
+    }
+
+    function updateJournalItemDate(idx, newDate) {
+      if (!journal[idx] || !newDate) return;
+      journal[idx].date = newDate;
+      journal[idx].isoDate = newDate;
+      safeStorage.set("finDashV7_journal", JSON.stringify(journal));
+      renderJournal();
+      showToast("Saved draft date updated to " + newDate);
     }
 
     function loadJournalItem(idx) {
